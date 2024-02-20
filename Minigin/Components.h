@@ -1,6 +1,8 @@
 #pragma once
 #include "Font.h"
 #include "Texture2D.h"
+#include "ResourceManager.h"
+#include "Renderer.h"
 
 #include <memory>
 #include <stdexcept>
@@ -23,28 +25,59 @@ namespace dae
         TextureComponent(std::shared_ptr<dae::Texture2D> texture) : m_Texture(texture) {}
         TextureComponent() {};
 
+      
+        TextureComponent(const TextureComponent& other)
+            : m_Texture(other.m_Texture)
+        {
+          
+        }
+
+       
+        TextureComponent& operator=(const TextureComponent& other)
+        {
+            if (this != &other) {
+                m_Texture = other.m_Texture;
+            }
+            return *this;
+        }
+
         std::shared_ptr<dae::Texture2D> GetTexture() const
         {
             return m_Texture;
         }
 
-        void SetTexture(std::shared_ptr<dae::Texture2D> texture)
+        void SetTexture(const std::string& filename)
         {
-            m_Texture = texture;
+            m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
         }
+
     private:
         std::shared_ptr<dae::Texture2D> m_Texture;
     };
-
     class TransformComponent : public Component
     {
     public:
-        TransformComponent() : m_Position(0.0f, 0.0f, 0.0f) {};
+        TransformComponent() : m_Position(0.0f, 0.0f, 0.0f) {}
+
+        TransformComponent(const TransformComponent& other)
+            : m_Position(other.m_Position)
+        {
+           
+        }
+
+        TransformComponent& operator=(const TransformComponent& other)
+        {
+            if (this != &other) {
+                m_Position = other.m_Position;
+               
+            }
+            return *this;
+        }
 
         const glm::vec3& GetPosition() const
-        { 
+        {
             return m_Position;
-        };
+        }
 
         void SetPosition(float x, float y, float z)
         {
@@ -52,32 +85,46 @@ namespace dae
             m_Position.y = y;
             m_Position.z = z;
         }
- ;
 
     private:
-        glm::vec3 m_Position;  
+        glm::vec3 m_Position;
     };
 
     class RenderComponent : public Component
     {
     public:
-        
-        RenderComponent(TextureComponent* textureComponent, TransformComponent* transformComponent)
-            : m_TextureComponent(textureComponent), m_TransformComponent(transformComponent) {
-          
+        RenderComponent(): 
+            m_Position(0, 0, 0), m_Texture{}
+        {
+           
+        };
+        RenderComponent(std::shared_ptr<Texture2D> texture, const glm::vec3& pos)
+            : m_Texture(texture), m_Position(pos)
+        {
         }
 
-        ~RenderComponent() { }
+        ~RenderComponent() {}
 
         void Render() const
         {
-            const auto& pos = m_TransformComponent->GetPosition();
-            Renderer::GetInstance().RenderTexture(*m_TextureComponent->GetTexture(), pos.x, pos.y);
+            if (m_Texture != nullptr)
+            {
+                Renderer::GetInstance().RenderTexture(*m_Texture, m_Position.x, m_Position.y);
+            }
+        }
+
+        void SetTexture(std::shared_ptr<Texture2D> texture)
+        {
+            m_Texture = texture;
+        }
+        void SetPosition(const glm::vec3& pos)
+        {
+            m_Position = pos;
         }
 
     private:
-        TextureComponent* m_TextureComponent;
-        TransformComponent* m_TransformComponent;
+        std::shared_ptr<Texture2D> m_Texture;
+        glm::vec3 m_Position;
     };
 }
 

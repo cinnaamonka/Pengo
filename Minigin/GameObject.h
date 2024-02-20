@@ -2,6 +2,8 @@
 #include "Components.h"
 #include <memory>
 #include <vector>
+#include <string>
+#include <map>
 #include <algorithm>
 
 namespace dae
@@ -18,7 +20,6 @@ namespace dae
 		//virtual void Update(float elapsedTime);
 		virtual void Render() const;
 
-		void SetTexture(const std::string& filename);         
 		void SetPosition(float x, float y);
 
 		GameObject();
@@ -29,14 +30,24 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 		template <typename T, typename... Args>
-		T& AddComponent(Args&&... args)
+		T& AddComponent(const std::string& key, Args&&... args)
 		{
 			static_assert(std::is_base_of<Component, T>::value, "T must be derived from Component");
 
 			std::unique_ptr<T> newComponent = std::make_unique<T>(std::forward<Args>(args)...);
 			T& componentRef = *newComponent;
 
-			m_Components.push_back(std::move(newComponent));
+			m_Components.emplace(key,std::move(newComponent));
+
+			return componentRef;
+		}
+
+		template <typename T>
+		T& AddComponent(const std::string& key, std::unique_ptr<T>& existingComponent)
+		{
+			T& componentRef = *existingComponent;
+
+			m_Components.emplace(key,std::move(existingComponent));
 
 			return componentRef;
 		}
@@ -73,7 +84,7 @@ namespace dae
 
 	private:
 		
-		std::vector<std::unique_ptr<Component>> m_Components; 
+		std::map<std::string,std::unique_ptr<Component>> m_Components;
 		
 		std::unique_ptr<TransformComponent>m_TransformComponent;
 		std::unique_ptr<TextureComponent>m_TextureComponent;

@@ -1,13 +1,10 @@
 #include <string>
 #include "GameObject.h"
-#include "ResourceManager.h"
-#include "Renderer.h"
+
 
 dae::GameObject::GameObject()
 {
-	m_TransformComponent = std::make_unique<TransformComponent>(this->AddComponent<TransformComponent>());
-	m_TextureComponent = std::make_unique<TextureComponent>(this->AddComponent<TextureComponent>());
-	m_RenderComponent = std::make_unique<RenderComponent>(this->AddComponent<RenderComponent>(m_TextureComponent, m_TransformComponent));
+
 }
 
 
@@ -17,13 +14,19 @@ dae::GameObject::~GameObject() = default;
 
 void dae::GameObject::Render() const
 {
-	m_RenderComponent->Render();
-}
+    if (!m_Components.empty())
+    {
+        auto it = m_Components.find("RenderComponent");
 
-void dae::GameObject::SetTexture(const std::string& filename)
-{
-	const auto& myTexture = ResourceManager::GetInstance().LoadTexture(filename);
-	m_TextureComponent->SetTexture(myTexture);
+        if (it != m_Components.end())
+        {
+            dae::RenderComponent* renderComponent = dynamic_cast<dae::RenderComponent*>(it->second.get());
+
+            renderComponent->Render();
+        }
+    }
+
+
 }
 
 void dae::GameObject::SetPosition(float x, float y)
