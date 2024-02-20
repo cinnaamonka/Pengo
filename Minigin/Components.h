@@ -8,8 +8,9 @@
 class Component
 {
 public:
-    virtual void Update(dae::GameObject& gameObject ) = 0; 
-    virtual void Render(dae::GameObject& gameObject) const = 0; 
+    Component() = default;
+   /* virtual void Update(dae::GameObject& gameObject) = 0;
+    virtual void Render(dae::GameObject& gameObject) const = 0; */
     virtual ~Component() = default;
 };
 class TextureComponent : public Component 
@@ -17,24 +18,27 @@ class TextureComponent : public Component
 public:
     TextureComponent(std::shared_ptr<dae::Texture2D> texture) : m_Texture(texture) {}
     TextureComponent() {};
-    void Update(dae::GameObject& gameObject) override;
-    void Render(dae::GameObject& gameObject) const override;
+
+    std::shared_ptr<dae::Texture2D> GetTexture() const 
+    {
+        return m_Texture;
+    }
 private:
     std::shared_ptr<dae::Texture2D> m_Texture;
 };
-
-class RenderComponent : public Component
-{
-public:
-    void Update(dae::GameObject& gameObject) override;
-    void Render(dae::GameObject& gameObject) const override;
-};
-class TextComponent : public Component
-{
-public:
-    void Update(dae::GameObject& gameObject) override;
-    void Render(dae::GameObject& gameObject) const override;
-};
+//
+//class RenderComponent : public Component
+//{
+//public:
+//    void Update(dae::GameObject& gameObject) override;
+//    void Render(dae::GameObject& gameObject) const override;
+//};
+//class TextComponent : public Component
+//{
+//public:
+//    void Update(dae::GameObject& gameObject) override;
+//    void Render(dae::GameObject& gameObject) const override;
+//};
 class Transform : public Component
 {
 public:
