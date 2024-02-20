@@ -86,8 +86,5 @@ namespace dae
 		
 		std::map<std::string,std::unique_ptr<Component>> m_Components;
 		
-		std::unique_ptr<TransformComponent>m_TransformComponent;
-		std::unique_ptr<TextureComponent>m_TextureComponent;
-		std::unique_ptr<RenderComponent>m_RenderComponent;
 	};
 }

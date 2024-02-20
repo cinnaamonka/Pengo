@@ -23,14 +23,23 @@ void dae::GameObject::Render() const
             dae::RenderComponent* renderComponent = dynamic_cast<dae::RenderComponent*>(it->second.get());
 
             renderComponent->Render();
+
         }
     }
-
-
 }
 
 void dae::GameObject::SetPosition(float x, float y)
 {
-	m_TransformComponent->SetPosition(x, y, 0.0f);
+    if (!m_Components.empty())
+    {
+        auto it = m_Components.find("TransformComponent");
+
+        if (it != m_Components.end())
+        {
+            dae::TransformComponent* renderComponent = dynamic_cast<dae::TransformComponent*>(it->second.get());
+
+            renderComponent->SetPosition(x,y,0);
+        }
+    }
 }
 

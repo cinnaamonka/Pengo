@@ -57,7 +57,9 @@ namespace dae
     class TransformComponent : public Component
     {
     public:
-        TransformComponent() : m_Position(0.0f, 0.0f, 0.0f) {}
+        TransformComponent() : m_Position(0.0f, 0.0f, 0.0f) {};
+
+        TransformComponent(glm::vec3 pos) : m_Position(pos) {}
 
         TransformComponent(const TransformComponent& other)
             : m_Position(other.m_Position)
@@ -120,6 +122,11 @@ namespace dae
         void SetPosition(const glm::vec3& pos)
         {
             m_Position = pos;
+        }
+
+        glm::vec3 GetPosition() const
+        {
+            return m_Position;
         }
 
     private:
