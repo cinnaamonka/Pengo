@@ -1,24 +1,26 @@
 #pragma once
+#include "Components.h"
 #include <memory>
 #include <vector>
 #include <algorithm>
-#include "Transform.h"
-#include "Components.h"
 
 namespace dae
 {
 	class Texture2D;
+	class Component;
+	class TextureComponent;
+	class TransformComponent;
+	class RenderComponent;
 
 	class GameObject final
 	{
 	public:
-		virtual void Update(float elapsedTime);
+		//virtual void Update(float elapsedTime);
 		virtual void Render() const;
 
-		void SetTexture(const std::string& filename);
+		void SetTexture(const std::string& filename);         
 		void SetPosition(float x, float y);
 
-		GameObject(dae::Texture2D texture);
 		GameObject();
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
@@ -71,8 +73,10 @@ namespace dae
 
 	private:
 		
-		TextureComponent m_TextureComponent;
-		Transform m_TransformComponent;
-		std::vector<std::unique_ptr<Component>> m_Components;
+		std::vector<std::unique_ptr<Component>> m_Components; 
+		
+		std::unique_ptr<TransformComponent>m_TransformComponent;
+		std::unique_ptr<TextureComponent>m_TextureComponent;
+		std::unique_ptr<RenderComponent>m_RenderComponent;
 	};
 }

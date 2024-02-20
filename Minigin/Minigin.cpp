@@ -103,7 +103,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		while (lag >= fixedTimeStep)
 		{
 			// should it be like this?
-			sceneManager.Update(deltaTime);
+			sceneManager.Update();
 			lag -= fixedTimeStep;
 		}
 		//render(lag / MS_PER_UPDATE); 
