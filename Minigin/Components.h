@@ -136,8 +136,8 @@ namespace dae
 	class TextComponent : public Component
 	{
 	public:
-		TextComponent() {};
-		TextComponent(std::string text, std::shared_ptr<Font> font) :m_Text(text), m_Font(font), m_NeedsUpdate(true)
+		TextComponent():m_Text(""),m_Font(),m_NeedsUpdate(true), m_NumberText(0), m_TextTexture(nullptr) {};
+		TextComponent(std::string text, std::shared_ptr<Font> font) :m_Text(text), m_Font(font), m_NeedsUpdate(true), m_NumberText(0), m_TextTexture(nullptr)
 		{
 			const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
 			const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
@@ -154,7 +154,8 @@ namespace dae
 			m_TextTexture = std::make_shared<Texture2D>(texture);
 			/*m_NeedsUpdate = false;*/
 		}
-		TextComponent(double* numberText, std::shared_ptr<Font> font) :m_Text(""), m_Font(font), m_NeedsUpdate(true), m_NumberText(numberText)
+		TextComponent(double* numberText, std::shared_ptr<Font> font) :m_Text(""), m_Font(font), m_NeedsUpdate(true), m_NumberText(numberText),
+			m_TextTexture(nullptr)
 		{
 			const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
 			const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), std::to_string(*m_NumberText).c_str(), color);

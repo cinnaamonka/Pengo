@@ -19,19 +19,11 @@ namespace dae
 		Texture2D(const Texture2D &) = delete;
 		Texture2D(Texture2D &&) = delete;
 		Texture2D & operator= (const Texture2D &) = delete;
-		Texture2D& operator=(Texture2D&& other)
+		Texture2D& operator=(Texture2D&& other) noexcept
 		{
 			if (this != &other) // Check for self-assignment
 			{
-				// Implement the move assignment logic here
-				// Make sure to properly move the data members from 'other' to 'this'
-
-				// If your class contains pointers or resources, move them here
-
-				// For demonstration purposes, let's assume 'm_texture' is a pointer:
-				// Replace this line with your actual data members' moves.
-				// Example:
-				// this->m_texture = other.m_texture;
+				
 				this->m_texture = other.m_texture;
 				// Reset the source object (optional, but often a good practice)
 				other.m_texture = nullptr;
