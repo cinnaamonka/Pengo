@@ -11,6 +11,7 @@
 #include "ResourceManager.h"
 #include <chrono>
 #include <thread>
+#include <iostream>
 
 SDL_Window* g_window{};
 
@@ -103,7 +104,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		while (lag >= fixedTimeStep)
 		{
 			// should it be like this?
-			sceneManager.Update();
+		
+			sceneManager.Update(deltaTime);
 			lag -= fixedTimeStep;
 		}
 		//render(lag / MS_PER_UPDATE); 

@@ -5,6 +5,7 @@
 #include "Renderer.h"
 
 #include <memory>
+#include <iostream>
 #include <stdexcept>
 #include <SDL_ttf.h>
 #include <glm/glm.hpp>
@@ -15,8 +16,6 @@ namespace dae
 	{
 	public:
 		Component() = default;
-		/* virtual void Update(dae::GameObject& gameObject) = 0;
-		 virtual void Render(dae::GameObject& gameObject) const = 0; */
 		virtual ~Component() = default;
 	};
 	class TextureComponent : public Component
@@ -153,14 +152,34 @@ namespace dae
 			}
 			SDL_FreeSurface(surf);
 			m_TextTexture = std::make_shared<Texture2D>(texture);
-			m_NeedsUpdate = false;
+			/*m_NeedsUpdate = false;*/
+		}
+		TextComponent(double* numberText, std::shared_ptr<Font> font) :m_Text(""), m_Font(font), m_NeedsUpdate(true), m_NumberText(numberText)
+		{
+			const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
+			const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), std::to_string(*m_NumberText).c_str(), color);
+
+			if (surf == nullptr)
+			{
+				throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
+			}
+			auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
+			if (texture == nullptr)
+			{
+				throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
+			}
+			SDL_FreeSurface(surf);
+			m_TextTexture = std::make_shared<Texture2D>(texture);
+			/*m_NeedsUpdate = false;*/
 		}
 		void Update()
 		{
 			if (m_NeedsUpdate)
 			{
+				auto text = !m_Text.size() ? std::to_string(*m_NumberText) : m_Text;
+
 				const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
-				const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
+				const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), text.c_str(), color);
 				if (surf == nullptr)
 				{
 					throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
@@ -171,8 +190,7 @@ namespace dae
 					throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 				}
 				SDL_FreeSurface(surf);
-				m_TextTexture = std::make_shared<Texture2D>(texture);
-				m_NeedsUpdate = false;
+				*m_TextTexture = Texture2D(texture);
 			}
 		};
 		void SetText(const std::string& text)
@@ -181,16 +199,39 @@ namespace dae
 			m_NeedsUpdate = true;
 		};
 
-		std::shared_ptr<Texture2D> GetTexture() const
+		std::shared_ptr<Texture2D> GetTexturePtr() const
 		{
 			return m_TextTexture;
 		}
 	private:
 		bool m_NeedsUpdate;
 		std::string m_Text;
+		double* m_NumberText;
 		std::shared_ptr<Font> m_Font;
 		std::shared_ptr<Texture2D> m_TextTexture;
 	};
+
+	class FPS : public Component
+	{
+	public:
+		FPS() : fps(std::make_shared<double>(0.0)) {}
+
+		virtual void Update(double elapsedSec)
+		{
+			*fps = 1.0 / elapsedSec;
+		}
+
+		~FPS() {}
+
+		double* GetFPSPtr() const
+		{
+			return fps.get();
+		}
+
+	private:
+		std::shared_ptr<double> fps;
+	};
+
 }
 
 

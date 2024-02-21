@@ -19,6 +19,9 @@
     <Filter Include="TextObject">
       <UniqueIdentifier>{ee60bfdb-0402-4512-92f7-68b6c18847fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{d4b15414-1b60-4e36-96d5-a4436ee984fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -51,14 +54,14 @@
     <ClInclude Include="Minigin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Components.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>GameObject</Filter>
     </ClInclude>
     <ClInclude Include="TextObject.h">
       <Filter>TextObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -92,14 +95,14 @@
     <ClCompile Include="Minigin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Components.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
     <ClCompile Include="TextObject.cpp">
       <Filter>TextObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Components.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

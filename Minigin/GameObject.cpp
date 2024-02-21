@@ -10,7 +10,7 @@ dae::GameObject::GameObject()
 
 dae::GameObject::~GameObject() = default;
 
-void dae::GameObject::Update()
+void dae::GameObject::Update(float elapsedSec)
 {
     if (!m_Components.empty())
     {
@@ -21,6 +21,17 @@ void dae::GameObject::Update()
             dae::TextComponent* textComponent = dynamic_cast<dae::TextComponent*>(it->second.get());
 
             textComponent->Update();
+        }
+    }
+    if (!m_Components.empty())
+    {
+        auto it = m_Components.find("FPS");
+
+        if (it != m_Components.end())
+        {
+            dae::FPS* FPSComponent = dynamic_cast<dae::FPS*>(it->second.get());
+
+            FPSComponent->Update(elapsedSec);
         }
     }
 }
