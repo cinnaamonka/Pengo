@@ -17,7 +17,7 @@ namespace dae
 	class GameObject final
 	{
 	public:
-		//virtual void Update(float elapsedTime);
+		virtual void Update();
 		virtual void Render() const;
 
 		void SetPosition(float x, float y);

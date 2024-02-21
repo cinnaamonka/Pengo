@@ -28,10 +28,10 @@ void Scene::RemoveAll()
 
 void Scene::Update()
 {
-	//for(auto& object : m_objects)
-	//{
-	//	//object->Update(elapsedSec);
-	//}
+	for(auto& object : m_objects)
+	{
+		object->Update();
+	}
 }
 
 void Scene::Render() const
