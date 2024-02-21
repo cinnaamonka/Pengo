@@ -5,6 +5,8 @@
 #include "Renderer.h"
 
 #include <memory>
+#include <iomanip>
+#include <sstream>
 #include <iostream>
 #include <stdexcept>
 #include <SDL_ttf.h>
@@ -158,7 +160,14 @@ namespace dae
 			m_TextTexture(nullptr)
 		{
 			const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
-			const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), std::to_string(*m_NumberText).c_str(), color);
+
+			std::string textToRender = std::to_string(*m_NumberText);
+
+			if (textToRender.length() > 7)
+			{
+				textToRender = textToRender.substr(0, 7);
+			}
+			const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), textToRender.c_str(), color);
 
 			if (surf == nullptr)
 			{
@@ -177,9 +186,22 @@ namespace dae
 		{
 			if (m_NeedsUpdate)
 			{
-				auto text = !m_Text.size() ? std::to_string(*m_NumberText) : m_Text;
+				std::string text = {};
 
 				const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
+
+				if (!m_Text.size())
+				{
+					std::ostringstream oss;
+					oss << std::fixed << std::setprecision(1) << *m_NumberText;
+
+					text = oss.str();
+				}
+				else
+				{
+					text = m_Text;
+				}
+
 				const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), text.c_str(), color);
 				if (surf == nullptr)
 				{
