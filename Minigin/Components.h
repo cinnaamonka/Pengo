@@ -182,6 +182,34 @@ namespace dae
 			m_TextTexture = std::make_shared<Texture2D>(texture);
 			/*m_NeedsUpdate = false;*/
 		}
+		TextComponent(double* numberText,std::string text, std::shared_ptr<Font> font) :m_Text(text), m_Font(font), m_NeedsUpdate(true), m_NumberText(numberText),
+			m_TextTexture(nullptr)
+		{
+			const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
+
+			std::string textToRender = std::to_string(*m_NumberText);
+
+			if (textToRender.length() > 7)
+			{
+				textToRender = textToRender.substr(0, 7);
+			}
+			textToRender = textToRender + " " + m_Text;
+
+			const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), textToRender.c_str(), color);
+
+			if (surf == nullptr)
+			{
+				throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
+			}
+			auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
+			if (texture == nullptr)
+			{
+				throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
+			}
+			SDL_FreeSurface(surf);
+			m_TextTexture = std::make_shared<Texture2D>(texture);
+			/*m_NeedsUpdate = false;*/
+		}
 		void Update()
 		{
 			if (m_NeedsUpdate)
@@ -190,14 +218,22 @@ namespace dae
 
 				const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
 
-				if (!m_Text.size())
+				if (m_Text.size() && m_NumberText != nullptr)
+				{
+					std::ostringstream oss;
+					oss << std::fixed << std::setprecision(1) << *m_NumberText;
+
+					text = oss.str() + " " + m_Text;
+				}
+				else if (!m_Text.size() && m_NumberText != nullptr)
 				{
 					std::ostringstream oss;
 					oss << std::fixed << std::setprecision(1) << *m_NumberText;
 
 					text = oss.str();
 				}
-				else
+				
+				else if(m_NumberText == nullptr && m_Text.size())
 				{
 					text = m_Text;
 				}
