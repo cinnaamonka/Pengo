@@ -18,6 +18,11 @@ namespace dae
 	{
 	public:
 		Component() = default;
+		virtual void Update(double elapsedSec) 
+		{
+			(void)elapsedSec;
+		};
+		virtual void Render() const {};
 		virtual ~Component() = default;
 	};
 	class TextureComponent : public Component
@@ -32,7 +37,6 @@ namespace dae
 		{
 
 		}
-
 
 		TextureComponent& operator=(const TextureComponent& other)
 		{
@@ -108,7 +112,7 @@ namespace dae
 
 		~RenderComponent() {}
 
-		void Render() const
+		void Render() const override
 		{
 			if (m_Texture != nullptr)
 			{
@@ -210,8 +214,10 @@ namespace dae
 			m_TextTexture = std::make_shared<Texture2D>(texture);
 			/*m_NeedsUpdate = false;*/
 		}
-		void Update()
+		void Update(double elapsedSec) override
 		{
+			(void)elapsedSec;
+
 			if (m_NeedsUpdate)
 			{
 				std::string text = {};
@@ -275,9 +281,10 @@ namespace dae
 	public:
 		FPS() : fps(std::make_shared<double>(0.0)) {}
 
-		virtual void Update(double elapsedSec)
+		void Update(double elapsedSec) override
 		{
 			*fps = 1.0 / elapsedSec;
+
 		}
 
 		~FPS() {}

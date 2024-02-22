@@ -12,7 +12,7 @@ dae::GameObject::~GameObject() = default;
 
 void dae::GameObject::Update(float elapsedSec)
 {
-    if (!m_Components.empty())
+    /*if (!m_Components.empty())
     {
         auto it = m_Components.find("TextComponent");
 
@@ -20,7 +20,7 @@ void dae::GameObject::Update(float elapsedSec)
         {
             dae::TextComponent* textComponent = dynamic_cast<dae::TextComponent*>(it->second.get());
 
-            textComponent->Update();
+            textComponent->Update(elapsedSec);
         }
     }
     if (!m_Components.empty())
@@ -33,36 +33,35 @@ void dae::GameObject::Update(float elapsedSec)
 
             FPSComponent->Update(elapsedSec);
         }
+    }*/
+
+    for (const auto& component : m_Components) 
+    {
+        if (auto* updatableComponent = dynamic_cast<Component*>(component.get())) 
+        {
+            updatableComponent->Update(elapsedSec);
+        }
     }
 }
 
 void dae::GameObject::Render() const
 {
-    if (!m_Components.empty())
+    for (const auto& component : m_Components)
     {
-        auto it = m_Components.find("RenderComponent");
-
-        if (it != m_Components.end())
+        if (auto* renderableComponent = dynamic_cast<Component*>(component.get()))
         {
-            dae::RenderComponent* renderComponent = dynamic_cast<dae::RenderComponent*>(it->second.get());
-
-            renderComponent->Render();
-
+            renderableComponent->Render();
         }
     }
 }
 
 void dae::GameObject::SetPosition(float x, float y)
 {
-    if (!m_Components.empty())
+    for (const auto& component : m_Components) 
     {
-        auto it = m_Components.find("TransformComponent");
-
-        if (it != m_Components.end())
+        if (auto* transformComponent = dynamic_cast<dae::TransformComponent*>(component.get()))
         {
-            dae::TransformComponent* renderComponent = dynamic_cast<dae::TransformComponent*>(it->second.get());
-
-            renderComponent->SetPosition(x,y,0);
+            transformComponent->SetPosition(x, y, 0);
         }
     }
 }
