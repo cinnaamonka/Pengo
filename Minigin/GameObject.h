@@ -26,7 +26,21 @@ namespace dae
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
-		GameObject& operator=(const GameObject& other) = delete;
+
+		
+		GameObject& operator=(const GameObject& other)
+		{
+			if (this != &other) 
+			{
+				m_Components.clear();
+
+				for (const auto& component : other.m_Components) 
+				{
+					m_Components.push_back(std::make_unique<Component>(*component));
+				}
+			}
+			return *this;
+		}
 		GameObject& operator=(GameObject&& other) = delete;
 
 		template <typename T, typename... Args>

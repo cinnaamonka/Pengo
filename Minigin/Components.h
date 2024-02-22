@@ -12,23 +12,42 @@
 #include <SDL_ttf.h>
 #include <glm/glm.hpp>
 #include "GameObject.h"
+
+class GameObject;
+
 namespace dae
 {
 	class Component
 	{
 	public:
-		Component() = default;
+		
+		Component() :m_GameObject(nullptr) {};
 		virtual void Update(double elapsedSec) 
 		{
 			(void)elapsedSec;
 		};
+
+		void SetGameObject(GameObject* gameObject)
+		{
+			m_GameObject = gameObject;  
+		}
+
+		GameObject* GetGameObject() const
+		{
+			return m_GameObject;
+		}
+
 		virtual void Render() const {};
-		virtual ~Component() = default;
+		virtual ~Component();
+		
+
+	protected:
+		GameObject* m_GameObject;
 	};
 	class TextureComponent : public Component
 	{
 	public:
-		TextureComponent(std::shared_ptr<dae::Texture2D> texture) : m_Texture(texture) {}
+		TextureComponent(const std::string& filename);
 		TextureComponent() {};
 
 
@@ -54,6 +73,10 @@ namespace dae
 		void SetTexture(const std::string& filename)
 		{
 			m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
+		}
+		void SetTexture(std::shared_ptr<dae::Texture2D> texture)
+		{
+			m_Texture = texture; 
 		}
 
 	private:
@@ -100,25 +123,11 @@ namespace dae
 	class RenderComponent : public Component
 	{
 	public:
-		RenderComponent() :
-			m_Position(0, 0, 0), m_Texture{}
-		{
-
-		};
-		RenderComponent(std::shared_ptr<Texture2D> texture, const glm::vec3& pos)
-			: m_Texture(texture), m_Position(pos)
-		{
-		}
+		RenderComponent() : m_Position(0, 0, 0), m_Texture(nullptr){};
 
 		~RenderComponent() {}
 
-		void Render() const override
-		{
-			if (m_Texture != nullptr)
-			{
-				Renderer::GetInstance().RenderTexture(*m_Texture, m_Position.x, m_Position.y);
-			}
-		}
+		void Render() const override;
 
 		void SetTexture(std::shared_ptr<Texture2D> texture)
 		{
@@ -214,54 +223,16 @@ namespace dae
 			m_TextTexture = std::make_shared<Texture2D>(texture);
 			/*m_NeedsUpdate = false;*/
 		}
-		void Update(double elapsedSec) override
-		{
-			(void)elapsedSec;
-
-			if (m_NeedsUpdate)
-			{
-				std::string text = {};
-
-				const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
-
-				if (m_Text.size() && m_NumberText != nullptr)
-				{
-					std::ostringstream oss;
-					oss << std::fixed << std::setprecision(1) << *m_NumberText;
-
-					text = oss.str() + " " + m_Text;
-				}
-				else if (!m_Text.size() && m_NumberText != nullptr)
-				{
-					std::ostringstream oss;
-					oss << std::fixed << std::setprecision(1) << *m_NumberText;
-
-					text = oss.str();
-				}
-				
-				else if(m_NumberText == nullptr && m_Text.size())
-				{
-					text = m_Text;
-				}
-
-				const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), text.c_str(), color);
-				if (surf == nullptr)
-				{
-					throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
-				}
-				auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
-				if (texture == nullptr)
-				{
-					throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
-				}
-				SDL_FreeSurface(surf);
-				*m_TextTexture = Texture2D(texture);
-			}
-		};
+		void Update(double elapsedSec) override;
+		
 		void SetText(const std::string& text)
 		{
 			m_Text = text;
 			m_NeedsUpdate = true;
+		};
+		std::string GetText()const
+		{
+			return m_Text;
 		};
 
 		std::shared_ptr<Texture2D> GetTexturePtr() const
@@ -279,23 +250,23 @@ namespace dae
 	class FPS : public Component
 	{
 	public:
-		FPS() : fps(std::make_shared<double>(0.0)) {}
+		FPS() : fps(0.0) {}
 
 		void Update(double elapsedSec) override
 		{
-			*fps = 1.0 / elapsedSec;
+			fps = 1.0 / elapsedSec;
 
 		}
 
 		~FPS() {}
 
-		double* GetFPSPtr() const
+		double GetFPS() const
 		{
-			return fps.get();
+			return fps;
 		}
 
 	private:
-		std::shared_ptr<double> fps;
+		double fps;
 	};
 
 }
