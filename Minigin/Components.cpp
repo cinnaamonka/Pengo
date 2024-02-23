@@ -37,6 +37,23 @@ dae::TextureComponent::TextureComponent(const std::string& filename)
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
 }
 
+dae::TextComponent::TextComponent(std::string text, std::shared_ptr<Font> font):m_Text(text), m_Font(font), m_NeedsUpdate(true), m_NumberText(0), m_TextTexture(nullptr)
+{
+	const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
+	const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
+	if (surf == nullptr)
+	{
+		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
+	}
+	auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
+	if (texture == nullptr)
+	{
+		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
+	}
+	SDL_FreeSurface(surf);
+	m_TextTexture = std::make_shared<Texture2D>(texture);
+}
+
 void dae::TextComponent::Update(double elapsedSec)
 {
 	(void)elapsedSec;
@@ -47,7 +64,7 @@ void dae::TextComponent::Update(double elapsedSec)
 
 		const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
 
-		if (m_GameObject->HasComponent<FPS>() && m_GameObject->HasComponent<TextComponent>() && m_GameObject->HasComponent<RenderComponent>())
+		if (m_GameObject->HasComponent<FPS>() && m_GameObject->HasComponent<RenderComponent>())
 		{
 			const auto fps = m_GameObject->GetComponent<FPS>()->GetFPS();
 
@@ -85,4 +102,16 @@ void dae::TextComponent::Update(double elapsedSec)
 			*m_TextTexture = Texture2D(texture);
 		}
 	}
+}
+
+void dae::TextComponent::SetText(const std::string& text)
+{
+	m_Text = text;
+	m_NeedsUpdate = true;
+}
+
+void dae::FPS::Update(double elapsedSec)
+{
+	fps = 1.0 / elapsedSec;
+
 }

@@ -152,84 +152,13 @@ namespace dae
 	{
 	public:
 		TextComponent():m_Text(""),m_Font(),m_NeedsUpdate(true), m_NumberText(0), m_TextTexture(nullptr) {};
-		TextComponent(std::string text, std::shared_ptr<Font> font) :m_Text(text), m_Font(font), m_NeedsUpdate(true), m_NumberText(0), m_TextTexture(nullptr)
-		{
-			const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
-			const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
-			if (surf == nullptr)
-			{
-				throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
-			}
-			auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
-			if (texture == nullptr)
-			{
-				throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
-			}
-			SDL_FreeSurface(surf);
-			m_TextTexture = std::make_shared<Texture2D>(texture);
-			/*m_NeedsUpdate = false;*/
-		}
-		TextComponent(double* numberText, std::shared_ptr<Font> font) :m_Text(""), m_Font(font), m_NeedsUpdate(true), m_NumberText(numberText),
-			m_TextTexture(nullptr)
-		{
-			const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
-
-			std::string textToRender = std::to_string(*m_NumberText);
-
-			if (textToRender.length() > 7)
-			{
-				textToRender = textToRender.substr(0, 7);
-			}
-			const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), textToRender.c_str(), color);
-
-			if (surf == nullptr)
-			{
-				throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
-			}
-			auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
-			if (texture == nullptr)
-			{
-				throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
-			}
-			SDL_FreeSurface(surf);
-			m_TextTexture = std::make_shared<Texture2D>(texture);
-			/*m_NeedsUpdate = false;*/
-		}
-		TextComponent(double* numberText,std::string text, std::shared_ptr<Font> font) :m_Text(text), m_Font(font), m_NeedsUpdate(true), m_NumberText(numberText),
-			m_TextTexture(nullptr)
-		{
-			const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
-
-			std::string textToRender = std::to_string(*m_NumberText);
-
-			if (textToRender.length() > 7)
-			{
-				textToRender = textToRender.substr(0, 7);
-			}
-			textToRender = textToRender + " " + m_Text;
-
-			const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), textToRender.c_str(), color);
-
-			if (surf == nullptr)
-			{
-				throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
-			}
-			auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
-			if (texture == nullptr)
-			{
-				throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
-			}
-			SDL_FreeSurface(surf);
-			m_TextTexture = std::make_shared<Texture2D>(texture);
-			/*m_NeedsUpdate = false;*/
-		}
+		TextComponent(std::string text, std::shared_ptr<Font> font);
+		
+		
 		void Update(double elapsedSec) override;
 		
-		void SetText(const std::string& text)
-		{
-			m_Text = text;
-			m_NeedsUpdate = true;
-		};
+		void SetText(const std::string& text);
+		
 		std::string GetText()const
 		{
 			return m_Text;
@@ -252,11 +181,8 @@ namespace dae
 	public:
 		FPS() : fps(0.0) {}
 
-		void Update(double elapsedSec) override
-		{
-			fps = 1.0 / elapsedSec;
-
-		}
+		void Update(double elapsedSec) override;
+		
 
 		~FPS() {}
 
