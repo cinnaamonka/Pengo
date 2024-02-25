@@ -16,9 +16,6 @@
     <Filter Include="GameObject">
       <UniqueIdentifier>{72d3e20f-bd0d-4a99-b26e-8621caa3f6ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TextObject">
-      <UniqueIdentifier>{ee60bfdb-0402-4512-92f7-68b6c18847fb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Components">
       <UniqueIdentifier>{d4b15414-1b60-4e36-96d5-a4436ee984fb}</UniqueIdentifier>
     </Filter>
@@ -39,9 +36,6 @@
     <ClInclude Include="InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -56,9 +50,6 @@
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="TextObject.h">
-      <Filter>TextObject</Filter>
     </ClInclude>
     <ClInclude Include="Components.h">
       <Filter>Components</Filter>
@@ -75,9 +66,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
@@ -97,9 +85,6 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="TextObject.cpp">
-      <Filter>TextObject</Filter>
     </ClCompile>
     <ClCompile Include="Components.cpp">
       <Filter>Components</Filter>
