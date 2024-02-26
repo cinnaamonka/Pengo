@@ -20,20 +20,10 @@ namespace dae
 	class Component
 	{
 	public:
-		
-		Component() :m_GameObject(nullptr) {};
-
-		Component(GameObject* GOptr) :m_GameObject(GOptr) {};
-
 		virtual void Update(double elapsedSec) 
 		{
 			(void)elapsedSec;
 		};
-
-		GameObject* GetGameObject() const
-		{
-			return m_GameObject;
-		}
 
 		virtual void Render() const {};
 		virtual ~Component() {};
@@ -42,8 +32,15 @@ namespace dae
 		Component(Component&& other) = delete;
 		Component& operator=(const Component& other) = delete;
 		Component& operator=(Component&& other) = delete;
-	
+
 	protected:
+		Component(GameObject* GOptr) :m_GameObject(GOptr) {};
+
+		GameObject* GetGameObject() const
+		{
+			return m_GameObject;
+		}
+	private:
 		GameObject* m_GameObject;
 	};
 
