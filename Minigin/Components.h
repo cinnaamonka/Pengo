@@ -98,7 +98,8 @@ namespace dae
 	class RenderComponent : public Component
 	{
 	public:
-		RenderComponent(GameObject* GOptr) : Component(GOptr), m_Position(0, 0, 0), m_Texture(nullptr){};
+		RenderComponent(GameObject* GOptr);
+		
 
 		void Render() const override;
 
@@ -124,6 +125,8 @@ namespace dae
 	private:
 		std::shared_ptr<Texture2D> m_Texture;
 		glm::vec3 m_Position;
+		TextureComponent* m_TextureComponent;
+		TransformComponent* m_TransformComponent;
 	};
 
 	class TextComponent : public Component
@@ -151,6 +154,7 @@ namespace dae
 		double* m_NumberText;
 		std::shared_ptr<Font> m_Font;
 		std::shared_ptr<Texture2D> m_TextTexture;
+		TextureComponent* m_pTextureComponent;
 	};
 
 	class FPS : public Component

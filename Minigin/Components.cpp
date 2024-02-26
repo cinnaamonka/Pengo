@@ -2,22 +2,42 @@
 
 #include "GameObject.h"
 
+dae::RenderComponent::RenderComponent(GameObject* GOptr) :
+	Component(GOptr),
+	m_Position(0, 0, 0),
+	m_Texture(nullptr),
+	m_TextureComponent(nullptr),
+	m_TransformComponent(nullptr)
+{
+	if (GetGameObject()->HasComponent<TextureComponent>())
+	{
+		m_TextureComponent = GetGameObject()->GetComponent<TextureComponent>();
+	}
+
+	if (GetGameObject()->HasComponent<TransformComponent>())
+	{
+		m_TransformComponent = GetGameObject()->GetComponent<TransformComponent>();
+	}
+};
+
 void dae::RenderComponent::Render() const
 {
-	if (GetGameObject()->HasComponent<TextureComponent>() && GetGameObject()->HasComponent<TransformComponent>())
-	{
-		const auto& newTexture = GetGameObject()->GetComponent<TextureComponent>()->GetTexture();
-		const auto& position = GetGameObject()->GetComponent<TransformComponent>()->GetPosition();
+	const auto& newTexture = m_TextureComponent->GetTexture();
+	const auto& position = m_TransformComponent->GetPosition();
 
-		if (newTexture != nullptr)
-		{
-			Renderer::GetInstance().RenderTexture(*newTexture, position.x, position.y);
-		}
+	if (newTexture != nullptr)
+	{
+		Renderer::GetInstance().RenderTexture(*newTexture, position.x, position.y);
 	}
 }
 
-dae::TextComponent::TextComponent(GameObject* GOptr,std::string text, std::shared_ptr<Font> font):
-	Component(GOptr),m_Text(text), m_Font(font), m_NeedsUpdate(true), m_NumberText(0), m_TextTexture(nullptr)
+dae::TextComponent::TextComponent(GameObject* GOptr, std::string text, std::shared_ptr<Font> font) :
+	Component(GOptr), 
+	m_Text(text), 
+	m_Font(font), 
+	m_NeedsUpdate(true), 
+	m_NumberText(0),
+	m_TextTexture(nullptr)
 {
 	const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
 	const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
@@ -33,8 +53,11 @@ dae::TextComponent::TextComponent(GameObject* GOptr,std::string text, std::share
 	SDL_FreeSurface(surf);
 	m_TextTexture = std::make_shared<Texture2D>(texture);
 
+
 	GetGameObject()->AddComponent<TextureComponent>();
-	GetGameObject()->GetComponent<TextureComponent>()->SetTexture(m_TextTexture);
+	
+	m_pTextureComponent = GetGameObject()->GetComponent<TextureComponent>();
+	m_pTextureComponent->SetTexture(m_TextTexture);
 }
 
 void dae::TextComponent::Update(double elapsedSec)
@@ -49,7 +72,7 @@ void dae::TextComponent::Update(double elapsedSec)
 
 		if (GetGameObject()->HasComponent<FPS>() && GetGameObject()->HasComponent<RenderComponent>())
 		{
-			const auto fps = GetGameObject()->GetComponent<FPS>()->GetFPS() ;
+			const auto fps = GetGameObject()->GetComponent<FPS>()->GetFPS();
 
 			if (m_Text.size())
 			{
@@ -66,7 +89,7 @@ void dae::TextComponent::Update(double elapsedSec)
 				text = oss.str();
 			}
 
-			else if (GetGameObject()->HasComponent<TextComponent>() && GetGameObject()->HasComponent<RenderComponent>())
+			else if (GetGameObject()->HasComponent<RenderComponent>())
 			{
 				text = m_Text;
 			}
@@ -83,8 +106,8 @@ void dae::TextComponent::Update(double elapsedSec)
 			}
 			SDL_FreeSurface(surf);
 			*m_TextTexture = Texture2D(texture);
-			
-			GetGameObject()->GetComponent<TextureComponent>()->SetTexture(m_TextTexture);
+
+			m_pTextureComponent->SetTexture(m_TextTexture);
 		}
 	}
 }
