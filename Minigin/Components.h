@@ -154,8 +154,8 @@ namespace dae
 	class TextComponent : public Component
 	{
 	public:
-		TextComponent():m_Text(""),m_Font(),m_NeedsUpdate(true), m_NumberText(0), m_TextTexture(nullptr) {};
-		TextComponent(std::string text, std::shared_ptr<Font> font);
+		TextComponent(GameObject* GOptr):Component(GOptr),m_Text(""),m_Font(),m_NeedsUpdate(true), m_NumberText(0), m_TextTexture(nullptr) {};
+		TextComponent(GameObject* GOptr, std::string text, std::shared_ptr<Font> font);
 		
 		
 		void Update(double elapsedSec) override;
@@ -182,7 +182,7 @@ namespace dae
 	class FPS : public Component
 	{
 	public:
-		FPS() : fps(0.0) {}
+		FPS(GameObject* GOptr) : Component(GOptr),fps(0.0) {}
 
 		void Update(double elapsedSec) override;
 		

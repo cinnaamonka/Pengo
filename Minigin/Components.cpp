@@ -32,7 +32,8 @@ void dae::RenderComponent::Render() const
 	}
 }
 
-dae::TextComponent::TextComponent(std::string text, std::shared_ptr<Font> font):m_Text(text), m_Font(font), m_NeedsUpdate(true), m_NumberText(0), m_TextTexture(nullptr)
+dae::TextComponent::TextComponent(GameObject* GOptr,std::string text, std::shared_ptr<Font> font):
+	Component(GOptr),m_Text(text), m_Font(font), m_NeedsUpdate(true), m_NumberText(0), m_TextTexture(nullptr)
 {
 	const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
 	const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
