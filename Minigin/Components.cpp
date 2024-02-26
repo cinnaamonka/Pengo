@@ -32,11 +32,6 @@ void dae::RenderComponent::Render() const
 	}
 }
 
-dae::TextureComponent::TextureComponent(const std::string& filename)
-{
-	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
-}
-
 dae::TextComponent::TextComponent(std::string text, std::shared_ptr<Font> font):m_Text(text), m_Font(font), m_NeedsUpdate(true), m_NumberText(0), m_TextTexture(nullptr)
 {
 	const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
@@ -66,7 +61,7 @@ void dae::TextComponent::Update(double elapsedSec)
 
 		if (m_GameObject->HasComponent<FPS>() && m_GameObject->HasComponent<RenderComponent>())
 		{
-			const auto fps = m_GameObject->GetComponent<FPS>()->GetFPS();
+			const auto fps = m_GameObject->GetComponent<FPS>()->GetFPS() ;
 
 			if (m_Text.size())
 			{

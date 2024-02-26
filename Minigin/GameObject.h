@@ -17,8 +17,8 @@ namespace dae
 	class GameObject final
 	{
 	public:
-		virtual void Update(float elapsedSec);
-		virtual void Render() const;
+		void Update(float elapsedSec);
+		void Render() const;
 
 		void SetPosition(float x, float y);
 
@@ -44,28 +44,20 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 		template <typename T, typename... Args>
-		T& AddComponent(Args&&... args)
+		void AddComponent(Args&&... args)
 		{
 			static_assert(std::is_base_of<Component, T>::value, "T must be derived from Component");
 
-			std::unique_ptr<T> newComponent = std::make_unique<T>(std::forward<Args>(args)...);
-			T& componentRef = *newComponent;
+			std::unique_ptr<T> newComponent = std::make_unique<T>(this, std::forward<Args>(args)...);
 
 			m_Components.push_back(std::move(newComponent));
-
-			return componentRef;
 		}
 
 		template <typename T>
-		T& AddComponent(std::unique_ptr<T>& existingComponent)
+		void AddComponent(std::unique_ptr<T>& existingComponent)
 		{
-			T& componentRef = *existingComponent;
-
 			m_Components.push_back(std::move(existingComponent));
-
-			return componentRef;
 		}
-
 
 		template <typename T>
 		void RemoveComponent()

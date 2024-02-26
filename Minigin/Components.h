@@ -22,15 +22,11 @@ namespace dae
 	public:
 		
 		Component() :m_GameObject(nullptr) {};
+		Component(GameObject* GOptr) :m_GameObject(GOptr) {};
 		virtual void Update(double elapsedSec) 
 		{
 			(void)elapsedSec;
 		};
-
-		void SetGameObject(GameObject* gameObject)
-		{
-			m_GameObject = gameObject;  
-		}
 
 		GameObject* GetGameObject() const
 		{
@@ -39,20 +35,26 @@ namespace dae
 
 		virtual void Render() const {};
 		virtual ~Component();
-		
 
+		/*Component(const Component& other) = delete;
+		Component(Component&& other) = delete;
+		Component& operator=(const Component& other) = delete;
+		Component& operator=(Component&& other) = delete;*/
+	
 	protected:
 		GameObject* m_GameObject;
 	};
 	class TextureComponent : public Component
 	{
 	public:
-		TextureComponent(const std::string& filename);
-		TextureComponent() {};
+		TextureComponent(GameObject* GOptr, const std::string& filename) :Component(GOptr), fileName(filename)
+		{
+			m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
+		};
+		TextureComponent(GameObject* GOptr) :Component(GOptr) {};
 
-
-		TextureComponent(const TextureComponent& other)
-			: m_Texture(other.m_Texture)
+		TextureComponent(GameObject* GOptr,const TextureComponent& other)
+			: Component(GOptr), m_Texture(other.m_Texture)
 		{
 
 		}
@@ -81,16 +83,17 @@ namespace dae
 
 	private:
 		std::shared_ptr<dae::Texture2D> m_Texture;
+		std::string fileName;
 	};
 	class TransformComponent : public Component
 	{
 	public:
-		TransformComponent() : m_Position(0.0f, 0.0f, 0.0f) {};
+		TransformComponent(GameObject* GOptr) : Component(GOptr), m_Position(0.0f, 0.0f, 0.0f) {};
 
-		TransformComponent(glm::vec3 pos) : m_Position(pos) {}
-
-		TransformComponent(const TransformComponent& other)
-			: m_Position(other.m_Position)
+		TransformComponent(GameObject* GOptr, glm::vec3 pos) : Component(GOptr), m_Position(pos){}
+		
+		TransformComponent(GameObject* GOptr, const TransformComponent& other)
+			: Component(GOptr), m_Position(other.m_Position)
 		{
 
 		}
@@ -123,7 +126,7 @@ namespace dae
 	class RenderComponent : public Component
 	{
 	public:
-		RenderComponent() : m_Position(0, 0, 0), m_Texture(nullptr){};
+		RenderComponent(GameObject* GOptr) : Component(GOptr), m_Position(0, 0, 0), m_Texture(nullptr){};
 
 		~RenderComponent() {}
 

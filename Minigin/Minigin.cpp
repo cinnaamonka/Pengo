@@ -108,6 +108,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 			sceneManager.Update(deltaTime);
 			lag -= fixedTimeStep;
 		}
+		// late update for camera 
 		//render(lag / MS_PER_UPDATE); 
 		// i dont know if should be implemented
 		renderer.Render();
