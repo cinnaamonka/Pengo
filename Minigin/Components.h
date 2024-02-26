@@ -36,7 +36,7 @@ namespace dae
 		}
 
 		virtual void Render() const {};
-		virtual ~Component();
+		virtual ~Component() {};
 
 		Component(const Component& other) = delete;
 		Component(Component&& other) = delete;
