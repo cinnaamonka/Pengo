@@ -25,23 +25,8 @@ namespace dae
 		GameObject();
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
+		GameObject& operator=(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
-
-		
-		GameObject& operator=(const GameObject& other)
-		{
-			if (this != &other) 
-			{
-				m_Components.clear();
-
-				for (const auto& component : other.m_Components) 
-				{
-					m_Components.push_back(std::make_unique<Component>(*component));
-				}
-			}
-			return *this;
-		}
-		GameObject& operator=(GameObject&& other) = delete;
 
 		template <typename T, typename... Args>
 		void AddComponent(Args&&... args)
@@ -51,12 +36,6 @@ namespace dae
 			std::unique_ptr<T> newComponent = std::make_unique<T>(this, std::forward<Args>(args)...);
 
 			m_Components.push_back(std::move(newComponent));
-		}
-
-		template <typename T>
-		void AddComponent(std::unique_ptr<T>& existingComponent)
-		{
-			m_Components.push_back(std::move(existingComponent));
 		}
 
 		template <typename T>
