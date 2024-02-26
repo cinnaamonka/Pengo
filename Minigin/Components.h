@@ -14,6 +14,7 @@
 #include "GameObject.h"
 
 class GameObject;
+class FPS;
 
 namespace dae
 {
@@ -129,10 +130,36 @@ namespace dae
 		TransformComponent* m_TransformComponent;
 	};
 
+	class FPS : public Component
+	{
+	public:
+		FPS(GameObject* GOptr) : Component(GOptr), fps(0.0) {}
+
+		void Update(double elapsedSec) override;
+
+		double GetFPS() const
+		{
+			return fps;
+		}
+
+	private:
+		double fps;
+
+	};
 	class TextComponent : public Component
 	{
 	public:
-		TextComponent(GameObject* GOptr):Component(GOptr),m_Text(""),m_Font(),m_NeedsUpdate(true), m_NumberText(0), m_TextTexture(nullptr) {};
+		TextComponent(GameObject* GOptr):
+			Component(GOptr),
+			m_Text(""),
+			m_pFont(),
+			m_NeedsUpdate(true),
+			m_NumberText(0),
+			m_pTextTexture(nullptr),
+			m_pTextureComponent(nullptr),
+			m_pFPSComponent(nullptr),
+			m_pRenderComponent(nullptr){};
+
 		TextComponent(GameObject* GOptr, std::string text, std::shared_ptr<Font> font);
 		
 		void Update(double elapsedSec) override;
@@ -146,32 +173,20 @@ namespace dae
 
 		std::shared_ptr<Texture2D> GetTexturePtr() const
 		{
-			return m_TextTexture;
+			return m_pTextTexture;
 		}
 	private:
 		bool m_NeedsUpdate;
 		std::string m_Text;
 		double* m_NumberText;
-		std::shared_ptr<Font> m_Font;
-		std::shared_ptr<Texture2D> m_TextTexture;
+		std::shared_ptr<Font> m_pFont;
+		std::shared_ptr<Texture2D> m_pTextTexture;
 		TextureComponent* m_pTextureComponent;
+		FPS* m_pFPSComponent;
+		RenderComponent* m_pRenderComponent;
 	};
 
-	class FPS : public Component
-	{
-	public:
-		FPS(GameObject* GOptr) : Component(GOptr),fps(0.0) {}
-
-		void Update(double elapsedSec) override;
-
-		double GetFPS() const
-		{
-			return fps;
-		}
-
-	private:
-		double fps;
-	};
+	
 
 }
 

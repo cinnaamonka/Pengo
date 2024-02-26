@@ -33,9 +33,12 @@ namespace dae
 		{
 			static_assert(std::is_base_of<Component, T>::value, "T must be derived from Component");
 
-			std::unique_ptr<T> newComponent = std::make_unique<T>(this, std::forward<Args>(args)...);
+			if (GetComponent<T>() == nullptr)
+			{
+				std::unique_ptr<T> newComponent = std::make_unique<T>(this, std::forward<Args>(args)...);
 
-			m_Components.push_back(std::move(newComponent));
+				m_Components.push_back(std::move(newComponent));
+			}
 		}
 
 		template <typename T>
