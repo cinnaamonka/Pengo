@@ -11,8 +11,6 @@ GameEngine::TextComponent::TextComponent(GameObject* GOptr, std::string text, st
 	BaseComponent(GOptr),
 	m_Text(text),
 	m_pFont(font),
-	m_NeedsUpdate(true),
-	m_NumberText(0),
 	m_pTextTexture(nullptr),
 	m_pTextureComponent(nullptr)
 {
@@ -21,6 +19,7 @@ GameEngine::TextComponent::TextComponent(GameObject* GOptr, std::string text, st
 	m_pTextureComponent = GetGameObject()->GetComponent<TextureComponent>();
 
 	Update();
+
 	if (m_pTextTexture != nullptr)
 	{
 		m_pTextureComponent->SetTexture(m_pTextTexture);
@@ -35,7 +34,7 @@ void GameEngine::TextComponent::SetText(const std::string& text)
 }
 
 void GameEngine::TextComponent::Update()
-{
+{	
 	if (m_Text != m_CurrentText || m_pTextTexture == nullptr)
 	{
 		const SDL_Color color = { 255,255,255,255 }; // only white text is supported now

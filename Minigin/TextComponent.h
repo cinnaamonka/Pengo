@@ -16,8 +16,6 @@ namespace GameEngine
 			BaseComponent(GOptr),
 			m_Text(""),
 			m_pFont(),
-			m_NeedsUpdate(true),
-			m_NumberText(0),
 			m_pTextTexture(nullptr),
 			m_pTextureComponent(nullptr) {};
 
@@ -37,10 +35,8 @@ namespace GameEngine
 			return m_pTextTexture;
 		}
 	private:
-		bool m_NeedsUpdate;
 		std::string m_Text;
 		std::string m_CurrentText;
-		double* m_NumberText;
 		std::shared_ptr<Font> m_pFont;
 		std::shared_ptr<Texture2D> m_pTextTexture;
 
