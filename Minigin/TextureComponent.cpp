@@ -10,7 +10,7 @@ GameEngine::TextureComponent::TextureComponent(GameObject* GOptr, const std::str
 }
 
 GameEngine::TextureComponent::TextureComponent(GameObject* GOptr) 
-	: BaseComponent(GOptr)
+	: BaseComponent(GOptr), m_Texture(nullptr)
 {
 
 }

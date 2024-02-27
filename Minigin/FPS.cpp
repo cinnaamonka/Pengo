@@ -12,7 +12,7 @@ GameEngine::FPS::FPS(GameObject* GOptr):
 	m_AverageFPS(0),
 	m_TextComponent(nullptr)
 {
-	//m_TextComponent = GetGameObject()->GetComponent<TextComponent>();
+	m_TextComponent = GetGameObject()->GetComponent<TextComponent>();
 }
 
 void GameEngine::FPS::Update()
@@ -29,6 +29,10 @@ void GameEngine::FPS::Update()
 	// get average fps
 	m_AverageFPS = std::accumulate(m_FPSCollection.begin(), m_FPSCollection.end(), 0.0) / m_FPSCollection.size();
 
-	//m_TextComponent->SetText(std::format("{:.1f}", m_AverageFPS));
+	if (m_TextComponent != nullptr)
+	{
+		m_TextComponent->SetText(std::format("{:.1f}", m_AverageFPS) + "FPS");
 
+	}
+	
 }

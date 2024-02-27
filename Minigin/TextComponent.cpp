@@ -16,12 +16,16 @@ GameEngine::TextComponent::TextComponent(GameObject* GOptr, std::string text, st
 	m_pTextTexture(nullptr),
 	m_pTextureComponent(nullptr)
 {
-	Update();
-
 	GetGameObject()->AddComponent<TextureComponent>();
 
 	m_pTextureComponent = GetGameObject()->GetComponent<TextureComponent>();
-	m_pTextureComponent->SetTexture(m_pTextTexture);
+
+	Update();
+	if (m_pTextTexture != nullptr)
+	{
+		m_pTextureComponent->SetTexture(m_pTextTexture);
+	}
+	
 }
 
 void GameEngine::TextComponent::SetText(const std::string& text)
