@@ -25,7 +25,7 @@ GameEngine::RenderComponent::RenderComponent(GameObject* GOptr) :
 void GameEngine::RenderComponent::Render() const
 {
 	const auto& newTexture = m_TextureComponent->GetTexture();
-	const auto& position = m_TransformComponent->GetPosition();
+	const auto& position = m_TransformComponent->GetWorldPosition();
 
 	if (newTexture != nullptr)
 	{

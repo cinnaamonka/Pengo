@@ -51,7 +51,7 @@ void GameEngine::GameObject::SetParent(GameObject* newParent)
 		}
 
 		// 4. Update position, rotation, and scale
-		UpdateTransform();
+		GetComponent<TransformComponent>()->UpdateWorldPosition();
 	}
 }
 bool GameEngine::GameObject::IsValidParent(GameObject* newParent)
@@ -97,14 +97,5 @@ void GameEngine::GameObject::Render() const
 	}
 }
 
-void GameEngine::GameObject::SetPosition(float x, float y)
-{
-	for (const auto& component : m_Components)
-	{
-		if (auto* transformComponent = dynamic_cast<GameEngine::TransformComponent*>(component.get()))
-		{
-			transformComponent->SetPosition(x, y, 0);
-		}
-	}
-}
+
 

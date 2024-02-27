@@ -12,8 +12,6 @@ namespace GameEngine
 		void Update();
 		void Render() const;
 
-		void SetPosition(float x, float y);
-
 		GameObject();
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
@@ -77,6 +75,16 @@ namespace GameEngine
 		bool IsValidParent(GameObject* newParent);
 		bool IsDescendant(GameObject* potentialParent);
 		
+		GameObject* GetParent() const
+		{
+			return m_pParent;
+		}
+
+		const std::vector<GameObject*>& GetChildren() const 
+		{
+			return m_pChildren;
+		}
+
 	private:
 		
 		std::vector<std::unique_ptr<BaseComponent>> m_Components;
@@ -85,6 +93,7 @@ namespace GameEngine
 
 		GameObject* m_pParent;
 		std::vector<GameObject*> m_pChildren;
+
 		
 	};
 }

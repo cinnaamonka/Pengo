@@ -25,15 +25,23 @@ namespace GameEngine
 			return m_LocalPosition;
 		}
 
-		glm::vec3 GetWorldPosition() const
-		{
-			return m_WorldPosition;
-		}
+		glm::vec3 GetWorldPosition();
 
+		bool IsWorldPositionUpdated() const
+		{
+			return m_IsWorldPositionUpdated;
+		}
+		
+		void UpdateWorldPosition();
+
+	private:
+		void SetIsWorldPositionUpdated();
 	private:
 
 		glm::vec3 m_LocalPosition;
 		glm::vec3 m_WorldPosition;
+
+		bool m_IsWorldPositionUpdated;
 	};
 }
 
