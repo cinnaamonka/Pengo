@@ -9,6 +9,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "Time.h"
 #include <chrono>
 #include <thread>
 #include <iostream>
@@ -89,35 +90,38 @@ void GameEngine::Engine::Run(const std::function<void()>& load)
 
 	bool doContinue = true;
 	auto lastTime = std::chrono::high_resolution_clock::now();
-	float lag = 0.0f;
-
-	const float fixedTimeStep = 0.016667f;
 
 	while (doContinue)
 	{
-		const auto currentTime = std::chrono::high_resolution_clock::now();
-
-		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
-		lastTime = currentTime;
-		lag += deltaTime;
-
-		doContinue = input.ProcessInput();
-		while (lag >= fixedTimeStep)
-		{
-			// should it be like this?
+		// Update time 
+		GameEngine::Time::Update();
+		m_Lag += GameEngine::Time::GetElapsed();
 		
-			sceneManager.Update(deltaTime);
-			lag -= fixedTimeStep;
+		// handle user input
+		doContinue = input.ProcessInput();
+
+		while (m_Lag >= GameEngine::General::FIXED_TIME_STEP)
+		{
+			// fixed update here
+			m_Lag -= GameEngine::General::FIXED_TIME_STEP;
 		}
+		// Update
+		sceneManager.Update();
+
 		// late update for camera 
+		
 		//render(lag / MS_PER_UPDATE); 
 		// i dont know if should be implemented
+		
+		// render
 		renderer.Render();
 
-		const int targetFps = 60;
-		const auto ms_per_frame = std::chrono::milliseconds(1000) / targetFps;
+		// clean up( should be decent)
+		sceneManager.Cleanup();
 
-		const auto sleepTime = currentTime + std::chrono::milliseconds(ms_per_frame) - std::chrono::high_resolution_clock::now();
+		const auto ms_per_frame = std::chrono::milliseconds(1000) / GameEngine::General::TARGET_FPS;
+
+		const auto sleepTime = Time::GetCurrent() + std::chrono::milliseconds(ms_per_frame) - std::chrono::high_resolution_clock::now();
 
 		std::this_thread::sleep_for(sleepTime); 
 	}

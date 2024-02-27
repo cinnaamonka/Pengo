@@ -37,6 +37,12 @@
     <Filter Include="GameObjects">
       <UniqueIdentifier>{87d57146-d6ab-4140-9291-9e66f43b14c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Time">
+      <UniqueIdentifier>{eaba08ff-8734-4c54-b7ea-cf9d7a9cdef8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\FPSComponent">
+      <UniqueIdentifier>{f4b5c078-4d5e-44f6-bb17-e725e93d7e15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components.h">
@@ -75,6 +81,12 @@
     <ClInclude Include="General.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Engine\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="FPS.h">
+      <Filter>Components\FPSComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components.cpp">
@@ -109,6 +121,12 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Engine\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="FPS.cpp">
+      <Filter>Components\FPSComponent</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

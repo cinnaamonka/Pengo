@@ -77,9 +77,8 @@ GameEngine::TextComponent::TextComponent(GameObject* GOptr, std::string text, st
 	}
 }
 
-void GameEngine::TextComponent::Update(double elapsedSec)
+void GameEngine::TextComponent::Update()
 {
-	(void)elapsedSec;
 
 	if (m_NeedsUpdate)
 	{
@@ -134,8 +133,4 @@ void GameEngine::TextComponent::SetText(const std::string& text)
 	m_NeedsUpdate = true;
 }
 
-void GameEngine::FPS::Update(double elapsedSec)
-{
-	fps = 1.0 / elapsedSec;
 
-}

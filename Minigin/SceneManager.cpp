@@ -1,25 +1,33 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
-void GameEngine::SceneManager::Update(float elapsedSec)
+void GameEngine::SceneManager::Update()
 {
-	for(auto& scene : m_scenes)
+	for(auto& scene : m_Scenes)
 	{
-		scene->Update(elapsedSec);
+		scene->Update();
 	}
 }
 
 void GameEngine::SceneManager::Render()
 {
-	for (const auto& scene : m_scenes)
+	for (const auto& scene : m_Scenes)
 	{
 		scene->Render();
+	}
+}
+
+void GameEngine::SceneManager::Cleanup()
+{
+	for (const auto& scene : m_Scenes)
+	{
+		scene->CleanUp();
 	}
 }
 
 GameEngine::Scene& GameEngine::SceneManager::CreateScene(const std::string& name)
 {
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
-	m_scenes.push_back(scene);
+	m_Scenes.push_back(scene);
 	return *scene;
 }

@@ -7,36 +7,54 @@ using namespace GameEngine;
 
 unsigned int Scene::m_idCounter = 0;
 
+void GameEngine::Scene::CleanUp()
+{
+	// remove components from game objects
+	for (const std::unique_ptr<GameObject>& gameObject : m_pObjects)
+	{
+		gameObject->CleanUp();
+	}
+	
+	// destroy objects 
+	for (auto it = m_pObjects.begin(); it != m_pObjects.end();)
+	{
+		if ((*it)->IsDestroyed())
+		{
+			it = m_pObjects.erase(it);
+		}
+			
+		else
+		{
+			it++;
+		}
+	}
+}
+
 Scene::Scene(const std::string& name) : m_name(name) {}
 
 Scene::~Scene() = default;
 
-void Scene::Add(std::shared_ptr<GameObject> object)
+void Scene::Add(std::unique_ptr<GameObject>&& object)
 {
-	m_objects.emplace_back(std::move(object));
-}
-
-void Scene::Remove(std::shared_ptr<GameObject> object)
-{
-	m_objects.erase(std::remove(m_objects.begin(), m_objects.end(), object), m_objects.end());
+	m_pObjects.emplace_back(std::move(object));
 }
 
 void Scene::RemoveAll()
 {
-	m_objects.clear();
+	m_pObjects.clear();
 }
 
-void Scene::Update(float elapsedSec)
+void Scene::Update()
 {
-	for(auto& object : m_objects)
+	for(auto& object : m_pObjects)
 	{
-		object->Update(elapsedSec);
+		object->Update();
 	}
 }
 
 void Scene::Render() const
 {
-	for (const auto& object : m_objects)
+	for (const auto& object : m_pObjects)
 	{
 		object->Render();
 	}

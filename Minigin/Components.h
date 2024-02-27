@@ -21,10 +21,7 @@ namespace GameEngine
 	class Component
 	{
 	public:
-		virtual void Update(double elapsedSec) 
-		{
-			(void)elapsedSec;
-		};
+		virtual void Update() {};
 
 		virtual void Render() const {};
 		virtual ~Component() {};
@@ -33,6 +30,16 @@ namespace GameEngine
 		Component(Component&& other) = delete;
 		Component& operator=(const Component& other) = delete;
 		Component& operator=(Component&& other) = delete;
+
+		// should be inherited 
+		bool IsDestroyed() const
+		{
+			return m_IsDestroyed;
+		}
+		void SetIsDestroyed(bool isDestroyed)
+		{
+			m_IsDestroyed = isDestroyed;
+		}
 
 	protected:
 		Component(GameObject* GOptr) :m_GameObject(GOptr) {};
@@ -43,6 +50,7 @@ namespace GameEngine
 		}
 	private:
 		GameObject* m_GameObject;
+		bool m_IsDestroyed;
 	};
 
 	class TextureComponent : public Component
@@ -130,22 +138,7 @@ namespace GameEngine
 		TransformComponent* m_TransformComponent;
 	};
 
-	class FPS : public Component
-	{
-	public:
-		FPS(GameObject* GOptr) : Component(GOptr), fps(0.0) {}
-
-		void Update(double elapsedSec) override;
-
-		double GetFPS() const
-		{
-			return fps;
-		}
-
-	private:
-		double fps;
-
-	};
+	
 	class TextComponent : public Component
 	{
 	public:
@@ -162,7 +155,7 @@ namespace GameEngine
 
 		TextComponent(GameObject* GOptr, std::string text, std::shared_ptr<Font> font);
 		
-		void Update(double elapsedSec) override;
+		void Update() override;
 		
 		void SetText(const std::string& text);
 		

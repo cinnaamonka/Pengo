@@ -17,7 +17,7 @@ namespace GameEngine
 	class GameObject final
 	{
 	public:
-		void Update(float elapsedSec);
+		void Update();
 		void Render() const;
 
 		void SetPosition(float x, float y);
@@ -70,9 +70,23 @@ namespace GameEngine
 				[](const auto& component) { return dynamic_cast<T*>(component.get()) != nullptr; });
 		}
 
+		bool IsDestroyed() const
+		{
+			return m_IsDestroyed;
+		}
+
+		void SetIsDestroyed(bool isDestroyed)
+		{
+			m_IsDestroyed = isDestroyed;
+		}
+
+		void CleanUp();
+		
 	private:
 		
 		std::vector<std::unique_ptr<Component>> m_Components;
+
+		bool m_IsDestroyed;
 		
 	};
 }
