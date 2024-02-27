@@ -2,11 +2,14 @@
 #include "GameObject.h"
 #include "TransformComponent.h"
 
-GameEngine::GameObject::GameObject() :m_IsDestroyed(false), m_pParent(nullptr), m_pChildren{}
+GameEngine::GameObject::GameObject() :
+	m_IsDestroyed(false),
+	m_pParent(nullptr),
+	m_pChildren{}, 
+	m_pComponents{}
 {
 
 }
-
 
 GameEngine::GameObject::~GameObject()
 {
@@ -18,11 +21,11 @@ GameEngine::GameObject::~GameObject()
 
 void GameEngine::GameObject::CleanUp()
 {
-	for (auto iterator = m_Components.begin(); iterator != m_Components.end();)
+	for (auto iterator = m_pComponents.begin(); iterator != m_pComponents.end();)
 	{
 		if ((*iterator)->IsDestroyed())
 		{
-			iterator = m_Components.erase(iterator);
+			iterator = m_pComponents.erase(iterator);
 		}
 		else
 		{
@@ -75,9 +78,13 @@ bool GameEngine::GameObject::IsDescendant(GameObject* potential_parent)
 		return m_pParent->IsDescendant(potential_parent);
 	}
 }
+void GameEngine::GameObject::DetachFromParent()
+{
+	m_pParent = nullptr;
+}
 void GameEngine::GameObject::Update()
 {
-	for (const auto& component : m_Components)
+	for (const auto& component : m_pComponents)
 	{
 		if (auto* updatableComponent = dynamic_cast<BaseComponent*>(component.get()))
 		{
@@ -88,7 +95,7 @@ void GameEngine::GameObject::Update()
 
 void GameEngine::GameObject::Render() const
 {
-	for (const auto& component : m_Components)
+	for (const auto& component : m_pComponents)
 	{
 		if (auto* renderableComponent = dynamic_cast<BaseComponent*>(component.get()))
 		{

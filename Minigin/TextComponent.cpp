@@ -1,11 +1,10 @@
 #include "pch.h"
+
 #include "TextComponent.h"
 #include "TextureComponent.h"
-#include "FPS.h"
 #include "Font.h"
 #include "Renderer.h"
 #include "Texture2D.h"
-#include "RenderComponent.h"
 
 GameEngine::TextComponent::TextComponent(GameObject* GOptr, std::string text, std::shared_ptr<Font> font) :
 	BaseComponent(GOptr),

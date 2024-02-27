@@ -26,7 +26,7 @@ namespace GameEngine
 			{
 				std::unique_ptr<ComponentType> newComponent = std::make_unique<ComponentType>(this, std::forward<Args>(args)...);
 
-				m_Components.push_back(std::move(newComponent));
+				m_pComponents.push_back(std::move(newComponent));
 			}
 		}
 
@@ -34,16 +34,16 @@ namespace GameEngine
 		requires std::derived_from<ComponentType, BaseComponent>
 		void RemoveComponent()
 		{
-			m_Components.erase(std::remove_if(m_Components.begin(), m_Components.end(),
+			m_pComponents.erase(std::remove_if(m_pComponents.begin(), m_pComponents.end(),
 				[](const auto& component) { return dynamic_cast<ComponentType*>(component.get()) != nullptr; }),
-				m_Components.end());
+				m_pComponents.end());
 		}
 
 		template <typename ComponentType, typename... Args>
 		requires std::derived_from<ComponentType, BaseComponent>
 		ComponentType* GetComponent()
 		{
-			for (const auto& component : m_Components)
+			for (const auto& component : m_pComponents)
 			{
 				if (auto castedComponent = dynamic_cast<ComponentType*>(component.get()))
 					return castedComponent;
@@ -55,8 +55,24 @@ namespace GameEngine
 		requires std::derived_from<ComponentType, BaseComponent>
 		bool HasComponent() const
 		{
-			return std::any_of(m_Components.begin(), m_Components.end(),
+			return std::any_of(m_pComponents.begin(), m_pComponents.end(),
 				[](const auto& component) { return dynamic_cast<ComponentType*>(component.get()) != nullptr; });
+		}
+
+		void CleanUp();
+		void SetParent(GameObject* newParent);
+		bool IsValidParent(GameObject* newParent);
+		bool IsDescendant(GameObject* potentialParent);
+		void DetachFromParent();
+
+		GameObject* GetParent() const
+		{
+			return m_pParent;
+		}
+
+		const std::vector<GameObject*>& GetChildren() const 
+		{
+			return m_pChildren;
 		}
 
 		bool IsDestroyed() const
@@ -68,32 +84,15 @@ namespace GameEngine
 		{
 			m_IsDestroyed = isDestroyed;
 		}
-
-		void CleanUp();
-
-		void SetParent(GameObject* newParent);
-		bool IsValidParent(GameObject* newParent);
-		bool IsDescendant(GameObject* potentialParent);
 		
-		GameObject* GetParent() const
-		{
-			return m_pParent;
-		}
-
-		const std::vector<GameObject*>& GetChildren() const 
-		{
-			return m_pChildren;
-		}
-
 	private:
 		
-		std::vector<std::unique_ptr<BaseComponent>> m_Components;
+		std::vector<std::unique_ptr<BaseComponent>> m_pComponents;
 
 		bool m_IsDestroyed;
 
 		GameObject* m_pParent;
-		std::vector<GameObject*> m_pChildren;
 
-		
+		std::vector<GameObject*> m_pChildren;
 	};
 }
