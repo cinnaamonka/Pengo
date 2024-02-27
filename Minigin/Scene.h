@@ -1,5 +1,4 @@
 #pragma once
-#include "SceneManager.h"
 
 namespace GameEngine
 {
@@ -7,7 +6,8 @@ namespace GameEngine
 
 	class Scene final
 	{
-		friend Scene& SceneManager::CreateScene(const std::string& name);
+		friend class SceneManager;
+
 	public:
 		void Add(std::unique_ptr<GameObject>&& object);
 		void RemoveAll();

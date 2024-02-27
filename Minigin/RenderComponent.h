@@ -1,9 +1,14 @@
 #pragma once
-#include "Components.h"
+
+#include "BaseComponent.h" 
 
 namespace GameEngine
 {
-	class RenderComponent : public Component
+	class TextureComponent;
+	class TransformComponent;
+	class Texture2D;
+
+	class RenderComponent : public BaseComponent
 	{
 	public:
 		RenderComponent(GameObject* GOptr);
@@ -14,6 +19,7 @@ namespace GameEngine
 		{
 			m_Texture = texture;
 		}
+
 		void SetPosition(const glm::vec3& pos)
 		{
 			m_Position = pos;

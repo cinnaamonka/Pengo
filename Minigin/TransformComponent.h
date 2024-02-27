@@ -1,8 +1,10 @@
 #pragma once
-#include "Components.h"
+
+#include "BaseComponent.h"
+
 namespace GameEngine
 {
-	class TransformComponent : public Component
+	class TransformComponent : public BaseComponent
 	{
 	public:
 		TransformComponent(GameObject* GOptr);

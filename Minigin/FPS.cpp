@@ -1,10 +1,19 @@
+#include "pch.h"
 #include "FPS.h"
 #include "Time.h"
+#include "TextComponent.h"
+
 #include <numeric>
 
-GameEngine::FPS::FPS(GameObject* GOptr) : Component(GOptr), m_FPSCollection(0.0), m_AverageFramesAmount(200), m_AverageFPS(0)
-{}
-
+GameEngine::FPS::FPS(GameObject* GOptr):
+	BaseComponent(GOptr), 
+	m_FPSCollection{},
+	m_AverageFramesAmount(200),
+	m_AverageFPS(0),
+	m_TextComponent(nullptr)
+{
+	//m_TextComponent = GetGameObject()->GetComponent<TextComponent>();
+}
 
 void GameEngine::FPS::Update()
 {
@@ -19,5 +28,7 @@ void GameEngine::FPS::Update()
 	}
 	// get average fps
 	m_AverageFPS = std::accumulate(m_FPSCollection.begin(), m_FPSCollection.end(), 0.0) / m_FPSCollection.size();
+
+	//m_TextComponent->SetText(std::format("{:.1f}", m_AverageFPS));
 
 }

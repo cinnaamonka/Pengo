@@ -1,11 +1,13 @@
 #pragma once
-
 #include <memory>
 #include <iomanip>
+#include <sstream>
+#include <iostream>
+#include <stdexcept>
 
 #include "GameObject.h"
 
-class GameObject;
+//class GameObject;
 
 namespace GameEngine
 {
@@ -33,7 +35,7 @@ namespace GameEngine
 		}
 
 	protected:
-		BaseComponent(GameObject* GOptr) :m_GameObject(GOptr) {};
+		BaseComponent(GameObject* GOptr) :m_GameObject(GOptr), m_IsDestroyed(false){};
 
 		GameObject* GetGameObject() const
 		{
@@ -43,18 +45,6 @@ namespace GameEngine
 		GameObject* m_GameObject;
 		bool m_IsDestroyed;
 	};
-
-	
-
-	
-
-	
-
-	
-	
-
-	
-
 }
 
 

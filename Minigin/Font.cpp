@@ -1,5 +1,4 @@
-#include <stdexcept>
-#include <SDL_ttf.h>
+#include "pch.h"
 #include "Font.h"
 
 TTF_Font* GameEngine::Font::GetFont() const {

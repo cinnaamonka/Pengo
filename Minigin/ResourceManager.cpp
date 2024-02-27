@@ -1,6 +1,4 @@
-#include <stdexcept>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
+#include "pch.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
 #include "Texture2D.h"

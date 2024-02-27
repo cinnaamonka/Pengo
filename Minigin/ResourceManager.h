@@ -1,12 +1,10 @@
 #pragma once
-#include <string>
-#include <memory>
-#include "Singleton.h"
 
 namespace GameEngine
 {
 	class Texture2D;
 	class Font;
+
 	class ResourceManager final : public Singleton<ResourceManager>
 	{
 	public:

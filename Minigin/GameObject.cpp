@@ -1,6 +1,6 @@
-#include <string>
+#include "pch.h"
 #include "GameObject.h"
-
+#include "TransformComponent.h"
 
 GameEngine::GameObject::GameObject() :m_IsDestroyed(false)
 {
@@ -29,7 +29,7 @@ void GameEngine::GameObject::Update()
 {
 	for (const auto& component : m_Components)
 	{
-		if (auto* updatableComponent = dynamic_cast<Component*>(component.get()))
+		if (auto* updatableComponent = dynamic_cast<BaseComponent*>(component.get()))
 		{
 			updatableComponent->Update();
 		}
@@ -40,7 +40,7 @@ void GameEngine::GameObject::Render() const
 {
 	for (const auto& component : m_Components)
 	{
-		if (auto* renderableComponent = dynamic_cast<Component*>(component.get()))
+		if (auto* renderableComponent = dynamic_cast<BaseComponent*>(component.get()))
 		{
 			renderableComponent->Render();
 		}

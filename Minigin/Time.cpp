@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Time.h"
 
 duration<float> GameEngine::Time::m_ElapsedTime{};

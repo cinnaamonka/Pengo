@@ -1,7 +1,11 @@
+#include "pch.h"
 #include "RenderComponent.h"
+#include "TextureComponent.h"
+#include "TransformComponent.h"
+#include "Renderer.h"
 
 GameEngine::RenderComponent::RenderComponent(GameObject* GOptr) :
-	Component(GOptr),
+	BaseComponent(GOptr),
 	m_Position(0, 0, 0),
 	m_Texture(nullptr),
 	m_TextureComponent(nullptr),

@@ -1,6 +1,4 @@
 #pragma once
-#include <SDL.h>
-#include "Singleton.h"
 
 namespace GameEngine
 {

@@ -1,10 +1,14 @@
 #pragma once
-#include "Components.h"
+
+#include "BaseComponent.h"
+
 #include <deque>
 
 namespace GameEngine
 {
-	class FPS : public Component
+	class TextComponent;
+
+	class FPS : public BaseComponent
 	{
 	public:
 		FPS(GameObject* GOptr);
@@ -20,6 +24,9 @@ namespace GameEngine
 		std::deque<double> m_FPSCollection;
 		const int m_AverageFramesAmount;
 		double m_AverageFPS;
+
+		TextComponent* m_TextComponent;
+
 	};
 }
 

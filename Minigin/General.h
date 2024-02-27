@@ -1,4 +1,5 @@
 #pragma once
+
 namespace GameEngine
 {
 	class General

@@ -7,82 +7,16 @@
     <Filter Include="Engine">
       <UniqueIdentifier>{cf990e42-b100-434f-820c-f5e54e491794}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Font">
-      <UniqueIdentifier>{b4d895c7-294e-47dd-af63-f63cd9130090}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\InputManager">
-      <UniqueIdentifier>{d9a80fa7-2d70-423d-a5f9-b8f0aa3e92e4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Renderer">
-      <UniqueIdentifier>{ea2da05b-b8a9-4c03-9d26-76273e340220}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\ResourceManager">
-      <UniqueIdentifier>{10253a23-ed5f-458b-8205-57a021990b2e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Scene">
-      <UniqueIdentifier>{31cc1083-c326-422b-a99d-f7266b90bc26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\SceneManager">
-      <UniqueIdentifier>{537946c5-93d9-46b2-9c06-f7eccc46cd18}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Singleton">
-      <UniqueIdentifier>{c36f33ff-9855-4f41-a9f2-b86c7dc9681b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Texture2D">
-      <UniqueIdentifier>{bc4a056c-204a-4727-a0be-cc415fe3a331}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Main">
       <UniqueIdentifier>{3499405e-8db5-4e9d-b4b0-9a8bf543abe5}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameObjects">
       <UniqueIdentifier>{87d57146-d6ab-4140-9291-9e66f43b14c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Time">
-      <UniqueIdentifier>{eaba08ff-8734-4c54-b7ea-cf9d7a9cdef8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\FPSComponent">
-      <UniqueIdentifier>{f4b5c078-4d5e-44f6-bb17-e725e93d7e15}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\RenderComponent">
-      <UniqueIdentifier>{b4bab328-eb02-400b-bae8-7f30d5b5ade9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\TextComponent">
-      <UniqueIdentifier>{28b69174-c1b4-43c6-830e-c8fc6919ab0a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\TransformComponent">
-      <UniqueIdentifier>{284d3098-7f59-45dc-beff-f6333c52f05b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\TextureComponent">
-      <UniqueIdentifier>{d63cb696-1930-4bda-94b7-22f90d4ee1fc}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseComponent.h">
       <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>Engine\Font</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Engine\InputManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Engine\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Engine\ResourceManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Engine\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Engine\SceneManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Singleton.h">
-      <Filter>Engine\Singleton</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture2D.h">
-      <Filter>Engine\Texture2D</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
       <Filter>Main</Filter>
@@ -93,47 +27,51 @@
     <ClInclude Include="General.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
-      <Filter>Engine\Time</Filter>
-    </ClInclude>
     <ClInclude Include="FPS.h">
-      <Filter>Components\FPSComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderComponent.h">
-      <Filter>Components\RenderComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="TextComponent.h">
-      <Filter>Components\TextComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformComponent.h">
-      <Filter>Components\TransformComponent</Filter>
+      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="TextureComponent.h">
-      <Filter>Components\TextureComponent</Filter>
+      <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Font.cpp">
-      <Filter>Engine\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Engine\InputManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Engine\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Engine\ResourceManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Engine\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Engine\SceneManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture2D.cpp">
-      <Filter>Engine\Texture2D</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Main</Filter>
     </ClCompile>
@@ -143,23 +81,45 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
-      <Filter>Engine\Time</Filter>
-    </ClCompile>
     <ClCompile Include="FPS.cpp">
-      <Filter>Components\FPSComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderComponent.cpp">
-      <Filter>Components\RenderComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
-      <Filter>Components\TextComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="TransformComponent.cpp">
-      <Filter>Components\TransformComponent</Filter>
+      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="TextureComponent.cpp">
-      <Filter>Components\TextureComponent</Filter>
+      <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp" />
   </ItemGroup>
 </Project>

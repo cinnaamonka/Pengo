@@ -1,29 +1,24 @@
 #pragma once
-#include "Components.h"
+
+#include "BaseComponent.h"
 
 namespace GameEngine
 {
-	class TextureComponent : public Component
+	class Texture2D;
+	class GameObject;
+
+	class TextureComponent : public BaseComponent
 	{
 	public:
 		TextureComponent(GameObject* GOptr, const std::string& filename);
 
 		TextureComponent(GameObject* GOptr);
 
-		std::shared_ptr<GameEngine::Texture2D> GetTexture() const
-		{
-			return m_Texture;
-		}
+		std::shared_ptr<GameEngine::Texture2D> GetTexture() const;
 
-		void SetTexture(const std::string& filename)
-		{
-			m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
-		}
-		void SetTexture(std::shared_ptr<GameEngine::Texture2D> texture)
-		{
-			m_Texture = texture;
-		}
-
+		void SetTexture(const std::string& filename);
+		void SetTexture(std::shared_ptr<GameEngine::Texture2D> texture);
+		
 	private:
 		std::shared_ptr<GameEngine::Texture2D> m_Texture;
 		std::string fileName;

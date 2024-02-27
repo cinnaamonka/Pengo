@@ -1,12 +1,9 @@
 #pragma once
-#include <vector>
-#include <string>
-#include <memory>
-#include "Singleton.h"
 
 namespace GameEngine
 {
 	class Scene;
+
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:

@@ -1,5 +1,8 @@
+#include "pch.h"
+
 #include "SceneManager.h"
 #include "Scene.h"
+#include "GameObject.h"
 
 void GameEngine::SceneManager::Update()
 {
