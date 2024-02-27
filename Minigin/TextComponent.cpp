@@ -1,35 +1,5 @@
-#include "Components.h"
-
-#include "GameObject.h"
-
-GameEngine::RenderComponent::RenderComponent(GameObject* GOptr) :
-	Component(GOptr),
-	m_Position(0, 0, 0),
-	m_Texture(nullptr),
-	m_TextureComponent(nullptr),
-	m_TransformComponent(nullptr)
-{
-	if (GetGameObject()->HasComponent<TextureComponent>())
-	{
-		m_TextureComponent = GetGameObject()->GetComponent<TextureComponent>();
-	}
-
-	if (GetGameObject()->HasComponent<TransformComponent>())
-	{
-		m_TransformComponent = GetGameObject()->GetComponent<TransformComponent>();
-	}
-};
-
-void GameEngine::RenderComponent::Render() const
-{
-	const auto& newTexture = m_TextureComponent->GetTexture();
-	const auto& position = m_TransformComponent->GetPosition();
-
-	if (newTexture != nullptr)
-	{
-		Renderer::GetInstance().RenderTexture(*newTexture, position.x, position.y);
-	}
-}
+#include "TextComponent.h"
+#include "FPS.h"
 
 GameEngine::TextComponent::TextComponent(GameObject* GOptr, std::string text, std::shared_ptr<Font> font) :
 	Component(GOptr),
@@ -88,7 +58,7 @@ void GameEngine::TextComponent::Update()
 
 		if (m_pFPSComponent != nullptr)
 		{
-			const auto fps = m_pFPSComponent->GetFPS();
+			const auto fps = m_pFPSComponent->GetAverageFPS();
 
 			if (m_Text.size())
 			{
@@ -104,7 +74,7 @@ void GameEngine::TextComponent::Update()
 
 				text = oss.str();
 			}
-			
+
 		}
 		else if (m_pRenderComponent != nullptr)
 		{

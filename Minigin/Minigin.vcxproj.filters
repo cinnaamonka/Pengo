@@ -43,9 +43,21 @@
     <Filter Include="Components\FPSComponent">
       <UniqueIdentifier>{f4b5c078-4d5e-44f6-bb17-e725e93d7e15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\RenderComponent">
+      <UniqueIdentifier>{b4bab328-eb02-400b-bae8-7f30d5b5ade9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\TextComponent">
+      <UniqueIdentifier>{28b69174-c1b4-43c6-830e-c8fc6919ab0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\TransformComponent">
+      <UniqueIdentifier>{284d3098-7f59-45dc-beff-f6333c52f05b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\TextureComponent">
+      <UniqueIdentifier>{d63cb696-1930-4bda-94b7-22f90d4ee1fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Components.h">
+    <ClInclude Include="BaseComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
@@ -87,11 +99,20 @@
     <ClInclude Include="FPS.h">
       <Filter>Components\FPSComponent</Filter>
     </ClInclude>
+    <ClInclude Include="RenderComponent.h">
+      <Filter>Components\RenderComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>Components\TextComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Components\TransformComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureComponent.h">
+      <Filter>Components\TextureComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Components.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Engine\Font</Filter>
     </ClCompile>
@@ -127,6 +148,18 @@
     </ClCompile>
     <ClCompile Include="FPS.cpp">
       <Filter>Components\FPSComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>Components\RenderComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComponent.cpp">
+      <Filter>Components\TextComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Components\TransformComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureComponent.cpp">
+      <Filter>Components\TextureComponent</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
