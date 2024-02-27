@@ -24,7 +24,6 @@ GameEngine::TextComponent::TextComponent(GameObject* GOptr, std::string text, st
 	{
 		m_pTextureComponent->SetTexture(m_pTextTexture);
 	}
-	
 }
 
 void GameEngine::TextComponent::SetText(const std::string& text)

@@ -1,13 +1,5 @@
 #pragma once
-#include <memory>
-#include <iomanip>
-#include <sstream>
-#include <iostream>
-#include <stdexcept>
-
 #include "GameObject.h"
-
-//class GameObject;
 
 namespace GameEngine
 {

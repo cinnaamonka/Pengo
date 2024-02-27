@@ -69,7 +69,9 @@
     <ClInclude Include="Renderer.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h" />
+    <ClInclude Include="pch.h">
+      <Filter>Main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -120,6 +122,8 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="pch.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
