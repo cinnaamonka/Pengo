@@ -2,7 +2,7 @@
 #include <SDL.h>
 #include "Singleton.h"
 
-namespace dae
+namespace GameEngine
 {
 	class Texture2D;
 	/**

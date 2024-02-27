@@ -1,5 +1,5 @@
 #pragma once
-namespace dae
+namespace GameEngine
 {
 	template <typename T>
 	class Singleton

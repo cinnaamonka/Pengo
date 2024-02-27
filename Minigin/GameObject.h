@@ -6,7 +6,7 @@
 #include <map>
 #include <algorithm>
 
-namespace dae
+namespace GameEngine
 {
 	class Texture2D;
 	class Component;

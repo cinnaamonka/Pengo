@@ -2,15 +2,15 @@
 #include "GameObject.h"
 
 
-dae::GameObject::GameObject()
+GameEngine::GameObject::GameObject()
 {
 
 }
 
 
-dae::GameObject::~GameObject() = default;
+GameEngine::GameObject::~GameObject() = default;
 
-void dae::GameObject::Update(float elapsedSec)
+void GameEngine::GameObject::Update(float elapsedSec)
 {
 
     for (const auto& component : m_Components) 
@@ -22,7 +22,7 @@ void dae::GameObject::Update(float elapsedSec)
     }
 }
 
-void dae::GameObject::Render() const
+void GameEngine::GameObject::Render() const
 {
     for (const auto& component : m_Components) 
     { 
@@ -33,11 +33,11 @@ void dae::GameObject::Render() const
     } 
 } 
 
-void dae::GameObject::SetPosition(float x, float y)
+void GameEngine::GameObject::SetPosition(float x, float y)
 {
     for (const auto& component : m_Components) 
     {
-        if (auto* transformComponent = dynamic_cast<dae::TransformComponent*>(component.get()))
+        if (auto* transformComponent = dynamic_cast<GameEngine::TransformComponent*>(component.get()))
         {
             transformComponent->SetPosition(x, y, 0);
         }

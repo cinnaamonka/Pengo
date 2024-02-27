@@ -3,7 +3,7 @@
 
 #include <algorithm>
 
-using namespace dae;
+using namespace GameEngine;
 
 unsigned int Scene::m_idCounter = 0;
 

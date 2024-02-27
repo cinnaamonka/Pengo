@@ -16,7 +16,7 @@
 class GameObject;
 class FPS;
 
-namespace dae
+namespace GameEngine
 {
 	class Component
 	{
@@ -54,7 +54,7 @@ namespace dae
 		};
 		TextureComponent(GameObject* GOptr) :Component(GOptr) {};
 
-		std::shared_ptr<dae::Texture2D> GetTexture() const
+		std::shared_ptr<GameEngine::Texture2D> GetTexture() const
 		{
 			return m_Texture;
 		}
@@ -63,13 +63,13 @@ namespace dae
 		{
 			m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
 		}
-		void SetTexture(std::shared_ptr<dae::Texture2D> texture)
+		void SetTexture(std::shared_ptr<GameEngine::Texture2D> texture)
 		{
 			m_Texture = texture; 
 		}
 
 	private:
-		std::shared_ptr<dae::Texture2D> m_Texture;
+		std::shared_ptr<GameEngine::Texture2D> m_Texture;
 		std::string fileName;
 	};
 

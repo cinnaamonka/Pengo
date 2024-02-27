@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-dae::RenderComponent::RenderComponent(GameObject* GOptr) :
+GameEngine::RenderComponent::RenderComponent(GameObject* GOptr) :
 	Component(GOptr),
 	m_Position(0, 0, 0),
 	m_Texture(nullptr),
@@ -20,7 +20,7 @@ dae::RenderComponent::RenderComponent(GameObject* GOptr) :
 	}
 };
 
-void dae::RenderComponent::Render() const
+void GameEngine::RenderComponent::Render() const
 {
 	const auto& newTexture = m_TextureComponent->GetTexture();
 	const auto& position = m_TransformComponent->GetPosition();
@@ -31,7 +31,7 @@ void dae::RenderComponent::Render() const
 	}
 }
 
-dae::TextComponent::TextComponent(GameObject* GOptr, std::string text, std::shared_ptr<Font> font) :
+GameEngine::TextComponent::TextComponent(GameObject* GOptr, std::string text, std::shared_ptr<Font> font) :
 	Component(GOptr),
 	m_Text(text),
 	m_pFont(font),
@@ -77,7 +77,7 @@ dae::TextComponent::TextComponent(GameObject* GOptr, std::string text, std::shar
 	}
 }
 
-void dae::TextComponent::Update(double elapsedSec)
+void GameEngine::TextComponent::Update(double elapsedSec)
 {
 	(void)elapsedSec;
 
@@ -128,13 +128,13 @@ void dae::TextComponent::Update(double elapsedSec)
 	}
 }
 
-void dae::TextComponent::SetText(const std::string& text)
+void GameEngine::TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;
 }
 
-void dae::FPS::Update(double elapsedSec)
+void GameEngine::FPS::Update(double elapsedSec)
 {
 	fps = 1.0 / elapsedSec;
 
