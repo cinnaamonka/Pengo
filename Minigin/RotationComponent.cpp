@@ -29,6 +29,7 @@ void GameEngine::RotationComponent::Update()
 	newPosition.y = static_cast<float>(m_RotationCenter.y + m_RotationRadius * sin(glm::radians(m_CurrentAngle)));
 	newPosition.z = m_RotationCenter.z;
 
+	std::cout << m_RotationCenter.x << std::endl;
 	m_pTransformComponent->SetLocalPosition(newPosition);
 
 }

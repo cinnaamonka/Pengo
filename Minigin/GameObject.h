@@ -63,7 +63,9 @@ namespace GameEngine
 		void SetParent(GameObject* newParent);
 		bool IsValidParent(GameObject* newParent);
 		bool IsDescendant(GameObject* potentialParent);
+
 		void DetachFromParent();
+		void AddChild(GameObject* newChild);
 
 		GameObject* GetParent() const
 		{

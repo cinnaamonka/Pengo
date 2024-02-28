@@ -13,8 +13,10 @@ GameEngine::GameObject::GameObject() :
 
 GameEngine::GameObject::~GameObject()
 {
-	delete m_pParent;
-	m_pParent = nullptr;
+	if (m_pParent)
+	{
+		m_pParent = nullptr;
+	}	
 
 	m_pChildren.clear();
 }
@@ -50,7 +52,7 @@ void GameEngine::GameObject::SetParent(GameObject* newParent)
 		// 3. Add itself as a child to the given parent
 		if (newParent)
 		{
-			newParent->SetParent(this);
+			newParent->AddChild(this);
 		}
 
 		// 4. Update position, rotation, and scale
@@ -81,6 +83,10 @@ bool GameEngine::GameObject::IsDescendant(GameObject* potential_parent)
 void GameEngine::GameObject::DetachFromParent()
 {
 	m_pParent = nullptr;
+}
+void GameEngine::GameObject::AddChild(GameObject* newChild)
+{
+	m_pChildren.push_back(newChild);
 }
 void GameEngine::GameObject::Update()
 {

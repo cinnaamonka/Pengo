@@ -25,6 +25,7 @@ void GameEngine::TransformComponent::SetLocalPosition(float x, float y, float z)
 void GameEngine::TransformComponent::SetLocalPosition(const glm::vec3& position)
 {
 	m_LocalPosition = position;
+	SetPositionDirty();
 }
 
 void GameEngine::TransformComponent::SetWorldPosition(float x, float y, float z)
@@ -62,7 +63,8 @@ void GameEngine::TransformComponent::UpdateWorldPosition()
 	}
 	else
 	{
-		m_WorldPosition = m_LocalPosition + GetGameObject()->GetParent()->GetComponent<TransformComponent>()->GetWorldPosition();
+		const auto pos = GetGameObject()->GetParent()->GetComponent<TransformComponent>()->GetWorldPosition();
+		m_WorldPosition = m_LocalPosition + pos;
 	}
 
 	m_IsPositionDirty = false;
@@ -94,7 +96,7 @@ glm::vec3 GameEngine::TransformComponent::GetWorldPosition()
 	{
 		UpdateWorldPosition();
 	}
-	return m_LocalPosition;
+	return m_WorldPosition;
 }
 
 
