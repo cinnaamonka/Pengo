@@ -22,14 +22,12 @@ void GameEngine::RotationComponent::Update()
 
 	m_CurrentAngle += angleChange;
 
-	// Calculate the new position using polar coordinates
 	glm::vec3 newPosition{};
 
 	newPosition.x = static_cast<float>(m_RotationCenter.x + m_RotationRadius * cos(glm::radians(m_CurrentAngle)));
 	newPosition.y = static_cast<float>(m_RotationCenter.y + m_RotationRadius * sin(glm::radians(m_CurrentAngle)));
 	newPosition.z = m_RotationCenter.z;
 
-	std::cout << m_RotationCenter.x << std::endl;
 	m_pTransformComponent->SetLocalPosition(newPosition);
 
 }
