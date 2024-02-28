@@ -27,21 +27,21 @@ namespace GameEngine
 
 		glm::vec3 GetWorldPosition();
 
-		bool IsWorldPositionUpdated() const
+		bool IsPositionDirty() const
 		{
-			return m_IsWorldPositionUpdated;
+			return m_IsPositionDirty;
 		}
 		
 		void UpdateWorldPosition();
 
 	private:
-		void SetIsWorldPositionUpdated();
+		void SetPositionDirty();
 	private:
 
 		glm::vec3 m_LocalPosition;
 		glm::vec3 m_WorldPosition;
 
-		bool m_IsWorldPositionUpdated;
+		bool m_IsPositionDirty;
 	};
 }
 

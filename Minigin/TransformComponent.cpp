@@ -5,14 +5,14 @@ GameEngine::TransformComponent::TransformComponent(GameObject* GOptr) :
 	BaseComponent(GOptr),
 	m_LocalPosition(0.0f, 0.0f, 0.0f),
 	m_WorldPosition(0.0f, 0.0f, 0.0f),
-	m_IsWorldPositionUpdated(false)
+	m_IsPositionDirty(true)
 {}
 
 GameEngine::TransformComponent::TransformComponent(GameObject* GOptr, glm::vec3 pos) :
 	BaseComponent(GOptr),
 	m_LocalPosition(pos),
 	m_WorldPosition(pos),
-	m_IsWorldPositionUpdated(false)
+	m_IsPositionDirty(true)
 {}
 
 void GameEngine::TransformComponent::SetLocalPosition(float x, float y, float z)
@@ -29,14 +29,19 @@ void GameEngine::TransformComponent::SetLocalPosition(const glm::vec3& position)
 
 void GameEngine::TransformComponent::SetWorldPosition(float x, float y, float z)
 {
-	m_WorldPosition.x = x;
-	m_WorldPosition.y = y;
-	m_WorldPosition.z = z;
+	SetWorldPosition({ x,y,z });
 }
 
 void GameEngine::TransformComponent::SetWorldPosition(const glm::vec3& position)
 {
-	m_WorldPosition = position;
+	if (GetGameObject()->GetParent() == nullptr)
+	{
+		SetLocalPosition(position);
+	}
+	else
+	{
+		SetLocalPosition(GetGameObject()->GetParent()->GetComponent<TransformComponent>()->GetWorldPosition());
+	}
 }
 
 void GameEngine::TransformComponent::Translate(float x, float y, float z)
@@ -60,12 +65,12 @@ void GameEngine::TransformComponent::UpdateWorldPosition()
 		m_WorldPosition = m_LocalPosition + GetGameObject()->GetParent()->GetComponent<TransformComponent>()->GetWorldPosition();
 	}
 
-	m_IsWorldPositionUpdated = true;
+	m_IsPositionDirty = false;
 }
 
-void GameEngine::TransformComponent::SetIsWorldPositionUpdated()
+void GameEngine::TransformComponent::SetPositionDirty()
 {
-	m_IsWorldPositionUpdated = false;
+	m_IsPositionDirty = true;
 
 	GameObject* gameObject = GetGameObject();
 
@@ -75,9 +80,9 @@ void GameEngine::TransformComponent::SetIsWorldPositionUpdated()
 		{
 			TransformComponent* transformComponent = pChild->GetComponent<TransformComponent>();
 
-			if (transformComponent != nullptr && transformComponent->IsWorldPositionUpdated()) 
+			if (transformComponent != nullptr && transformComponent->IsPositionDirty())
 			{
-				pChild->GetComponent<TransformComponent>()->SetIsWorldPositionUpdated();
+				pChild->GetComponent<TransformComponent>()->SetPositionDirty();
 			}
 		}
 	}
@@ -85,11 +90,11 @@ void GameEngine::TransformComponent::SetIsWorldPositionUpdated()
 
 glm::vec3 GameEngine::TransformComponent::GetWorldPosition()
 {
-	if (!m_IsWorldPositionUpdated)
+	if (m_IsPositionDirty)
 	{
 		UpdateWorldPosition();
 	}
-	return m_WorldPosition;
+	return m_LocalPosition;
 }
 
 

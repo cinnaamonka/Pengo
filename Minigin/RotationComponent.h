@@ -8,7 +8,7 @@ namespace GameEngine
 	class RotationComponent : public BaseComponent
 	{
 	public:
-		RotationComponent(GameObject* GOptr, int radius, double speed, glm::vec3 center);
+		RotationComponent(GameObject* GOptr, int radius, double speed);
 
 		void Update() override;
 
