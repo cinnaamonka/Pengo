@@ -3,6 +3,8 @@
 #include "TransformComponent.h"
 #include "Time.h"
 
+constexpr int twoPI = 360;
+
 GameEngine::RotationComponent::RotationComponent(GameObject* GOptr, int radius, double speed):
 	BaseComponent(GOptr),
 	m_RotationRadius(radius),
@@ -21,6 +23,11 @@ void GameEngine::RotationComponent::Update()
 	double angleChange = m_RotationSpeed * deltaTime;
 
 	m_CurrentAngle += angleChange;
+
+	if (m_CurrentAngle > twoPI)
+	{
+		m_CurrentAngle -= twoPI;
+	}
 
 	glm::vec3 newPosition{};
 

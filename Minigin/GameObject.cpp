@@ -46,6 +46,9 @@ void GameEngine::GameObject::SetParent(GameObject* newParent)
 			m_pParent = nullptr;
 		}
 
+		// 4. Update position, rotation, and scale
+		GetComponent<TransformComponent>()->UpdateWorldPosition();
+
 		// 2. Set the given parent on itself
 		m_pParent = newParent;
 
@@ -54,9 +57,6 @@ void GameEngine::GameObject::SetParent(GameObject* newParent)
 		{
 			newParent->AddChild(this);
 		}
-
-		// 4. Update position, rotation, and scale
-		GetComponent<TransformComponent>()->UpdateWorldPosition();
 	}
 }
 bool GameEngine::GameObject::IsValidParent(GameObject* newParent)

@@ -61,11 +61,7 @@ namespace GameEngine
 
 		void CleanUp();
 		void SetParent(GameObject* newParent);
-		bool IsValidParent(GameObject* newParent);
-		bool IsDescendant(GameObject* potentialParent);
-
-		void DetachFromParent();
-		void AddChild(GameObject* newChild);
+	
 
 		GameObject* GetParent() const
 		{
@@ -96,5 +92,13 @@ namespace GameEngine
 		GameObject* m_pParent;
 
 		std::vector<GameObject*> m_pChildren;
+
+	private:
+
+		bool IsValidParent(GameObject* newParent);
+		bool IsDescendant(GameObject* potentialParent);
+
+		void DetachFromParent();
+		void AddChild(GameObject* newChild);
 	};
 }

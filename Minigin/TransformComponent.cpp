@@ -78,7 +78,7 @@ void GameEngine::TransformComponent::SetPositionDirty()
 
 	if (gameObject) 
 	{
-		for (const auto& pChild : gameObject->GetChildren()) 
+		for (auto pChild : gameObject->GetChildren()) 
 		{
 			TransformComponent* transformComponent = pChild->GetComponent<TransformComponent>();
 
