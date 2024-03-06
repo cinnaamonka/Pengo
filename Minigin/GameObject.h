@@ -60,7 +60,7 @@ namespace GameEngine
 		}
 
 		void CleanUp();
-		void SetParent(GameObject* newParent);
+		void SetParent(GameObject* newParent, bool keepWorldPosition = true);
 	
 
 		GameObject* GetParent() const
