@@ -5,6 +5,7 @@
 
 bool GameEngine::InputManager::ProcessInput()
 {
+	//TODO: ASK WTF
 	/*ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
 	XInputGetState(0, &m_CurrentState);*/
 	
@@ -24,7 +25,6 @@ bool GameEngine::InputManager::ProcessInput()
 		}
 
 		ImGui_ImplSDL2_ProcessEvent(&e);
-		// etc...
 	}
 
 	return true;
