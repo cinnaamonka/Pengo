@@ -26,4 +26,13 @@
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
 
-#include "Singleton.h"
+#include "./Minigin/Singleton.h"
+
+#define IMGUI_DEFINE_MATH_OPERATORS
+#include "3rdParty/imgui.h"
+#include "3rdParty/imgui_impl_opengl3.h"
+#include "3rdParty/imgui_impl_sdl2.h"
+#include "3rdParty/imgui_internal.h"
+#include <stdio.h>
+#include <SDL.h>
+

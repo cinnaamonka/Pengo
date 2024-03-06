@@ -25,6 +25,11 @@ void GameEngine::Renderer::Init(SDL_Window* window)
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
+	ImGui_ImplOpenGL3_Init(); 
 }
 
 void GameEngine::Renderer::Render() const
@@ -35,11 +40,22 @@ void GameEngine::Renderer::Render() const
 
 	SceneManager::GetInstance().Render();
 	
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
+	ImGui::ShowDemoWindow();
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 	SDL_RenderPresent(m_renderer);
 }
 
 void GameEngine::Renderer::Destroy()
 {
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
+
 	if (m_renderer != nullptr)
 	{
 		SDL_DestroyRenderer(m_renderer);

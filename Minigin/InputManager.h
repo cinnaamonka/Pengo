@@ -1,4 +1,5 @@
 #pragma once
+#include <xinput.h>
 
 namespace GameEngine
 {
@@ -6,6 +7,7 @@ namespace GameEngine
 	{
 	public:
 		bool ProcessInput();
+		XINPUT_STATE m_CurrentState;
 	};
 
 }

@@ -2,7 +2,7 @@
 // This needs to be used along with a Renderer (e.g. DirectX11, OpenGL3, Vulkan..)
 // (Info: SDL2 is a cross-platform general purpose library for handling windows, inputs, graphics context creation, etc.)
 // (Prefer SDL 2.0.5+ for full feature support.)
-#include "../../Minigin/pch.h"
+#include "../pch.h"
 // Implemented features:
 //  [X] Platform: Clipboard support.
 //  [X] Platform: Mouse support. Can discriminate Mouse/TouchScreen.

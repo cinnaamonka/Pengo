@@ -2,7 +2,7 @@
 // - Desktop GL: 2.x 3.x 4.x
 // - Embedded GL: ES 2.0 (WebGL 1.0), ES 3.0 (WebGL 2.0)
 // This needs to be used along with a Platform Backend (e.g. GLFW, SDL, Win32, custom..)
-#include "../../Minigin/pch.h"
+#include "../pch.h"
 // Implemented features:
 //  [X] Renderer: User texture binding. Use 'GLuint' OpenGL texture identifier as void*/ImTextureID. Read the FAQ about ImTextureID!
 //  [x] Renderer: Large meshes support (64k+ vertices) with 16-bit indices (Desktop OpenGL only).
@@ -302,7 +302,7 @@ bool    ImGui_ImplOpenGL3_Init(const char* glsl_version)
     {
         // Query GL_VERSION in desktop GL 2.x, the string will start with "<major>.<minor>"
         const char* gl_version = (const char*)glGetString(GL_VERSION);
-        sscanf(gl_version, "%d.%d", &major, &minor);
+        sscanf_s(gl_version, "%d.%d", &major, &minor);
     }
     bd->GlVersion = (GLuint)(major * 100 + minor * 10);
 #if defined(GL_CONTEXT_PROFILE_MASK)
@@ -350,8 +350,8 @@ bool    ImGui_ImplOpenGL3_Init(const char* glsl_version)
 #endif
     }
     IM_ASSERT((int)strlen(glsl_version) + 2 < IM_ARRAYSIZE(bd->GlslVersionString));
-    strcpy(bd->GlslVersionString, glsl_version);
-    strcat(bd->GlslVersionString, "\n");
+    strcpy_s(bd->GlslVersionString, glsl_version);
+    strcat_s(bd->GlslVersionString, "\n");
 
     // Make an arbitrary GL call (we don't actually need the result)
     // IF YOU GET A CRASH HERE: it probably means the OpenGL function loader didn't do its job. Let us know!
@@ -749,7 +749,7 @@ bool    ImGui_ImplOpenGL3_CreateDeviceObjects()
     glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
     glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &last_array_buffer);
 #ifdef IMGUI_IMPL_OPENGL_MAY_HAVE_BIND_BUFFER_PIXEL_UNPACK
-    GLint last_pixel_unpack_buffer;
+    GLint last_pixel_unpack_buffer{};
     if (bd->GlVersion >= 210) { glGetIntegerv(GL_PIXEL_UNPACK_BUFFER_BINDING, &last_pixel_unpack_buffer); glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0); }
 #endif
 #ifdef IMGUI_IMPL_OPENGL_USE_VERTEX_ARRAY
@@ -759,7 +759,7 @@ bool    ImGui_ImplOpenGL3_CreateDeviceObjects()
 
     // Parse GLSL version string
     int glsl_version = 130;
-    sscanf(bd->GlslVersionString, "#version %d", &glsl_version);
+    sscanf_s(bd->GlslVersionString, "#version %d", &glsl_version);
 
     const GLchar* vertex_shader_glsl_120 =
         "uniform mat4 ProjMtx;\n"
