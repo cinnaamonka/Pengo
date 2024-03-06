@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "../pch.h"
 #include "RenderComponent.h"
 #include "TextureComponent.h"
 #include "TransformComponent.h"

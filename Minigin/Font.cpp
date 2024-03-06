@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "../pch.h"
 #include "Font.h"
 
 TTF_Font* GameEngine::Font::GetFont() const {

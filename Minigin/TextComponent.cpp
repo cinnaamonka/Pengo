@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "../pch.h"
 
 #include "TextComponent.h"
 #include "TextureComponent.h"

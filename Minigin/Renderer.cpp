@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "../pch.h"
 #include "Renderer.h"
 #include "SceneManager.h"
 #include "Texture2D.h"

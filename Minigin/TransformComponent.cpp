@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "../pch.h"
 #include "TransformComponent.h"
 
 GameEngine::TransformComponent::TransformComponent(GameObject* GOptr) :
