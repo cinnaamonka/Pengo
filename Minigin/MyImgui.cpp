@@ -1,14 +1,12 @@
 #include "../pch.h"
 
 std::vector<float> RunArrayComputationBenchmark(int arraySize, int numIterations);
-constexpr size_t buf_size = 512;
-static float x_data[buf_size];
-static float y_data1[buf_size];
-static float y_data2[buf_size];
-static float y_data3[buf_size];
+
+static int inputValue = 0;
 
 static ImU32 colors[3] = { ImColor(0, 255, 0), ImColor(255, 0, 0), ImColor(0, 0, 255) };
 static uint32_t selection_start = 0, selection_length = 0;
+static char inputTextBuffer[256] = "";
 
 
 void DrawTest(std::vector<float> benchmarkResults)
@@ -31,7 +29,7 @@ void DrawTest(std::vector<float> benchmarkResults)
 	conf.selection.show = true;
 	conf.selection.start = &selection_start;
 	conf.selection.length = &selection_length;
-	conf.frame_size = ImVec2(buf_size, 200);
+	conf.frame_size = ImVec2(512, 200);
 
 	ImGui::Plot("plot1", conf);
 }
@@ -70,7 +68,7 @@ void ImGui::ShowMyWindow(bool* p_open)
 
 	static int resultStep;
 	static std::vector<float> benchmarkResults;
-	static int inputValue = 0;
+
 	const int arraySize = 1 << 26;
 
 	if (!ImGui::Begin("Exercise 1", p_open, window_flags))
@@ -81,12 +79,8 @@ void ImGui::ShowMyWindow(bool* p_open)
 
 	ImGui::PushItemWidth(ImGui::GetFontSize() * -12);
 
-	static char inputTextBuffer[256] = "";
-	sprintf_s(inputTextBuffer, "%d", inputValue);
 	ImGui::InputText("#samples", inputTextBuffer, IM_ARRAYSIZE(inputTextBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
 	
-	ImVec2 buttonSize(20, 20);
-
 	ImGui::SameLine();
 	if (ImGui::Button("+"))
 	{
@@ -109,8 +103,9 @@ void ImGui::ShowMyWindow(bool* p_open)
 	}
 	
 
-	if (ImGui::Button("Run Benchmark"))
+	if (ImGui::Button("Run Benchmark") && strlen(inputTextBuffer) > 0)
 	{
+		inputValue = std::atoi(inputTextBuffer);
 
 		benchmarkResults = RunArrayComputationBenchmark(arraySize, inputValue);
 	}
