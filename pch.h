@@ -33,6 +33,7 @@
 #include "3rdParty/imgui_impl_opengl3.h"
 #include "3rdParty/imgui_impl_sdl2.h"
 #include "3rdParty/imgui_internal.h"
+#include "3rdParty/imgui_plot.h"
 #include <stdio.h>
 #include <SDL.h>
 

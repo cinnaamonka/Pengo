@@ -84,15 +84,6 @@
     <ClInclude Include="..\3rdParty\imgui_internal.h">
       <Filter>Imgui</Filter>
     </ClInclude>
-    <ClInclude Include="..\3rdParty\imstb_rectpack.h">
-      <Filter>Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imstb_textedit.h">
-      <Filter>Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imstb_truetype.h">
-      <Filter>Imgui</Filter>
-    </ClInclude>
     <ClInclude Include="..\3rdParty\imgui_impl_opengl3.h">
       <Filter>Imgui</Filter>
     </ClInclude>
@@ -100,6 +91,9 @@
       <Filter>Imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui_impl_opengl3_loader.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui_plot.h">
       <Filter>Imgui</Filter>
     </ClInclude>
   </ItemGroup>
@@ -180,6 +174,9 @@
       <Filter>Imgui</Filter>
     </ClCompile>
     <ClCompile Include="MyImgui.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui_plot.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
   </ItemGroup>
