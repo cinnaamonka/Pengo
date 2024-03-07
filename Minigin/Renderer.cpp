@@ -44,6 +44,7 @@ void GameEngine::Renderer::Render() const
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 	ImGui::ShowMyWindow();
+	ImGui::ShowSecondWindow();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
