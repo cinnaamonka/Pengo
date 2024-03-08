@@ -228,7 +228,7 @@ void ImGui::ShowSecondWindow(bool* p_open)
 	static std::vector<float> benchmarkResults;
 	static std::vector<float> benchmarkResults2;
 
-	const int arraySize = 1 << 26;
+	const int arraySize = 1 << 23;
 
 	ImGui::PushItemWidth(ImGui::GetFontSize() * -12);
 
