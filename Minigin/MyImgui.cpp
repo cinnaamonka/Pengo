@@ -340,6 +340,7 @@ void ImGui::ShowSecondWindow(bool* p_open)
 	// combined 
 	if (benchmarkResults2.size() > 0 && benchmarkResults.size() > 0)
 	{
+		ImGui::Text("Combined:");
 		const float* data[] = { benchmarkResults.data() ,benchmarkResults2.data() };
 
 		DrawPlot(data, static_cast<int>(benchmarkResults.size()),2);
