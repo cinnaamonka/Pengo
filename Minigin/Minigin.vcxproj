@@ -197,6 +197,7 @@
     <ClInclude Include="FPS.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="General.h" />
+    <ClInclude Include="ImGuiFunctions.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="RenderComponent.h" />
