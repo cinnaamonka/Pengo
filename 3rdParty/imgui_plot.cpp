@@ -174,6 +174,7 @@ namespace ImGui
                     if (colors[i]) col_base = colors[i];
                     else col_base = GetColorU32(ImGuiCol_PlotLines);
                 }
+               
                 float v0 = ys_list[i][conf.values.offset];
                 float t0 = 0.0f;
                 // Point in the normalized space of our target rectangle
