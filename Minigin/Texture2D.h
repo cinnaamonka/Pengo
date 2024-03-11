@@ -1,5 +1,8 @@
 #pragma once
 
+#include <glm/vec2.hpp>
+#include <glm/glm.hpp>
+
 struct SDL_Texture;
 namespace GameEngine
 {

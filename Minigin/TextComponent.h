@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseComponent.h"
 
+#include <string>
+
 namespace GameEngine
 {
 	class Font;

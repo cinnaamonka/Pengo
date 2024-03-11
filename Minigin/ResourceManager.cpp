@@ -1,8 +1,11 @@
-#include "../pch.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
 #include "Texture2D.h"
 #include "Font.h"
+
+#include <SDL_image.h>
+#include <stdexcept>
+
 
 void GameEngine::ResourceManager::Init(const std::string& dataPath)
 {

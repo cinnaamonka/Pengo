@@ -1,6 +1,10 @@
-#include "../pch.h"
+#define WIN32_LEAN_AND_MEAN 
+#include <windows.h>
+#include <SDL.h>
+#include <../imgui-1.89.5/backends/imgui_impl_sdl2.h>
+
 #include "InputManager.h"
-#include "../backends/imgui_impl_sdl.h"
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include <xinput.h>
 
 bool GameEngine::InputManager::ProcessInput()

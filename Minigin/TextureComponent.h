@@ -2,6 +2,8 @@
 
 #include "BaseComponent.h"
 
+#include <string>
+
 namespace GameEngine
 {
 	class Texture2D;

@@ -1,5 +1,12 @@
 #pragma once
 
+#include <string>
+#include <memory>
+#include <vector>
+#include <SDL_ttf.h>
+
+#include "Singleton.h"
+
 namespace GameEngine
 {
 	class Texture2D;

@@ -2,6 +2,11 @@
 
 #include "BaseComponent.h" 
 
+#include <memory>
+
+#include <glm/vec2.hpp>
+#include <glm/glm.hpp>
+
 namespace GameEngine
 {
 	class TextureComponent;

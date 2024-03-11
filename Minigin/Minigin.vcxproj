@@ -102,7 +102,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)\3rdParty\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>../pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -123,7 +123,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)\3rdParty\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>../pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -146,7 +146,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)\3rdParty\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>../pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -171,7 +171,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)\3rdParty\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>../pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -185,13 +185,15 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\3rdParty\imconfig.h" />
-    <ClInclude Include="..\3rdParty\imgui.h" />
-    <ClInclude Include="..\3rdParty\imgui_impl_opengl3.h" />
-    <ClInclude Include="..\3rdParty\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="..\3rdParty\imgui_impl_sdl2.h" />
-    <ClInclude Include="..\3rdParty\imgui_internal.h" />
-    <ClInclude Include="..\3rdParty\imgui_plot.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.5\backends\imgui_impl_opengl3.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.5\backends\imgui_impl_sdl2.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.5\imconfig.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.5\imgui.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.5\imgui_internal.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.5\imgui_plot.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.5\imstb_rectpack.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.5\imstb_textedit.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.5\imstb_truetype.h" />
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPS.h" />
@@ -215,14 +217,14 @@
     <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\3rdParty\imgui.cpp" />
-    <ClCompile Include="..\3rdParty\imgui_demo.cpp" />
-    <ClCompile Include="..\3rdParty\imgui_draw.cpp" />
-    <ClCompile Include="..\3rdParty\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="..\3rdParty\imgui_impl_sdl2.cpp" />
-    <ClCompile Include="..\3rdParty\imgui_plot.cpp" />
-    <ClCompile Include="..\3rdParty\imgui_tables.cpp" />
-    <ClCompile Include="..\3rdParty\imgui_widgets.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.5\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.5\backends\imgui_impl_sdl2.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.5\imgui.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.5\imgui_demo.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.5\imgui_draw.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.5\imgui_plot.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.5\imgui_tables.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.5\imgui_widgets.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPS.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -230,12 +232,6 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />

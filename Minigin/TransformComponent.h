@@ -2,6 +2,9 @@
 
 #include "BaseComponent.h"
 
+#include <glm/vec2.hpp>
+#include <glm/glm.hpp>
+
 namespace GameEngine
 {
 	class TransformComponent : public BaseComponent

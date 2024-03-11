@@ -1,5 +1,3 @@
-#include "../pch.h"
-
 #include "SceneManager.h"
 #include "Scene.h"
 #include "GameObject.h"

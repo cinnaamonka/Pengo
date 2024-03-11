@@ -1,5 +1,5 @@
-#include "../pch.h"
 #include "Texture2D.h"
+#include <SDL.h>
 
 GameEngine::Texture2D::~Texture2D()
 {

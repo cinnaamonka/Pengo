@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+#include <memory>
+#include <vector>
+
 namespace GameEngine
 {
 	class GameObject;

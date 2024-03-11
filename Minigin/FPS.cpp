@@ -1,4 +1,3 @@
-#include "../pch.h"
 #include "FPS.h"
 #include "Time.h"
 #include "TextComponent.h"

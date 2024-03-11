@@ -1,5 +1,14 @@
 #pragma once
-#include "../pch.h"
+#include <../imgui-1.89.5/imgui.h>
+#include "../imgui-1.89.5/backends/imgui_impl_opengl3.h"
+
+#include <string>
+#include <vector>
+#include <chrono>
+
+#include "../imgui-1.89.5/backends/imgui_impl_sdl2.h"
+#include "../imgui-1.89.5/imgui_internal.h"
+#include "../imgui-1.89.5/imgui_plot.h"
 
 static ImU32 colors[3] = { ImColor(0, 255, 0), ImColor(255, 0, 0), ImColor(0, 0, 255) };
 static uint32_t selection_start = 0, selection_length = 0;

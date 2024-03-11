@@ -1,7 +1,8 @@
-#include "../pch.h"
 #include "ImGuiComponent.h"
 #include "BaseComponent.h"
 #include "ImGuiFunctions.h"
+
+#include <functional>
 
 int framesCountFirstExercise = 0;
 int framesCountSecondExercise = 0;

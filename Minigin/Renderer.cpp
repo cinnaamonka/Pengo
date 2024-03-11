@@ -1,7 +1,16 @@
-#include "../pch.h"
 #include "Renderer.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
+
+#define IMGUI_DEFINE_MATH_OPERATORS
+#include <../imgui-1.89.5/imgui.h>
+#include <../imgui-1.89.5/backends/imgui_impl_sdl2.h>
+#include <../imgui-1.89.5/backends/imgui_impl_opengl3.h>
+#include <../imgui-1.89.5/imgui_plot.h>
+
+#include <stdexcept>
+
+#pragma warning( disable : 4244 )
 
 int GetOpenGLDriverIndex()
 {

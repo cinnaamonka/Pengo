@@ -1,5 +1,10 @@
 #pragma once
 
+#define WIN32_LEAN_AND_MEAN 
+#include <SDL.h>
+
+#include "Singleton.h"
+
 namespace GameEngine
 {
 	class Texture2D;

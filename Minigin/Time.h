@@ -1,4 +1,6 @@
 #pragma once
+#include <chrono>
+#include "Singleton.h"
 
 using namespace std::chrono;
 

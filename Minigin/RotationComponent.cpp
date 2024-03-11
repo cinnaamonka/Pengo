@@ -1,4 +1,3 @@
-#include "../pch.h"
 #include "RotationComponent.h"
 #include "TransformComponent.h"
 #include "Time.h"
