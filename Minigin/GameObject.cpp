@@ -5,7 +5,7 @@
 GameEngine::GameObject::GameObject() :
 	m_IsDestroyed(false),
 	m_pParent(nullptr),
-	m_pChildren{}, 
+	m_pChildren{},
 	m_pComponents{}
 {
 
@@ -16,7 +16,7 @@ GameEngine::GameObject::~GameObject()
 	if (m_pParent)
 	{
 		m_pParent = nullptr;
-	}	
+	}
 
 	m_pChildren.clear();
 }
@@ -72,11 +72,11 @@ bool GameEngine::GameObject::IsDescendant(GameObject* potential_parent)
 	{
 		return true;
 	}
-	else if (m_pParent == nullptr) 
+	else if (m_pParent == nullptr)
 	{
 		return false;
 	}
-	else 
+	else
 	{
 		return m_pParent->IsDescendant(potential_parent);
 	}
@@ -104,10 +104,7 @@ void GameEngine::GameObject::Render() const
 {
 	for (const auto& component : m_pComponents)
 	{
-		if (auto* renderableComponent = dynamic_cast<BaseComponent*>(component.get()))
-		{
-			renderableComponent->Render();
-		}
+		component->Render();
 	}
 }
 

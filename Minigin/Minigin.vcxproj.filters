@@ -99,6 +99,9 @@
     <ClInclude Include="ImGuiFunctions.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="ImGuiComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -179,8 +182,8 @@
     <ClCompile Include="..\3rdParty\imgui_plot.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
-    <ClCompile Include="MyImgui.cpp">
-      <Filter>Engine</Filter>
+    <ClCompile Include="ImGuiComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

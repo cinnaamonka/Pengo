@@ -1,4 +1,6 @@
 #include "../pch.h"
+#include "ImGuiComponent.h"
+#include "BaseComponent.h"
 #include "ImGuiFunctions.h"
 
 int framesCountFirstExercise = 0;
@@ -34,7 +36,7 @@ public:
 
 	Transform transform;
 };
-class GameObject3DAlt:public BasicGameObject
+class GameObject3DAlt :public BasicGameObject
 {
 public:
 	Transform* transform;
@@ -55,9 +57,21 @@ static char inputTextBuffer[256] = "";
 static char inputSecondTextBuffer[256] = "";
 
 
-void ImGui::ShowMyWindow(bool* p_open)
+GameEngine::ImGuiComponent::ImGuiComponent(GameObject* gameObject) :BaseComponent(gameObject)
 {
-	DrawBasicWindow(p_open, "Exercise 1");
+
+}
+
+void GameEngine::ImGuiComponent::Render() const
+{
+	RenderExercise1();
+
+	RenderExercise2();
+}
+
+void GameEngine::ImGuiComponent::RenderExercise1()const
+{
+	DrawBasicWindow("Exercise 1");
 
 	static int resultStep;
 	static std::vector<float> benchmarkResults;
@@ -126,14 +140,16 @@ void ImGui::ShowMyWindow(bool* p_open)
 	if (benchmarkResults.size() > 0)
 	{
 		const float* data[] = { benchmarkResults.data() };
-		DrawPlot(data,static_cast<int>(benchmarkResults.size()));
+		DrawPlot(data, static_cast<int>(benchmarkResults.size()));
 	}
 	ImGui::PopItemWidth();
 	ImGui::End();
 }
-void ImGui::ShowSecondWindow(bool* p_open)
+
+void GameEngine::ImGuiComponent::RenderExercise2()const
 {
-	DrawBasicWindow(p_open, "Exercise 2");
+
+	DrawBasicWindow("Exercise 2");
 
 	static int resultStep;
 	static std::vector<float> benchmarkResults;
@@ -241,7 +257,7 @@ void ImGui::ShowSecondWindow(bool* p_open)
 
 	if (benchmarkResults2.size() > 0)
 	{
-		const float* data[] = {benchmarkResults2.data() };
+		const float* data[] = { benchmarkResults2.data() };
 		DrawPlot(data, static_cast<int>(benchmarkResults2.size()));
 	}
 
@@ -251,9 +267,12 @@ void ImGui::ShowSecondWindow(bool* p_open)
 		ImGui::Text("Combined:");
 		const float* data[] = { benchmarkResults.data() ,benchmarkResults2.data() };
 
-		DrawPlot(data, static_cast<int>(benchmarkResults.size()),2);
+		DrawPlot(data, static_cast<int>(benchmarkResults.size()), 2);
 	}
 	ImGui::PopItemWidth();
 	ImGui::End();
 }
+
+
+
 
