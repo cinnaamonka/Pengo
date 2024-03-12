@@ -100,10 +100,12 @@ namespace GameEngine
 
 					for (int i = 0; i < arrSize; i += stepsize)
 					{
-						if constexpr (std::is_same<T, int>::value) {
+						if constexpr (std::is_same<T, int>::value) 
+						{
 							arr[i] *= 2;
 						}
-						else if constexpr (std::is_same<T, GameObject3D>::value || std::is_same<T, GameObject3DAlt>::value) {
+						else if constexpr (std::is_same<T, GameObject3D>::value || std::is_same<T, GameObject3DAlt>::value) 
+						{
 							arr[i].ID *= 2;
 						}
 
@@ -111,16 +113,20 @@ namespace GameEngine
 					auto end_time = std::chrono::high_resolution_clock::now();
 
 					const auto total = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
-					timesRecorded[++index].insert(static_cast<long>(total)); 
+					timesRecorded[++index].insert(static_cast<long>(total));
 				}
 
 			}
+
 			delete[] arr;
 			averageTimes.clear();
-			for (auto& timesVec : timesRecorded)
+
+			for (auto& durations : timesRecorded)
 			{
-				float timeAverageVal = std::accumulate(++timesVec.begin(), --timesVec.end(), 0.f);
-				averageTimes.push_back(timeAverageVal / (numberOfSamples - 2) / 100.f);
+				auto minmax = std::minmax_element(durations.begin(), durations.end());
+				auto timeAverage = std::accumulate(durations.begin(), durations.end(), 0LL) - (*minmax.first) - (*minmax.second);
+				auto averageDuration = static_cast<float>(timeAverage) / (durations.size() - 2);
+				averageTimes.push_back(averageDuration / 100.f);
 			}
 		}
 
@@ -130,7 +136,7 @@ namespace GameEngine
 			static constexpr size_t buf_size = 11;
 			static float x_data[buf_size] = { 1,2,4,8,16,32,64,128,256,512,1024 };
 
-			CalculateTimeAvg<T>(numberOfSamples, chartUpdateInfo->averageTime);
+			CalculateTimeAverage<T>(numberOfSamples, chartUpdateInfo->averageTime);
 			chartUpdateInfo->plotConfig->values.xs = x_data;
 			chartUpdateInfo->plotConfig->values.ys = chartUpdateInfo->averageTime.data();
 			chartUpdateInfo->plotConfig->values.count = buf_size;
@@ -157,7 +163,7 @@ namespace GameEngine
 				if (ImGui::Button(plotUpdateInfo->buttonText.c_str()))
 				{
 					plotUpdateInfo->chartStage = ChartStage::hideButton;
-				}	
+				}
 
 				break;
 			case ChartStage::hideButton:
@@ -167,7 +173,7 @@ namespace GameEngine
 				break;
 			case ChartStage::showText:
 
-				ImGui::Text("Wait for it..");
+				ImGui::Text("Wait, i am calculating..");
 
 				plotUpdateInfo->chartStage = ChartStage::updateChart;
 
@@ -175,9 +181,9 @@ namespace GameEngine
 
 			case ChartStage::updateChart:
 
-				UpdatePlot<T>(plotUpdateInfo, nrOfSamples); 
+				UpdatePlot<T>(plotUpdateInfo, nrOfSamples);
 
-				plotUpdateInfo->chartStage = ChartStage::notUpdated; 
+				plotUpdateInfo->chartStage = ChartStage::notUpdated;
 
 				break;
 			}

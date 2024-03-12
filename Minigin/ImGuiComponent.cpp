@@ -37,7 +37,7 @@ void GameEngine::ImGuiComponent::RenderExercise2()
 {
 	ImGui::Begin("Exercise 2", nullptr, ImGuiWindowFlags_None);
 
-	static int numberOfSamples{ 100 };
+	static int numberOfSamples = 0;
 	ImGui::InputInt("# samples:", &numberOfSamples);
 
 	ManagePlotUpdateStages<GameObject3D>(m_GameObjectChartUpdateInfoPtr.get(), numberOfSamples);
