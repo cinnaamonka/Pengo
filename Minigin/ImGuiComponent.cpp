@@ -1,277 +1,73 @@
 #include "ImGuiComponent.h"
 #include "BaseComponent.h"
-#include "ImGuiFunctions.h"
 
 #include <functional>
 
-int framesCountFirstExercise = 0;
-int framesCountSecondExercise = 0;
-int framesCountThirdExercise = 0;
-
-bool calculateBenchmarkFirstExercise = false;
-bool calculateBenchmarkSecondExercise = false;
-bool calculateBenchmarkThirdExercise = false;
-bool shouldWaitFirstExercise = false;
-bool shouldWaitSecondExercise = false;
-bool shouldWaitThirdExercise = false;
-
-struct Transform
-{
-	float matrix[16] =
-	{
-		1,0,0,0,
-		0,1,0,0,
-		0,0,1,0,
-		0,0,0,1
-	};
-};
-class BasicGameObject
-{
-public:
-
-	int ID;
-};
-class GameObject3D : public BasicGameObject
-{
-public:
-
-	Transform transform;
-};
-class GameObject3DAlt :public BasicGameObject
-{
-public:
-	Transform* transform;
-};
-struct MultiplyID
-{
-	void operator()(BasicGameObject& element) const
-	{
-		element.ID *= 2;
-	}
-};
-
-static int inputValueFirstInput = 0;
-static int inputValueSecondField = 0;
-
-
-static char inputTextBuffer[256] = "";
-static char inputSecondTextBuffer[256] = "";
-
-
 GameEngine::ImGuiComponent::ImGuiComponent(GameObject* gameObject) :BaseComponent(gameObject)
 {
+	m_ChartUpdateInfoPtr->buttonText = "Trash the cache";
+	m_ChartUpdateInfoPtr->color = ImColor(0, 255, 0);
 
+	m_GameObjectChartUpdateInfoPtr->buttonText = "Trash the cache with GameObject3D";
+	m_GameObjectChartUpdateInfoPtr->color = ImColor(0, 0, 255);
+
+	m_AltGameObjectChartUpdateInfoPtr->buttonText = "Trash the cache with GameObject3DAlt";
+	m_AltGameObjectChartUpdateInfoPtr->color = ImColor(255, 0, 0);
 }
 
-void GameEngine::ImGuiComponent::Render() const
+void GameEngine::ImGuiComponent::Render()
 {
 	RenderExercise1();
 
 	RenderExercise2();
 }
 
-void GameEngine::ImGuiComponent::RenderExercise1()const
+void GameEngine::ImGuiComponent::RenderExercise1()
 {
-	DrawBasicWindow("Exercise 1");
+	ImGui::Begin("Exercise 1", nullptr, ImGuiWindowFlags_None);
+	static int samplesNumber = 0;
+	ImGui::InputInt("# samples:", &samplesNumber);
 
-	static int resultStep;
-	static std::vector<float> benchmarkResults;
-
-	ImGui::PushItemWidth(ImGui::GetFontSize() * -12);
-
-	ImGui::InputText("#samples", inputTextBuffer, IM_ARRAYSIZE(inputTextBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
-
-	ImGui::SameLine();
-	if (ImGui::Button("+"))
-	{
-		inputValueFirstInput++;
-		sprintf_s(inputTextBuffer, "%d", inputValueFirstInput);
-	}
-
-	ImGui::SameLine();
-	if (ImGui::Button("-"))
-	{
-		inputValueFirstInput--;
-		sprintf_s(inputTextBuffer, "%d", inputValueFirstInput);
-	}
-
-	ImGui::NewLine();
-
-	if (shouldWaitFirstExercise)
-	{
-		ImGui::Text("Wait a second, i am calculating...");
-		calculateBenchmarkFirstExercise = true;
-		framesCountFirstExercise++;
-	}
-
-	if (framesCountFirstExercise == 2)
-	{
-		if (calculateBenchmarkFirstExercise)
-		{
-			inputValueFirstInput = std::atoi(inputTextBuffer);
-			sprintf_s(inputTextBuffer, "%d", inputValueFirstInput);
-
-			const int arraySize = 1 << 26;
-			int* arr = new int[arraySize];
-			auto intOperation = [](int& element) { element *= 2; };
-
-			benchmarkResults = RunComputationBenchmark(arraySize, inputValueFirstInput, arr, intOperation);
-
-			calculateBenchmarkFirstExercise = false;
-		}
-
-		framesCountFirstExercise = 0;
-		shouldWaitFirstExercise = false;
-	}
-
-	if (!shouldWaitFirstExercise)
-	{
-		if (ImGui::Button("Run Benchmark") && strlen(inputTextBuffer) > 0)
-		{
-			shouldWaitFirstExercise = true;
-		}
-	}
-
-	if (strlen(inputTextBuffer) > 0)
-	{
-		inputValueFirstInput = std::atoi(inputTextBuffer);
-		sprintf_s(inputTextBuffer, "%d", inputValueFirstInput);
-	}
-
-	if (benchmarkResults.size() > 0)
-	{
-		const float* data[] = { benchmarkResults.data() };
-		DrawPlot(data, static_cast<int>(benchmarkResults.size()));
-	}
-	ImGui::PopItemWidth();
+	ManagePlotUpdateStages<int>(m_ChartUpdateInfoPtr.get(), samplesNumber);
+	ImGui::Plot("Plot", *m_ChartUpdateInfoPtr->plotConfig);
 	ImGui::End();
 }
 
-void GameEngine::ImGuiComponent::RenderExercise2()const
+void GameEngine::ImGuiComponent::RenderExercise2()
 {
+	ImGui::Begin("Exercise 2", nullptr, ImGuiWindowFlags_None);
 
-	DrawBasicWindow("Exercise 2");
+	static int numberOfSamples{ 100 };
+	ImGui::InputInt("# samples:", &numberOfSamples);
 
-	static int resultStep;
-	static std::vector<float> benchmarkResults;
-	static std::vector<float> benchmarkResults2;
-	std::function<void(BasicGameObject&)> multiplyFunction = MultiplyID();
+	ManagePlotUpdateStages<GameObject3D>(m_GameObjectChartUpdateInfoPtr.get(), numberOfSamples);
+	ImGui::Plot("GameObj plot", *m_GameObjectChartUpdateInfoPtr->plotConfig);
 
-	const int arraySize = 1 << 23;
+	ManagePlotUpdateStages<GameObject3DAlt>(m_AltGameObjectChartUpdateInfoPtr.get(), numberOfSamples);
+	ImGui::Plot("AltGameObj plot", *m_AltGameObjectChartUpdateInfoPtr->plotConfig);
 
-	ImGui::PushItemWidth(ImGui::GetFontSize() * -12);
-
-	ImGui::InputText("#samples", inputSecondTextBuffer, IM_ARRAYSIZE(inputSecondTextBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
-
-	ImGui::SameLine();
-	if (ImGui::Button("+"))
+	if (!m_AltGameObjectChartUpdateInfoPtr->averageTime.empty() && !m_GameObjectChartUpdateInfoPtr->averageTime.empty())
 	{
-		inputValueSecondField++;
-		sprintf_s(inputSecondTextBuffer, "%d", inputValueSecondField);
+		RenderCombinedConf();
+		ImGui::Plot("Combined plot", *m_CombinedChartPtr);
 	}
 
-	ImGui::SameLine();
-	if (ImGui::Button("-"))
-	{
-		inputValueSecondField--;
-		sprintf_s(inputSecondTextBuffer, "%d", inputValueSecondField);
-	}
-
-	ImGui::NewLine();
-
-	if (shouldWaitSecondExercise)
-	{
-		ImGui::Text("Wait a second, i am calculating...");
-		calculateBenchmarkSecondExercise = true;
-		framesCountSecondExercise++;
-	}
-	if (shouldWaitThirdExercise)
-	{
-		ImGui::Text("Wait a second, i am calculating...");
-		calculateBenchmarkThirdExercise = true;
-		framesCountThirdExercise++;
-	}
-
-
-	if (framesCountSecondExercise == 2)
-	{
-		if (calculateBenchmarkSecondExercise)
-		{
-
-			inputValueSecondField = std::atoi(inputSecondTextBuffer);
-			sprintf_s(inputSecondTextBuffer, "%d", inputValueSecondField);
-
-			GameObject3D* arr = new GameObject3D[arraySize];
-
-			benchmarkResults = RunComputationBenchmark(arraySize, inputValueSecondField, arr, multiplyFunction);
-
-			calculateBenchmarkSecondExercise = false;
-		}
-
-		framesCountSecondExercise = 0;
-		shouldWaitSecondExercise = false;
-	}
-	if (framesCountThirdExercise == 2)
-	{
-		if (calculateBenchmarkThirdExercise)
-		{
-			inputValueSecondField = std::atoi(inputSecondTextBuffer);
-			sprintf_s(inputSecondTextBuffer, "%d", inputValueSecondField);
-
-			GameObject3DAlt* arr = new GameObject3DAlt[arraySize];
-
-			benchmarkResults2 = RunComputationBenchmark(arraySize, inputValueSecondField, arr, multiplyFunction);
-
-			calculateBenchmarkThirdExercise = false;
-		}
-
-		framesCountThirdExercise = 0;
-		shouldWaitThirdExercise = false;
-	}
-
-	if (!shouldWaitSecondExercise)
-	{
-		if (ImGui::Button("Trash the cache with GameObject3D") && strlen(inputSecondTextBuffer) > 0)
-		{
-			shouldWaitSecondExercise = true;
-		}
-	}
-
-	if (strlen(inputSecondTextBuffer) > 0)
-	{
-		inputValueSecondField = std::atoi(inputSecondTextBuffer);
-		sprintf_s(inputSecondTextBuffer, "%d", inputValueSecondField);
-	}
-
-	if (benchmarkResults.size() > 0)
-	{
-		const float* data[] = { benchmarkResults.data() };
-		DrawPlot(data, static_cast<int>(benchmarkResults.size()));
-	}
-	if (!shouldWaitThirdExercise)
-	{
-		if (ImGui::Button("Trash the cache with GameObject3DAlt") && strlen(inputSecondTextBuffer) > 0)
-		{
-			shouldWaitThirdExercise = true;
-		}
-	}
-
-	if (benchmarkResults2.size() > 0)
-	{
-		const float* data[] = { benchmarkResults2.data() };
-		DrawPlot(data, static_cast<int>(benchmarkResults2.size()));
-	}
-
-	// combined 
-	if (benchmarkResults2.size() > 0 && benchmarkResults.size() > 0)
-	{
-		ImGui::Text("Combined:");
-		const float* data[] = { benchmarkResults.data() ,benchmarkResults2.data() };
-
-		DrawPlot(data, static_cast<int>(benchmarkResults.size()), 2);
-	}
-	ImGui::PopItemWidth();
 	ImGui::End();
+}
+void GameEngine::ImGuiComponent::RenderCombinedConf()
+{
+	ImGui::Text("Combined:");
+
+	static const float* y_data[] = { m_AltGameObjectChartUpdateInfoPtr->averageTime.data(), m_GameObjectChartUpdateInfoPtr->averageTime.data() };
+
+	*m_CombinedChartPtr = *m_GameObjectChartUpdateInfoPtr->plotConfig;
+	m_CombinedChartPtr->values.color = 0;
+	m_CombinedChartPtr->values.colors = colors;
+	m_CombinedChartPtr->values.ys = nullptr;
+	m_CombinedChartPtr->values.ys_list = y_data;
+	m_CombinedChartPtr->values.ys_count = 2;
+	m_CombinedChartPtr->scale.max = std::max(*std::max_element(m_GameObjectChartUpdateInfoPtr->averageTime.begin(), m_GameObjectChartUpdateInfoPtr->averageTime.end()),
+		*std::max_element(m_AltGameObjectChartUpdateInfoPtr->averageTime.begin(), m_AltGameObjectChartUpdateInfoPtr->averageTime.end())) + 1;
 }
 
 

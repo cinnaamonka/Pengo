@@ -75,9 +75,6 @@
     <ClInclude Include="RotationComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiFunctions.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="ImGuiComponent.h">
       <Filter>Components</Filter>
     </ClInclude>

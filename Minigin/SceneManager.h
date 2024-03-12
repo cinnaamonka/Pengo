@@ -21,6 +21,7 @@ namespace GameEngine
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
+		// one scene needed 
 		std::vector<std::shared_ptr<Scene>> m_Scenes;
 	};
 }

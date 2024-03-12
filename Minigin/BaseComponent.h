@@ -8,7 +8,7 @@ namespace GameEngine
 	public:
 		virtual void Update() {};
 
-		virtual void Render() const {};
+		virtual void Render(){};
 		virtual ~BaseComponent() {};
 
 		BaseComponent(const BaseComponent& other) = delete;

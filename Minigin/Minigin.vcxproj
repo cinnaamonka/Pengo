@@ -200,7 +200,6 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="General.h" />
     <ClInclude Include="ImGuiComponent.h" />
-    <ClInclude Include="ImGuiFunctions.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="RenderComponent.h" />

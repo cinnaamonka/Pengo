@@ -18,7 +18,7 @@ namespace GameEngine
 	public:
 		RenderComponent(GameObject* GOptr);
 
-		void Render() const override;
+		virtual void Render() override;
 
 		void SetTexture(std::shared_ptr<Texture2D> texture)
 		{
