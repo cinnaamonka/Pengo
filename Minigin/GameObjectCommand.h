@@ -1,25 +1,29 @@
 #pragma once
 #include "BaseCommand.h"
 
-class GameObject;
-
-class GameActorCommand : public BaseCommand
+namespace GameEngine
 {
-public:
-	explicit GameActorCommand(GameObject* pGameObject) :m_pGameObject{ pGameObject } {}
-	virtual ~GameActorCommand() = default;
+	class GameObject;
 
-	GameActorCommand(const GameActorCommand& other) = delete;
-	GameActorCommand& operator=(const GameActorCommand& other) = delete;
-	GameActorCommand(GameActorCommand&& other) noexcept = delete;
-	GameActorCommand& operator=(GameActorCommand&& other) noexcept = delete;
+	class GameActorCommand : public BaseCommand
+	{
+	public:
+		explicit GameActorCommand(GameObject* pGameObject) :m_pGameObject{ pGameObject } {}
+		virtual ~GameActorCommand() = default;
 
-	virtual void Execute() override = 0;
+		GameActorCommand(const GameActorCommand& other) = delete;
+		GameActorCommand& operator=(const GameActorCommand& other) = delete;
+		GameActorCommand(GameActorCommand&& other) noexcept = delete;
+		GameActorCommand& operator=(GameActorCommand&& other) noexcept = delete;
 
-private:
-	GameObject* m_pGameObject;
+		virtual void Execute() override = 0;
 
-protected:
-	GameObject* GetGameObject() const { return m_pGameObject; }
-};
+	private:
+		GameObject* m_pGameObject;
+
+	protected:
+		GameObject* GetGameObject() const { return m_pGameObject; }
+	};
+
+}
 

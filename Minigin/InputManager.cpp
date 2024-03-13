@@ -5,6 +5,7 @@
 
 #include "InputManager.h"
 #include "Controller.h"
+#include "MoveCommand.h"
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <xinput.h>
 
