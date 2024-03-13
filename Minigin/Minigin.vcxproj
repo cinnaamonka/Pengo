@@ -196,12 +196,11 @@
     <ClInclude Include="..\3rdParty\imgui-1.89.5\imstb_truetype.h" />
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="BaseCommand.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPS.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectCommand.h" />
-    <ClInclude Include="Gamepad.h" />
-    <ClInclude Include="General.h" />
     <ClInclude Include="ImGuiComponent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Engine.h" />
@@ -227,10 +226,10 @@
     <ClCompile Include="..\3rdParty\imgui-1.89.5\imgui_plot.cpp" />
     <ClCompile Include="..\3rdParty\imgui-1.89.5\imgui_tables.cpp" />
     <ClCompile Include="..\3rdParty\imgui-1.89.5\imgui_widgets.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPS.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="ImGuiComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Main.cpp" />
