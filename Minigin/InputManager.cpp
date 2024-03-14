@@ -1,4 +1,4 @@
-#define WIN32_LEAN_AND_MEAN 
+
 #include <windows.h>
 #include <SDL.h>
 #include <../imgui-1.89.5/backends/imgui_impl_sdl2.h>
@@ -7,7 +7,9 @@
 #include "Controller.h"
 #include "MoveCommand.h"
 #define IMGUI_DEFINE_MATH_OPERATORS
+#define WIN32_LEAN_AND_MEAN 
 #include <xinput.h>
+
 
 bool GameEngine::InputManager::ProcessInput()
 {
@@ -29,12 +31,17 @@ bool GameEngine::InputManager::ProcessInput()
 
         ImGui_ImplSDL2_ProcessEvent(&e);
     }
- 
+
     m_ControllerPtr->Update();
 
     HandleControllerInput();
 
     return true;
+}
+
+void GameEngine::InputManager::AddCommand(InputControllerBinding controllerBinding, std::unique_ptr<BaseCommand> baseCommand)
+{
+    m_ControllerCommands.push_back(std::pair<InputControllerBinding, std::unique_ptr<BaseCommand>>{ controllerBinding, std::move(baseCommand) });
 }
 
 void GameEngine::InputManager::HandleControllerInput()
@@ -49,6 +56,8 @@ void GameEngine::InputManager::HandleControllerInput()
             {
                 controllerInput.second->Execute();
             }
+
+            break;
         }
         case InputState::Pressed: 
         {
@@ -56,6 +65,8 @@ void GameEngine::InputManager::HandleControllerInput()
             {
                 controllerInput.second->Execute();
             }
+
+            break;
         }
         case InputState::Released: 
         {
@@ -63,6 +74,7 @@ void GameEngine::InputManager::HandleControllerInput()
             {
                 controllerInput.second->Execute();
             }
+            break;
         }
         }
     }

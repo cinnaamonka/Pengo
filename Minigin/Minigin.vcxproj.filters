@@ -27,9 +27,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="General.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="FPS.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -111,7 +108,10 @@
     <ClInclude Include="GameObjectCommand.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Gamepad.h">
+    <ClInclude Include="MoveCommand.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
       <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -194,7 +194,10 @@
     <ClCompile Include="..\3rdParty\imgui-1.89.5\backends\imgui_impl_sdl2.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Gamepad.cpp">
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>

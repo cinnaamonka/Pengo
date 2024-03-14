@@ -1,4 +1,8 @@
 #pragma once
+#define WIN32_LEAN_AND_MEAN 
+#include <windows.h>
+#include <SDL.h>
+
 #include <xinput.h>
 #include <vector>
 #include <memory>
@@ -7,9 +11,7 @@
 #include "Controller.h"
 #include "BaseCommand.h"
 
-#define WIN32_LEAN_AND_MEAN 
-#include <windows.h>
-#include <SDL.h>
+
 
 namespace GameEngine
 {
@@ -39,6 +41,14 @@ namespace GameEngine
         InputManager& operator=(InputManager&& other) noexcept = delete;
 
         bool ProcessInput();
+
+        void AddCommand(InputControllerBinding controllerBinding, std::unique_ptr<BaseCommand> baseCommand);
+
+        void SetController(std::unique_ptr<Controller> controller)
+        {
+            m_ControllerPtr = std::move(controller); 
+        }
+
     private:
         void HandleControllerInput();
     private:

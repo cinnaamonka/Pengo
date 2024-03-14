@@ -36,7 +36,7 @@ namespace GameEngine
 				m_ButtonsReleasedThisFrame = 0;
 				return;
 			}
-
+			
 			const unsigned int buttonChanges = currentState.Gamepad.wButtons ^ m_PreviousButtonsThisFrame;
 			m_ButtonsPressedThisFrame = buttonChanges & currentState.Gamepad.wButtons;
 			m_ButtonsReleasedThisFrame = buttonChanges & m_PreviousButtonsThisFrame;
@@ -70,7 +70,10 @@ namespace GameEngine
 
 	void GameEngine::Controller::Update()
 	{
-		m_pImplPtr->UpdateGamepad();
+		if (m_pImplPtr)
+		{
+			m_pImplPtr->UpdateGamepad();
+		}
 	}
 
 	bool GameEngine::Controller::IsPressed(DeviceButton button)
