@@ -16,6 +16,9 @@
     <Filter Include="Imgui">
       <UniqueIdentifier>{3ddf0934-a3d5-4932-abb0-9f5f06b4ebff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Input">
+      <UniqueIdentifier>{529a49d8-65d9-401e-8b5c-afa1e2ef06e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseComponent.h">
@@ -43,9 +46,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Time.h">
@@ -102,17 +102,23 @@
     <ClInclude Include="..\3rdParty\imgui-1.89.5\backends\imgui_impl_sdl2.h">
       <Filter>Imgui</Filter>
     </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>Engine\Input</Filter>
+    </ClInclude>
     <ClInclude Include="BaseCommand.h">
-      <Filter>Engine</Filter>
+      <Filter>Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="GameObjectCommand.h">
-      <Filter>Engine</Filter>
+      <Filter>Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="MoveCommand.h">
-      <Filter>Engine</Filter>
+      <Filter>Engine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Controller.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Engine\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -139,9 +145,6 @@
     </ClCompile>
     <ClCompile Include="RenderComponent.cpp">
       <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Engine</Filter>
@@ -194,11 +197,17 @@
     <ClCompile Include="..\3rdParty\imgui-1.89.5\backends\imgui_impl_sdl2.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
-    <ClCompile Include="MoveCommand.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Controller.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Engine\Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

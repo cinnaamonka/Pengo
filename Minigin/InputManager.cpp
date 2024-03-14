@@ -33,15 +33,29 @@ bool GameEngine::InputManager::ProcessInput()
     }
 
     m_ControllerPtr->Update();
+    m_KeyboardPtr->Update();
 
     HandleControllerInput();
+    HandleKeyboardInput();
+
 
     return true;
 }
 
-void GameEngine::InputManager::AddCommand(InputControllerBinding controllerBinding, std::unique_ptr<BaseCommand> baseCommand)
+void GameEngine::InputManager::AddControllerCommand(InputControllerBinding controllerBinding, std::unique_ptr<BaseCommand> baseCommand)
 {
-    m_ControllerCommands.push_back(std::pair<InputControllerBinding, std::unique_ptr<BaseCommand>>{ controllerBinding, std::move(baseCommand) });
+    if (baseCommand != nullptr)
+    {
+        m_ControllerCommands.push_back(std::pair<InputControllerBinding, std::unique_ptr<BaseCommand>>{ controllerBinding, std::move(baseCommand) });
+    }
+}
+
+void GameEngine::InputManager::AddKeyboardCommand(InputKeyboardBinding keyboardBinding, std::unique_ptr<BaseCommand> baseCommand)
+{
+    if (baseCommand != nullptr)
+    {
+        m_KeyboardCommands.push_back(std::pair<InputKeyboardBinding, std::unique_ptr<BaseCommand>>{ keyboardBinding, std::move(baseCommand) });
+    }
 }
 
 void GameEngine::InputManager::HandleControllerInput()
@@ -73,6 +87,42 @@ void GameEngine::InputManager::HandleControllerInput()
             if (m_ControllerPtr->IsReleased(controllerInput.first.deviceButton))
             {
                 controllerInput.second->Execute();
+            }
+            break;
+        }
+        }
+    }
+}
+
+void GameEngine::InputManager::HandleKeyboardInput()
+{
+    for (const auto& keyboardInput : m_KeyboardCommands)
+    {
+        switch (keyboardInput.first.inputState)
+        {
+        case InputState::Previous:
+        {
+            if (m_KeyboardPtr->IsPrevious(keyboardInput.first.key))
+            {
+                keyboardInput.second->Execute();
+            }
+
+            break;
+        }
+        case InputState::Pressed:
+        {
+            if (m_KeyboardPtr->IsPressed(keyboardInput.first.key))
+            {
+                keyboardInput.second->Execute();
+            }
+
+            break;
+        }
+        case InputState::Released:
+        {
+            if (m_KeyboardPtr->IsReleased(keyboardInput.first.key))
+            {
+                keyboardInput.second->Execute();
             }
             break;
         }

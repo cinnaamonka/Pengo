@@ -1,5 +1,7 @@
 #include "TransformComponent.h"
 
+#include "iostream"
+
 GameEngine::TransformComponent::TransformComponent(GameObject* GOptr) :
 	BaseComponent(GOptr),
 	m_LocalPosition(0.0f, 0.0f, 0.0f),
@@ -24,6 +26,7 @@ void GameEngine::TransformComponent::SetLocalPosition(float x, float y, float z)
 void GameEngine::TransformComponent::SetLocalPosition(const glm::vec3& position)
 {
 	m_LocalPosition = position;
+	
 	SetPositionDirty();
 }
 
@@ -56,6 +59,7 @@ void GameEngine::TransformComponent::Translate(const glm::vec3& translation)
 
 void GameEngine::TransformComponent::UpdateWorldPosition()
 {
+
 	if (GetGameObject()->GetParent() == nullptr)
 	{
 		m_WorldPosition = m_LocalPosition;
