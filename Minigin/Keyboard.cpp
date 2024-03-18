@@ -1,4 +1,5 @@
 #include "Keyboard.h"
+#include "BaseCommand.h"
 
 #include <SDL.h>
 #include <vector>
@@ -62,25 +63,68 @@ namespace GameEngine
 
 	}
 
-
 	void Keyboard::Update()
 	{
 		return m_pImplPtr->Update();
 	}
 
-	bool Keyboard::IsPressed(SDL_Scancode button)
+	bool Keyboard::IsPressed(int button)
 	{
 		return m_pImplPtr->IsPressed(button);
 	}
 
-	bool Keyboard::IsReleased(SDL_Scancode button)
+	bool Keyboard::IsReleased(int button)
 	{
 		return m_pImplPtr->IsReleased(button);
 	}
 
-	bool Keyboard::IsPrevious(SDL_Scancode button)
+	bool Keyboard::IsPrevious(int button)
 	{
 		return m_pImplPtr->IsPrevious(button);
+	}
+
+	void Keyboard::HandleInput()
+	{
+		for (const auto& keyboardInput : m_KeyboardCommands)
+		{
+			switch (keyboardInput.first.inputState)
+			{
+			case InputState::Previous:
+			{
+				if (this->IsPrevious(keyboardInput.first.key))
+				{
+					keyboardInput.second->Execute();
+				}
+
+				break;
+			}
+			case InputState::Pressed:
+			{
+				if (this->IsPressed(keyboardInput.first.key))
+				{
+					keyboardInput.second->Execute();
+				}
+
+				break;
+			}
+			case InputState::Released:
+			{
+				if (this->IsReleased(keyboardInput.first.key))
+				{
+					keyboardInput.second->Execute();
+				}
+				break;
+			}
+			}
+		}
+	}
+
+	void Keyboard::AddCommand(InputKeyboardBinding keyboardBinding, std::unique_ptr<BaseCommand> baseCommand)
+	{
+		if (baseCommand != nullptr)
+		{
+			m_KeyboardCommands.push_back(std::pair<InputKeyboardBinding, std::unique_ptr<BaseCommand>>{ keyboardBinding, std::move(baseCommand) });
+		}
 	}
 
 }

@@ -120,6 +120,9 @@
     <ClInclude Include="Keyboard.h">
       <Filter>Engine\Input</Filter>
     </ClInclude>
+    <ClInclude Include="BaseInputDevice.h">
+      <Filter>Engine\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

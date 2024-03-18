@@ -6,69 +6,91 @@
 #include <xinput.h>
 #include <vector>
 #include <memory>
+#include <iostream>
 
 #include "Singleton.h"
 #include "Controller.h"
 #include "Keyboard.h"
 #include "BaseCommand.h"
+#include "BaseInputDevice.h"
 
 namespace GameEngine
 {
-    enum class InputState : unsigned char
-    {
-        Pressed,
-        Released,
-        Previous
-    };
+	enum class InputDeviceType
+	{
+		Controller,
+		Keyboard
+	};
 
-    class InputControllerBinding
-    {
-    public:
-        Controller::DeviceButton deviceButton;
-        InputState inputState;
-    };
+	class InputManager final : public Singleton<InputManager>
+	{
+	public:
+		virtual ~InputManager() = default;
 
-    struct InputKeyboardBinding
-    {
-        SDL_Scancode key;
-        InputState inputState;
-    };
+		InputManager(const InputManager& other) = delete;
+		InputManager& operator=(const InputManager& other) = delete;
+		InputManager(InputManager&& other) noexcept = delete;
+		InputManager& operator=(InputManager&& other) noexcept = delete;
 
-    class InputManager final : public Singleton<InputManager>
-    {
-    public:
-        InputManager() = default;
-        ~InputManager() = default;
+		template<typename T>
+		void HandleInput()
+		{
+			for (const auto& device : m_DevicesPtr)
+			{
+				if (dynamic_cast<T*>(device.get()) != nullptr)
+				{
+					static_cast<T*>(device.get())->HandleInput();
+				}
+			}
+		}
 
-        InputManager(const InputManager& other) = delete;
-        InputManager& operator=(const InputManager& other) = delete;
-        InputManager(InputManager&& other) noexcept = delete;
-        InputManager& operator=(InputManager&& other) noexcept = delete;
+		template<typename T>
+		void AddDevice(std::unique_ptr<T> device)
+		{
+			m_DevicesPtr.push_back(std::move(device));
+		}
 
-        bool ProcessInput();
+		template<typename T>
+		void RemoveDevice()
+		{
+			m_DevicesPtr.erase(std::remove_if(m_DevicesPtr.begin(), m_DevicesPtr.end(), [](const auto& device)
+				{
+					return dynamic_cast<T*>(device.get()) != nullptr;
+				}), m_DevicesPtr.end());
+		}
 
-        void AddControllerCommand(InputControllerBinding controllerBinding, std::unique_ptr<BaseCommand> baseCommand);
-        void AddKeyboardCommand(InputKeyboardBinding keyboardBinding, std::unique_ptr<BaseCommand> baseCommand);
+		template<typename DeviceType, typename BindingType>
+		void AddCommand(BindingType binding, std::unique_ptr<BaseCommand> command)
+		{
+			auto it = std::find_if(m_DevicesPtr.begin(), m_DevicesPtr.end(), [](const auto& device)
+				{
+					return dynamic_cast<DeviceType*>(device.get()) != nullptr;
+				});
 
-        void SetController(std::unique_ptr<Controller> controller)
-        {
-            m_ControllerPtr = std::move(controller); 
-        }
+			if (it != m_DevicesPtr.end())
+			{
+				auto* devicePtr = dynamic_cast<DeviceType*>(it->get());
+				if (devicePtr)
+				{
+					devicePtr->AddCommand(binding, std::move(command)); 
+				}
+				else
+				{
+					std::cerr << "Error: Device type mismatch!" << std::endl;
+				}
+			}
+			else
+			{
+				std::cerr << "Error: Device not found!" << std::endl;
+			}
+		}
 
-        void SetKeyboard(std::unique_ptr<Keyboard> keyboard)
-        {
-            m_KeyboardPtr = std::move(keyboard);
-        }
+		bool ProcessInput();
+	private:
 
-    private:
-        void HandleControllerInput();
-        void HandleKeyboardInput();
-    private:
-        std::unique_ptr<Controller> m_ControllerPtr;
-        std::vector <std::pair<InputControllerBinding, std::unique_ptr<BaseCommand>>> m_ControllerCommands;
+		InputManager() = default;
+		friend class Singleton<InputManager>;
 
-        std::unique_ptr<Keyboard> m_KeyboardPtr;
-        std::vector <std::pair<InputKeyboardBinding, std::unique_ptr<BaseCommand>>> m_KeyboardCommands;
-    };
-
+		std::vector<std::unique_ptr<BaseInputDevice>> m_DevicesPtr;
+	};
 }

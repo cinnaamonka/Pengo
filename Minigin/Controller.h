@@ -3,10 +3,32 @@
 #include <Xinput.h>
 
 #include <memory>
+#include <vector>
+
+#include "BaseInputDevice.h"
+#include "BaseCommand.h"
 
 namespace GameEngine
 {
-	class Controller final
+	
+	enum class DeviceButton : unsigned int
+	{
+		NONE = 0x0000,
+
+		XINPUT_GAMEPAD_DRAD_UP = 0x0001,
+		XINPUT_GAMEPAD_DRAD_DOWN = 0x0002,
+		XINPUT_GAMEPAD_DRAD_LEFT = 0x0004,
+		XINPUT_GAMEPAD_DRAD_RIGHT = 0x0008
+	};
+
+	class InputControllerBinding
+	{
+	public:
+		DeviceButton deviceButton;
+		InputState inputState;
+	};
+
+	class Controller final : public BaseInputDevice
 	{
 	public:
 
@@ -18,27 +40,24 @@ namespace GameEngine
 		Controller(Controller&& other) noexcept = delete;
 		Controller& operator=(Controller&& other) noexcept = delete;
 
-		enum class DeviceButton : unsigned int
-		{
-			NONE = 0x0000,
+		
 
-			XINPUT_GAMEPAD_DRAD_UP = 0x0001,
-			XINPUT_GAMEPAD_DRAD_DOWN = 0x0002,
-			XINPUT_GAMEPAD_DRAD_LEFT = 0x0004,
-			XINPUT_GAMEPAD_DRAD_RIGHT = 0x0008
-		};
+		void Update() override;
 
-		void Update();
+		bool IsPressed(int button) override;
+		bool IsReleased(int button) override;
+		bool IsPrevious(int button) override;
+		 
+		void HandleInput() override;
 
-		bool IsPressed(DeviceButton button);
-		bool IsReleased(DeviceButton button);
-		bool IsPrevious(DeviceButton button);
+		void AddCommand(InputControllerBinding binding, std::unique_ptr<BaseCommand> command);
 
 	private:
 		// PIMPLE stuff
 		class ControllerImpl;
 		std::unique_ptr<ControllerImpl> m_pImplPtr;
 
+		std::vector<std::pair<InputControllerBinding, std::unique_ptr<BaseCommand>>> m_ControllerCommands;
 	};
 
 }

@@ -1,15 +1,19 @@
 #pragma once
-class BaseCommand
+namespace GameEngine
 {
-public:
-	explicit BaseCommand() = default;
-	virtual ~BaseCommand() = default;
+	class BaseCommand
+	{
+	public:
+		explicit BaseCommand() = default;
+		virtual ~BaseCommand() = default;
 
-	BaseCommand(const BaseCommand& other) = delete;
-	BaseCommand& operator=(const BaseCommand& other) = delete;
-	BaseCommand(BaseCommand&& other) noexcept = delete;
-	BaseCommand& operator=(BaseCommand&& other) noexcept = delete;
+		BaseCommand(const BaseCommand& other) = delete;
+		BaseCommand& operator=(const BaseCommand& other) = delete;
+		BaseCommand(BaseCommand&& other) noexcept = delete;
+		BaseCommand& operator=(BaseCommand&& other) noexcept = delete;
 
-	virtual void Execute() = 0;
-};
+		virtual void Execute() = 0;
+	};
+}
+
 

@@ -15,7 +15,7 @@ namespace GameEngine
 
 	public:
 		ControllerImpl(int m_ControllerIndex)
-			: m_ControllerIndex{ m_ControllerIndex }, 
+			: m_ControllerIndex{ m_ControllerIndex },
 			m_ButtonsPressedThisFrame(0),
 			m_ButtonsReleasedThisFrame(0),
 			m_PreviousButtonsThisFrame(0)
@@ -36,7 +36,7 @@ namespace GameEngine
 				m_ButtonsReleasedThisFrame = 0;
 				return;
 			}
-			
+
 			const unsigned int buttonChanges = currentState.Gamepad.wButtons ^ m_PreviousButtonsThisFrame;
 			m_ButtonsPressedThisFrame = buttonChanges & currentState.Gamepad.wButtons;
 			m_ButtonsReleasedThisFrame = buttonChanges & m_PreviousButtonsThisFrame;
@@ -76,18 +76,57 @@ namespace GameEngine
 		}
 	}
 
-	bool GameEngine::Controller::IsPressed(DeviceButton button)
+	bool GameEngine::Controller::IsPressed(int button)
 	{
 		return m_pImplPtr->IsPressed(static_cast<unsigned int>(button));
 	}
 
-	bool GameEngine::Controller::IsReleased(DeviceButton button)
+	bool GameEngine::Controller::IsReleased(int button)
 	{
 		return m_pImplPtr->IsReleased(static_cast<unsigned int>(button));
 	}
 
-	bool GameEngine::Controller::IsPrevious(DeviceButton button)
+	bool GameEngine::Controller::IsPrevious(int button)
 	{
 		return m_pImplPtr->IsActive(static_cast<unsigned int>(button));
+	}
+	void Controller::HandleInput()
+	{
+		for (const auto& controllerInput : m_ControllerCommands)
+		{
+			switch (controllerInput.first.inputState)
+			{
+			case InputState::Previous:
+			{
+				if (this->IsPrevious(static_cast<int>(controllerInput.first.deviceButton)))
+				{
+					controllerInput.second->Execute();
+				}
+
+				break;
+			}
+			case InputState::Pressed:
+			{
+				if (this->IsPressed(static_cast<int>(controllerInput.first.deviceButton)))
+				{
+					controllerInput.second->Execute();
+				}
+
+				break;
+			}
+			case InputState::Released:
+			{
+				if (this->IsReleased(static_cast<int>(controllerInput.first.deviceButton)))
+				{
+					controllerInput.second->Execute();
+				}
+				break;
+			}
+			}
+		}
+	}
+	void Controller::AddCommand(InputControllerBinding binding, std::unique_ptr<BaseCommand> command)
+	{
+		m_ControllerCommands.push_back(std::pair<InputControllerBinding, std::unique_ptr<BaseCommand>>{ binding, std::move(command) });
 	}
 }

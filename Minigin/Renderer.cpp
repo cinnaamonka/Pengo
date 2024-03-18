@@ -8,8 +8,8 @@
 #include <../imgui-1.89.5/backends/imgui_impl_opengl3.h>
 #include <../imgui-1.89.5/imgui_plot.h>
 
-#include <stdexcept>
 
+#include <stdexcept>
 #pragma warning( disable : 4244 )
 
 int GetOpenGLDriverIndex()

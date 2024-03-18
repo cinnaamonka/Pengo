@@ -8,7 +8,7 @@ namespace GameEngine
 {
     class GameObject;
 
-    class MoveCommand: public GameActorCommand
+    class MoveCommand final: public GameObjectCommand
     {
     public:
         explicit MoveCommand(GameObject* gameObject, glm::vec3 direction, float speed);

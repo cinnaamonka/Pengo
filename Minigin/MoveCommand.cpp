@@ -8,7 +8,7 @@
 namespace GameEngine
 {
 	MoveCommand::MoveCommand(GameObject* gameObject, glm::vec3 direction, float speed)
-		: GameActorCommand(gameObject),
+		: GameObjectCommand(gameObject),
 		  m_Direction(glm::normalize(direction)),
 		  m_Speed(speed)
 	{

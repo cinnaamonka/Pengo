@@ -5,16 +5,16 @@ namespace GameEngine
 {
 	class GameObject;
 
-	class GameActorCommand : public BaseCommand
+	class GameObjectCommand : public BaseCommand
 	{
 	public:
-		explicit GameActorCommand(GameObject* pGameObject) :m_pGameObject{ pGameObject } {}
-		virtual ~GameActorCommand() = default;
+		explicit GameObjectCommand(GameObject* pGameObject) :m_pGameObject{ pGameObject } {}
+		virtual ~GameObjectCommand() = default;
 
-		GameActorCommand(const GameActorCommand& other) = delete;
-		GameActorCommand& operator=(const GameActorCommand& other) = delete;
-		GameActorCommand(GameActorCommand&& other) noexcept = delete;
-		GameActorCommand& operator=(GameActorCommand&& other) noexcept = delete;
+		GameObjectCommand(const GameObjectCommand& other) = delete;
+		GameObjectCommand& operator=(const GameObjectCommand& other) = delete;
+		GameObjectCommand(GameObjectCommand&& other) noexcept = delete;
+		GameObjectCommand& operator=(GameObjectCommand&& other) noexcept = delete;
 
 		virtual void Execute() override = 0;
 
