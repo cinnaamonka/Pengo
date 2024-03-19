@@ -4,10 +4,15 @@
 #include <memory>
 #include <algorithm>
 
+#include "Subject.h"
+#include "Observer.h"
+
 namespace GameEngine
 {
 	class BaseComponent;
-	
+	class Subject;
+	class Observer;
+	enum class Event;
 
 	class GameObject final
 	{
@@ -64,7 +69,19 @@ namespace GameEngine
 
 		void CleanUp();
 		void SetParent(GameObject* newParent, bool keepWorldPosition = true);
-	
+
+		void AddObserver(std::unique_ptr<Observer> observer)
+		{
+			m_Subject.AddObserver(std::move(observer));
+		}
+		void RemoveObserver(std::unique_ptr<Observer> observer)
+		{
+			m_Subject.RemoveObserver(std::move(observer));
+		}
+		void OnNotify(GameEngine::Event event)
+		{
+			m_Subject.OnNotify(this, event);
+		}
 
 		GameObject* GetParent() const
 		{
@@ -93,6 +110,8 @@ namespace GameEngine
 		bool m_IsDestroyed;
 
 		GameObject* m_pParent;
+
+		Subject m_Subject;
 
 		std::vector<GameObject*> m_pChildren;
 

@@ -3,6 +3,9 @@
 
 namespace GameEngine
 {
+	class Observer;
+	enum class Event;
+
 	class BaseComponent
 	{
 	public:
@@ -25,14 +28,17 @@ namespace GameEngine
 		{
 			m_IsDestroyed = isDestroyed;
 		}
-
+			
 	protected:
 		BaseComponent(GameObject* GOptr) :m_GameObject(GOptr), m_IsDestroyed(false){};
 
 		GameObject* GetGameObject() const
 		{
 			return m_GameObject;
+
 		}
+
+	
 	private:
 		GameObject* m_GameObject;
 		bool m_IsDestroyed;
