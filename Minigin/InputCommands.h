@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObjectCommand.h"
+//#include "ScoreComponent.h"
 
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
@@ -25,6 +26,25 @@ namespace GameEngine
         glm::vec3 m_Direction;
         float m_Speed;        
     };
+
+	class ScoreCommand final : public GameObjectCommand
+	{
+	public:
+		explicit ScoreCommand(GameObject* pGameObject, int amount);
+		
+		~ScoreCommand() = default;
+
+		ScoreCommand(const ScoreCommand& other) = delete;
+		ScoreCommand& operator=(const ScoreCommand& other) = delete;
+		ScoreCommand(ScoreCommand&& other) noexcept = delete;
+		ScoreCommand& operator=(ScoreCommand&& other) noexcept = delete;
+
+		void Execute() override;
+	
+	private:
+		int m_Amount;
+
+	};
 
 }
 

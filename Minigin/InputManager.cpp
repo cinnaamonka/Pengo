@@ -5,7 +5,7 @@
 
 #include "InputManager.h"
 #include "Controller.h"
-#include "MoveCommand.h"
+#include "InputCommands.h"
 #define IMGUI_DEFINE_MATH_OPERATORS
 #define WIN32_LEAN_AND_MEAN 
 #include <xinput.h>

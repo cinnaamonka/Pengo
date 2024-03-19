@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseComponent.h"
+#include "Subject.h"
 
 namespace GameEngine
 {
@@ -7,24 +8,27 @@ namespace GameEngine
 	{
 	public:
 
-		ScoreComponent(GameObject* pGameObject); 
+		ScoreComponent(GameObject* pGameObject);
 		~ScoreComponent() = default;
 		ScoreComponent(const ScoreComponent& other) = delete;
 		ScoreComponent& operator=(const ScoreComponent& other) = delete;
 		ScoreComponent(ScoreComponent&& other) = delete;
 
-		void AddPoints(int amount);
+		void AddScore(int amount);
 
-		int GetScore() const { return m_Score; }
+		int GetScore() const
+		{
+			return m_Score;
+		}
 
-		Event<int> ScoreChanged;
-
+		int SetScore(int score)
+		{
+			m_Score = score;
+		}
 
 	private:
-		// Member variables
-		int m_Score{ 0 };
+		int m_Score;
 
 	};
 }
-
 
