@@ -9,14 +9,14 @@ namespace GameEngine
 	{
 		m_NrLives--;
 
-		if (m_NrLives <= 0)
+		/*if (m_NrLives <= 0)
 		{
 			GetGameObject()->OnNotify(GameEngine::Event::PlayerDeath);
 		}
 		else
 		{
 			GetGameObject()->OnNotify(GameEngine::Event::DecreaseLifesAmount);
-		}
+		}*/
 		
 	}
 }

@@ -26,26 +26,26 @@ namespace GameEngine
 
 		void AddObserver(Observer<T>* observer)
 		{
-			m_Observers.push_back(observer); 
+			m_pObservers.push_back(observer);
 		}
 		void AddObserver(const std::function<void(const T&)>& callback)
 		{
-			m_Observers.push_back(observer);
+			m_Functions.push_back(callback);
 		}
 		void RemoveObserver(Observer<T>* observer)
 		{
-			const auto& it = std::find(begin(m_Observers), end(m_Observers), observer); 
-			if (it != end(m_Observers)) m_Observers.erase(it); 
+			const auto& it = std::find(begin(m_pObservers), end(m_pObservers), observer);
+			if (it != end(m_pObservers)) m_pObservers.erase(it);
 		}
 		void RemoveObserver(const std::function<void(const T&)>& callback)
 		{
-			const auto& it = std::find(begin(m_Observers), end(m_Observers), observer);
-			if (it != end(m_Observers)) m_Observers.erase(it);
+			const auto& it = std::find(begin(m_Functions), end(m_Functions), callback);
+			if (it != end(m_Functions)) m_Functions.erase(it);
 		}
 		
 		void OnNotify(const T& data)
 		{
-			for (const auto& observer : m_Observers)
+			for (const auto& observer : m_pObservers)
 			{
 				observer->Notify(data);
 			}

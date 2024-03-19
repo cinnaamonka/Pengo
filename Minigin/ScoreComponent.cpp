@@ -9,7 +9,8 @@ namespace GameEngine
     }
     void ScoreComponent::AddScore(int amount)
     {
-        m_Score += amount;
-        GetGameObject()->OnNotify(GameEngine::Event::ChangeScore);
+        amount = 0;
+      /*  m_Score += amount;
+        GetGameObject()->OnNotify(GameEngine::Event::ChangeScore);*/
     }
 }

@@ -3,7 +3,6 @@
 
 namespace GameEngine
 {
-	class Observer;
 	enum class Event;
 
 	class BaseComponent
