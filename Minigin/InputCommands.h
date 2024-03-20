@@ -1,6 +1,5 @@
 #pragma once
 #include "GameObjectCommand.h"
-//#include "ScoreComponent.h"
 
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
@@ -43,6 +42,25 @@ namespace GameEngine
 	
 	private:
 		int m_Amount;
+
+	};
+
+	class LifesCommand final : public GameObjectCommand
+	{
+	public:
+		explicit LifesCommand(GameObject* pGameObject,int lifesAmount);
+
+		~LifesCommand() = default;
+
+		LifesCommand(const LifesCommand& other) = delete;
+		LifesCommand& operator=(const LifesCommand& other) = delete;
+		LifesCommand(LifesCommand&& other) noexcept = delete;
+		LifesCommand& operator=(LifesCommand&& other) noexcept = delete;
+
+		void Execute() override;
+
+	private:
+		int m_LifesAmount;
 
 	};
 

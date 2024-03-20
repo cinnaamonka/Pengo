@@ -5,6 +5,7 @@
 #include "Time.h"
 #include "TransformComponent.h"
 #include "ScoreComponent.h"
+#include "HealthComponent.h"
 
 
 namespace GameEngine
@@ -25,13 +26,26 @@ namespace GameEngine
 
 	ScoreCommand::ScoreCommand(GameObject* pGameObject, int amount)
 		: GameObjectCommand(pGameObject)
-		, m_Amount{ amount }
+		, m_Amount(amount)
 	{
 	}
 	void GameEngine::ScoreCommand::Execute()
 	{
-		auto pLives = GetGameObject()->GetComponent<GameEngine::ScoreComponent>();
-		if (pLives) pLives->AddScore(m_Amount);
+		auto pScoreComponent = GetGameObject()->GetComponent<GameEngine::ScoreComponent>();
+		if (pScoreComponent) pScoreComponent->AddScore(m_Amount);
 
+	}
+
+	LifesCommand::LifesCommand(GameObject* pGameObject,int lifesAmount)
+		:GameObjectCommand(pGameObject),
+		m_LifesAmount(lifesAmount)
+
+	{
+
+	}
+	void LifesCommand::Execute()
+	{
+		auto pLivesComponent = GetGameObject()->GetComponent<GameEngine::HealthComponent>();
+		if (pLivesComponent) pLivesComponent->Damage(m_LifesAmount);
 	}
 }

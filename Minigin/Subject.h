@@ -10,47 +10,50 @@
 namespace GameEngine
 {
 	template<typename T>
-	class Subject : public ISubject<T> 
+	class Subject : public ISubject<T>
 	{
 	public:
 		Subject() : m_Message(T()) {}
-		virtual ~Subject() {}
+		virtual ~Subject()
+		{
 
-		void Attach(IObserver<T>* observerPtr) override 
+		}
+
+		void Attach(IObserver<T>* observerPtr) override
 		{
 			m_ObserversPtr.push_back(observerPtr);
 		}
 
-		void Detach(IObserver<T>* observerPtr) override 
+		void Detach(IObserver<T>* observerPtr) override
 		{
 			m_ObserversPtr.remove(observerPtr);
 		}
-		void Notify() 
+		void Notify()
 		{
 			typename std::list<IObserver<T>*>::iterator iterator = m_ObserversPtr.begin();
-			HowManyObserver(); 
+			HowManyObserver();
 			while (iterator != m_ObserversPtr.end())
 			{
-				(*iterator)->Notify(m_Message);  
+				(*iterator)->Notify(m_Message);
 				++iterator;
 			}
 		}
 
-		void CreateMessage(const T& message) 
+		void CreateMessage(const T& message)
 		{
-			std::cout << "Created message with payload: " << std::to_string(message) << std::endl;
 			m_Message = message;
 			Notify();
 		}
-
-		void HowManyObserver() 
+		void HowManyObserver()
 		{
 			std::cout << "There are " << m_ObserversPtr.size() << " observers in the list." << std::endl;
 		}
 
+
 	private:
 		std::list<IObserver<T>*> m_ObserversPtr;
 		T m_Message;
-	};
 
-}
+	};
+};
+

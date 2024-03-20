@@ -13,7 +13,7 @@ namespace GameEngine
 	class GameObject;
 	class RenderComponent;
 
-	class TextComponent final: public BaseComponent, public IObserver<int>
+	class TextComponent final: public BaseComponent, public IObserver<int>, public IObserver<std::string>
 	{
 	public:
 		TextComponent(GameObject* GOptr) :
@@ -40,9 +40,17 @@ namespace GameEngine
 		}
 
 		void Notify(const int& message_from_subject) override;
+		void Notify(const std::string& message_from_subject) override;
+
+		void AddAdditionalText(std::string text)
+		{
+			m_AdditionalText = text;
+		}
+			
 
 	private:
 		std::string m_Text;
+		std::string m_AdditionalText;
 		std::string m_CurrentText;
 		std::shared_ptr<Font> m_pFont;
 		std::shared_ptr<Texture2D> m_pTextTexture;

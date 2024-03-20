@@ -35,7 +35,13 @@ void GameEngine::TextComponent::SetText(const std::string& text)
 
 void GameEngine::TextComponent::Notify(const int& message_from_subject)
 {
-	m_Text = "Score: " + std::to_string(message_from_subject);
+	m_Text =  std::to_string(message_from_subject);
+	Update();
+}
+
+void GameEngine::TextComponent::Notify(const std::string& message_from_subject)
+{
+	m_Text = message_from_subject;
 	Update();
 }
 
@@ -45,6 +51,10 @@ void GameEngine::TextComponent::Update()
 	{
 		const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
 
+		if (m_AdditionalText.size())
+		{
+			m_Text = m_AdditionalText + m_Text;
+		}
 		const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), color);
 
 		if (surf == nullptr)
