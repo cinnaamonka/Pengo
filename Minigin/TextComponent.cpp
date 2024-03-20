@@ -33,7 +33,7 @@ void GameEngine::TextComponent::SetText(const std::string& text)
 	Update();
 }
 
-void GameEngine::TextComponent::Notify(const int message_from_subject)
+void GameEngine::TextComponent::Notify(const int& message_from_subject)
 {
 	m_Text = "Score: " + std::to_string(message_from_subject);
 	Update();

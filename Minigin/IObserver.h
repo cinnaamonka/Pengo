@@ -2,14 +2,14 @@
 
 namespace GameEngine
 {
-	class IObserver
-	{
-
-	public:
-		virtual ~IObserver() {};
-		virtual void Notify(const int message_from_subject) = 0;
-	};
-};
+    template<typename T>
+    class IObserver
+    {
+    public:
+        virtual ~IObserver() {};
+        virtual void Notify(const T& message_from_subject) = 0;
+    };
+}
 
 
 

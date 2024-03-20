@@ -7,30 +7,52 @@
 #include "IObserver.h"
 
 
-namespace GameEngine
+namespace GameEngine 
 {
-	class Observer : public IObserver {
-	public:
-		Observer(Subject& subject);
+    namespace GameEngine
+    {
+        template<typename T>
+        class Observer : public IObserver<T> 
+        {
+        public:
+            Observer(Subject<T>& subject) : subject_(subject) 
+            {
+                subject_.Attach(this);
+                std::cout << "Hi, I'm the Observer.\n";
+            }
 
-		virtual ~Observer() {
-			std::cout << "Goodbye, I was the Observer \"" << number_ << "\".\n";
-		}
+            virtual ~Observer() 
+            {
+                std::cout << "Goodbye, I was the Observer \"" << number_ << "\".\n";
+                subject_.Detach(this);
+            }
 
-		void Notify(const int message_from_subject) override;
+            void Notify(const T& message_from_subject) override
+            {
+                message_from_subject_ = message_from_subject;
+                PrintInfo();
+            }
 
-		void RemoveMeFromTheList();
+            void RemoveMeFromTheList() 
+            {
+                subject_.Detach(this);
+                std::cout << "Observer \"" << number_ << "\" removed from the list.\n";
+            }
 
-		void PrintInfo() const;
+            void PrintInfo() const 
+            {
+                std::cout << "Observer \"" << number_ << "\": a new message is available --> " << message_from_subject_ << "\n";
+            }
 
-	private:
-		Subject& subject_;
-		int message_from_subject_;
+        private:
+            Subject<T>& subject_;
+            T message_from_subject_;
 
-		static int static_number_;
-		int number_;
-	};
-};
+            int number_;
+        };
+    }
+}
+
 
 
 

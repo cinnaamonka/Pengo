@@ -5,7 +5,7 @@
 #include <memory>
 namespace GameEngine
 {
-	class ScoreComponent final : public BaseComponent, public Subject
+	class ScoreComponent final : public BaseComponent, public Subject<int>
 	{
 	public:
 
