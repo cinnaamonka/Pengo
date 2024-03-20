@@ -7,9 +7,6 @@ namespace GameEngine
     {
     public:
         virtual ~IObserver() {};
-        virtual void Notify(const T& message_from_subject) = 0;
+        virtual void Notify(const T& messageFromSubject) = 0;
     };
 }
-
-
-

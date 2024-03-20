@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <list>
+#include <string>
 #include <memory>
 #include "ISubject.h"
 #include "IObserver.h"
@@ -12,48 +13,44 @@ namespace GameEngine
 	class Subject : public ISubject<T> 
 	{
 	public:
-		Subject() : message_(T()) {}
+		Subject() : m_Message(T()) {}
 		virtual ~Subject() {}
 
-		void Attach(IObserver<T>* observer) override 
+		void Attach(IObserver<T>* observerPtr) override 
 		{
-			list_observer_.push_back(observer);
+			m_ObserversPtr.push_back(observerPtr);
 		}
 
-		void Detach(IObserver<T>* observer) override 
+		void Detach(IObserver<T>* observerPtr) override 
 		{
-			list_observer_.remove(observer);
+			m_ObserversPtr.remove(observerPtr);
 		}
 		void Notify() 
 		{
-			typename std::list<IObserver<T>*>::iterator iterator = list_observer_.begin(); 
+			typename std::list<IObserver<T>*>::iterator iterator = m_ObserversPtr.begin();
 			HowManyObserver(); 
-			while (iterator != list_observer_.end()) 
+			while (iterator != m_ObserversPtr.end())
 			{
-				(*iterator)->Notify(message_);  
+				(*iterator)->Notify(m_Message);  
 				++iterator;
 			}
 		}
 
 		void CreateMessage(const T& message) 
 		{
-			message_ = message;
+			std::cout << "Created message with payload: " << std::to_string(message) << std::endl;
+			m_Message = message;
 			Notify();
 		}
 
 		void HowManyObserver() 
 		{
-			std::cout << "There are " << list_observer_.size() << " observers in the list." << std::endl;
-		}
-
-		void SomeBusinessLogic()
-		{
-			// Some business logic here
+			std::cout << "There are " << m_ObserversPtr.size() << " observers in the list." << std::endl;
 		}
 
 	private:
-		std::list<IObserver<T>*> list_observer_;
-		T message_;
+		std::list<IObserver<T>*> m_ObserversPtr;
+		T m_Message;
 	};
 
 }

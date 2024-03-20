@@ -9,8 +9,8 @@ namespace GameEngine
     {
     public:
         virtual ~ISubject() {};
-        virtual void Attach(IObserver<T>* observer) = 0;
-        virtual void Detach(IObserver<T>* observer) = 0;
+        virtual void Attach(IObserver<T>* observerPtr) = 0;
+        virtual void Detach(IObserver<T>* observerPtr) = 0;
         virtual void Notify() = 0;
     };
 }

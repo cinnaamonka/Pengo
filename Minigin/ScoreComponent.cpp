@@ -1,5 +1,5 @@
 #include "ScoreComponent.h"
-#include "Observers.h"
+
 
 namespace GameEngine
 {

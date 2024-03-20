@@ -19,7 +19,7 @@ namespace GameEngine
 		std::shared_ptr<GameEngine::Texture2D> GetTexture() const;
 
 		void SetTexture(const std::string& filename);
-		void SetTexture(std::shared_ptr<GameEngine::Texture2D> texture);
+		void SetTexture(std::shared_ptr<GameEngine::Texture2D> texture); 
 		
 	private:
 		std::shared_ptr<GameEngine::Texture2D> m_Texture;
