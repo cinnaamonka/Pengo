@@ -9,6 +9,7 @@ namespace GameEngine
 	class Texture2D;
 	class TextureComponent;
 	class FPS;
+	class GameObject;
 	class RenderComponent;
 
 	class TextComponent : public BaseComponent

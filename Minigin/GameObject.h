@@ -4,13 +4,9 @@
 #include <memory>
 #include <algorithm>
 
-#include "Subject.h"
-#include "Observer.h"
-
 namespace GameEngine
 {
 	class BaseComponent;
-	enum class Event;
 
 	class GameObject final
 	{

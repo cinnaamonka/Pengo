@@ -4,6 +4,7 @@
 namespace GameEngine
 {
 	enum class Event;
+	class GameObject;
 
 	class BaseComponent
 	{

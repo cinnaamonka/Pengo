@@ -208,7 +208,7 @@
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="LivesComponent.h" />
     <ClInclude Include="InputCommands.h" />
-    <ClInclude Include="Observer.h" />
+    <ClInclude Include="Observers.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />

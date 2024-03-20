@@ -19,6 +19,9 @@
     <Filter Include="Engine\Input">
       <UniqueIdentifier>{529a49d8-65d9-401e-8b5c-afa1e2ef06e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Event">
+      <UniqueIdentifier>{ced40782-a4eb-497c-840f-559806b71953}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseComponent.h">
@@ -123,13 +126,17 @@
     <ClInclude Include="BaseInputDevice.h">
       <Filter>Engine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h" />
-    <ClInclude Include="Subject.h" />
     <ClInclude Include="LivesComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="ScoreComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Observers.h">
+      <Filter>Engine\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Engine\Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

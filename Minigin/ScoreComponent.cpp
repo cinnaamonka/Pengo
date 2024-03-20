@@ -1,4 +1,5 @@
 #include "ScoreComponent.h"
+#include "Observers.h"
 
 namespace GameEngine
 {
@@ -6,11 +7,20 @@ namespace GameEngine
         BaseComponent(pGameObject), m_Score(0)
     {
 
+
     }
-    void ScoreComponent::AddScore(int amount)
+    void ScoreComponent::AddScore(int score)
     {
-        amount = 0;
-      /*  m_Score += amount;
-        GetGameObject()->OnNotify(GameEngine::Event::ChangeScore);*/
+        m_Score += score;
+
+        OnScoreChange->Notify(GetGameObject(),m_Score);
     }
+
+    void ScoreComponent::RemoveScore(int score)
+    {
+        m_Score -= score;
+
+        OnScoreChange->Notify(GetGameObject(),m_Score);
+    }
+    
 }

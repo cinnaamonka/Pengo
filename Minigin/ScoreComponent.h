@@ -2,9 +2,10 @@
 #include "BaseComponent.h"
 #include "Subject.h"
 
+#include <memory>
 namespace GameEngine
 {
-	class ScoreComponent : public BaseComponent
+	class ScoreComponent final: public BaseComponent
 	{
 	public:
 
@@ -14,20 +15,20 @@ namespace GameEngine
 		ScoreComponent& operator=(const ScoreComponent& other) = delete;
 		ScoreComponent(ScoreComponent&& other) = delete;
 
-		void AddScore(int amount);
+		void AddScore(int score);
+		void RemoveScore(int score);
 
 		int GetScore() const
 		{
 			return m_Score;
 		}
-
-		int SetScore(int score)
-		{
-			m_Score = score;
-		}
+		
 
 	private:
 		int m_Score;
+
+		std::unique_ptr<GameEngine::Subject<ScoreComponent>> OnScoreChange;
+	
 
 	};
 }
