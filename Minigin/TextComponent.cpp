@@ -33,6 +33,12 @@ void GameEngine::TextComponent::SetText(const std::string& text)
 	Update();
 }
 
+void GameEngine::TextComponent::Notify(const int message_from_subject)
+{
+	m_Text = "Score: " + std::to_string(message_from_subject);
+	Update();
+}
+
 void GameEngine::TextComponent::Update()
 {	
 	if (m_Text != m_CurrentText || m_pTextTexture == nullptr)

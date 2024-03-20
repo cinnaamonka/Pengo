@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseComponent.h"
-
+#include "IObserver.h"
 
 #include <string>
 
@@ -13,7 +13,7 @@ namespace GameEngine
 	class GameObject;
 	class RenderComponent;
 
-	class TextComponent : public BaseComponent
+	class TextComponent final: public BaseComponent, public IObserver
 	{
 	public:
 		TextComponent(GameObject* GOptr) :
@@ -38,6 +38,9 @@ namespace GameEngine
 		{
 			return m_pTextTexture;
 		}
+
+		void Notify(const int message_from_subject) override;
+
 	private:
 		std::string m_Text;
 		std::string m_CurrentText;

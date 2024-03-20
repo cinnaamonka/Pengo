@@ -13,7 +13,7 @@ namespace GameEngine
 		std::cout << "Hi, I'm the Observer \"" << number_ << "\".\n";
 	}
 
-	void Observer::Update(const int message_from_subject) {
+	void Observer::Notify(const int message_from_subject) {
 		message_from_subject_ = message_from_subject;
 		PrintInfo();
 	}

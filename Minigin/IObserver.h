@@ -2,11 +2,12 @@
 
 namespace GameEngine
 {
-	class IObserver {
+	class IObserver
+	{
 
 	public:
 		virtual ~IObserver() {};
-		virtual void Update(const int message_from_subject) = 0;
+		virtual void Notify(const int message_from_subject) = 0;
 	};
 };
 

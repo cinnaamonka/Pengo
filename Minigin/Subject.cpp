@@ -23,7 +23,7 @@ namespace GameEngine
         std::list<IObserver*>::iterator iterator = list_observer_.begin();
         HowManyObserver();
         while (iterator != list_observer_.end()) {
-            (*iterator)->Update(message_);
+            (*iterator)->Notify(message_);
             ++iterator;
         }
     }

@@ -17,7 +17,7 @@ namespace GameEngine
 			std::cout << "Goodbye, I was the Observer \"" << number_ << "\".\n";
 		}
 
-		void Update(const int message_from_subject) override;
+		void Notify(const int message_from_subject) override;
 
 		void RemoveMeFromTheList();
 
