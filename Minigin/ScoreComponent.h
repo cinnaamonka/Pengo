@@ -5,7 +5,7 @@
 #include <memory>
 namespace GameEngine
 {
-	class ScoreComponent final: public BaseComponent
+	class ScoreComponent final : public BaseComponent, public Subject
 	{
 	public:
 
@@ -22,14 +22,9 @@ namespace GameEngine
 		{
 			return m_Score;
 		}
-		
 
 	private:
 		int m_Score;
-
-		std::unique_ptr<GameEngine::Subject<ScoreComponent>> OnScoreChange;
-	
-
 	};
 }
 

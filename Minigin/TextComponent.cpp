@@ -29,6 +29,7 @@ GameEngine::TextComponent::TextComponent(GameObject* GOptr, std::string text, st
 void GameEngine::TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
+
 	Update();
 }
 

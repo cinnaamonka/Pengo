@@ -138,6 +138,12 @@
     <ClInclude Include="Subject.h">
       <Filter>Engine\Event</Filter>
     </ClInclude>
+    <ClInclude Include="IObserver.h">
+      <Filter>Engine\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="ISubject.h">
+      <Filter>Engine\Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -232,6 +238,12 @@
     </ClCompile>
     <ClCompile Include="ScoreComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Observers.cpp">
+      <Filter>Engine\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Engine\Event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

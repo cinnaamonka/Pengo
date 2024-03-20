@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseComponent.h"
 
+
 #include <string>
 
 namespace GameEngine
@@ -15,7 +16,7 @@ namespace GameEngine
 	class TextComponent : public BaseComponent
 	{
 	public:
-		TextComponent(GameObject* GOptr):
+		TextComponent(GameObject* GOptr) :
 			BaseComponent(GOptr),
 			m_Text(""),
 			m_pFont(),
