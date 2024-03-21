@@ -4,8 +4,7 @@
 #include "GameObject.h"
 #include "Time.h"
 #include "TransformComponent.h"
-#include "ScoreComponent.h"
-#include "HealthComponent.h"
+#include "ActorComponent.h"
 
 
 namespace GameEngine
@@ -31,7 +30,7 @@ namespace GameEngine
 	}
 	void GameEngine::ScoreCommand::Execute()
 	{
-		auto pScoreComponent = GetGameObject()->GetComponent<GameEngine::ScoreComponent>();
+		auto pScoreComponent = GetGameObject()->GetComponent<GameEngine::ActorComponent>();
 		if (pScoreComponent) pScoreComponent->AddScore(m_Amount);
 
 	}
@@ -45,7 +44,7 @@ namespace GameEngine
 	}
 	void LifesCommand::Execute()
 	{
-		auto pLivesComponent = GetGameObject()->GetComponent<GameEngine::HealthComponent>();
+		auto pLivesComponent = GetGameObject()->GetComponent<GameEngine::ActorComponent>();
 		if (pLivesComponent) pLivesComponent->Damage(m_LifesAmount);
 	}
 }

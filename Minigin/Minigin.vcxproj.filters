@@ -126,14 +126,8 @@
     <ClInclude Include="BaseInputDevice.h">
       <Filter>Engine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="LivesComponent.h">
+    <ClInclude Include="ScoreObserver.h">
       <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Observers.h">
-      <Filter>Engine\Event</Filter>
     </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Engine\Event</Filter>
@@ -143,6 +137,12 @@
     </ClInclude>
     <ClInclude Include="ISubject.h">
       <Filter>Engine\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="ActorComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthObserver.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -233,17 +233,14 @@
     <ClCompile Include="Keyboard.cpp">
       <Filter>Engine\Input</Filter>
     </ClCompile>
-    <ClCompile Include="LivesComponent.cpp">
+    <ClCompile Include="ScoreObserver.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreComponent.cpp">
+    <ClCompile Include="ActorComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="Observers.cpp">
-      <Filter>Engine\Event</Filter>
-    </ClCompile>
-    <ClCompile Include="Subject.cpp">
-      <Filter>Engine\Event</Filter>
+    <ClCompile Include="HealthObserver.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
