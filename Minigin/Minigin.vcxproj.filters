@@ -135,9 +135,6 @@
     <ClInclude Include="IObserver.h">
       <Filter>Engine\Event</Filter>
     </ClInclude>
-    <ClInclude Include="ISubject.h">
-      <Filter>Engine\Event</Filter>
-    </ClInclude>
     <ClInclude Include="ActorComponent.h">
       <Filter>Components</Filter>
     </ClInclude>

@@ -4,13 +4,12 @@
 #include <list>
 #include <string>
 #include <memory>
-#include "ISubject.h"
 #include "IObserver.h"
 
 namespace GameEngine
 {
 	template<typename T>
-	class Subject : public ISubject<T>
+	class Subject
 	{
 	public:
 		Subject() : m_Message(T()) {}
@@ -19,12 +18,12 @@ namespace GameEngine
 
 		}
 
-		void Attach(IObserver<T>* observerPtr) override
+		void Attach(IObserver<T>* observerPtr) 
 		{
 			m_ObserversPtr.push_back(observerPtr);
 		}
 
-		void Detach(IObserver<T>* observerPtr) override
+		void Detach(IObserver<T>* observerPtr) 
 		{
 			m_ObserversPtr.remove(observerPtr);
 		}
