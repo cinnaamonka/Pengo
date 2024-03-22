@@ -123,7 +123,7 @@ void GameEngine::Engine::Run(const std::function<void()>& load)
 
 		std::this_thread::sleep_for(sleepTime); 
 
-		//SteamAPI_RunCallbacks();
+		SteamAPI_RunCallbacks(); 
 	}
 
 }

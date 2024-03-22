@@ -3,6 +3,8 @@
 #include <functional>
 #include <string>
 
+#include <steam_api.h>
+
 namespace GameEngine
 {
 	class Engine
