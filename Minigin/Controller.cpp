@@ -59,9 +59,9 @@ namespace GameEngine
 			return m_PreviousButtonsThisFrame & button;
 		}
 	};
-	GameEngine::Controller::Controller(int m_ControllerIndex)
+	GameEngine::Controller::Controller(int m_ControllerIndex) :
+		m_pImplPtr(std::make_unique<ControllerImpl>(m_ControllerIndex))
 	{
-		m_pImplPtr = std::make_unique<ControllerImpl>(m_ControllerIndex);
 	}
 
 	GameEngine::Controller::~Controller()

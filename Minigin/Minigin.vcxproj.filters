@@ -141,6 +141,9 @@
     <ClInclude Include="HealthObserver.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="AchievementComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -237,6 +240,9 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="HealthObserver.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AchievementComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
