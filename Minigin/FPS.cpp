@@ -21,7 +21,7 @@ void GameEngine::FPS::Update()
 	m_FPSCollection.push_front(fps);
 
 	// renew the fps collection
-	if (m_FPSCollection.size() > m_AverageFramesAmount)
+	if (static_cast<int>(m_FPSCollection.size()) > m_AverageFramesAmount)
 	{
 		m_FPSCollection.pop_back();
 	}

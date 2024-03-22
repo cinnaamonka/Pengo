@@ -79,6 +79,7 @@ GameEngine::Engine::~Engine()
 
 void GameEngine::Engine::Run(const std::function<void()>& load)
 {
+
 	load();
 
 	auto& renderer = Renderer::GetInstance();
@@ -121,6 +122,8 @@ void GameEngine::Engine::Run(const std::function<void()>& load)
 		const auto sleepTime = Time::GetCurrent() + std::chrono::milliseconds(ms_per_frame) - std::chrono::high_resolution_clock::now();
 
 		std::this_thread::sleep_for(sleepTime); 
+
+		//SteamAPI_RunCallbacks();
 	}
 
 }
