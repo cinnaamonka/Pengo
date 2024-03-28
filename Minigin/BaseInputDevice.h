@@ -1,6 +1,9 @@
 #pragma once
-#include <memory>
+#include <windows.h>
 #include <SDL.h>
+
+#include <memory>
+
 
 #include "BaseCommand.h"
 

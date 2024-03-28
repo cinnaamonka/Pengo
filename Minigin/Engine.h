@@ -3,7 +3,7 @@
 #include <functional>
 #include <string>
 
-#include <steam_api.h>
+//#include <steam_api.h>
 
 namespace GameEngine
 {

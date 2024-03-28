@@ -7,12 +7,12 @@
 
 #include <numeric>
 
-#include <../imgui-1.89.5/imgui_plot.h>
+#include <../imgui/imgui_plot.h>
 #define IMGUI_DEFINE_MATH_OPERATORS
 
-#include <../imgui-1.89.5/imgui.h>
-#include <../imgui-1.89.5/backends/imgui_impl_sdl2.h>
-#include <../imgui-1.89.5/backends/imgui_impl_opengl3.h>
+#include <../imgui/imgui.h>
+#include <../imgui/backends/imgui_impl_sdl2.h>
+#include <../imgui/backends/imgui_impl_opengl3.h>
 #include <SDL_stdinc.h>
 
 static uint32_t selection_start = 0, selection_length = 0;

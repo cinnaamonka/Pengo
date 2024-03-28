@@ -13,9 +13,6 @@
     <Filter Include="GameObjects">
       <UniqueIdentifier>{87d57146-d6ab-4140-9291-9e66f43b14c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Imgui">
-      <UniqueIdentifier>{3ddf0934-a3d5-4932-abb0-9f5f06b4ebff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Input">
       <UniqueIdentifier>{529a49d8-65d9-401e-8b5c-afa1e2ef06e0}</UniqueIdentifier>
     </Filter>
@@ -51,7 +48,7 @@
     <ClInclude Include="Font.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
+    <ClInclude Include="Time2.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
@@ -77,33 +74,6 @@
     </ClInclude>
     <ClInclude Include="ImGuiComponent.h">
       <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.5\imconfig.h">
-      <Filter>Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.5\imgui.h">
-      <Filter>Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.5\imgui_internal.h">
-      <Filter>Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.5\imgui_plot.h">
-      <Filter>Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.5\imstb_rectpack.h">
-      <Filter>Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.5\imstb_textedit.h">
-      <Filter>Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.5\imstb_truetype.h">
-      <Filter>Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.5\backends\imgui_impl_opengl3.h">
-      <Filter>Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.5\backends\imgui_impl_sdl2.h">
-      <Filter>Imgui</Filter>
     </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>Engine\Input</Filter>
@@ -141,14 +111,8 @@
     <ClInclude Include="HealthObserver.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="AchievementComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>Main</Filter>
     </ClCompile>
@@ -173,7 +137,7 @@
     <ClCompile Include="Font.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
+    <ClCompile Include="Time2.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
@@ -197,30 +161,6 @@
     <ClCompile Include="ImGuiComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.5\imgui.cpp">
-      <Filter>Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.5\imgui_demo.cpp">
-      <Filter>Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.5\imgui_draw.cpp">
-      <Filter>Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.5\imgui_plot.cpp">
-      <Filter>Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.5\imgui_tables.cpp">
-      <Filter>Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.5\imgui_widgets.cpp">
-      <Filter>Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.5\backends\imgui_impl_opengl3.cpp">
-      <Filter>Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.5\backends\imgui_impl_sdl2.cpp">
-      <Filter>Imgui</Filter>
-    </ClCompile>
     <ClCompile Include="Controller.cpp">
       <Filter>Engine\Input</Filter>
     </ClCompile>
@@ -240,9 +180,6 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="HealthObserver.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="AchievementComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>

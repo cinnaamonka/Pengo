@@ -1,7 +1,7 @@
 
 #include <windows.h>
 #include <SDL.h>
-#include <../imgui-1.89.5/backends/imgui_impl_sdl2.h>
+#include <../imgui/backends/imgui_impl_sdl2.h>
 
 #include "InputManager.h"
 #include "Controller.h"

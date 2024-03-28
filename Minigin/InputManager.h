@@ -3,7 +3,6 @@
 #include <windows.h>
 #include <SDL.h>
 
-#include <xinput.h>
 #include <vector>
 #include <memory>
 #include <iostream>
@@ -76,7 +75,8 @@ namespace GameEngine
 				}
 				else
 				{
-					std::cerr << "Error: Device type mismatch!" << std::endl;
+					std::
+						cerr << "Error: Device type mismatch!" << std::endl;
 				}
 			}
 			else
