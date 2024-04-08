@@ -48,7 +48,7 @@
     <ClInclude Include="Font.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Time2.h">
+    <ClInclude Include="TimeManager.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
@@ -111,6 +111,11 @@
     <ClInclude Include="HealthObserver.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="General.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="BaseGame.h">
+      <Filter>Main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -137,7 +142,7 @@
     <ClCompile Include="Font.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Time2.cpp">
+    <ClCompile Include="TimeManager.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
@@ -181,6 +186,9 @@
     </ClCompile>
     <ClCompile Include="HealthObserver.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseGame.cpp">
+      <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

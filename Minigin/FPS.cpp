@@ -1,5 +1,5 @@
 #include "FPS.h"
-#include "Time2.h"
+#include "TimeManager.h"
 #include "TextComponent.h"
 
 #include <numeric>

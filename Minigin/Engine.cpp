@@ -8,7 +8,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include "Time2.h"
+#include "TimeManager.h"
 #include "General.h" 
 
 

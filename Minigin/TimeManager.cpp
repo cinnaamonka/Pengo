@@ -1,4 +1,4 @@
-#include "Time2.h"
+#include "TimeManager.h"
 
 duration<float> GameEngine::Time::m_ElapsedTime{};
 std::chrono::high_resolution_clock::time_point GameEngine::Time::m_PreviousTime{ std::chrono::high_resolution_clock::now() };

@@ -18,6 +18,7 @@ namespace GameEngine
 		Engine(Engine&& other) = delete;
 		Engine& operator=(const Engine& other) = delete;
 		Engine& operator=(Engine&& other) = delete;
+
 	private:
 		double m_Lag = 0;
 	};

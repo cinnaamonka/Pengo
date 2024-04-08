@@ -2,7 +2,7 @@
 #include "GameObjectCommand.h"
 #include "BaseCommand.h"
 #include "GameObject.h"
-#include "Time2.h"
+#include "TimeManager.h"
 #include "TransformComponent.h"
 #include "ActorComponent.h"
 
