@@ -1,6 +1,6 @@
 #include "RotationComponent.h"
 #include "TransformComponent.h"
-#include "Time2.h"
+#include "TimeManager.h"
 
 constexpr int twoPI = 360;
 
