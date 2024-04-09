@@ -1,0 +1,340 @@
+{
+  "level": [
+    {
+      "position": {
+        "left": 200,
+        "top": 70
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 240,
+        "top": 70
+      },
+      "type": "diamond_block"
+    },
+    {
+      "position": {
+        "left": 280,
+        "top": 70
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 300,
+        "top": 70
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 340,
+        "top": 70
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 360,
+        "top": 70
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 440,
+        "top": 70
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 280,
+        "top": 90
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 300,
+        "top": 90
+      },
+      "type": "diamond_block"
+    },
+    {
+      "position": {
+        "left": 220,
+        "top": 110
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 300,
+        "top": 110
+      },
+      "type": "diamond_block"
+    },
+    {
+      "position": {
+        "left": 320,
+        "top": 110
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 220,
+        "top": 130
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 300,
+        "top": 130
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 220,
+        "top": 150
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 240,
+        "top": 150
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 260,
+        "top": 170
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 300,
+        "top": 170
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 320,
+        "top": 170
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 220,
+        "top": 190
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 260,
+        "top": 210
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 300,
+        "top": 210
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 340,
+        "top": 210
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 200,
+        "top": 230
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 240,
+        "top": 230
+      },
+      "type": "diamond_block"
+    },
+    {
+      "position": {
+        "left": 280,
+        "top": 230
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 300,
+        "top": 230
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 340,
+        "top": 230
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 360,
+        "top": 230
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 440,
+        "top": 230
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 200,
+        "top": 230
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 220,
+        "top": 250
+      },
+      "type": "diamond_block"
+    },
+    {
+      "position": {
+        "left": 300,
+        "top": 250
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 340,
+        "top": 250
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 360,
+        "top": 250
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 400,
+        "top": 250
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 440,
+        "top": 250
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 300,
+        "top": 270
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 420,
+        "top": 270
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 440,
+        "top": 270
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 220,
+        "top": 290
+      },
+      "type": "diamond_block"
+    },
+    {
+      "position": {
+        "left": 400,
+        "top": 310
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 420,
+        "top": 310
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 360,
+        "top": 330
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 440,
+        "top": 330
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 300,
+        "top": 350
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 340,
+        "top": 350
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 200,
+        "top": 350
+      },
+      "type": "ice_block"
+    }
+  ]
+}

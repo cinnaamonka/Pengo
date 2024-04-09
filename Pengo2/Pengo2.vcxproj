@@ -171,10 +171,10 @@ xcopy "$(SolutionDir)3rdParty\steamworks_sdk_158a\sdk\redistributable_bin\*.dll"
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Pengo.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Pengo.cpp" />
+    <ClCompile Include="BaseBlock.cpp" />
+    <ClCompile Include="Environment.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\imgui\imgui.vcxproj">
@@ -183,6 +183,11 @@ xcopy "$(SolutionDir)3rdParty\steamworks_sdk_158a\sdk\redistributable_bin\*.dll"
     <ProjectReference Include="..\Minigin\Minigin.vcxproj">
       <Project>{41b0ec47-d48c-4b0f-951b-d98595ffae0a}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BaseBlock.h" />
+    <ClInclude Include="Environment.h" />
+    <ClInclude Include="Game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

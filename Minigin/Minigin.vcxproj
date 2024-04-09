@@ -240,6 +240,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectCommand.h" />
     <ClInclude Include="General.h" />
+    <ClInclude Include="Helpers.h" />
     <ClInclude Include="ImGuiComponent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Engine.h" />
