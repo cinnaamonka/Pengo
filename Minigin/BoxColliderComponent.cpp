@@ -26,7 +26,9 @@ bool GameEngine::BoxCollider::IsColliding(const Rect& rectShape, HitInfo& hitInf
 
 	const std::vector<glm::vec3> RectPoints = CreatePointsFromRect(rectShape); 
 
-	return Raycast(RectPoints, ray1, ray2, hitInfo); 
+    auto test = Raycast(RectPoints, ray1, ray2, hitInfo);
+    std::cout << test << std::endl;
+	return test; 
 }
 
 std::vector<glm::vec3> GameEngine::BoxCollider::CreatePointsFromRect(const Rect& rectShape) const

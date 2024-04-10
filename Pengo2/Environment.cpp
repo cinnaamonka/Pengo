@@ -1,10 +1,13 @@
 #include "Environment.h"
 #include <TimeManager.h>
+#include <BoxColliderComponent.h>
 #include <memory>
 #include <Helpers.h>
 
-Environment::Environment(const std::string& filename, GameEngine::Scene* scene) :
-	m_CanCollisionBeChecked(false)
+Environment::Environment(GameEngine::GameObject* pGameObject,const std::string& filename, GameEngine::Scene* scene):
+	BaseComponent(pGameObject),
+	m_CanCollisionBeChecked(true), 
+	m_pPlayer(nullptr)
 {
 	GetVerticesFromJsonFile(filename, m_Vertices);
 
@@ -17,7 +20,6 @@ Environment::Environment(const std::string& filename, GameEngine::Scene* scene) 
 		m_pBlocks.push_back(std::move(pBaseBlock));
 	}
 }
-
 void Environment::CheckCollision(Rect& shape, glm::vec2& velocity)
 {
 	if (m_CanCollisionBeChecked)
@@ -29,12 +31,18 @@ void Environment::CheckCollision(Rect& shape, glm::vec2& velocity)
 			if (pBlock->IsColliding(shape, hitInfo))
 			{
 				ResetHorizontalPosition(velocity, shape, hitInfo);
-				m_CanCollisionBeChecked = false;
+				//m_CanCollisionBeChecked = false;
 				break;
 			}
 		}
 	}
 }
+void Environment::Update()
+{
+	glm::vec2 speed = { 5,4 };
+
+	CheckCollision(m_pPlayer->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider(), speed);
+} 
 void Environment::ResetHorizontalPosition(glm::vec2& actorVelocity, Rect& actorShape,HitInfo& hitInfo) const
 {
 

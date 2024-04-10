@@ -79,7 +79,6 @@ GameEngine::Engine::~Engine()
 
 void GameEngine::Engine::Run(const std::function<void()>& load)
 {
-
 	load();
 
 	auto& renderer = Renderer::GetInstance();

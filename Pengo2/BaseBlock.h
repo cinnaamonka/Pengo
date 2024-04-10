@@ -5,9 +5,11 @@
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
 #include <Helpers.h>
+#include <BoxColliderComponent.h>
 
 #include <Scene.h>
 
+class BoxCollider;
 
 class BaseBlock
 {
@@ -24,6 +26,8 @@ public:
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pGameObject;
+	GameEngine::BoxCollider* m_pBoxCollider;
+
 	const int m_BlockSize;
 };
 

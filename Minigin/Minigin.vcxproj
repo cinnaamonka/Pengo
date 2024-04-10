@@ -267,7 +267,6 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ActorComponent.cpp" />
-    <ClCompile Include="BaseGame.cpp" />
     <ClCompile Include="BoxColliderComponent.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Font.cpp" />

@@ -8,7 +8,7 @@
 
 
 BaseBlock::BaseBlock(const glm::vec3& position, GameEngine::Scene* scene):
-	m_BlockSize(20)
+	m_BlockSize(20), m_pBoxCollider(nullptr)
 {
 	m_pGameObject = std::make_unique<GameEngine::GameObject>();
 
@@ -21,14 +21,12 @@ BaseBlock::BaseBlock(const glm::vec3& position, GameEngine::Scene* scene):
 	m_pGameObject->AddComponent<GameEngine::TextureComponent>("IceBlock.tga");
 	m_pGameObject->AddComponent<GameEngine::RenderComponent>();
 
-	
-	
+	m_pBoxCollider = m_pGameObject->GetComponent<GameEngine::BoxCollider>();
 
-	scene->Add(std::move(m_pGameObject));
-
+	scene->Add(std::move(m_pGameObject));  
 }
 
 bool BaseBlock::IsColliding(const Rect& rectShape,HitInfo& hitInfo) const
 {
-	return m_pGameObject->GetComponent<GameEngine::BoxCollider>()->IsColliding(rectShape, hitInfo);
+	return m_pBoxCollider->IsColliding(rectShape, hitInfo);
 }

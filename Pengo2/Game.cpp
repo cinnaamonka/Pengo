@@ -1,7 +1,7 @@
 #include "Game.h"
 
-#include "InputManager.h"
-#include "InputCommands.h"
+#include <InputManager.h>
+#include <InputCommands.h>
 
 #include <TransformComponent.h>
 #include <TextureComponent.h>
@@ -13,21 +13,20 @@ void Game::Initialize()
     auto& scene = GameEngine::SceneManager::GetInstance().CreateScene("Demo");
 
     m_pActor = std::make_unique<GameEngine::GameObject>();
+    m_pActor->AddComponent<GameEngine::BoxCollider>(300, 350, 20, 20);
     m_pActor->AddComponent<GameEngine::TransformComponent>(glm::vec3(300, 350, 0));
     m_pActor->AddComponent<GameEngine::TextureComponent>("Pengo.tga");
     m_pActor->AddComponent<GameEngine::RenderComponent>();
-    m_pActor->AddComponent<GameEngine::BoxCollider>(300,350,20,20); 
     GameEngine::GameObject* referenceToCharacterPengo = m_pActor.get();
     scene.Add(std::move(m_pActor));
 
-    InitializeInputSystem(referenceToCharacterPengo);
-    m_pEnvironment = std::make_unique<Environment>("Level.json",&scene); 
-}
+    m_pEnvironment = std::make_unique<GameEngine::GameObject>();
+    m_pEnvironment->AddComponent<Environment>("Level.json", &scene);
+    m_pEnvironment->GetComponent<Environment>()->SetActor(referenceToCharacterPengo);
 
-void Game::Update()
-{
-    glm::vec2 speed = { 5,4 };
-    m_pEnvironment->CheckCollision(m_pActor->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider(), speed); 
+    scene.Add(std::move(m_pEnvironment));
+
+    InitializeInputSystem(referenceToCharacterPengo);
 }
 
 void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)

@@ -2,8 +2,7 @@
 
 #include <functional>
 #include <string>
-
-//#include <steam_api.h>
+#include "BaseGame.h"
 
 namespace GameEngine
 {

@@ -191,9 +191,6 @@
     <ClCompile Include="HealthObserver.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="BaseGame.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
     <ClCompile Include="BoxColliderComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>

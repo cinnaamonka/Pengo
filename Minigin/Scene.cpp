@@ -34,7 +34,7 @@ Scene::~Scene() = default;
 
 void Scene::Add(std::unique_ptr<GameObject>&& object)
 {
-	m_pObjects.emplace_back(std::move(object));
+	m_pObjects.emplace_back(std::move(object)); 
 }
 
 void Scene::RemoveAll()
