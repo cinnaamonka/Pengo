@@ -1,61 +1,55 @@
 #include "Environment.h"
-#include <Helpers.h>
+#include <TimeManager.h>
 #include <memory>
+#include <Helpers.h>
 
-#include "BaseBlock.h"
-
-
-Environment::Environment(const std::string& filename, GameEngine::Scene* scene)
+Environment::Environment(const std::string& filename, GameEngine::Scene* scene) :
+	m_CanCollisionBeChecked(false)
 {
-	GetVerticesFromJsonFile("Level.json", m_Vertices);
+	GetVerticesFromJsonFile(filename, m_Vertices);
 
-	int amountOfBlocks = m_Vertices.size();
+	int amountOfBlocks = static_cast<int>(m_Vertices.size());
 
 	for (int i = 0; i < amountOfBlocks; ++i)
 	{
-		std::unique_ptr<BaseBlock> pBaseBlock = std::make_unique<BaseBlock>(m_Vertices[i][0], scene); 
+		std::unique_ptr<BaseBlock> pBaseBlock = std::make_unique<BaseBlock>(m_Vertices[i][0], scene);
 
-		m_pBlocks.push_back(std::move(pBaseBlock)); 
+		m_pBlocks.push_back(std::move(pBaseBlock));
 	}
 }
 
-//bool Environment::HandleCollision(Rect& shape, glm::vec2& velocity)
-//{
-//	HitInfo hitInfo{};
-//
-//	for (const std::vector< glm::vec3>& ver : m_Vertices)
-//	{
-//		if (IsColliding(ver, shape, hitInfo))
-//		{
-//			ResetHorizontalPosition(velocity, shape, hitInfo);
-//
-//			/*if (isCollidingGround(ver, shape, hitInfo)) 
-//			{
-//				ResetVerticalPosition(velocity, shape, hitInfo);
-//			}*/
-//
-//			break;
-//		}
-//	}
-//}
-//void Environment::ResetHorizontalPosition(glm::vec2& actorVelocity, Rect& actorShape,HitInfo& hitInfo) const
-//{
-//
-//	if (hitInfo.intersectPoint.x < actorShape.left + actorShape.width / 2)
-//	{
-//		actorShape.left = hitInfo.intersectPoint.x;
-//	}
-//	else if (hitInfo.intersectPoint.x > actorShape.left + actorShape.width / 2)
-//	{
-//		actorShape.left = hitInfo.intersectPoint.x - actorShape.width;
-//	}
-//
-//	actorVelocity.x = 0.0f;
-//}
-//bool Environment::IsColliding(const std::vector<glm::vec3>& ver, Rect& actorShape, HitInfo& hitInfo) const
-//{
-//	const glm::vec2 ray1(actorShape.left, actorShape.bottom + actorShape.height / 2);
-//	const glm::vec2 ray2(actorShape.left + actorShape.width, actorShape.bottom + actorShape.height / 2);
-//
-//	return Raycast(ver, ray1, ray2, hitInfo); 
-//}
+void Environment::CheckCollision(Rect& shape, glm::vec2& velocity)
+{
+	if (m_CanCollisionBeChecked)
+	{
+		HitInfo hitInfo{};
+
+		for (const auto& pBlock : m_pBlocks)
+		{
+			if (pBlock->IsColliding(shape, hitInfo))
+			{
+				ResetHorizontalPosition(velocity, shape, hitInfo);
+				m_CanCollisionBeChecked = false;
+				break;
+			}
+		}
+	}
+}
+void Environment::ResetHorizontalPosition(glm::vec2& actorVelocity, Rect& actorShape,HitInfo& hitInfo) const
+{
+
+	float left = static_cast<float>(actorShape.left);
+
+	float intersectX = static_cast<float>(hitInfo.intersectPoint.x);
+
+	if (intersectX < left + actorShape.width / 2)
+	{
+		actorShape.left = static_cast<int>(intersectX);
+	}
+	else if (intersectX > left + actorShape.width / 2)
+	{
+		actorShape.left = static_cast<int>(intersectX - actorShape.width);
+	}
+
+	actorVelocity.x = 0.0f;
+}

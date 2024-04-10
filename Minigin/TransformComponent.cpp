@@ -1,4 +1,5 @@
 #include "TransformComponent.h"
+#include "BoxColliderComponent.h"
 
 #include "iostream"
 
@@ -7,26 +8,41 @@ GameEngine::TransformComponent::TransformComponent(GameObject* GOptr) :
 	m_LocalPosition(0.0f, 0.0f, 0.0f),
 	m_WorldPosition(0.0f, 0.0f, 0.0f),
 	m_IsPositionDirty(true)
-{}
+{
+	m_pBoxCollider = GetGameObject()->GetComponent<BoxCollider>();  
+}
 
 GameEngine::TransformComponent::TransformComponent(GameObject* GOptr, glm::vec3 pos) :
 	BaseComponent(GOptr),
 	m_LocalPosition(pos),
 	m_WorldPosition(pos),
 	m_IsPositionDirty(true)
-{}
+{
+	m_pBoxCollider = GetGameObject()->GetComponent<BoxCollider>();
+}
 
 void GameEngine::TransformComponent::SetLocalPosition(float x, float y, float z)
 {
 	m_LocalPosition.x = x;
 	m_LocalPosition.y = y;
 	m_LocalPosition.z = z;
+
+	if (m_pBoxCollider)
+	{
+		m_pBoxCollider->SetBoxCollider(m_LocalPosition);
+	}
+	
 }
 
 void GameEngine::TransformComponent::SetLocalPosition(const glm::vec3& position)
 {
 	m_LocalPosition = position;
 	
+	if (m_pBoxCollider)
+	{
+		m_pBoxCollider->SetBoxCollider(m_LocalPosition);
+	}
+
 	SetPositionDirty();
 }
 

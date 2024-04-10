@@ -4,8 +4,10 @@
 
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
+#include <Helpers.h>
 
 #include <Scene.h>
+
 
 class BaseBlock
 {
@@ -17,8 +19,11 @@ public:
 	BaseBlock& operator=(const BaseBlock& other) = delete;
 	BaseBlock(BaseBlock&& other) noexcept = delete;
 	BaseBlock& operator=(BaseBlock&& other) noexcept = delete;
+
+	bool IsColliding(const Rect& rectShape, HitInfo& hitInfo) const;
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pGameObject;
+	const int m_BlockSize;
 };
 

@@ -7,6 +7,8 @@
 
 namespace GameEngine
 {
+	class BoxCollider;
+
 	class TransformComponent : public BaseComponent
 	{
 	public:
@@ -45,6 +47,9 @@ namespace GameEngine
 		glm::vec3 m_WorldPosition;
 
 		bool m_IsPositionDirty;
+
+		BoxCollider* m_pBoxCollider;
+
 	};
 }
 

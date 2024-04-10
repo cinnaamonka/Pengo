@@ -23,11 +23,18 @@ public:
 	Environment(Environment&& other) noexcept = delete;
 	Environment& operator=(Environment&& other) noexcept = delete;
 
-	//bool HandleCollision(Rect& shape, glm::vec2& velocity);
-	//bool IsColliding(const std::vector<glm::vec3>& ver, Rect& actorShape, HitInfo& hitInfo) const; 
-	//void ResetHorizontalPosition(glm::vec2& actorVelocity, Rect& actorShape, HitInfo& hitInfo) const; 
+	void CheckCollision(Rect& shape, glm::vec2& velocity);
+
+	void SetCollisionCanBeChecked(bool canBeChecked)
+	{
+		m_CanCollisionBeChecked = canBeChecked;
+	}
+private:
+	void ResetHorizontalPosition(glm::vec2& actorVelocity, Rect& actorShape, HitInfo& hitInfo) const;
 private:
 	std::vector<std::vector<glm::vec3>> m_Vertices;
 	std::vector<std::unique_ptr<BaseBlock>> m_pBlocks;
+
+	bool m_CanCollisionBeChecked;
 };
 

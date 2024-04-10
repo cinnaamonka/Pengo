@@ -82,6 +82,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\glm;$(SolutionDir)\3rdParty\imgui;$(SolutionDir)imgui;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)Minigin;$(SolutionDir)\3rdParty\steamworks_sdk_158a\sdk\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,6 +107,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks_sdk_158a\sdk\redistributable_bin\*.dll"
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\glm;$(SolutionDir)\3rdParty\imgui;$(SolutionDir)imgui;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)Minigin;$(SolutionDir)\3rdParty\steamworks_sdk_158a\sdk\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,6 +132,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks_sdk_158a\sdk\redistributable_bin\*.dll"
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\glm;$(SolutionDir)\3rdParty\imgui;$(SolutionDir)imgui;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)Minigin;$(SolutionDir)\3rdParty\steamworks_sdk_158a\sdk\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,6 +157,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks_sdk_158a\sdk\redistributable_bin\*.dll"
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\glm;$(SolutionDir)\3rdParty\imgui;$(SolutionDir)imgui;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)Minigin;$(SolutionDir)\3rdParty\steamworks_sdk_158a\sdk\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

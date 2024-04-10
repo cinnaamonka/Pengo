@@ -234,6 +234,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClInclude Include="BaseCommand.h" />
     <ClInclude Include="BaseGame.h" />
     <ClInclude Include="BaseInputDevice.h" />
+    <ClInclude Include="BoxColliderComponent.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPS.h" />
@@ -267,10 +268,12 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
   <ItemGroup>
     <ClCompile Include="ActorComponent.cpp" />
     <ClCompile Include="BaseGame.cpp" />
+    <ClCompile Include="BoxColliderComponent.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPS.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="ImGuiComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Keyboard.cpp" />
