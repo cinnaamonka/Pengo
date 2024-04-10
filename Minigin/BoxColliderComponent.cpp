@@ -6,29 +6,33 @@
 GameEngine::BoxCollider::BoxCollider(GameObject* pGameObject,int left, int bottom, int width, int height):
 	m_RectCollider({left,bottom,width,height}),BaseComponent(pGameObject)
 {
-    GetGameObject()->AddComponent<TextureComponent>(); 
-
-    m_pTextureComponent = GetGameObject()->GetComponent<TextureComponent>(); 
+ 
 }
 
 GameEngine::BoxCollider::BoxCollider(GameObject* pGameObject,Rect shape):
 	BaseComponent(pGameObject), m_RectCollider(shape)
 {
-    GetGameObject()->AddComponent<TextureComponent>();
-
-    m_pTextureComponent = GetGameObject()->GetComponent<TextureComponent>(); 
+  
 }
 
-bool GameEngine::BoxCollider::IsColliding(const Rect& rectShape, HitInfo& hitInfo) const
+bool GameEngine::BoxCollider::IsCollidingHorizontally(const Rect& rectShape, HitInfo& hitInfo) const
 {
 	const glm::vec2 ray1(rectShape.left, rectShape.bottom + rectShape.height / 2);
 	const glm::vec2 ray2(rectShape.left + rectShape.width, rectShape.bottom + rectShape.height / 2);
 
-	const std::vector<glm::vec3> RectPoints = CreatePointsFromRect(rectShape); 
+	const std::vector<glm::vec3> RectPoints = CreatePointsFromRect( m_RectCollider);
 
-    auto test = Raycast(RectPoints, ray1, ray2, hitInfo);
-    std::cout << test << std::endl;
-	return test; 
+	return Raycast(RectPoints, ray1, ray2, hitInfo);;
+}
+
+bool GameEngine::BoxCollider::IsCollidingVertically(const Rect& rectShape, HitInfo& hitInfo) const
+{
+    const glm::vec2 ray1(rectShape.left + rectShape.width/2, rectShape.bottom);
+    const glm::vec2 ray2(rectShape.left + rectShape.width / 2, rectShape.bottom + rectShape.height );
+
+    const std::vector<glm::vec3> RectPoints = CreatePointsFromRect(m_RectCollider); 
+
+    return  Raycast(RectPoints, ray1, ray2, hitInfo);
 }
 
 std::vector<glm::vec3> GameEngine::BoxCollider::CreatePointsFromRect(const Rect& rectShape) const
@@ -43,44 +47,44 @@ std::vector<glm::vec3> GameEngine::BoxCollider::CreatePointsFromRect(const Rect&
 	return points;
 }
 
-void GameEngine::BoxCollider::Update()
-{
-    if (m_pColliderTexture == nullptr)
-    {
-        CreateTextureFromRect(m_RectCollider.width, m_RectCollider.height, m_Color);
-   }
-}
-
-void GameEngine::BoxCollider::CreateTextureFromRect(int width, int height, SDL_Color newColor)
-{
-    // Create a new SDL surface
-    SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
-    if (surface == nullptr) 
-    {
-        std::cerr << "not able to create surface" << std::endl;
-        return;
-    }
-
-    // Fill the surface with the specified color
-    SDL_FillRect(surface, nullptr, SDL_MapRGB(surface->format, newColor.r, newColor.g, newColor.b));
-
-    // Convert the surface to a texture
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(GameEngine::Renderer::GetInstance().GetSDLRenderer(), surface);
-
-    if (texture == nullptr)
-    {
-        // Handle texture creation error
-        SDL_FreeSurface(surface);
-        std::cerr << "Texture from surface is nullptr" << std::endl;
-        return;
-    }
-
-    m_pColliderTexture = std::move(std::make_unique<Texture2D>(texture));
-
-    m_pTextureComponent->SetTexture(std::move(m_pColliderTexture));
-
-    // Free the surface
-    SDL_FreeSurface(surface);
-}
+//void GameEngine::BoxCollider::Update()
+//{
+//    if (m_pColliderTexture == nullptr)
+//    {
+//        CreateTextureFromRect(m_RectCollider.width, m_RectCollider.height, m_Color);
+//   }
+//}
+//
+//void GameEngine::BoxCollider::CreateTextureFromRect(int width, int height, SDL_Color newColor)
+//{
+//    // Create a new SDL surface
+//    SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+//    if (surface == nullptr) 
+//    {
+//        std::cerr << "not able to create surface" << std::endl;
+//        return;
+//    }
+//
+//    // Fill the surface with the specified color
+//    SDL_FillRect(surface, nullptr, SDL_MapRGB(surface->format, newColor.r, newColor.g, newColor.b));
+//
+//    // Convert the surface to a texture
+//    SDL_Texture* texture = SDL_CreateTextureFromSurface(GameEngine::Renderer::GetInstance().GetSDLRenderer(), surface);
+//
+//    if (texture == nullptr)
+//    {
+//        // Handle texture creation error
+//        SDL_FreeSurface(surface);
+//        std::cerr << "Texture from surface is nullptr" << std::endl;
+//        return;
+//    }
+//
+//    m_pColliderTexture = std::move(std::make_unique<Texture2D>(texture));
+//
+//    m_pTextureComponent->SetTexture(std::move(m_pColliderTexture));
+//
+//    // Free the surface
+//    SDL_FreeSurface(surface);
+//}
 
 

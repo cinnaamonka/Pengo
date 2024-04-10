@@ -92,20 +92,20 @@ bool IntersectLineSegments(const glm::vec2& p1, const glm::vec2& p2, const glm::
 	glm::vec3 p1p2{ p2.x - p1.x, p2.y - p1.y, 0 };
 	glm::vec3 q1q2{ q2.x - q1.x, q2.y - q1.y, 0 };
 
-	// Cross product to determine if parallel
-	glm::vec3 denom = glm::cross(p1p2, q1q2);
+	// Cross product to determine if parallel 
+	float denom = p1p2.x * q1q2.y - p1p2.y * q1q2.x;
 
 	// Don't divide by zero
-	if (glm::length(denom) > epsilon)
+	if (std::abs(denom) > epsilon)
 	{
 		intersecting = true;
 
-		glm::vec3 p1q1{ p1.x - q1.x, p1.y - q1.y, 0 }; // Vector from q1 to p1  
+		glm::vec3 p1q1{ q1.x - p1.x, q1.y - p1.y, 0 };
 
-		float num1 = glm::cross(p1q1, q1q2).z;
-		float num2 = glm::cross(p1q1, p1p2).z;
-		outLambda1 = num1 / glm::length(denom);
-		outLambda2 = num2 / glm::length(denom);
+		float num1 = p1q1.x * q1q2.y - p1q1.y * q1q2.x;
+		float num2 = p1q1.x * p1p2.y - p1q1.y * p1p2.x;
+		outLambda1 = num1 / denom;
+		outLambda2 = num2 / denom;
 	}
 	else // are parallel
 	{
@@ -115,7 +115,7 @@ bool IntersectLineSegments(const glm::vec2& p1, const glm::vec2& p2, const glm::
 		// Cross product to determine if segments and the line connecting their start points are parallel, 
 		// if so, than they are on a line
 		// if not, then there is no intersection
-		if (glm::length(glm::cross(p1q1, q1q2)) > epsilon)
+		if (glm::abs(p1q1.x *  q1q2.y - p1q1.y * q1q2.x) > epsilon)
 		{
 			return false;
 		}
@@ -155,6 +155,10 @@ bool Raycast(const glm::vec3* vertices, const size_t nrVertices, const glm::vec2
 	{
 		// Consider line segment between 2 consecutive vertices
 		// (modulo to allow closed polygon, last - first vertice)
+		auto a = vertices[0];
+		auto b = vertices[1];
+		auto c = vertices[2];
+		auto d = vertices[3];
 		glm::vec2 q1 = vertices[(idx + 0) % nrVertices];
 		glm::vec2 q2 = vertices[(idx + 1) % nrVertices];
 
@@ -168,6 +172,7 @@ bool Raycast(const glm::vec3* vertices, const size_t nrVertices, const glm::vec2
 		{
 			float lambda1{};
 			float lambda2{};
+
 			if (IntersectLineSegments(rayP1, rayP2, q1, q2, lambda1, lambda2))
 			{
 				if (lambda1 > 0 && lambda1 <= 1 && lambda2 > 0 && lambda2 <= 1)

@@ -39,20 +39,21 @@ namespace GameEngine
 			m_RectCollider.bottom = static_cast<int>(position.y);
 		}
 
-		bool IsColliding(const Rect& rectShape,HitInfo& hitInfo) const;
+		bool IsCollidingHorizontally(const Rect& rectShape,HitInfo& hitInfo) const;
+		bool IsCollidingVertically(const Rect& rectShape, HitInfo& hitInfo) const;
 
 		std::vector<glm::vec3> CreatePointsFromRect(const Rect& rectShape) const;
-		void Update() override;
+		//void Update() override;
 	
 	private:
-		void CreateTextureFromRect(int width, int height, SDL_Color color);
+		//void CreateTextureFromRect(int width, int height, SDL_Color color);
 	private:
 		Rect m_RectCollider;
-		std::unique_ptr<Texture2D> m_pColliderTexture;  
+		/*std::unique_ptr<Texture2D> m_pColliderTexture;  
 
 		SDL_Color m_Color = { 255, 255, 255, 255 };
 
-		TextureComponent* m_pTextureComponent; 
+		TextureComponent* m_pTextureComponent; */
 
 	};
 }

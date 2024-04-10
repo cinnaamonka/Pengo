@@ -22,7 +22,7 @@ public:
 	Environment(Environment&& other) noexcept = delete; 
 	Environment& operator=(Environment&& other) noexcept = delete; 
 
-	void CheckCollision(Rect& shape, glm::vec2& velocity);
+	void CheckCollision(Rect& shape);
 
 	void SetCollisionCanBeChecked(bool canBeChecked)
 	{
@@ -36,7 +36,8 @@ public:
 		m_pPlayer = pActor;
 	}
 private:
-	void ResetHorizontalPosition(glm::vec2& actorVelocity, Rect& actorShape, HitInfo& hitInfo) const;
+	void ResetHorizontalPosition(Rect& actorShape, HitInfo& hitInfo) const;
+	void ResetVerticalPosition(Rect& actorShape, HitInfo& hitInfo) const;
 private:
 	std::vector<std::unique_ptr<BaseBlock>> m_pBlocks;
 	std::vector<std::vector<glm::vec3>> m_Vertices;

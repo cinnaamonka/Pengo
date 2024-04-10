@@ -5,7 +5,8 @@ namespace GameEngine
 	GameEngine::ActorComponent::ActorComponent(GameObject* pGameObject)
 		:BaseComponent(pGameObject),
 		m_Score(0),
-		m_LifesAmount(3)
+		m_LifesAmount(3),
+		m_Speed(30)
 	{
 
 	}

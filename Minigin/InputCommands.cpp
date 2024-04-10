@@ -9,17 +9,19 @@
 
 namespace GameEngine
 {
-	MoveCommand::MoveCommand(GameObject* gameObject, glm::vec3 direction, float speed)
+	MoveCommand::MoveCommand(GameObject* gameObject, glm::vec3 direction)
 		: GameObjectCommand(gameObject),
-		m_Direction(glm::normalize(direction)),
-		m_Speed(speed)
+		m_Direction(glm::normalize(direction))
 	{
+		
 	}
 
 	void GameEngine::MoveCommand::Execute()
 	{
+		GetGameObject()->GetComponent<ActorComponent>()->SetSpeed(30.0f);
+
 		glm::vec3 currentLocalPosition = GetGameObject()->GetComponent<TransformComponent>()->GetLocalPosition();
-		currentLocalPosition += m_Direction * m_Speed * Time::GetElapsed();
+		currentLocalPosition += m_Direction * GetGameObject()->GetComponent<ActorComponent>()->GetSpeed() * Time::GetElapsed();
 		GetGameObject()->GetComponent<TransformComponent>()->SetLocalPosition(currentLocalPosition);
 	}
 

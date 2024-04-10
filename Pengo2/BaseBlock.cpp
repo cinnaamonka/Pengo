@@ -26,7 +26,12 @@ BaseBlock::BaseBlock(const glm::vec3& position, GameEngine::Scene* scene):
 	scene->Add(std::move(m_pGameObject));  
 }
 
-bool BaseBlock::IsColliding(const Rect& rectShape,HitInfo& hitInfo) const
+bool BaseBlock::IsCollidingHorizontally(const Rect& rectShape,HitInfo& hitInfo) const
 {
-	return m_pBoxCollider->IsColliding(rectShape, hitInfo);
+	return m_pBoxCollider->IsCollidingHorizontally(rectShape, hitInfo);  
+}
+
+bool BaseBlock::IsCollidingVertically(const Rect& rectShape, HitInfo& hitInfo) const
+{
+	return m_pBoxCollider->IsCollidingVertically(rectShape, hitInfo); 
 }

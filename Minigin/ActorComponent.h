@@ -39,6 +39,15 @@ namespace GameEngine
 			return m_Score;
 		}
 
+		const float GetSpeed()
+		{
+			return m_Speed;
+		}
+
+		void SetSpeed(float speed)
+		{
+			m_Speed = speed;
+		}
 		void AttachScoreObserver(IObserver<int>* pObserver);
 		void AttachLifesObserver(IObserver<int>* pObserver);
 		void AttachStateObserver(IObserver<State>* pObserver);
@@ -47,6 +56,7 @@ namespace GameEngine
 
 		int m_Score;
 		int m_LifesAmount;
+		float m_Speed;
 
 		Subject<int> m_ScoreChanged;
 		Subject<int> m_LifesAmountChanged;

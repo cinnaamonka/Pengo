@@ -1,17 +1,19 @@
 #include "TextureComponent.h"
 #include "Texture2D.h"
 #include "ResourceManager.h"
+#include <iostream>
 
-GameEngine::TextureComponent::TextureComponent(GameObject* GOptr, const std::string& filename) 
+GameEngine::TextureComponent::TextureComponent(GameObject* GOptr, const std::string& filename)  
 	: BaseComponent(GOptr), fileName(filename)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
+	
 }
 
 GameEngine::TextureComponent::TextureComponent(GameObject* GOptr) 
 	: BaseComponent(GOptr), m_Texture(nullptr)
 {
-
+	
 }
 
 std::shared_ptr<GameEngine::Texture2D> GameEngine::TextureComponent::GetTexture() const

@@ -11,7 +11,7 @@ namespace GameEngine
     class MoveCommand final: public GameObjectCommand
     {
     public:
-        explicit MoveCommand(GameObject* gameObject, glm::vec3 direction, float speed);
+        explicit MoveCommand(GameObject* gameObject, glm::vec3 direction);
         ~MoveCommand() = default;
 
         MoveCommand(const MoveCommand& other) = default;

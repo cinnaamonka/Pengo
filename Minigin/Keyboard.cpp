@@ -31,7 +31,7 @@ namespace GameEngine
 			std::vector<Uint8> currentUsedButton(keyboardState, keyboardState + keysCount);
 
 			std::vector<Uint8> keyChanges(currentUsedButton.size());
-			std::transform(currentUsedButton.begin(), currentUsedButton.end(), m_PreviousButton.begin(), keyChanges.begin(), std::bit_xor<Uint8>());
+			std::transform(currentUsedButton.begin(), currentUsedButton.end(), m_PreviousButton.begin(), keyChanges.begin(), std::bit_xor<Uint8>()); 
 			std::transform(keyChanges.begin(), keyChanges.end(), currentUsedButton.begin(), m_PressedButton.begin(), std::bit_and<Uint8>());
 			std::transform(keyChanges.begin(), keyChanges.end(), m_PreviousButton.begin(), m_ReleasedButton.begin(), std::bit_and<Uint8>());
 			m_PreviousButton = std::move(currentUsedButton);
@@ -83,9 +83,9 @@ namespace GameEngine
 		return m_pImplPtr->IsPrevious(button);
 	}
 
-	void Keyboard::HandleInput()
+	void Keyboard::HandleInput() 
 	{
-		for (const auto& keyboardInput : m_KeyboardCommands)
+		for (const auto& keyboardInput : m_KeyboardCommands) 
 		{
 			switch (keyboardInput.first.inputState)
 			{

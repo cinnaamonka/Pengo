@@ -1,6 +1,8 @@
 #include "Environment.h"
 #include <TimeManager.h>
 #include <BoxColliderComponent.h>
+#include <ActorComponent.h>
+#include <TransformComponent.h> 
 #include <memory>
 #include <Helpers.h>
 
@@ -20,7 +22,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject,const std::string& 
 		m_pBlocks.push_back(std::move(pBaseBlock));
 	}
 }
-void Environment::CheckCollision(Rect& shape, glm::vec2& velocity)
+void Environment::CheckCollision(Rect& shape)
 {
 	if (m_CanCollisionBeChecked)
 	{
@@ -28,24 +30,28 @@ void Environment::CheckCollision(Rect& shape, glm::vec2& velocity)
 
 		for (const auto& pBlock : m_pBlocks)
 		{
-			if (pBlock->IsColliding(shape, hitInfo))
+			if (pBlock->IsCollidingHorizontally(shape, hitInfo))
 			{
-				ResetHorizontalPosition(velocity, shape, hitInfo);
+				ResetHorizontalPosition(shape, hitInfo);
 				//m_CanCollisionBeChecked = false;
 				break;
 			}
+			if (pBlock->IsCollidingVertically(shape,hitInfo))  
+			{
+				ResetVerticalPosition(shape, hitInfo); 
+				//m_CanCollisionBeChecked = false;
+				break;
+			}
+			
 		}
 	}
 }
 void Environment::Update()
 {
-	glm::vec2 speed = { 5,4 };
-
-	CheckCollision(m_pPlayer->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider(), speed);
+	CheckCollision(m_pPlayer->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider());
 } 
-void Environment::ResetHorizontalPosition(glm::vec2& actorVelocity, Rect& actorShape,HitInfo& hitInfo) const
+void Environment::ResetHorizontalPosition(Rect& actorShape,HitInfo& hitInfo) const
 {
-
 	float left = static_cast<float>(actorShape.left);
 
 	float intersectX = static_cast<float>(hitInfo.intersectPoint.x);
@@ -58,6 +64,25 @@ void Environment::ResetHorizontalPosition(glm::vec2& actorVelocity, Rect& actorS
 	{
 		actorShape.left = static_cast<int>(intersectX - actorShape.width);
 	}
+	m_pPlayer->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(glm::vec3{ actorShape.left,actorShape.bottom,0 });  
+	m_pPlayer->GetComponent<GameEngine::ActorComponent>()->SetSpeed(0.0f);
+}
 
-	actorVelocity.x = 0.0f;
+void Environment::ResetVerticalPosition(Rect& actorShape, HitInfo& hitInfo) const
+{
+	float bottom = static_cast<float>(actorShape.bottom);
+
+	float intersectY = static_cast<float>(hitInfo.intersectPoint.y);
+
+	if (intersectY < bottom + actorShape.height / 2)
+	{
+		actorShape.bottom = static_cast<int>(intersectY);
+	}
+	else if (intersectY > bottom + actorShape.height / 2)
+	{
+		actorShape.bottom = static_cast<int>(intersectY - actorShape.height);
+	}
+
+	m_pPlayer->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(glm::vec3{ actorShape.left,actorShape.bottom,0 }); 
+	m_pPlayer->GetComponent<GameEngine::ActorComponent>()->SetSpeed(0.0f); 
 }

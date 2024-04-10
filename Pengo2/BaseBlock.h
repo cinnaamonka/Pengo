@@ -22,7 +22,8 @@ public:
 	BaseBlock(BaseBlock&& other) noexcept = delete;
 	BaseBlock& operator=(BaseBlock&& other) noexcept = delete;
 
-	bool IsColliding(const Rect& rectShape, HitInfo& hitInfo) const;
+	bool IsCollidingHorizontally(const Rect& rectShape, HitInfo& hitInfo) const;
+	bool IsCollidingVertically(const Rect& rectShape, HitInfo& hitInfo) const; 
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pGameObject;
