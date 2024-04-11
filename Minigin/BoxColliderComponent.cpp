@@ -3,16 +3,16 @@
 #include "Texture2D.h"
 #include "TextureComponent.h"
 
-GameEngine::BoxCollider::BoxCollider(GameObject* pGameObject,int left, int bottom, int width, int height):
-	m_RectCollider({left,bottom,width,height}),BaseComponent(pGameObject)
+GameEngine::BoxCollider::BoxCollider(GameObject* pGameObject, int left, int bottom, int width, int height) :
+	m_RectCollider({ left,bottom,width - 2,height -2}), BaseComponent(pGameObject)
 {
- 
+
 }
 
-GameEngine::BoxCollider::BoxCollider(GameObject* pGameObject,Rect shape):
+GameEngine::BoxCollider::BoxCollider(GameObject* pGameObject, Rect shape) :
 	BaseComponent(pGameObject), m_RectCollider(shape)
 {
-  
+
 }
 
 bool GameEngine::BoxCollider::IsCollidingHorizontally(const Rect& rectShape, HitInfo& hitInfo) const
@@ -20,19 +20,24 @@ bool GameEngine::BoxCollider::IsCollidingHorizontally(const Rect& rectShape, Hit
 	const glm::vec2 ray1(rectShape.left, rectShape.bottom + rectShape.height / 2);
 	const glm::vec2 ray2(rectShape.left + rectShape.width, rectShape.bottom + rectShape.height / 2);
 
-	const std::vector<glm::vec3> RectPoints = CreatePointsFromRect( m_RectCollider);
+	const std::vector<glm::vec3> RectPoints = CreatePointsFromRect(m_RectCollider);
 
 	return Raycast(RectPoints, ray1, ray2, hitInfo);;
 }
 
 bool GameEngine::BoxCollider::IsCollidingVertically(const Rect& rectShape, HitInfo& hitInfo) const
 {
-    const glm::vec2 ray1(rectShape.left + rectShape.width/2, rectShape.bottom);
-    const glm::vec2 ray2(rectShape.left + rectShape.width / 2, rectShape.bottom + rectShape.height );
+	const float borderDist = 5.f;
 
-    const std::vector<glm::vec3> RectPoints = CreatePointsFromRect(m_RectCollider); 
+	const glm::vec2 ray1{ rectShape.left + borderDist, rectShape.bottom };
+	const glm::vec2 ray2{ rectShape.left + borderDist, rectShape.bottom + rectShape.height };
+	const glm::vec2 ray3{ rectShape.left + rectShape.width - borderDist, rectShape.bottom };
+	const glm::vec2 ray4{ rectShape.left + rectShape.width - borderDist, rectShape.bottom + rectShape.height };
 
-    return  Raycast(RectPoints, ray1, ray2, hitInfo);
+	const std::vector<glm::vec3> RectPoints = CreatePointsFromRect(m_RectCollider);
+
+	
+	return Raycast(RectPoints, ray1, ray2, hitInfo) || Raycast(RectPoints, ray3, ray4, hitInfo);
 }
 
 std::vector<glm::vec3> GameEngine::BoxCollider::CreatePointsFromRect(const Rect& rectShape) const
