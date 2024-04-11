@@ -6,7 +6,6 @@
 #include "TransformComponent.h"
 #include "ActorComponent.h"
 
-
 namespace GameEngine
 {
 	MoveCommand::MoveCommand(GameObject* gameObject, glm::vec3 direction)
@@ -21,6 +20,7 @@ namespace GameEngine
 		glm::vec3 currentLocalPosition = GetGameObject()->GetComponent<TransformComponent>()->GetLocalPosition();
 		currentLocalPosition += m_Direction * GetGameObject()->GetComponent<ActorComponent>()->GetSpeed() * Time::GetElapsed();
 		GetGameObject()->GetComponent<TransformComponent>()->SetLocalPosition(currentLocalPosition);
+		GetGameObject()->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(true);
 	}
 
 	ScoreCommand::ScoreCommand(GameObject* pGameObject, int amount)

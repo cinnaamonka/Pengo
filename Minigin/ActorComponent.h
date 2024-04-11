@@ -63,12 +63,24 @@ namespace GameEngine
 				m_ScoreChanged.Attach(pObserver);
 			}
 		}
+		void SetCollisionCanBeChecked(bool canBeChecked)
+		{
+			m_CanCollisionBeChecked = canBeChecked;
+		}
 
+		const bool GetCollisionBeChecked()const
+		{
+			return m_CanCollisionBeChecked;
+		}
+
+
+	
 	private:
 
 		int m_Score;
 		int m_LifesAmount;
 		float m_Speed;
+		bool m_CanCollisionBeChecked;
 
 		Subject<int> m_ScoreChanged;
 		Subject<int> m_LifesAmountChanged;

@@ -28,11 +28,6 @@ public:
 
 	void CheckCollision(Rect& shape);
 
-	void SetCollisionCanBeChecked(bool canBeChecked)
-	{
-		m_CanCollisionBeChecked = canBeChecked;
-	}
-
 	void Update() override;
 	
 	void SetActor(GameEngine::GameObject* pActor)
@@ -56,10 +51,8 @@ private:
 	std::vector<std::unique_ptr<BaseBlock>> m_pBlocks;
 	std::vector<std::vector<glm::vec3>> m_Vertices;
 
-	bool m_CanCollisionBeChecked;
-
 	GameEngine::GameObject* m_pPlayer;
 	GameEngine::Subject<GameEngine::CollisionState> m_CollisionStateChanged;
-	GameEngine::Subject<HitInfo> m_CollisionHitInfoChanged; 
+	GameEngine::Subject<HitInfo> m_CollisionHitInfoChanged;
 };
 

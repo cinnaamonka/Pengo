@@ -22,10 +22,10 @@
     <ClCompile Include="Environment.cpp">
       <Filter>GameFiles</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionObserver.cpp">
+    <ClCompile Include="HitObserver.cpp">
       <Filter>GameFiles\Observers</Filter>
     </ClCompile>
-    <ClCompile Include="HitObserver.cpp">
+    <ClCompile Include="CollisionObserver.cpp">
       <Filter>GameFiles\Observers</Filter>
     </ClCompile>
   </ItemGroup>
@@ -39,10 +39,10 @@
     <ClInclude Include="Environment.h">
       <Filter>GameFiles</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionObserver.h">
+    <ClInclude Include="HitObserver.h">
       <Filter>GameFiles\Observers</Filter>
     </ClInclude>
-    <ClInclude Include="HitObserver.h">
+    <ClInclude Include="CollisionObserver.h">
       <Filter>GameFiles\Observers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,11 +3,10 @@
 #include <BoxColliderComponent.h>
 #include <TransformComponent.h>
 
-HitObserver::HitObserver(GameEngine::GameObject* pGameObject):
+HitObserver::HitObserver(GameEngine::GameObject* pGameObject) :
 	BaseComponent(pGameObject)
 {
 }
-
 
 void HitObserver::ResetHorizontalPosition(const GameEngine::Rect& actorShape, const GameEngine::HitInfo& hitInfo)
 {

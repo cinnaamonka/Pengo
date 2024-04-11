@@ -8,7 +8,6 @@
 
 Environment::Environment(GameEngine::GameObject* pGameObject, const std::string& filename, GameEngine::Scene* scene) :
 	BaseComponent(pGameObject),
-	m_CanCollisionBeChecked(true),
 	m_pPlayer(nullptr)
 {
 	GetVerticesFromJsonFile(filename, m_Vertices);
@@ -24,8 +23,9 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 }
 void Environment::CheckCollision(Rect& shape)
 {
-	if (m_CanCollisionBeChecked)
+	if (m_pPlayer->GetComponent<ActorComponent>()->GetCollisionBeChecked())
 	{
+
 		HitInfo hitInfo{};
 
 		for (const auto& pBlock : m_pBlocks)
@@ -46,7 +46,7 @@ void Environment::CheckCollision(Rect& shape)
 			}
 		}
 
-		//m_CanCollisionBeChecked = false;
+		m_pPlayer->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(false);
 	}
 }
 void Environment::Update()

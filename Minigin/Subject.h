@@ -30,7 +30,6 @@ namespace GameEngine
 		void Notify()
 		{
 			typename std::list<IObserver<T>*>::iterator iterator = m_ObserversPtr.begin();
-			HowManyObserver();
 			while (iterator != m_ObserversPtr.end())
 			{
 				(*iterator)->Notify(m_Message);
@@ -43,11 +42,6 @@ namespace GameEngine
 			m_Message = message;
 			Notify();
 		}
-		void HowManyObserver()
-		{
-			std::cout << "There are " << m_ObserversPtr.size() << " observers in the list." << std::endl;
-		}
-
 
 	private:
 		std::list<IObserver<T>*> m_ObserversPtr;

@@ -1,6 +1,6 @@
 #pragma once
-#include "BaseComponent.h"
-#include "IObserver.h"
+#include <BaseComponent.h>
+#include <IObserver.h>
 #include <Helpers.h>
 
 class GameObject;
