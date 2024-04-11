@@ -2,16 +2,20 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <Subject.h>
 
 #include <BaseComponent.h>
 
 #include "BaseBlock.h"
+#include "IObserver.h"
 
 #include <Scene.h>
 
 class GameObject;
 
-class Environment final: public GameEngine::BaseComponent 
+using namespace GameEngine;
+
+class Environment final: public GameEngine::BaseComponent
 {
 public:
 	Environment(GameEngine::GameObject* pGameObject,const std::string& filename,GameEngine::Scene* scene);
@@ -35,9 +39,17 @@ public:
 	{
 		m_pPlayer = pActor;
 	}
+	template<typename T>
+	void AttachObserver(GameEngine::IObserver<T>* pObserver)
+	{
+		if constexpr (std::is_same_v<T, GameEngine::CollisionState>)
+		{
+			m_CollisionStateChanged.Attach(pObserver);
+		}
+	}
 private:
-	void ResetHorizontalPosition(Rect& actorShape, HitInfo& hitInfo) const;
-	void ResetVerticalPosition(Rect& actorShape, HitInfo& hitInfo) const;
+	void ResetHorizontalPosition(Rect& actorShape, HitInfo& hitInfo);
+	void ResetVerticalPosition(Rect& actorShape, HitInfo& hitInfo);
 private:
 	std::vector<std::unique_ptr<BaseBlock>> m_pBlocks;
 	std::vector<std::vector<glm::vec3>> m_Vertices;
@@ -45,5 +57,6 @@ private:
 	bool m_CanCollisionBeChecked;
 
 	GameEngine::GameObject* m_pPlayer;
+	GameEngine::Subject<GameEngine::CollisionState> m_CollisionStateChanged; 
 };
 

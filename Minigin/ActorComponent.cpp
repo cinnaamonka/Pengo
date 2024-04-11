@@ -6,7 +6,7 @@ namespace GameEngine
 		:BaseComponent(pGameObject),
 		m_Score(0),
 		m_LifesAmount(3),
-		m_Speed(30)
+		m_Speed(30.0f)
 	{
 
 	}
@@ -36,24 +36,4 @@ namespace GameEngine
 			m_StateChanged.CreateMessage(GameEngine::State::PlayerDied);
 		}
 	}
-
-
-	void ActorComponent::AttachScoreObserver(IObserver<int>* pObserver)
-	{
-		m_ScoreChanged.Attach(pObserver);
-	}
-
-	void ActorComponent::AttachLifesObserver(IObserver<int>* pObserver)
-	{
-		m_LifesAmountChanged.Attach(pObserver);
-	}
-
-	void ActorComponent::AttachStateObserver(IObserver<State>* pObserver)
-	{
-		m_StateChanged.Attach(pObserver);
-	}
-
-
-	
-
 }

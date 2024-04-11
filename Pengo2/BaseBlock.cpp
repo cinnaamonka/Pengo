@@ -7,7 +7,7 @@
 #include <BoxColliderComponent.h>
 
 
-BaseBlock::BaseBlock(const glm::vec3& position, GameEngine::Scene* scene):
+BaseBlock::BaseBlock(const glm::vec3& position, GameEngine::Scene* scene) :
 	m_BlockSize(20), m_pBoxCollider(nullptr)
 {
 	m_pGameObject = std::make_unique<GameEngine::GameObject>();
@@ -23,15 +23,15 @@ BaseBlock::BaseBlock(const glm::vec3& position, GameEngine::Scene* scene):
 
 	m_pBoxCollider = m_pGameObject->GetComponent<GameEngine::BoxCollider>();
 
-	scene->Add(std::move(m_pGameObject));  
+	scene->Add(std::move(m_pGameObject));
 }
 
-bool BaseBlock::IsCollidingHorizontally(const Rect& rectShape,HitInfo& hitInfo) const
+bool BaseBlock::IsCollidingHorizontally(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo)
 {
-	return m_pBoxCollider->IsCollidingHorizontally(rectShape, hitInfo);  
+	return m_pBoxCollider->IsCollidingHorizontally(rectShape, hitInfo);
 }
 
-bool BaseBlock::IsCollidingVertically(const Rect& rectShape, HitInfo& hitInfo) const
+bool BaseBlock::IsCollidingVertically(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo)
 {
-	return m_pBoxCollider->IsCollidingVertically(rectShape, hitInfo); 
+	return m_pBoxCollider->IsCollidingVertically(rectShape, hitInfo);
 }

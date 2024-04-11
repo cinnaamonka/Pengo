@@ -5,6 +5,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="GameFiles\Observers">
+      <UniqueIdentifier>{af0220b8-757b-46fa-9d26-90da6f49b422}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -19,6 +22,9 @@
     <ClCompile Include="Environment.cpp">
       <Filter>GameFiles</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionObserver.cpp">
+      <Filter>GameFiles\Observers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -29,6 +35,9 @@
     </ClInclude>
     <ClInclude Include="Environment.h">
       <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionObserver.h">
+      <Filter>GameFiles\Observers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

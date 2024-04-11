@@ -39,7 +39,7 @@ namespace GameEngine
 			return m_Score;
 		}
 
-		const float GetSpeed()
+		const float GetSpeed() const
 		{
 			return m_Speed;
 		}
@@ -48,9 +48,21 @@ namespace GameEngine
 		{
 			m_Speed = speed;
 		}
-		void AttachScoreObserver(IObserver<int>* pObserver);
-		void AttachLifesObserver(IObserver<int>* pObserver);
-		void AttachStateObserver(IObserver<State>* pObserver);
+		template<typename T>
+		void AttachObserver(IObserver<T>* pObserver)
+		{
+			if constexpr (std::is_same_v<T, State>)
+			{
+				// Attach to m_StateChanged when T is State
+				m_StateChanged.Attach(pObserver);
+			}
+			else if constexpr (std::is_same_v<T, int>)
+			{
+
+				m_LifesAmountChanged.Attach(pObserver);
+				m_ScoreChanged.Attach(pObserver);
+			}
+		}
 
 	private:
 

@@ -8,6 +8,7 @@
 #include <RenderComponent.h>
 #include <BoxColliderComponent.h>
 #include <ActorComponent.h>
+#include "CollisionObserver.h"
 
 void Game::Initialize()
 {
@@ -19,12 +20,16 @@ void Game::Initialize()
     m_pActor->AddComponent<GameEngine::TextureComponent>("Pengo.tga"); 
     m_pActor->AddComponent<GameEngine::RenderComponent>();
     m_pActor->AddComponent<GameEngine::ActorComponent>();
+    m_pActor->AddComponent<CollisionObserver>();
     GameEngine::GameObject* referenceToCharacterPengo = m_pActor.get();
+    auto collisionObserverComponent = m_pActor->GetComponent< CollisionObserver>();
     scene.Add(std::move(m_pActor));
 
     m_pEnvironment = std::make_unique<GameEngine::GameObject>();
     m_pEnvironment->AddComponent<Environment>("Level.json", &scene);
     m_pEnvironment->GetComponent<Environment>()->SetActor(referenceToCharacterPengo);
+   
+    m_pEnvironment->GetComponent<Environment>()->AttachObserver(collisionObserverComponent);
 
     scene.Add(std::move(m_pEnvironment));
 

@@ -176,6 +176,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks_sdk_158a\sdk\redistributable_bin\*.dll"
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseBlock.cpp" />
+    <ClCompile Include="CollisionObserver.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
@@ -190,6 +191,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks_sdk_158a\sdk\redistributable_bin\*.dll"
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseBlock.h" />
+    <ClInclude Include="CollisionObserver.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="Game.h" />
   </ItemGroup>

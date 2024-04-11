@@ -18,8 +18,6 @@ namespace GameEngine
 
 	void GameEngine::MoveCommand::Execute()
 	{
-		GetGameObject()->GetComponent<ActorComponent>()->SetSpeed(30.0f);
-
 		glm::vec3 currentLocalPosition = GetGameObject()->GetComponent<TransformComponent>()->GetLocalPosition();
 		currentLocalPosition += m_Direction * GetGameObject()->GetComponent<ActorComponent>()->GetSpeed() * Time::GetElapsed();
 		GetGameObject()->GetComponent<TransformComponent>()->SetLocalPosition(currentLocalPosition);

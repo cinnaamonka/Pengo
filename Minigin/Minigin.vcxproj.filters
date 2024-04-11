@@ -36,9 +36,6 @@
     <ClInclude Include="TextureComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="TransformComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="TextComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -118,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="BoxColliderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
