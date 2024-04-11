@@ -1,5 +1,7 @@
 #include "CollisionObserver.h"
 #include <ActorComponent.h>
+#include <BoxColliderComponent.h>
+#include <TransformComponent.h>
 
 CollisionObserver::CollisionObserver(GameEngine::GameObject* pGameObject):
 	BaseComponent(pGameObject)
@@ -20,3 +22,4 @@ void CollisionObserver::Notify(const GameEngine::CollisionState& message_from_su
 	}
 
 }
+

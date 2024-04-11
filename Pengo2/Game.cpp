@@ -9,6 +9,7 @@
 #include <BoxColliderComponent.h>
 #include <ActorComponent.h>
 #include "CollisionObserver.h"
+#include "HitObserver.h"
 
 void Game::Initialize()
 {
@@ -21,16 +22,19 @@ void Game::Initialize()
     m_pActor->AddComponent<GameEngine::RenderComponent>();
     m_pActor->AddComponent<GameEngine::ActorComponent>();
     m_pActor->AddComponent<CollisionObserver>();
+    m_pActor->AddComponent<HitObserver>();
     GameEngine::GameObject* referenceToCharacterPengo = m_pActor.get();
-    auto collisionObserverComponent = m_pActor->GetComponent< CollisionObserver>();
+    auto collisionObserverComponent = m_pActor->GetComponent<CollisionObserver>();
+    auto hitObserverComponent = m_pActor->GetComponent<HitObserver>(); 
     scene.Add(std::move(m_pActor));
 
     m_pEnvironment = std::make_unique<GameEngine::GameObject>();
     m_pEnvironment->AddComponent<Environment>("Level.json", &scene);
     m_pEnvironment->GetComponent<Environment>()->SetActor(referenceToCharacterPengo);
    
-    m_pEnvironment->GetComponent<Environment>()->AttachObserver(collisionObserverComponent);
-
+    m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::CollisionState>(collisionObserverComponent);
+    m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::HitInfo>(hitObserverComponent);
+   
     scene.Add(std::move(m_pEnvironment));
 
     InitializeInputSystem(referenceToCharacterPengo);

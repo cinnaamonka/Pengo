@@ -25,6 +25,9 @@
     <ClCompile Include="CollisionObserver.cpp">
       <Filter>GameFiles\Observers</Filter>
     </ClCompile>
+    <ClCompile Include="HitObserver.cpp">
+      <Filter>GameFiles\Observers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -37,6 +40,9 @@
       <Filter>GameFiles</Filter>
     </ClInclude>
     <ClInclude Include="CollisionObserver.h">
+      <Filter>GameFiles\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="HitObserver.h">
       <Filter>GameFiles\Observers</Filter>
     </ClInclude>
   </ItemGroup>

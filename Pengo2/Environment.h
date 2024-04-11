@@ -46,10 +46,12 @@ public:
 		{
 			m_CollisionStateChanged.Attach(pObserver);
 		}
+		else if constexpr (std::is_same_v<T, GameEngine::HitInfo>)
+		{
+			m_CollisionHitInfoChanged.Attach(pObserver);
+		}
 	}
-private:
-	void ResetHorizontalPosition(Rect& actorShape, HitInfo& hitInfo);
-	void ResetVerticalPosition(Rect& actorShape, HitInfo& hitInfo);
+
 private:
 	std::vector<std::unique_ptr<BaseBlock>> m_pBlocks;
 	std::vector<std::vector<glm::vec3>> m_Vertices;
@@ -57,6 +59,7 @@ private:
 	bool m_CanCollisionBeChecked;
 
 	GameEngine::GameObject* m_pPlayer;
-	GameEngine::Subject<GameEngine::CollisionState> m_CollisionStateChanged; 
+	GameEngine::Subject<GameEngine::CollisionState> m_CollisionStateChanged;
+	GameEngine::Subject<HitInfo> m_CollisionHitInfoChanged; 
 };
 

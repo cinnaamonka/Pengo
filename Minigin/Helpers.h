@@ -1,3 +1,6 @@
+#ifndef HELPERS_H
+#define HELPERS_H
+
 #include "json.hpp"
 #include <string>
 #include <fstream>
@@ -6,9 +9,6 @@
 
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
-
-#ifndef HELPERS_H
-#define HELPERS_H
 
 namespace GameEngine
 {

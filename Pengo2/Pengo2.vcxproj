@@ -179,6 +179,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks_sdk_158a\sdk\redistributable_bin\*.dll"
     <ClCompile Include="CollisionObserver.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HitObserver.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +195,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks_sdk_158a\sdk\redistributable_bin\*.dll"
     <ClInclude Include="CollisionObserver.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="HitObserver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
