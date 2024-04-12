@@ -14,7 +14,7 @@ class BoxCollider;
 class BaseBlock
 {
 public:
-	BaseBlock(const glm::vec3& position, GameEngine::Scene* scene); 
+	BaseBlock(const glm::vec3& position, GameEngine::Scene* scene,const std::string& filename); 
 	~BaseBlock() = default;
 
 	BaseBlock(const BaseBlock& other) = delete;

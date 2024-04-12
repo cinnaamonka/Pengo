@@ -120,6 +120,10 @@
     <ClInclude Include="TransformComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="FSM.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="StatesAndTransitions.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -195,5 +199,9 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Helpers.cpp" />
+    <ClCompile Include="FSM.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="StatesAndTransitions.cpp" />
   </ItemGroup>
 </Project>

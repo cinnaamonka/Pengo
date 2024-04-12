@@ -10,15 +10,23 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	BaseComponent(pGameObject),
 	m_pPlayer(nullptr)
 {
-	GetVerticesFromJsonFile(filename, m_Vertices);
+	GetVerticesFromJsonFile(filename, m_VerticesIceBlocks,m_VerticesDiamondBlocks); 
 
-	int amountOfBlocks = static_cast<int>(m_Vertices.size());
+	int amountOfIceBlocks = static_cast<int>(m_VerticesIceBlocks.size());
+	int amountOfDiamondBlocks = static_cast<int>(m_VerticesDiamondBlocks.size());
 
-	for (int i = 0; i < amountOfBlocks; ++i)
+	for (int i = 0; i < amountOfIceBlocks; ++i)
 	{
-		std::unique_ptr<BaseBlock> pBaseBlock = std::make_unique<BaseBlock>(m_Vertices[i][0], scene);
+		std::unique_ptr<BaseBlock> pBaseBlock = std::make_unique<BaseBlock>(m_VerticesIceBlocks[i][0], scene,"IceBlock.tga");
 
 		m_pBlocks.push_back(std::move(pBaseBlock));
+	}
+
+	for (int i = 0; i < amountOfDiamondBlocks; ++i)
+	{
+		std::unique_ptr<BaseBlock> pDiamondBlock = std::make_unique<BaseBlock>(m_VerticesDiamondBlocks[i][0], scene, "DiamondBlock.tga");
+
+		m_pBlocks.push_back(std::move(pDiamondBlock));
 	}
 }
 void Environment::CheckCollision(Rect& shape)

@@ -7,7 +7,7 @@
 #include <BoxColliderComponent.h>
 
 
-BaseBlock::BaseBlock(const glm::vec3& position, GameEngine::Scene* scene) :
+BaseBlock::BaseBlock(const glm::vec3& position, GameEngine::Scene* scene,const std::string& filename) :
 	m_BlockSize(20), m_pBoxCollider(nullptr)
 {
 	m_pGameObject = std::make_unique<GameEngine::GameObject>();
@@ -18,7 +18,7 @@ BaseBlock::BaseBlock(const glm::vec3& position, GameEngine::Scene* scene) :
 	m_pGameObject->AddComponent<GameEngine::BoxCollider>(xPos, yPos, m_BlockSize, m_BlockSize);
 
 	m_pGameObject->AddComponent<GameEngine::TransformComponent>(position);
-	m_pGameObject->AddComponent<GameEngine::TextureComponent>("IceBlock.tga");
+	m_pGameObject->AddComponent<GameEngine::TextureComponent>(filename);
 	m_pGameObject->AddComponent<GameEngine::RenderComponent>();
 
 	m_pBoxCollider = m_pGameObject->GetComponent<GameEngine::BoxCollider>();
