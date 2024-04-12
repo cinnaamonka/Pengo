@@ -2,7 +2,7 @@
 
 namespace GameEngine
 {
-	void GetVerticesFromJsonFile(std::string fileName, std::vector<std::vector<glm::vec3>>& m_Vertices,std::vector<std::vector<glm::vec3>>& m_VerticesSecondType)
+	void GetVerticesFromJsonFile(std::string fileName, std::vector<std::vector<glm::vec3>>& m_Vertices, std::vector<std::vector<glm::vec3>>& m_VerticesSecondType)
 	{
 		std::filesystem::path currentPath = std::filesystem::current_path();
 		std::filesystem::path parentPath = currentPath.parent_path();
@@ -32,7 +32,7 @@ namespace GameEngine
 				glm::vec3 position;
 				position.x = blockData["position"]["left"];
 				position.y = blockData["position"]["top"];
-				std::string type = blockData["type"]; 
+				std::string type = blockData["type"];
 
 				const int size = 20;
 
@@ -46,7 +46,7 @@ namespace GameEngine
 				{
 					m_Vertices.push_back(block);
 				}
-				else 
+				else
 				{
 					m_VerticesSecondType.push_back(block);
 				}

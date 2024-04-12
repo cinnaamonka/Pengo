@@ -6,6 +6,7 @@
 #include <Scene.h>
 #include <SceneManager.h>
 #include <GameObject.h>
+#include <StatesAndTransitions.h>
 
 #include "Environment.h"
 
@@ -28,6 +29,13 @@ private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pEnvironment;
 	std::unique_ptr<GameEngine::GameObject> m_pActor;
+	GameEngine::Blackboard* m_pBlackboard;
+
+	GameEngine::IdleState* m_IdleState;
+	GameEngine::RunningState* m_RunningState;
+
+	GameEngine::IsInputGiven* m_IsInputGiven;
+	GameEngine::IsInputNotGiven* m_IsNotInputGiven;
 };
 
 

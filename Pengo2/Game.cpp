@@ -10,6 +10,10 @@
 #include <ActorComponent.h>
 #include "CollisionObserver.h"
 #include "HitObserver.h"
+#include <Helpers.h>
+#include <FSM.h>
+
+
 
 void Game::Initialize()
 {
@@ -21,6 +25,19 @@ void Game::Initialize()
     m_pActor->AddComponent<GameEngine::TextureComponent>("Pengo.tga"); 
     m_pActor->AddComponent<GameEngine::RenderComponent>();
     m_pActor->AddComponent<GameEngine::ActorComponent>();
+
+    m_pBlackboard = new Blackboard(); 
+
+    m_IdleState = new IdleState();
+    m_RunningState = new RunningState(); 
+
+    m_IsInputGiven = new GameEngine::IsInputGiven();
+    m_IsNotInputGiven = new GameEngine::IsInputNotGiven(); 
+
+    m_pActor->AddComponent<GameEngine::FSM>(m_IdleState, m_pBlackboard); 
+    m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_IdleState, m_RunningState, m_IsInputGiven);
+    m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_RunningState, m_IdleState, m_IsNotInputGiven);
+
     m_pActor->AddComponent<CollisionObserver>();
     m_pActor->AddComponent<HitObserver>();
     GameEngine::GameObject* referenceToCharacterPengo = m_pActor.get();

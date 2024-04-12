@@ -148,6 +148,8 @@ namespace GameEngine
 		virtual bool Evaluate(Blackboard* pBlackboard) const = 0;
 	};
 
+	Blackboard* CreateBlackboard();
+	
 }
 
 #endif // HELPERS_H
