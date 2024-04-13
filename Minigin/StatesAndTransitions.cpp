@@ -1,6 +1,8 @@
 #include "StatesAndTransitions.h"
 #include "TimeManager.h"
 
+#include <iostream>
+
 namespace GameEngine
 {
 	void IdleState::OnEnter(GameEngine::Blackboard* pBlackboard)
@@ -11,8 +13,7 @@ namespace GameEngine
 
 	void IdleState::OnExit(Blackboard* pBlackboard)
 	{
-		pBlackboard = pBlackboard;
-		std::cout << " idle state on exit" << std::endl;
+		pBlackboard->ChangeData("WasInputGiven", false);
 	}
 
 	void IdleState::Update(GameEngine::Blackboard* pBlackboard)
@@ -33,15 +34,14 @@ namespace GameEngine
 		{
 			++animFrame %= nrOfFrames;
 
-			std::cout << animFrame << std::endl;
-
 			pBlackboard->ChangeData("AnimationFrame", animFrame);
 
 			animTime = 0.0f;
 
 			pBlackboard->ChangeData("AnimationTime", animTime);
 		}
-		pBlackboard->ChangeData("AnimationTime", animTime);	}
+		pBlackboard->ChangeData("AnimationTime", animTime);
+	}
 
 	void RunningState::OnEnter(GameEngine::Blackboard* pBlackboard)
 	{
@@ -51,8 +51,7 @@ namespace GameEngine
 
 	void RunningState::OnExit(GameEngine::Blackboard* pBlackboard)
 	{
-		pBlackboard = pBlackboard;
-		std::cout << " running state on exit" << std::endl;
+		pBlackboard->ChangeData("WasInputGiven", false);
 	}
 
 	void RunningState::Update(GameEngine::Blackboard* pBlackboard)
@@ -75,15 +74,13 @@ namespace GameEngine
 
 			pBlackboard->ChangeData("AnimationFrame", animFrame);
 
-			std::cout << animFrame << std::endl;
-
 			animTime = 0.0f;
 
 			pBlackboard->ChangeData("AnimationTime", animTime);
 		}
 		pBlackboard->ChangeData("AnimationTime", animTime);
 
-		std::cout << " running state on update" << std::endl;
+		pBlackboard->ChangeData("WasInputGiven", false);
 	}
 
 	bool IsInputGiven::Evaluate(GameEngine::Blackboard* pBlackboard) const
@@ -91,17 +88,14 @@ namespace GameEngine
 		bool inputWasGiven;
 		pBlackboard->GetData("WasInputGiven", inputWasGiven);
 
-		std::cout << " is input given evaluate" << std::endl;
-
 		return inputWasGiven;
 	}
 
 	bool IsInputNotGiven::Evaluate(GameEngine::Blackboard* pBlackboard) const
 	{
-
 		bool inputWasGiven;
 		pBlackboard->GetData("WasInputGiven", inputWasGiven);
 
-		return inputWasGiven;
+		return !inputWasGiven;
 	}
 }

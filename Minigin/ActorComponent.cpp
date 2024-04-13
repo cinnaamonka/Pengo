@@ -51,7 +51,7 @@ namespace GameEngine
 
 		Rect currentDimensions
 		{
-			currentAnimationFrame * previousDimensions.width,
+			currentOffset * previousDimensions.width + currentAnimationFrame * previousDimensions.width,
 			previousDimensions.bottom,
 			previousDimensions.width,
 			previousDimensions.height
@@ -64,6 +64,10 @@ namespace GameEngine
 		int currentAnimationFrame;
 		GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("AnimationFrame", currentAnimationFrame);
 
-		ChangeTexture(currentAnimationFrame);
+		int currentOffset;
+		GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("HorizontalOffset", currentOffset);
+
+
+		ChangeTexture(currentAnimationFrame,currentOffset);
 	}
 }
