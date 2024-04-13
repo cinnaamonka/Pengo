@@ -4,6 +4,7 @@
 #include <SDL.h>
 
 #include "Singleton.h"
+#include "Helpers.h"
 
 namespace GameEngine
 {
@@ -22,7 +23,7 @@ namespace GameEngine
 		void Destroy();
 
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
-		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
+		void RenderTexture(const Texture2D& texture, float x, float y,const Rect& destDimensions ) const;
 
 		SDL_Renderer* GetSDLRenderer() const;
 

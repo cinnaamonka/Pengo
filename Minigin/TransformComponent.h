@@ -5,6 +5,8 @@
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
 
+#include "Helpers.h"
+
 namespace GameEngine
 {
 	class BoxCollider;
@@ -39,12 +41,12 @@ namespace GameEngine
 		
 		void UpdateWorldPosition();
 
-		const glm::vec2& GetDimensions()
+		const Rect& GetDimensions()
 		{
 			return m_DestDimensions;
 		}
 
-		void SetDimensions(const glm::vec2& dimensions)
+		void SetDimensions(const Rect& dimensions)
 		{
 			m_DestDimensions = dimensions;
 		}
@@ -60,7 +62,7 @@ namespace GameEngine
 
 		BoxCollider* m_pBoxCollider;
 
-		glm::vec2 m_DestDimensions;
+		Rect m_DestDimensions;
 
 	};
 }

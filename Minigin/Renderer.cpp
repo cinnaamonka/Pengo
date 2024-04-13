@@ -81,19 +81,19 @@ void GameEngine::Renderer::RenderTexture(const Texture2D& texture, const float x
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void GameEngine::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
+void GameEngine::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y,const Rect& destDimensions) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
-	dst.w = static_cast<int>(width);
-	dst.h = static_cast<int>(height);
+	dst.w = static_cast<int>(destDimensions.width);
+	dst.h = static_cast<int>(destDimensions.height);
 
 	SDL_Rect src{};
-	src.x = 0; 
-	src.y = 0;
-	src.w = static_cast<int>(width); 
-	src.h = static_cast<int>(height);
+	src.x = destDimensions.left;
+	src.y = destDimensions.bottom;
+	src.w = static_cast<int>(destDimensions.width);
+	src.h = static_cast<int>(destDimensions.height);
 
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst);
 }

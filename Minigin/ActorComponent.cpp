@@ -46,15 +46,24 @@ namespace GameEngine
 	void ActorComponent::ChangeTexture(int currentAnimationFrame, int currentOffset)
 	{
 		currentOffset = currentOffset;
-		currentAnimationFrame = currentAnimationFrame;
 
-		GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("AnimationFrame", currentAnimationFrame);
+		Rect previousDimensions = GetGameObject()->GetComponent<GameEngine::TransformComponent>()->GetDimensions();
+
+		Rect currentDimensions
+		{
+			currentAnimationFrame * previousDimensions.width,
+			previousDimensions.bottom,
+			previousDimensions.width,
+			previousDimensions.height
+		};
+	    
+		GetGameObject()->GetComponent<GameEngine::TransformComponent>()->SetDimensions(currentDimensions);
 	}
 	void ActorComponent::Update()
 	{
-		//int currentAnimationFrame;
-		//GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("AnimationFrame", currentAnimationFrame);
+		int currentAnimationFrame;
+		GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("AnimationFrame", currentAnimationFrame);
 
-		ChangeTexture(1);
+		ChangeTexture(currentAnimationFrame);
 	}
 }

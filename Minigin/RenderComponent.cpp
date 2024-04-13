@@ -27,12 +27,13 @@ void GameEngine::RenderComponent::Render()
 	const auto& position = m_TransformComponent->GetWorldPosition();
 	const auto& dimensions = m_TransformComponent->GetDimensions();
 
-	if (newTexture != nullptr && dimensions.x == 0 && dimensions.y == 0)
+	// only width can be checked
+	if (newTexture != nullptr && dimensions.width == 0)
 	{
 		Renderer::GetInstance().RenderTexture(*newTexture, position.x, position.y);
 	}
 	else if (newTexture != nullptr)
 	{
-		Renderer::GetInstance().RenderTexture(*newTexture, position.x, position.y, dimensions.x, dimensions.y);
+		Renderer::GetInstance().RenderTexture(*newTexture, position.x, position.y, { dimensions.left, dimensions.bottom,dimensions.width,dimensions.height });
 	}
 }

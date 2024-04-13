@@ -38,6 +38,8 @@ namespace GameEngine
 				}
 			}
 		}
+
+		m_pCurrentState->Update(m_pBlackboard);
 	}
 
 	Blackboard* GameEngine::FSM::GetBlackboard() const

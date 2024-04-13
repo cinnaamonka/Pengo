@@ -29,14 +29,15 @@ void Game::Initialize()
 	m_pBlackboard = new Blackboard();
 	m_pBlackboard->AddData("WasInputGiven", false);
 	m_pBlackboard->AddData("NumberOfFrames", 8);
-	m_pBlackboard->AddData("AnimationTime", int());
+	m_pBlackboard->AddData("AnimationTime", float());
 	m_pBlackboard->AddData("FramesPerSec", 10);
 	m_pBlackboard->AddData("AnimationFrame", 0);
+	m_pBlackboard->AddData("HorizontalOffset", 0);
 
 	auto textureSizeX = m_pActor->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / 8;
 	auto textureSizeY = m_pActor->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / 3;
 
-	m_pActor->GetComponent<TransformComponent>()->SetDimensions(glm::vec2{ textureSizeX,textureSizeY }); 
+	m_pActor->GetComponent<TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
 
 	m_IdleState = new IdleState();
 	m_RunningState = new RunningState();

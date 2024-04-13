@@ -5,7 +5,8 @@ namespace GameEngine
 {
 	void IdleState::OnEnter(GameEngine::Blackboard* pBlackboard)
 	{
-		pBlackboard = pBlackboard;
+		pBlackboard->ChangeData("NumberOfFrames", 2);
+		pBlackboard->ChangeData("HorizontalOffset", 0);
 	}
 
 	void IdleState::OnExit(Blackboard* pBlackboard)
@@ -32,16 +33,20 @@ namespace GameEngine
 		{
 			++animFrame %= nrOfFrames;
 
-			animTime = 0.0f;
-		}
+			std::cout << animFrame << std::endl;
 
-		std::cout << " idle state update" << std::endl;
-	}
+			pBlackboard->ChangeData("AnimationFrame", animFrame);
+
+			animTime = 0.0f;
+
+			pBlackboard->ChangeData("AnimationTime", animTime);
+		}
+		pBlackboard->ChangeData("AnimationTime", animTime);	}
 
 	void RunningState::OnEnter(GameEngine::Blackboard* pBlackboard)
 	{
-		pBlackboard = pBlackboard; 
-		std::cout << " running state on enter" << std::endl;
+		pBlackboard->ChangeData("NumberOfFrames", 2);
+		pBlackboard->ChangeData("HorizontalOffset", 2);
 	}
 
 	void RunningState::OnExit(GameEngine::Blackboard* pBlackboard)
@@ -62,14 +67,21 @@ namespace GameEngine
 		pBlackboard->GetData("FramesPerSec", nrFramesPerSec);
 		pBlackboard->GetData("AnimationFrame", animFrame);
 
-		animTime += TimeManager::GetElapsed();
+		animTime += GameEngine::TimeManager::GetElapsed();
 
 		if (animTime >= 1.f / nrFramesPerSec)
 		{
 			++animFrame %= nrOfFrames;
 
+			pBlackboard->ChangeData("AnimationFrame", animFrame);
+
+			std::cout << animFrame << std::endl;
+
 			animTime = 0.0f;
+
+			pBlackboard->ChangeData("AnimationTime", animTime);
 		}
+		pBlackboard->ChangeData("AnimationTime", animTime);
 
 		std::cout << " running state on update" << std::endl;
 	}

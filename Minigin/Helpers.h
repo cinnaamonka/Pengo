@@ -10,6 +10,8 @@
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
 
+#include "BaseComponent.h"
+
 namespace GameEngine
 {
 	void GetVerticesFromJsonFile(std::string fileName, std::vector<std::vector<glm::vec3>>& m_Vertices, std::vector<std::vector<glm::vec3>>& m_VerticesSecondType);
@@ -131,7 +133,7 @@ namespace GameEngine
 	class FSMState
 	{
 	public:
-		FSMState() {}
+		FSMState() = default;
 		virtual ~FSMState() = default;
 
 		virtual void OnEnter(Blackboard* pBlackboard) = 0;
@@ -140,7 +142,7 @@ namespace GameEngine
 
 	};
 
-	class FSMCondition
+	class FSMCondition 
 	{
 	public:
 		FSMCondition() = default;

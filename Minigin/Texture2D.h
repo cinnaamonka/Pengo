@@ -44,9 +44,6 @@ namespace GameEngine
 			return *this;
 		}
 
-		void RenderTextureToFile(SDL_Texture* texture, const std::string& filename);
-
-		SDL_Texture* CreateCroppedTexture(SDL_Rect srcRect);     
 	private:
 		SDL_Texture* m_texture;
 	};
