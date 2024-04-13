@@ -23,7 +23,7 @@ namespace GameEngine
 		void Destroy();
 
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
-		void RenderTexture(const Texture2D& texture, float x, float y,const Rect& destDimensions ) const;
+		void RenderTexture(const Texture2D& texture, float x, float y,const Rect& destDimensions,bool movingRight ) const;
 
 		SDL_Renderer* GetSDLRenderer() const;
 

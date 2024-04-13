@@ -23,7 +23,6 @@ void Game::Initialize()
 	m_pActor->AddComponent<GameEngine::BoxCollider>(250, 350, 20, 20);
 	m_pActor->AddComponent<GameEngine::TransformComponent>(glm::vec3(250, 350, 0));
 	m_pActor->AddComponent<GameEngine::TextureComponent>("PengoCharacter.tga");
-	m_pActor->AddComponent<GameEngine::RenderComponent>();
 	m_pActor->AddComponent<GameEngine::ActorComponent>();
 
 	m_pBlackboard = new Blackboard();
@@ -33,6 +32,7 @@ void Game::Initialize()
 	m_pBlackboard->AddData("FramesPerSec", 10);
 	m_pBlackboard->AddData("AnimationFrame", 0);
 	m_pBlackboard->AddData("HorizontalOffset", 0);
+	m_pBlackboard->AddData("IsMovingLeft", bool());
 
 	auto textureSizeX = m_pActor->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / 8;
 	auto textureSizeY = m_pActor->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / 3;
@@ -51,6 +51,8 @@ void Game::Initialize()
 
 	m_pActor->AddComponent<CollisionObserver>();
 	m_pActor->AddComponent<HitObserver>();
+	m_pActor->AddComponent<GameEngine::RenderComponent>();
+
 	GameEngine::GameObject* referenceToCharacterPengo = m_pActor.get();
 	auto collisionObserverComponent = m_pActor->GetComponent<CollisionObserver>();
 	auto hitObserverComponent = m_pActor->GetComponent<HitObserver>();

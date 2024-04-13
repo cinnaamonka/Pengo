@@ -23,6 +23,10 @@ namespace GameEngine
 		GetGameObject()->GetComponent<TransformComponent>()->SetLocalPosition(currentLocalPosition);
 		GetGameObject()->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(true);
 		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("WasInputGiven", true);
+
+		bool isMovingLeft = (m_Direction.x <= 0);
+		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("IsMovingLeft", isMovingLeft); 
+		
 	}
 
 	ScoreCommand::ScoreCommand(GameObject* pGameObject, int amount)

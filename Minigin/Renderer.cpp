@@ -30,7 +30,7 @@ void GameEngine::Renderer::Init(SDL_Window* window)
 {
 	m_window = window;
 	m_renderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED);
-	if (m_renderer == nullptr) 
+	if (m_renderer == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
@@ -38,7 +38,7 @@ void GameEngine::Renderer::Init(SDL_Window* window)
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
-	ImGui_ImplOpenGL3_Init(); 
+	ImGui_ImplOpenGL3_Init();
 }
 
 void GameEngine::Renderer::Render() const
@@ -46,13 +46,13 @@ void GameEngine::Renderer::Render() const
 	const auto& color = GetBackgroundColor();
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_renderer);
-	
+
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
 	SceneManager::GetInstance().Render();
-	
+
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -81,7 +81,7 @@ void GameEngine::Renderer::RenderTexture(const Texture2D& texture, const float x
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void GameEngine::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y,const Rect& destDimensions) const
+void GameEngine::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const Rect& destDimensions, bool movingRight) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
@@ -95,7 +95,17 @@ void GameEngine::Renderer::RenderTexture(const Texture2D& texture, const float x
 	src.w = static_cast<int>(destDimensions.width);
 	src.h = static_cast<int>(destDimensions.height);
 
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst);
+	if (movingRight)
+	{
+		SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst);
+	}
+	else
+	{
+		SDL_RendererFlip flip = SDL_FLIP_HORIZONTAL;
+
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst, 0, nullptr, flip);
+	}
+
 }
 
 SDL_Renderer* GameEngine::Renderer::GetSDLRenderer() const { return m_renderer; }
