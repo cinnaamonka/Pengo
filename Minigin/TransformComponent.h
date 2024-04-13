@@ -39,6 +39,16 @@ namespace GameEngine
 		
 		void UpdateWorldPosition();
 
+		const glm::vec2& GetDimensions()
+		{
+			return m_DestDimensions;
+		}
+
+		void SetDimensions(const glm::vec2& dimensions)
+		{
+			m_DestDimensions = dimensions;
+		}
+
 	private:
 		void SetPositionDirty();
 	private:
@@ -49,6 +59,8 @@ namespace GameEngine
 		bool m_IsPositionDirty;
 
 		BoxCollider* m_pBoxCollider;
+
+		glm::vec2 m_DestDimensions;
 
 	};
 }

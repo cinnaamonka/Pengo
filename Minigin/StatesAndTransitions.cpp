@@ -1,49 +1,95 @@
-#pragma once
 #include "StatesAndTransitions.h"
+#include "TimeManager.h"
 
 namespace GameEngine
 {
-	void IdleState::OnEnter(Blackboard* pBlackboard)
+	void IdleState::OnEnter(GameEngine::Blackboard* pBlackboard)
 	{
-		pBlackboard = nullptr;
-		std::cout << " dd" << std::endl;
+		pBlackboard = pBlackboard;
 	}
 
 	void IdleState::OnExit(Blackboard* pBlackboard)
 	{
-		pBlackboard = nullptr;
+		pBlackboard = pBlackboard;
+		std::cout << " idle state on exit" << std::endl;
 	}
 
-	void IdleState::Update(Blackboard* pBlackboard)
+	void IdleState::Update(GameEngine::Blackboard* pBlackboard)
 	{
-		pBlackboard = nullptr;
+		float animTime;
+		int nrFramesPerSec;
+		int animFrame;
+		int nrOfFrames;
+
+		pBlackboard->GetData("NumberOfFrames", nrOfFrames);
+		pBlackboard->GetData("AnimationTime", animTime);
+		pBlackboard->GetData("FramesPerSec", nrFramesPerSec);
+		pBlackboard->GetData("AnimationFrame", animFrame);
+
+		animTime += GameEngine::TimeManager::GetElapsed();
+
+		if (animTime >= 1.f / nrFramesPerSec)
+		{
+			++animFrame %= nrOfFrames;
+
+			animTime = 0.0f;
+		}
+
+		std::cout << " idle state update" << std::endl;
 	}
 
-	void RunningState::OnEnter(Blackboard* pBlackboard)
+	void RunningState::OnEnter(GameEngine::Blackboard* pBlackboard)
 	{
-		pBlackboard = nullptr;
+		pBlackboard = pBlackboard; 
+		std::cout << " running state on enter" << std::endl;
 	}
 
-	void RunningState::OnExit(Blackboard* pBlackboard)
+	void RunningState::OnExit(GameEngine::Blackboard* pBlackboard)
 	{
-		pBlackboard = nullptr;
+		pBlackboard = pBlackboard;
+		std::cout << " running state on exit" << std::endl;
 	}
 
-	void RunningState::Update(Blackboard* pBlackboard)
+	void RunningState::Update(GameEngine::Blackboard* pBlackboard)
 	{
-		pBlackboard = nullptr;
+		float animTime;
+		int nrFramesPerSec;
+		int animFrame;
+		int nrOfFrames;
+
+		pBlackboard->GetData("NumberOfFrames", nrOfFrames);
+		pBlackboard->GetData("AnimationTime", animTime);
+		pBlackboard->GetData("FramesPerSec", nrFramesPerSec);
+		pBlackboard->GetData("AnimationFrame", animFrame);
+
+		animTime += TimeManager::GetElapsed();
+
+		if (animTime >= 1.f / nrFramesPerSec)
+		{
+			++animFrame %= nrOfFrames;
+
+			animTime = 0.0f;
+		}
+
+		std::cout << " running state on update" << std::endl;
 	}
 
-	bool IsInputGiven::Evaluate(Blackboard* pBlackboard) const
+	bool IsInputGiven::Evaluate(GameEngine::Blackboard* pBlackboard) const
 	{
-		pBlackboard = nullptr;
-		return false;
+		bool inputWasGiven;
+		pBlackboard->GetData("WasInputGiven", inputWasGiven);
+
+		std::cout << " is input given evaluate" << std::endl;
+
+		return inputWasGiven;
 	}
 
-	bool IsInputNotGiven::Evaluate(Blackboard* pBlackboard) const
+	bool IsInputNotGiven::Evaluate(GameEngine::Blackboard* pBlackboard) const
 	{
 
-		pBlackboard = nullptr;
-		return false;
+		bool inputWasGiven;
+		pBlackboard->GetData("WasInputGiven", inputWasGiven);
+
+		return inputWasGiven;
 	}
 }

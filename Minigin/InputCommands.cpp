@@ -5,6 +5,7 @@
 #include "TimeManager.h"
 #include "TransformComponent.h"
 #include "ActorComponent.h"
+#include "FSM.h"
 
 namespace GameEngine
 {
@@ -18,9 +19,10 @@ namespace GameEngine
 	void GameEngine::MoveCommand::Execute()
 	{
 		glm::vec3 currentLocalPosition = GetGameObject()->GetComponent<TransformComponent>()->GetLocalPosition();
-		currentLocalPosition += m_Direction * GetGameObject()->GetComponent<ActorComponent>()->GetSpeed() * Time::GetElapsed();
+		currentLocalPosition += m_Direction * GetGameObject()->GetComponent<ActorComponent>()->GetSpeed() * TimeManager::GetElapsed();
 		GetGameObject()->GetComponent<TransformComponent>()->SetLocalPosition(currentLocalPosition);
 		GetGameObject()->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(true);
+		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("WasInputGiven", true);
 	}
 
 	ScoreCommand::ScoreCommand(GameObject* pGameObject, int amount)

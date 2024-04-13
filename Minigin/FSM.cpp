@@ -1,6 +1,7 @@
 #pragma once
 #include "FSM.h"
 #include "Helpers.h"
+#include "TransformComponent.h"
 
 namespace GameEngine
 {

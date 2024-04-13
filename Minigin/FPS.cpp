@@ -16,7 +16,7 @@ GameEngine::FPS::FPS(GameObject* GOptr):
 
 void GameEngine::FPS::Update()
 {
-	double fps = 1 / GameEngine::Time::GetElapsed();
+	double fps = 1 / GameEngine::TimeManager::GetElapsed();
 
 	m_FPSCollection.push_front(fps);
 

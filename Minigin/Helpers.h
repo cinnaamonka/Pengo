@@ -146,10 +146,7 @@ namespace GameEngine
 		FSMCondition() = default;
 		virtual ~FSMCondition() = default;
 		virtual bool Evaluate(Blackboard* pBlackboard) const = 0;
-	};
-
-	Blackboard* CreateBlackboard();
-	
+	};	
 }
 
 #endif // HELPERS_H

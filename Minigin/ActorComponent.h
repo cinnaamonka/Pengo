@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseComponent.h"
 #include "Subject.h"
+#include "Helpers.h"
 
 namespace GameEngine
 {
@@ -32,7 +33,6 @@ namespace GameEngine
 		{
 			return m_LifesAmount;
 		}
-
 
 		int GetScore() const
 		{
@@ -73,14 +73,27 @@ namespace GameEngine
 			return m_CanCollisionBeChecked;
 		}
 
+		const Rect& GetDestTextureRect()
+		{
+			return m_DestTextureRect;
+		}
 
+		void ChangeTexture(int currentAnimationFrame,int currentOffset = 0);
+
+		void Update() override; 
 	
 	private:
 
 		int m_Score;
 		int m_LifesAmount;
-		float m_Speed;
+		int m_ClipWidth;
+		int m_ClipHeight;
+
 		bool m_CanCollisionBeChecked;
+
+		float m_Speed;
+	
+		Rect m_DestTextureRect;
 
 		Subject<int> m_ScoreChanged;
 		Subject<int> m_LifesAmountChanged;

@@ -2,22 +2,21 @@
 #include <chrono>
 #include "Singleton.h"
 
-using namespace std::chrono;
 
 namespace GameEngine
 {
-	class Time final : public GameEngine::Singleton<Time>
+	class TimeManager final : public GameEngine::Singleton<TimeManager>
 	{
 	public:
 		static float GetElapsed();
-		static high_resolution_clock::time_point GetCurrent();
+		static  std::chrono::high_resolution_clock::time_point GetCurrent();
 		static void Update();
 	private:
-		friend class GameEngine::Singleton<Time>;
-		Time() = default;
-		static duration<float> m_ElapsedTime;
-		static high_resolution_clock::time_point m_PreviousTime;
-		static high_resolution_clock::time_point m_CurrentTime;
+		friend class GameEngine::Singleton<TimeManager>;
+		TimeManager() = default;
+		static  std::chrono::duration<float> m_ElapsedTime;
+		static  std::chrono::high_resolution_clock::time_point m_PreviousTime;
+		static  std::chrono::high_resolution_clock::time_point m_CurrentTime;
 	};
 }
 

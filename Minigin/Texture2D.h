@@ -1,7 +1,10 @@
 #pragma once
+#include <SDL.h>
 
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
+
+#include <string>
 
 struct SDL_Texture;
 namespace GameEngine
@@ -13,13 +16,20 @@ namespace GameEngine
 	{
 	public:
 		SDL_Texture* GetSDLTexture() const;
-		explicit Texture2D(SDL_Texture* texture);
+		Texture2D(SDL_Texture* texture);
+		Texture2D() = default;
 		~Texture2D();
 
 		glm::ivec2 GetSize() const;
+		// Move constructor
+		Texture2D(Texture2D&& other) noexcept
+			: m_texture(other.m_texture)
+		{
+			other.m_texture = nullptr;
+		}
 
+	
 		Texture2D(const Texture2D &) = delete;
-		Texture2D(Texture2D &&) = delete;
 		Texture2D & operator= (const Texture2D &) = delete;
 		Texture2D& operator=(Texture2D&& other) noexcept
 		{
@@ -33,6 +43,10 @@ namespace GameEngine
 
 			return *this;
 		}
+
+		void RenderTextureToFile(SDL_Texture* texture, const std::string& filename);
+
+		SDL_Texture* CreateCroppedTexture(SDL_Rect srcRect);     
 	private:
 		SDL_Texture* m_texture;
 	};

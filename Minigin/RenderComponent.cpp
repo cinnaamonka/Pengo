@@ -25,9 +25,14 @@ void GameEngine::RenderComponent::Render()
 {
 	const auto& newTexture = m_TextureComponent->GetTexture();
 	const auto& position = m_TransformComponent->GetWorldPosition();
+	const auto& dimensions = m_TransformComponent->GetDimensions();
 
-	if (newTexture != nullptr)
+	if (newTexture != nullptr && dimensions.x == 0 && dimensions.y == 0)
 	{
 		Renderer::GetInstance().RenderTexture(*newTexture, position.x, position.y);
+	}
+	else if (newTexture != nullptr)
+	{
+		Renderer::GetInstance().RenderTexture(*newTexture, position.x, position.y, dimensions.x, dimensions.y);
 	}
 }

@@ -25,7 +25,7 @@ void GameEngine::TextureComponent::SetTexture(const std::string& filename)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
 }
-void GameEngine::TextureComponent::SetTexture(std::shared_ptr<GameEngine::Texture2D> texture)
+void GameEngine::TextureComponent::SetTexture(std::shared_ptr<GameEngine::Texture2D>& texture)
 {
 	m_Texture = texture;
 }

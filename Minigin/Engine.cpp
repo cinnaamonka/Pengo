@@ -91,8 +91,8 @@ void GameEngine::Engine::Run(const std::function<void()>& load)
 	while (doContinue)
 	{
 		// Update time 
-		GameEngine::Time::Update();
-		m_Lag += GameEngine::Time::GetElapsed();
+		GameEngine::TimeManager::Update();
+		m_Lag += GameEngine::TimeManager::GetElapsed();
 		
 		// handle user input
 		doContinue = input.ProcessInput();
@@ -118,7 +118,7 @@ void GameEngine::Engine::Run(const std::function<void()>& load)
 
 		const auto ms_per_frame = std::chrono::milliseconds(1000) / GameEngine::General::TARGET_FPS;
 
-		const auto sleepTime = Time::GetCurrent() + std::chrono::milliseconds(ms_per_frame) - std::chrono::high_resolution_clock::now();
+		const auto sleepTime = TimeManager::GetCurrent() + std::chrono::milliseconds(ms_per_frame) - std::chrono::high_resolution_clock::now();
 
 		std::this_thread::sleep_for(sleepTime); 
 	}

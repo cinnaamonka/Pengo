@@ -17,7 +17,7 @@ GameEngine::RotationComponent::RotationComponent(GameObject* GOptr, int radius, 
 
 void GameEngine::RotationComponent::Update()
 {
-	const float deltaTime = GameEngine::Time::GetElapsed();
+	const float deltaTime = GameEngine::TimeManager::GetElapsed();
 
 	double angleChange = m_RotationSpeed * deltaTime;
 

@@ -1,5 +1,6 @@
 #include "TransformComponent.h"
 #include "BoxColliderComponent.h"
+#include "TextureComponent.h"
 
 #include "iostream"
 
@@ -7,16 +8,18 @@ GameEngine::TransformComponent::TransformComponent(GameObject* GOptr) :
 	BaseComponent(GOptr),
 	m_LocalPosition(0.0f, 0.0f, 0.0f),
 	m_WorldPosition(0.0f, 0.0f, 0.0f),
-	m_IsPositionDirty(true)
+	m_IsPositionDirty(true),
+	m_DestDimensions{}
 {
-	m_pBoxCollider = GetGameObject()->GetComponent<BoxCollider>();  
+	m_pBoxCollider = GetGameObject()->GetComponent<BoxCollider>(); 
 }
 
 GameEngine::TransformComponent::TransformComponent(GameObject* GOptr, glm::vec3 pos) :
 	BaseComponent(GOptr),
 	m_LocalPosition(pos),
 	m_WorldPosition(pos),
-	m_IsPositionDirty(true)
+	m_IsPositionDirty(true),
+	m_DestDimensions{}
 {
 	m_pBoxCollider = GetGameObject()->GetComponent<BoxCollider>();
 }

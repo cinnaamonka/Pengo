@@ -3,43 +3,43 @@
 
 namespace GameEngine
 {
-	class IdleState : public FSMState
+	class IdleState : public GameEngine::FSMState
 	{
 	public:
 		IdleState() = default;
 		~IdleState() = default;
 
-		virtual void OnEnter(Blackboard* pBlackboard) override;
-		virtual void OnExit(Blackboard* pBlackboard) override;
-		virtual void Update(Blackboard* pBlackboard) override;
+		virtual void OnEnter(GameEngine::Blackboard* pBlackboard) override;
+		virtual void OnExit(GameEngine::Blackboard* pBlackboard) override;
+		virtual void Update(GameEngine::Blackboard* pBlackboard) override;
 	};
-	class RunningState : public FSMState
+	class RunningState : public GameEngine::FSMState
 	{
 	public:
 		RunningState() = default;
 		~RunningState() = default;
 
-		virtual void OnEnter(Blackboard* pBlackboard) override;
-		virtual void OnExit(Blackboard* pBlackboard) override;
-		virtual void Update(Blackboard* pBlackboard) override;
+		virtual void OnEnter(GameEngine::Blackboard* pBlackboard) override;
+		virtual void OnExit(GameEngine::Blackboard* pBlackboard) override;
+		virtual void Update(GameEngine::Blackboard* pBlackboard) override;
 
 	};
 
-	class IsInputGiven : public FSMCondition
+	class IsInputGiven : public GameEngine::FSMCondition
 	{
 	public:
 		IsInputGiven() = default;
 		~IsInputGiven() = default;
 
-		virtual bool Evaluate(Blackboard* pBlackboard) const override;
+		virtual bool Evaluate(GameEngine::Blackboard* pBlackboard) const override;
 	};
-	class IsInputNotGiven : public FSMCondition
+	class IsInputNotGiven : public GameEngine::FSMCondition
 	{
 	public:
 		IsInputNotGiven() = default;
 		~IsInputNotGiven() = default;
 
-		virtual bool Evaluate(Blackboard* pBlackboard) const override;
+		virtual bool Evaluate(GameEngine::Blackboard* pBlackboard) const override;
 	};
 
 }
