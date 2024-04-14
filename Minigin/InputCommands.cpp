@@ -24,8 +24,7 @@ namespace GameEngine
 		GetGameObject()->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(true);
 		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("WasInputGiven", true);
 
-		bool isMovingLeft = (m_Direction.x <= 0);
-		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("IsMovingLeft", isMovingLeft); 
+		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("MovementDirection", m_Direction);
 		
 	}
 

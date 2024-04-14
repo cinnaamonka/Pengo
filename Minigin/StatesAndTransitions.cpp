@@ -7,7 +7,7 @@ namespace GameEngine
 {
 	void IdleState::OnEnter(GameEngine::Blackboard* pBlackboard)
 	{
-		pBlackboard->ChangeData("NumberOfFrames", 2);
+		pBlackboard->ChangeData("NumberOfFrames", 1);
 		pBlackboard->ChangeData("HorizontalOffset", 0);
 	}
 
@@ -45,13 +45,29 @@ namespace GameEngine
 
 	void RunningState::OnEnter(GameEngine::Blackboard* pBlackboard)
 	{
+		glm::vec3 movementDirection;
+		pBlackboard->GetData("MovementDirection", movementDirection);
+	  
+		if (movementDirection.x > 0 || movementDirection.x < 0)
+		{
+			pBlackboard->ChangeData("HorizontalOffset", 2);
+		}
+		else if (movementDirection.y < 0)
+		{
+			pBlackboard->ChangeData("HorizontalOffset", 4);
+		}
+		else if (movementDirection.y > 0)
+		{
+			pBlackboard->ChangeData("HorizontalOffset", 0);
+		}
 		pBlackboard->ChangeData("NumberOfFrames", 2);
-		pBlackboard->ChangeData("HorizontalOffset", 2);
+	
 	}
 
 	void RunningState::OnExit(GameEngine::Blackboard* pBlackboard)
 	{
 		pBlackboard->ChangeData("WasInputGiven", false);
+		pBlackboard->ChangeData("IsMovingLeft", false);
 	}
 
 	void RunningState::Update(GameEngine::Blackboard* pBlackboard)

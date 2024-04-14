@@ -43,16 +43,14 @@ namespace GameEngine
 			m_StateChanged.CreateMessage(GameEngine::State::PlayerDied);
 		}
 	}
-	void ActorComponent::ChangeTexture(int currentAnimationFrame, int currentOffset)
+	void ActorComponent::ChangeTexture(int currentAnimationFrame, int currentHorizontalOffset, int currentVerticalOffset )
 	{
-		currentOffset = currentOffset;
-
 		Rect previousDimensions = GetGameObject()->GetComponent<GameEngine::TransformComponent>()->GetDimensions();
 
 		Rect currentDimensions
 		{
-			currentOffset * previousDimensions.width + currentAnimationFrame * previousDimensions.width,
-			previousDimensions.bottom,
+			currentHorizontalOffset * previousDimensions.width + currentAnimationFrame * previousDimensions.width,
+			currentVerticalOffset * previousDimensions.height + previousDimensions.bottom,
 			previousDimensions.width,
 			previousDimensions.height
 		};

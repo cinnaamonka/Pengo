@@ -32,7 +32,7 @@ void Game::Initialize()
 	m_pBlackboard->AddData("FramesPerSec", 10);
 	m_pBlackboard->AddData("AnimationFrame", 0);
 	m_pBlackboard->AddData("HorizontalOffset", 0);
-	m_pBlackboard->AddData("IsMovingLeft", bool());
+	m_pBlackboard->AddData("MovementDirection", glm::vec3());
 
 	auto textureSizeX = m_pActor->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / 8;
 	auto textureSizeY = m_pActor->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / 3;
