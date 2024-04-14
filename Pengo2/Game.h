@@ -6,15 +6,15 @@
 #include <Scene.h>
 #include <SceneManager.h>
 #include <GameObject.h>
-#include <StatesAndTransitions.h>
 
 #include "Environment.h"
+#include "PengoActor.h"
 
 class Game final :public GameEngine::BaseGame
 {
 public:
 	Game() = default;
-	~Game() = default;
+	~Game() override {};
 
 	Game(const Game& other) = delete;
 	Game& operator=(const Game& other) = delete;
@@ -28,14 +28,7 @@ private:
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pEnvironment;
-	std::unique_ptr<GameEngine::GameObject> m_pActor;
-	GameEngine::Blackboard* m_pBlackboard;
-
-	GameEngine::IdleState* m_IdleState;
-	GameEngine::RunningState* m_RunningState;
-
-	GameEngine::IsInputGiven* m_IsInputGiven;
-	GameEngine::IsInputNotGiven* m_IsNotInputGiven;
+	std::unique_ptr<PengoActor> m_pPengoActor;
 };
 
 

@@ -67,7 +67,6 @@ namespace GameEngine
 	void RunningState::OnExit(GameEngine::Blackboard* pBlackboard)
 	{
 		pBlackboard->ChangeData("WasInputGiven", false);
-		pBlackboard->ChangeData("IsMovingLeft", false);
 	}
 
 	void RunningState::Update(GameEngine::Blackboard* pBlackboard)

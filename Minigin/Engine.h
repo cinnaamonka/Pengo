@@ -3,6 +3,7 @@
 #include <functional>
 #include <string>
 #include "BaseGame.h"
+#include "vld.h" 
 
 namespace GameEngine
 {

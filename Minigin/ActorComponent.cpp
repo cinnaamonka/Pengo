@@ -14,8 +14,7 @@ namespace GameEngine
 		m_Speed(30.0f),
 		m_DestTextureRect{}
 	{
-		m_ClipWidth = GetGameObject()->GetComponent<TextureComponent>()->GetTexture()->GetSize().x / 8;
-		m_ClipHeight = GetGameObject()->GetComponent<TextureComponent>()->GetTexture()->GetSize().y / 2;
+		
 	}
 
 	void ActorComponent::AddScore(int score)

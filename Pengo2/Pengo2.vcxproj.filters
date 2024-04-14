@@ -28,6 +28,9 @@
     <ClCompile Include="CollisionObserver.cpp">
       <Filter>GameFiles\Observers</Filter>
     </ClCompile>
+    <ClCompile Include="PengoActor.cpp">
+      <Filter>GameFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -44,6 +47,9 @@
     </ClInclude>
     <ClInclude Include="CollisionObserver.h">
       <Filter>GameFiles\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="PengoActor.h">
+      <Filter>GameFiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

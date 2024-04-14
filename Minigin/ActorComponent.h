@@ -86,8 +86,6 @@ namespace GameEngine
 
 		int m_Score;
 		int m_LifesAmount;
-		int m_ClipWidth;
-		int m_ClipHeight;
 
 		bool m_CanCollisionBeChecked;
 
