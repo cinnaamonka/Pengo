@@ -53,6 +53,12 @@ PengoActor::PengoActor()
 
 PengoActor::~PengoActor()
 {
+	delete m_pBlackboard;
+	delete m_IdleState;
+	delete m_RunningState;
+	delete m_IsInputGiven;
+	delete m_IsNotInputGiven;
+
 }
 
 CollisionObserver* PengoActor::GetCollisionObserver()

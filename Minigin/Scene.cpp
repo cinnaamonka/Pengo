@@ -30,7 +30,10 @@ void GameEngine::Scene::CleanUp()
 
 Scene::Scene(const std::string& name) : m_name(name) {}
 
-Scene::~Scene() = default;
+Scene::~Scene() 
+{
+	
+};
 
 void Scene::Add(std::unique_ptr<GameObject>&& object)
 {

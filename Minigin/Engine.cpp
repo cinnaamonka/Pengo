@@ -77,9 +77,9 @@ GameEngine::Engine::~Engine()
 	SDL_Quit();
 }
 
-void GameEngine::Engine::Run(const std::function<void()>& load)
+void GameEngine::Engine::Run(const std::function<std::unique_ptr<BaseGame>()>& load)
 {
-	load();
+	auto game = load();
 
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();

@@ -79,6 +79,7 @@ namespace GameEngine
 			for (auto el : m_BlackboardData)
 				delete el.second;
 			m_BlackboardData.clear();
+
 		}
 
 		Blackboard(const Blackboard& other) = delete;
@@ -138,17 +139,17 @@ namespace GameEngine
 
 		virtual void OnEnter(Blackboard* pBlackboard) = 0;
 		virtual void OnExit(Blackboard* pBlackboard) = 0;
-		virtual void Update(Blackboard* pBlackboard) = 0 ;
+		virtual void Update(Blackboard* pBlackboard) = 0;
 
 	};
 
-	class FSMCondition 
+	class FSMCondition
 	{
 	public:
 		FSMCondition() = default;
 		virtual ~FSMCondition() = default;
 		virtual bool Evaluate(Blackboard* pBlackboard) const = 0;
-	};	
+	};
 }
 
 #endif // HELPERS_H

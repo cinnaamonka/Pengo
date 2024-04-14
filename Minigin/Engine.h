@@ -2,8 +2,9 @@
 
 #include <functional>
 #include <string>
+#include <memory>
 #include "BaseGame.h"
-#include "vld.h" 
+//#include "vld.h" 
 
 namespace GameEngine
 {
@@ -12,7 +13,7 @@ namespace GameEngine
 	public:
 		explicit Engine(const std::string& dataPath);
 		~Engine();
-		void Run(const std::function<void()>& load);
+		void Run(const std::function<std::unique_ptr<BaseGame>()>& load);
 
 		Engine(const Engine& other) = delete;
 		Engine(Engine&& other) = delete;
