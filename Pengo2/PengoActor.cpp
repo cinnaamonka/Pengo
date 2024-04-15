@@ -20,7 +20,7 @@ PengoActor::PengoActor()
 	m_pActor->AddComponent<GameEngine::TextureComponent>("PengoCharacter.tga");
 	m_pActor->AddComponent<GameEngine::ActorComponent>();
 
-	m_pBlackboard = new GameEngine::Blackboard();
+	m_pBlackboard = std::make_unique<GameEngine::Blackboard>();
 	m_pBlackboard->AddData("WasInputGiven", false);
 	m_pBlackboard->AddData("NumberOfFrames", int());
 	m_pBlackboard->AddData("AnimationTime", float());
@@ -34,15 +34,15 @@ PengoActor::PengoActor()
 
 	m_pActor->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
 
-	m_IdleState = new GameEngine::IdleState();
-	m_RunningState = new GameEngine::RunningState();
+	m_IdleState = std::make_unique<GameEngine::IdleState>();
+	m_RunningState = std::make_unique<GameEngine::RunningState>();
 
-	m_IsInputGiven = new GameEngine::IsInputGiven();
-	m_IsNotInputGiven = new GameEngine::IsInputNotGiven();
+	m_IsInputGiven = std::make_unique <GameEngine::IsInputGiven>();
+	m_IsNotInputGiven = std::make_unique<GameEngine::IsInputNotGiven>();
 
-	m_pActor->AddComponent<GameEngine::FSM>(m_IdleState, m_pBlackboard);
-	m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_IdleState, m_RunningState, m_IsInputGiven);
-	m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_RunningState, m_IdleState, m_IsNotInputGiven);
+	m_pActor->AddComponent<GameEngine::FSM>(m_IdleState.get(), m_pBlackboard.get());
+	m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_IdleState.get(), m_RunningState.get(), m_IsInputGiven.get());
+	m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_RunningState.get(), m_IdleState.get(), m_IsNotInputGiven.get());
 
 	m_pActor->AddComponent<CollisionObserver>();
 	m_pActor->AddComponent<HitObserver>();
@@ -53,12 +53,6 @@ PengoActor::PengoActor()
 
 PengoActor::~PengoActor()
 {
-	delete m_pBlackboard;
-	delete m_IdleState;
-	delete m_RunningState;
-	delete m_IsInputGiven;
-	delete m_IsNotInputGiven;
-
 }
 
 CollisionObserver* PengoActor::GetCollisionObserver()

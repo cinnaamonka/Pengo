@@ -35,13 +35,13 @@ public:
 private:
 	std::unique_ptr<GameEngine::GameObject> m_pActor;
 
-	GameEngine::Blackboard* m_pBlackboard;
+	std::unique_ptr<GameEngine::Blackboard> m_pBlackboard;
 
-	GameEngine::IdleState* m_IdleState;
-	GameEngine::RunningState* m_RunningState;
+	std::unique_ptr<GameEngine::IdleState> m_IdleState;
+	std::unique_ptr<GameEngine::RunningState> m_RunningState;
 
-	GameEngine::IsInputGiven* m_IsInputGiven;
-	GameEngine::IsInputNotGiven* m_IsNotInputGiven;
+	std::unique_ptr<GameEngine::IsInputGiven> m_IsInputGiven;
+	std::unique_ptr<GameEngine::IsInputNotGiven> m_IsNotInputGiven;
 
 	int m_HorizontalAmountOfFrames = 8;
 	int m_VerticalAmountOfFrames = 3;
