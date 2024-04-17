@@ -23,9 +23,7 @@ namespace GameEngine
 		GetGameObject()->GetComponent<TransformComponent>()->SetLocalPosition(currentLocalPosition);
 		GetGameObject()->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(true);
 		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("WasInputGiven", true);
-
 		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("MovementDirection", m_Direction);
-		
 	}
 
 	ScoreCommand::ScoreCommand(GameObject* pGameObject, int amount)

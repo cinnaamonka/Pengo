@@ -4,8 +4,12 @@
 #include <InputCommands.h>
 
 #include <StatesAndTransitions.h>
-#include "CollisionObserver.h"
 #include "HitObserver.h"
+#include "BlockComponent.h"
+#include "PengoInputCommands.h"
+
+#include <glm/vec3.hpp>
+#include <glm/glm.hpp>
 
 void Game::Initialize()
 {
@@ -13,16 +17,16 @@ void Game::Initialize()
 
 	m_pPengoActor = std::make_unique<PengoActor>();
 
-	auto collisionObserverComponent = m_pPengoActor->GetCollisionObserver();
 	auto hitObserverComponent = m_pPengoActor->GetHitObserver();
+
 	scene.Add(std::move(m_pPengoActor->GetActorGameObject()));
 
 	m_pEnvironment = std::make_unique<GameEngine::GameObject>();
 	m_pEnvironment->AddComponent<Environment>("Level.json", &scene);
 	m_pEnvironment->GetComponent<Environment>()->SetActor(m_pPengoActor->GetReferenceToActor());
-
-	m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::CollisionState>(collisionObserverComponent);
-	m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::HitInfo>(hitObserverComponent); 
+	m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::HitInfo>(hitObserverComponent);
+	
+	m_pEnvironmentReference = m_pEnvironment.get();
 
 	scene.Add(std::move(m_pEnvironment));
 
@@ -53,6 +57,10 @@ void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)
 		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_DOWN, GameEngine::InputState::Previous },
 		std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 0, 1, 0 }));
 
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_A, GameEngine::InputState::Previous },
+		std::make_unique<PushBlockCommand>(m_pEnvironmentReference, glm::vec3{ 0, 1, 0 }));
+
 	//Keyboard Input
 	input.AddCommand<GameEngine::Keyboard>(
 		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_A, GameEngine::InputState::Previous },
@@ -69,4 +77,8 @@ void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)
 	input.AddCommand<GameEngine::Keyboard>(
 		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_S, GameEngine::InputState::Previous },
 		std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 0,1, 0 }));
+
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Previous },
+		std::make_unique<PushBlockCommand>(m_pEnvironmentReference, glm::vec3{ 0,1, 0 }));
 }

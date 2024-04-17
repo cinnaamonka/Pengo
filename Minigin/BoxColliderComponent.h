@@ -43,17 +43,9 @@ namespace GameEngine
 		bool IsCollidingVertically(const Rect& rectShape, HitInfo& hitInfo) const;
 
 		std::vector<glm::vec3> CreatePointsFromRect(const Rect& rectShape) const;
-		//void Update() override;
-	
-	private:
-		//void CreateTextureFromRect(int width, int height, SDL_Color color);
+		
 	private:
 		Rect m_RectCollider;
-		/*std::unique_ptr<Texture2D> m_pColliderTexture;  
-
-		SDL_Color m_Color = { 255, 255, 255, 255 };
-
-		TextureComponent* m_pTextureComponent; */
 
 	};
 }

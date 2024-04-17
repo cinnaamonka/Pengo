@@ -11,6 +11,7 @@ class GameEngine::IsInputNotGiven;
 
 class HitObserver;
 class CollisionObserver;
+class PushObserver;
 
 class PengoActor final
 {
@@ -28,8 +29,8 @@ public:
 		return m_ReferenceToCharacterPengo;
 	}
 
-	CollisionObserver* GetCollisionObserver(); 
-	HitObserver* GetHitObserver();
+	HitObserver* GetHitObserver() const;
+	PushObserver* GetPushObserver() const;
 	std::unique_ptr<GameEngine::GameObject>& GetActorGameObject();
 
 private:

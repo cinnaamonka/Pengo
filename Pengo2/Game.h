@@ -29,6 +29,8 @@ private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pEnvironment;
 	std::unique_ptr<PengoActor> m_pPengoActor;
+
+	GameEngine::GameObject* m_pEnvironmentReference;
 };
 
 

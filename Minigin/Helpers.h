@@ -29,11 +29,6 @@ namespace GameEngine
 		int width;
 		int height;
 	};
-	enum class CollisionState
-	{
-		Colliding,
-		NotColliding
-	};
 
 	bool IsOverlapping(const Rect& r1, const Rect& r2);
 

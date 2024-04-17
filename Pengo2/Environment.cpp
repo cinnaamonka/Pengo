@@ -1,5 +1,6 @@
 #include "Environment.h"
 #include <TimeManager.h>
+#include "BlockComponent.h"
 #include <BoxColliderComponent.h>
 #include <TransformComponent.h> 
 #include <ActorComponent.h>
@@ -8,7 +9,9 @@
 
 Environment::Environment(GameEngine::GameObject* pGameObject, const std::string& filename, GameEngine::Scene* scene) :
 	BaseComponent(pGameObject),
-	m_pPlayer(nullptr)
+	m_pPlayer(nullptr),
+	m_PushDirection{},
+	m_PushedBlockIndex{}
 {
 	GetVerticesFromJsonFile(filename, m_VerticesIceBlocks,m_VerticesDiamondBlocks); 
 
@@ -19,6 +22,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	{
 		std::unique_ptr<BaseBlock> pBaseBlock = std::make_unique<BaseBlock>(m_VerticesIceBlocks[i][0], scene,"IceBlock.tga");
 
+	
 		m_pBlocks.push_back(std::move(pBaseBlock));
 	}
 
@@ -28,28 +32,27 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 
 		m_pBlocks.push_back(std::move(pDiamondBlock));
 	}
-}
+ }
 void Environment::CheckCollision(Rect& shape)
 {
 	if (m_pPlayer->GetComponent<ActorComponent>()->GetCollisionBeChecked())
 	{
-
 		HitInfo hitInfo{};
 
-		for (const auto& pBlock : m_pBlocks)
+		for (int i = 0; i <  m_pBlocks.size();++i)
 		{
-			if (pBlock->IsCollidingHorizontally(shape, hitInfo))
+			if (m_pBlocks[i]->IsCollidingHorizontally(shape, hitInfo))
 			{
-				m_CollisionStateChanged.CreateMessage(GameEngine::CollisionState::Colliding);
 				m_CollisionHitInfoChanged.CreateMessage(hitInfo);
-				m_CollisionStateChanged.CreateMessage(GameEngine::CollisionState::NotColliding);
+				m_PushedBlockIndex = i;
+				m_PushDirection = { 1,0,0 };
 				break;
 			}
-			if (pBlock->IsCollidingVertically(shape, hitInfo))
+			if (m_pBlocks[i]->IsCollidingVertically(shape, hitInfo))
 			{
-				m_CollisionStateChanged.CreateMessage(GameEngine::CollisionState::Colliding);
 				m_CollisionHitInfoChanged.CreateMessage(hitInfo);
-				m_CollisionStateChanged.CreateMessage(GameEngine::CollisionState::NotColliding); 
+				m_PushedBlockIndex = i;
+				m_PushDirection = { 0,1,0 };
 				break;
 			}
 		}
@@ -60,5 +63,10 @@ void Environment::CheckCollision(Rect& shape)
 void Environment::Update()
 {
 	CheckCollision(m_pPlayer->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider());
+}
+
+void Environment::PushBlock()
+{
+	m_pBlocks[m_PushedBlockIndex]->PushBlock(m_PushDirection);
 }
 

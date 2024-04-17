@@ -8,6 +8,9 @@
     <Filter Include="GameFiles\Observers">
       <UniqueIdentifier>{af0220b8-757b-46fa-9d26-90da6f49b422}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameFiles\Input">
+      <UniqueIdentifier>{22883ee6-95b2-4f52-a43e-bf3ebb3b555f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -25,11 +28,11 @@
     <ClCompile Include="HitObserver.cpp">
       <Filter>GameFiles\Observers</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionObserver.cpp">
-      <Filter>GameFiles\Observers</Filter>
-    </ClCompile>
     <ClCompile Include="PengoActor.cpp">
       <Filter>GameFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="PengoInputCommands.cpp">
+      <Filter>GameFiles\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -45,11 +48,11 @@
     <ClInclude Include="HitObserver.h">
       <Filter>GameFiles\Observers</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionObserver.h">
-      <Filter>GameFiles\Observers</Filter>
-    </ClInclude>
     <ClInclude Include="PengoActor.h">
       <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="PengoInputCommands.h">
+      <Filter>GameFiles\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

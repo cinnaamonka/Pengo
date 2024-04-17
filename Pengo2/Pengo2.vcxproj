@@ -176,12 +176,12 @@ xcopy "$(SolutionDir)3rdParty\steamworks_sdk_158a\sdk\redistributable_bin\*.dll"
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseBlock.cpp" />
-    <ClCompile Include="CollisionObserver.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HitObserver.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PengoActor.cpp" />
+    <ClCompile Include="PengoInputCommands.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\imgui\imgui.vcxproj">
@@ -193,11 +193,11 @@ xcopy "$(SolutionDir)3rdParty\steamworks_sdk_158a\sdk\redistributable_bin\*.dll"
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseBlock.h" />
-    <ClInclude Include="CollisionObserver.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HitObserver.h" />
     <ClInclude Include="PengoActor.h" />
+    <ClInclude Include="PengoInputCommands.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

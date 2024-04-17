@@ -6,7 +6,6 @@
 #include <BoxColliderComponent.h>
 #include <ResourceManager.h>
 #include <ActorComponent.h>
-#include "CollisionObserver.h"
 #include "HitObserver.h"
 #include <Helpers.h>
 #include <Texture2D.h>
@@ -44,7 +43,6 @@ PengoActor::PengoActor()
 	m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_IdleState.get(), m_RunningState.get(), m_IsInputGiven.get());
 	m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_RunningState.get(), m_IdleState.get(), m_IsNotInputGiven.get());
 
-	m_pActor->AddComponent<CollisionObserver>();
 	m_pActor->AddComponent<HitObserver>();
 	m_pActor->AddComponent<GameEngine::RenderComponent>();
 
@@ -55,12 +53,7 @@ PengoActor::~PengoActor()
 {
 }
 
-CollisionObserver* PengoActor::GetCollisionObserver()
-{
-	return m_pActor->GetComponent<CollisionObserver>();
-}
-
-HitObserver* PengoActor::GetHitObserver()
+HitObserver* PengoActor::GetHitObserver() const
 {
 	return m_pActor->GetComponent<HitObserver>();
 }

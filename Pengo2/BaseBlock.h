@@ -1,12 +1,8 @@
 #pragma once
 #include <memory>
 #include <GameObject.h>
-
-#include <glm/vec2.hpp>
-#include <glm/glm.hpp>
 #include <Helpers.h>
 #include <BoxColliderComponent.h>
-
 #include <Scene.h>
 
 class BoxCollider;
@@ -25,10 +21,12 @@ public:
 	bool IsCollidingHorizontally(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo);
 	bool IsCollidingVertically(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo); 
 
+	void PushBlock(const glm::vec3& direction);
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pGameObject;
 	GameEngine::BoxCollider* m_pBoxCollider;
+	GameEngine::GameObject* m_pGameObjectReference;
 
 	const int m_BlockSize;
 };
