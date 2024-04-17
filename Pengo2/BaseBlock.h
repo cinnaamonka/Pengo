@@ -27,6 +27,11 @@ public:
 	{
 		return m_Position;
 	}
+
+	GameEngine::Rect& GetBlockShape()
+	{
+		return m_pBoxCollider->GetBoxCollider();
+	}
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pGameObject;

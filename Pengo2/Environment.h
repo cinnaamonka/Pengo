@@ -30,6 +30,7 @@ public:
 	Environment& operator=(Environment&& other) noexcept = delete; 
 
 	void CheckCollision(Rect& shape);
+	void CheckBlocksCollision(Rect& shape);
 
 	void Update() override;
 	
@@ -59,5 +60,6 @@ private:
 	
 	int m_PushedBlockIndex;
 	glm::vec3 m_PushDirection;
+	bool m_BlockCanBePushed;
 };
 

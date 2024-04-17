@@ -76,7 +76,7 @@ void HitObserver::Notify(const GameEngine::HitInfo& message_from_subject)
 			shape.height
 
 		};
-
+		std::cout << shapeCopy.left << std::endl;
 		ResetHorizontalPosition(shapeCopy, message_from_subject);
 	}
 }

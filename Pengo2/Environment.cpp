@@ -68,13 +68,39 @@ void Environment::CheckCollision(Rect& shape)
 		m_pPlayer->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(false);
 	}
 }
+void Environment::CheckBlocksCollision(Rect& shape)
+{
+	HitInfo hitInfo{};
+
+	for (int i = 0; i < m_pBlocks.size(); ++i)
+	{
+		if (m_pBlocks[i]->IsCollidingHorizontally(shape, hitInfo))
+		{
+			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
+			break;
+		}
+		if (m_pBlocks[i]->IsCollidingVertically(shape, hitInfo))
+		{
+			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
+			break;
+		}
+	}
+
+}
 void Environment::Update()
 {
 	CheckCollision(m_pPlayer->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider());
+
+	if (m_BlockCanBePushed)
+	{
+		m_pBlocks[m_PushedBlockIndex]->PushBlock(m_PushDirection);
+		CheckBlocksCollision(m_pBlocks[m_PushedBlockIndex]->GetBlockShape());
+	}
 }
 
 void Environment::PushBlock()
 {
-	m_pBlocks[m_PushedBlockIndex]->PushBlock(m_PushDirection);
+	m_BlockCanBePushed = true;
+	
 }
 
