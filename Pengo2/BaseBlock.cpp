@@ -8,7 +8,7 @@
 
 
 BaseBlock::BaseBlock(const glm::vec3& position, GameEngine::Scene* scene, const std::string& filename) :
-	m_BlockSize(20), m_pBoxCollider(nullptr)
+	m_BlockSize(20), m_pBoxCollider(nullptr), m_Position(position)
 {
 	m_pGameObject = std::make_unique<GameEngine::GameObject>();
 

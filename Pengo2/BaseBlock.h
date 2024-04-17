@@ -22,6 +22,11 @@ public:
 	bool IsCollidingVertically(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo); 
 
 	void PushBlock(const glm::vec3& direction);
+
+	const glm::vec3& GetPosition()
+	{
+		return m_Position;
+	}
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pGameObject;
@@ -29,5 +34,7 @@ private:
 	GameEngine::GameObject* m_pGameObjectReference;
 
 	const int m_BlockSize;
+	glm::vec3 m_Position;
+
 };
 

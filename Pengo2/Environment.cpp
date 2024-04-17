@@ -20,10 +20,18 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 
 	for (int i = 0; i < amountOfIceBlocks; ++i)
 	{
-		std::unique_ptr<BaseBlock> pBaseBlock = std::make_unique<BaseBlock>(m_VerticesIceBlocks[i][0], scene,"IceBlock.tga");
+		auto position = m_VerticesIceBlocks[i][0];
+		bool positionExists = std::find_if(m_pBlocks.begin(), m_pBlocks.end(),
+			[&position](const std::unique_ptr<BaseBlock>& block)
+			{
+				return block->GetPosition() == position;
+			}) != m_pBlocks.end();
 
-	
-		m_pBlocks.push_back(std::move(pBaseBlock));
+			if (!positionExists)
+			{
+				std::unique_ptr<BaseBlock> pBaseBlock = std::make_unique<BaseBlock>(position, scene, "IceBlock.tga");
+				m_pBlocks.push_back(std::move(pBaseBlock));
+			}
 	}
 
 	for (int i = 0; i < amountOfDiamondBlocks; ++i)
