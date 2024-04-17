@@ -2,7 +2,8 @@
 
 namespace GameEngine
 {
-	void GetVerticesFromJsonFile(std::string fileName, std::vector<std::vector<glm::vec3>>& m_Vertices, std::vector<std::vector<glm::vec3>>& m_VerticesSecondType)
+	void GetVerticesFromJsonFile(std::string fileName, std::vector<std::vector<glm::vec3>>& m_Vertices, 
+		std::vector<std::vector<glm::vec3>>& m_VerticesSecondType)
 	{
 		std::filesystem::path currentPath = std::filesystem::current_path();
 		std::filesystem::path parentPath = currentPath.parent_path();
