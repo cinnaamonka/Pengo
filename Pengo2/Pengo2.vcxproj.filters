@@ -45,14 +45,14 @@
     <ClInclude Include="Environment.h">
       <Filter>GameFiles</Filter>
     </ClInclude>
-    <ClInclude Include="HitObserver.h">
-      <Filter>GameFiles\Observers</Filter>
-    </ClInclude>
     <ClInclude Include="PengoActor.h">
       <Filter>GameFiles</Filter>
     </ClInclude>
     <ClInclude Include="PengoInputCommands.h">
       <Filter>GameFiles\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="HitObserver.h">
+      <Filter>GameFiles\Observers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,7 +13,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	m_PushDirection{},
 	m_PushedBlockIndex{}
 {
-	GetVerticesFromJsonFile(filename, m_VerticesIceBlocks,m_VerticesDiamondBlocks); 
+	GetVerticesFromJsonFile(filename, m_VerticesIceBlocks, m_VerticesDiamondBlocks);
 
 	int amountOfIceBlocks = static_cast<int>(m_VerticesIceBlocks.size());
 	int amountOfDiamondBlocks = static_cast<int>(m_VerticesDiamondBlocks.size());
@@ -21,7 +21,6 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	for (int i = 0; i < amountOfDiamondBlocks; ++i)
 	{
 		std::unique_ptr<BaseBlock> pDiamondBlock = std::make_unique<BaseBlock>(m_VerticesDiamondBlocks[i][0], scene, "DiamondBlock.tga");
-
 		m_pBlocks.push_back(std::move(pDiamondBlock));
 
 	}
@@ -40,14 +39,14 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 				m_pBlocks.push_back(std::move(pBaseBlock));
 			}
 	}
- }
+}
 void Environment::CheckCollision(Rect& shape)
 {
 	if (m_pPlayer->GetComponent<ActorComponent>()->GetCollisionBeChecked())
 	{
 		HitInfo hitInfo{};
 
-		for (int i = 0; i <  m_pBlocks.size();++i)
+		for (int i = 0; i < m_pBlocks.size(); ++i)
 		{
 			if (m_pBlocks[i]->IsCollidingHorizontally(shape, hitInfo))
 			{
@@ -70,22 +69,50 @@ void Environment::CheckCollision(Rect& shape)
 }
 void Environment::CheckBlocksCollision(Rect& shape)
 {
+
 	HitInfo hitInfo{};
 
 	for (int i = 0; i < m_pBlocks.size(); ++i)
 	{
+		const auto& blockShape = m_pBlocks[i]->GetBlockShape();
+
 		if (m_pBlocks[i]->IsCollidingHorizontally(shape, hitInfo))
 		{
-			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
-			break;
+			if (i != m_PushedBlockIndex)
+			{
+				m_BlockCanBePushed = false;
+				m_pBlocks[i]->SetPushSpeed(0);
+				break;
+			}
+			else
+			{
+				m_BlockCanBePushed = false;
+			}
+		}
+		else
+		{
+			m_BlockCanBePushed = false;
 		}
 		if (m_pBlocks[i]->IsCollidingVertically(shape, hitInfo))
 		{
-			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
-			break;
+			const auto& blockShape = m_pBlocks[i]->GetBlockShape();
+
+			if (blockShape.left != shape.left && blockShape.bottom != shape.bottom)
+			{
+				m_BlockCanBePushed = false;
+
+				break;
+			}
+			else
+			{
+				m_BlockCanBePushed = false;
+			}
+		}
+		else
+		{
+			m_BlockCanBePushed = false;
 		}
 	}
-
 }
 void Environment::Update()
 {
@@ -94,13 +121,12 @@ void Environment::Update()
 	if (m_BlockCanBePushed)
 	{
 		m_pBlocks[m_PushedBlockIndex]->PushBlock(m_PushDirection);
-		CheckBlocksCollision(m_pBlocks[m_PushedBlockIndex]->GetBlockShape());
 	}
 }
 
 void Environment::PushBlock()
 {
 	m_BlockCanBePushed = true;
-	
+
 }
 

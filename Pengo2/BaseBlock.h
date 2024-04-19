@@ -5,7 +5,10 @@
 #include <BoxColliderComponent.h>
 #include <Scene.h>
 
+#include "HitObserver.h"
+
 class BoxCollider;
+class HitObserver;
 
 class BaseBlock
 {
@@ -32,6 +35,18 @@ public:
 	{
 		return m_pBoxCollider->GetBoxCollider();
 	}
+
+	HitObserver* GetHitObserver()
+	{
+		auto observer = m_pGameObjectReference->GetComponent<HitObserver>();
+		if(observer)
+		return observer;
+	}
+
+	void SetPushSpeed(float speed)
+	{
+		m_PushSpeed = speed;
+	}
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pGameObject;
@@ -40,6 +55,7 @@ private:
 
 	const int m_BlockSize;
 	glm::vec3 m_Position;
+	float m_PushSpeed;
 
 };
 
