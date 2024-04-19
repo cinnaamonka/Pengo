@@ -52,14 +52,16 @@ void Environment::CheckCollision(Rect& shape)
 			{
 				m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 				m_PushedBlockIndex = i;
-				m_PushDirection = { 1,0,0 };
+				m_PushDirection = { hitInfo.normal.x,0,0 };
+				m_pBlocks[m_PushedBlockIndex]->SetPushSpeed(10.0f);
 				break;
 			}
 			if (m_pBlocks[i]->IsCollidingVertically(shape, hitInfo))
 			{
 				m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 				m_PushedBlockIndex = i;
-				m_PushDirection = { 0,1,0 };
+				m_PushDirection = { 0,hitInfo.normal.y,0 };
+				m_pBlocks[m_PushedBlockIndex]->SetPushSpeed(10.0f);
 				break;
 			}
 		}
@@ -74,43 +76,27 @@ void Environment::CheckBlocksCollision(Rect& shape)
 
 	for (int i = 0; i < m_pBlocks.size(); ++i)
 	{
-		const auto& blockShape = m_pBlocks[i]->GetBlockShape();
-
 		if (m_pBlocks[i]->IsCollidingHorizontally(shape, hitInfo))
 		{
 			if (i != m_PushedBlockIndex)
 			{
 				m_BlockCanBePushed = false;
-				m_pBlocks[i]->SetPushSpeed(0);
+				m_pBlocks[m_PushedBlockIndex]->SetPushSpeed(0);
+				m_pBlocks[m_PushedBlockIndex]->GetHitObserver()->Notify(hitInfo);
 				break;
 			}
-			else
-			{
-				m_BlockCanBePushed = false;
-			}
+
 		}
-		else
-		{
-			m_BlockCanBePushed = false;
-		}
+		
 		if (m_pBlocks[i]->IsCollidingVertically(shape, hitInfo))
 		{
-			const auto& blockShape = m_pBlocks[i]->GetBlockShape();
-
-			if (blockShape.left != shape.left && blockShape.bottom != shape.bottom)
+			if (i != m_PushedBlockIndex)
 			{
 				m_BlockCanBePushed = false;
-
+				m_pBlocks[m_PushedBlockIndex]->SetPushSpeed(0);
+				m_pBlocks[m_PushedBlockIndex]->GetHitObserver()->Notify(hitInfo);
 				break;
 			}
-			else
-			{
-				m_BlockCanBePushed = false;
-			}
-		}
-		else
-		{
-			m_BlockCanBePushed = false;
 		}
 	}
 }
@@ -121,12 +107,17 @@ void Environment::Update()
 	if (m_BlockCanBePushed)
 	{
 		m_pBlocks[m_PushedBlockIndex]->PushBlock(m_PushDirection);
+		CheckBlocksCollision(m_pBlocks[m_PushedBlockIndex]->GetBlockShape());
 	}
 }
 
 void Environment::PushBlock()
 {
-	m_BlockCanBePushed = true;
+	if (m_pBlocks[m_PushedBlockIndex]->GetPushSpeed() != 0)
+	{
+		m_BlockCanBePushed = true;
+	}
+	
 
 }
 

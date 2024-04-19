@@ -47,6 +47,12 @@ public:
 	{
 		m_PushSpeed = speed;
 	}
+
+	const float GetPushSpeed() const
+	{
+		return m_PushSpeed;
+	}
+
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pGameObject;

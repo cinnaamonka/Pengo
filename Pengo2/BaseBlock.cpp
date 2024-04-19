@@ -45,7 +45,7 @@ void BaseBlock::PushBlock(const glm::vec3& direction)
 {
 	auto currentPosition = m_pGameObjectReference->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
 
-	currentPosition.x += m_PushSpeed * direction.x;
+	currentPosition += m_PushSpeed * direction;
 
 	m_pGameObjectReference->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(currentPosition);
 	m_pGameObjectReference->GetComponent<GameEngine::BoxCollider>()->SetBoxCollider(currentPosition);
