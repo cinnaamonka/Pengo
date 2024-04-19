@@ -13,7 +13,8 @@ class HitObserver;
 class BaseBlock
 {
 public:
-	BaseBlock(const glm::vec3& position, GameEngine::Scene* scene,const std::string& filename); 
+	BaseBlock(const glm::vec3& position, GameEngine::Scene* scene,const std::string& filename, 
+		int blockSizeX = 20, int blockSizeY = 20, const glm::vec3& colliderBlockPos = glm::vec3{ 0,0,0 });
 	~BaseBlock() = default;
 
 	BaseBlock(const BaseBlock& other) = delete;
@@ -59,8 +60,10 @@ private:
 	GameEngine::BoxCollider* m_pBoxCollider;
 	GameEngine::GameObject* m_pGameObjectReference;
 
-	const int m_BlockSize;
+	const int m_BlockSizeX;
+	const int m_BlockSizeY;
 	glm::vec3 m_Position;
+	glm::vec3 m_ColliderPosition;
 	float m_PushSpeed;
 
 };

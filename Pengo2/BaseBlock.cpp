@@ -7,18 +7,29 @@
 #include <BoxColliderComponent.h>
 
 
-BaseBlock::BaseBlock(const glm::vec3& position, GameEngine::Scene* scene, const std::string& filename) :
-	m_BlockSize(20),
+BaseBlock::BaseBlock(const glm::vec3& position, GameEngine::Scene* scene, const std::string& filename, 
+	int blockSizeX, int blockSizeY, const glm::vec3& colliderBlockPos):
+	m_BlockSizeX(blockSizeX),
+	m_BlockSizeY(blockSizeY),
 	m_pBoxCollider(nullptr), 
 	m_Position(position),
 	m_PushSpeed(10.0f)
 {
+	if (colliderBlockPos == glm::vec3{ 0,0,0 })
+	{
+		m_ColliderPosition = m_Position;
+	}
+	else
+	{
+		m_ColliderPosition = colliderBlockPos;
+	}
+
 	m_pGameObject = std::make_unique<GameEngine::GameObject>();
 
 	int xPos = static_cast<int>(position.x);
 	int yPos = static_cast<int>(position.y);
 	
-	m_pGameObject->AddComponent<GameEngine::BoxCollider>(xPos, yPos, m_BlockSize, m_BlockSize);
+	m_pGameObject->AddComponent<GameEngine::BoxCollider>(m_ColliderPosition.x, m_ColliderPosition.y, m_BlockSizeX, m_BlockSizeY);
 	m_pGameObject->AddComponent<GameEngine::TransformComponent>(position);
 	m_pGameObject->AddComponent<GameEngine::TextureComponent>(filename);
 	m_pGameObject->AddComponent<GameEngine::RenderComponent>();

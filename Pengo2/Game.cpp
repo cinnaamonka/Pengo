@@ -16,10 +16,7 @@ void Game::Initialize()
 	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene("Demo");
 
 	m_pPengoActor = std::make_unique<PengoActor>();
-
 	auto hitObserverComponent = m_pPengoActor->GetHitObserver();
-
-	scene.Add(std::move(m_pPengoActor->GetActorGameObject()));
 
 	m_pEnvironment = std::make_unique<GameEngine::GameObject>();
 	m_pEnvironment->AddComponent<Environment>("Level.json", &scene);
@@ -29,6 +26,7 @@ void Game::Initialize()
 	m_pEnvironmentReference = m_pEnvironment.get();
 
 	scene.Add(std::move(m_pEnvironment));
+	scene.Add(std::move(m_pPengoActor->GetActorGameObject()));
 
 	InitializeInputSystem(m_pPengoActor->GetReferenceToActor());
 }

@@ -16,7 +16,10 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 {
 	GetVerticesFromJsonFile(filename, m_VerticesIceBlocks, m_VerticesDiamondBlocks,m_BorderVertices);
 
-	std::unique_ptr<BaseBlock> pBorderBlock = std::make_unique<BaseBlock>(m_BorderVertices[0][0], scene, "Border.tga");
+	std::unique_ptr<BaseBlock> pBorderBlock = std::make_unique<BaseBlock>(m_BorderVertices[0][0], scene, "Border.tga",310,355,
+		glm::vec3{ m_BorderVertices[0][0].x + 25,m_BorderVertices[0][0].y + 25,0});
+
+	m_pBlocks.push_back(std::move(pBorderBlock));
 
 	int amountOfIceBlocks = static_cast<int>(m_VerticesIceBlocks.size());
 	int amountOfDiamondBlocks = static_cast<int>(m_VerticesDiamondBlocks.size());
@@ -42,11 +45,12 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 				m_pBlocks.push_back(std::move(pBaseBlock));
 			}
 	}
-
+	
 
 }
 void Environment::CheckCollision(Rect& shape)
 {
+	std::cout << m_pPlayer->GetComponent<ActorComponent>()->GetCollisionBeChecked() << std::endl;
 	if (m_pPlayer->GetComponent<ActorComponent>()->GetCollisionBeChecked())
 	{
 		HitInfo hitInfo{};
