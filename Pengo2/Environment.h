@@ -60,6 +60,9 @@ private:
 	GameEngine::Subject<HitInfo> m_CollisionHitInfoChanged;
 	
 	int m_PushedBlockIndex;
+	const int m_BorderWidth = 25;
+	const int m_BorderLength = 310;
+	const int m_BorderHeight = 355;
 	glm::vec3 m_PushDirection;
 	bool m_BlockCanBePushed;
 };

@@ -14,10 +14,11 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	m_PushedBlockIndex{},
 	m_BlockCanBePushed(false)
 {
-	GetVerticesFromJsonFile(filename, m_VerticesIceBlocks, m_VerticesDiamondBlocks,m_BorderVertices);
+	GetVerticesFromJsonFile(filename, m_VerticesIceBlocks, m_VerticesDiamondBlocks, m_BorderVertices);
 
-	std::unique_ptr<BaseBlock> pBorderBlock = std::make_unique<BaseBlock>(m_BorderVertices[0][0], scene, "Border.tga",310,355,
-		glm::vec3{ m_BorderVertices[0][0].x + 25,m_BorderVertices[0][0].y + 25,0});
+	std::unique_ptr<BaseBlock> pBorderBlock = std::make_unique<BaseBlock>(m_BorderVertices[0][0], scene, "Border.tga",
+		m_BorderLength, m_BorderHeight,
+		glm::vec3{ m_BorderVertices[0][0].x + m_BorderWidth,m_BorderVertices[0][0].y + m_BorderWidth,0 });
 
 	m_pBlocks.push_back(std::move(pBorderBlock));
 
@@ -45,12 +46,9 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 				m_pBlocks.push_back(std::move(pBaseBlock));
 			}
 	}
-	
-
 }
 void Environment::CheckCollision(Rect& shape)
 {
-	std::cout << m_pPlayer->GetComponent<ActorComponent>()->GetCollisionBeChecked() << std::endl;
 	if (m_pPlayer->GetComponent<ActorComponent>()->GetCollisionBeChecked())
 	{
 		HitInfo hitInfo{};
@@ -94,9 +92,7 @@ void Environment::CheckBlocksCollision(Rect& shape)
 				m_pBlocks[m_PushedBlockIndex]->GetHitObserver()->Notify(hitInfo);
 				break;
 			}
-
-		}  
-		
+		}
 		if (m_pBlocks[i]->IsCollidingVertically(shape, hitInfo))
 		{
 			if (i != m_PushedBlockIndex)
@@ -126,7 +122,7 @@ void Environment::PushBlock()
 	{
 		m_BlockCanBePushed = true;
 	}
-	
+
 
 }
 
