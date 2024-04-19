@@ -3,7 +3,7 @@
 #include <ActorComponent.h>
 #include "Environment.h"
 
-PushBlockCommand::PushBlockCommand(GameEngine::GameObject* gameObject, glm::vec3 direction)
+PushBlockCommand::PushBlockCommand(GameEngine::GameObject* gameObject)
 	: GameObjectCommand(gameObject)
 {
 

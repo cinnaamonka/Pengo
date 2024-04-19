@@ -10,7 +10,7 @@ class PushBlockCommand :public GameEngine::GameObjectCommand
 public:
 
 public:
-	explicit PushBlockCommand(GameEngine::GameObject* gameObject, glm::vec3 direction);
+	explicit PushBlockCommand(GameEngine::GameObject* gameObject);
 	~PushBlockCommand() = default;
 
 	PushBlockCommand(const PushBlockCommand& other) = default;

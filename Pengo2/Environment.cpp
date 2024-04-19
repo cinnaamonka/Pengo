@@ -11,7 +11,8 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	BaseComponent(pGameObject),
 	m_pPlayer(nullptr),
 	m_PushDirection{},
-	m_PushedBlockIndex{}
+	m_PushedBlockIndex{},
+	m_BlockCanBePushed(false)
 {
 	GetVerticesFromJsonFile(filename, m_VerticesIceBlocks, m_VerticesDiamondBlocks);
 
@@ -86,7 +87,7 @@ void Environment::CheckBlocksCollision(Rect& shape)
 				break;
 			}
 
-		}
+		}  
 		
 		if (m_pBlocks[i]->IsCollidingVertically(shape, hitInfo))
 		{
