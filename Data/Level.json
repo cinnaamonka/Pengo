@@ -325,7 +325,7 @@
     {
       "position": {
         "left": 340,
-        "top": 350 
+        "top": 350
       },
       "type": "ice_block"
     },
@@ -335,6 +335,13 @@
         "top": 350
       },
       "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 110,
+        "top": 30
+      },
+      "type": "border"
     }
   ]
 }

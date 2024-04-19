@@ -3,7 +3,8 @@
 namespace GameEngine
 {
 	void GetVerticesFromJsonFile(std::string fileName, std::vector<std::vector<glm::vec3>>& m_Vertices, 
-		std::vector<std::vector<glm::vec3>>& m_VerticesSecondType)
+		std::vector<std::vector<glm::vec3>>& m_VerticesSecondType, 
+		std::vector<std::vector<glm::vec3>>& m_BorderVertices)
 	{
 		std::filesystem::path currentPath = std::filesystem::current_path();
 		std::filesystem::path parentPath = currentPath.parent_path();
@@ -47,12 +48,14 @@ namespace GameEngine
 				{
 					m_Vertices.push_back(block);
 				}
-				else
+				else if(type == "diamond_block")
 				{
 					m_VerticesSecondType.push_back(block);
 				}
-
-				m_Vertices.push_back(block);
+				else if (type == "border")
+				{
+					m_BorderVertices.push_back(block);
+				}
 			}
 		}
 		catch (const nlohmann::json::parse_error& e)

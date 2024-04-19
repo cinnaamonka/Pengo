@@ -43,7 +43,7 @@ void GameEngine::RenderComponent::Render()
 
 		IsMovingLeft = movementDirection.x < 0;
 	}
-	
+	 
 	// only width can be checked
 	if (newTexture != nullptr && dimensions.width == 0)
 	{

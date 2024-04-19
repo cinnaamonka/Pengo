@@ -14,7 +14,9 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	m_PushedBlockIndex{},
 	m_BlockCanBePushed(false)
 {
-	GetVerticesFromJsonFile(filename, m_VerticesIceBlocks, m_VerticesDiamondBlocks);
+	GetVerticesFromJsonFile(filename, m_VerticesIceBlocks, m_VerticesDiamondBlocks,m_BorderVertices);
+
+	std::unique_ptr<BaseBlock> pBorderBlock = std::make_unique<BaseBlock>(m_BorderVertices[0][0], scene, "Border.tga");
 
 	int amountOfIceBlocks = static_cast<int>(m_VerticesIceBlocks.size());
 	int amountOfDiamondBlocks = static_cast<int>(m_VerticesDiamondBlocks.size());
@@ -40,6 +42,8 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 				m_pBlocks.push_back(std::move(pBaseBlock));
 			}
 	}
+
+
 }
 void Environment::CheckCollision(Rect& shape)
 {

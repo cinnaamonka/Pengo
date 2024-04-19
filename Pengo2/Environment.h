@@ -53,6 +53,7 @@ private:
 	std::vector<std::unique_ptr<BaseBlock>> m_pBlocks;
 	std::vector<std::vector<glm::vec3>> m_VerticesIceBlocks;
 	std::vector<std::vector<glm::vec3>> m_VerticesDiamondBlocks;
+	std::vector<std::vector<glm::vec3>> m_BorderVertices;
 
 	GameEngine::GameObject* m_pPlayer;
 
