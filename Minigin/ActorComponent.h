@@ -81,22 +81,13 @@ namespace GameEngine
 		void ChangeTexture(int currentAnimationFrame,int currentHorizontalOffset = 0, int currentVerticalOffset = 0);
 
 		void Update() override; 
-	
-		bool GetPushExecuted()const
-		{
-			return m_PushExecuted;
-		}
-		void SetPushExecuted(bool isExecuted)
-		{
-			m_PushExecuted = isExecuted;
-		}
+
 	private:
 
 		int m_Score;
 		int m_LifesAmount;
 
 		bool m_CanCollisionBeChecked;
-		bool m_PushExecuted;
 
 		float m_Speed;
 	

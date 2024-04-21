@@ -9,6 +9,7 @@
 
 #include "Environment.h"
 #include "PengoActor.h"
+#include "EnemyActor.h"
 
 class Game final :public GameEngine::BaseGame
 {
@@ -29,6 +30,7 @@ private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pEnvironment;
 	std::unique_ptr<PengoActor> m_pPengoActor;
+	std::unique_ptr<EnemyActor> m_pEnemyActor;
 
 	GameEngine::GameObject* m_pEnvironmentReference;
 };

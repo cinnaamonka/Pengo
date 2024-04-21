@@ -58,15 +58,19 @@ namespace GameEngine
 	}
 	void ActorComponent::Update()
 	{
-		int currentAnimationFrame;
-		GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("AnimationFrame", currentAnimationFrame);
+		if (GetGameObject()->HasComponent<GameEngine::FSM>())
+		{
+			int currentAnimationFrame;
+			GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("AnimationFrame", currentAnimationFrame);
 
-		int currentHorizontalOffset;
-		GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("HorizontalOffset", currentHorizontalOffset);
+			int currentHorizontalOffset;
+			GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("HorizontalOffset", currentHorizontalOffset);
 
-		int currentVerticalOffset;
-		GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("VerticalOffset", currentVerticalOffset);
+			int currentVerticalOffset;
+			GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("VerticalOffset", currentVerticalOffset);
 
-		ChangeTexture(currentAnimationFrame, currentHorizontalOffset, currentVerticalOffset);
+			ChangeTexture(currentAnimationFrame, currentHorizontalOffset, currentVerticalOffset);
+		}
+	
 	}
 }

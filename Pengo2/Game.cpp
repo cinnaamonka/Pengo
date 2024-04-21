@@ -15,6 +15,8 @@ void Game::Initialize()
 {
 	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene("Demo");
 
+	m_pEnemyActor = std::make_unique<EnemyActor>();
+
 	m_pPengoActor = std::make_unique<PengoActor>();
 	auto hitObserverComponent = m_pPengoActor->GetHitObserver();
 
@@ -27,6 +29,7 @@ void Game::Initialize()
 
 	scene.Add(std::move(m_pEnvironment));
 	scene.Add(std::move(m_pPengoActor->GetActorGameObject()));
+	scene.Add(std::move(m_pEnemyActor->GetActorGameObject()));
 
 	InitializeInputSystem(m_pPengoActor->GetReferenceToActor());
 }
