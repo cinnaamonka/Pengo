@@ -38,11 +38,11 @@ void HitObserver::ResetVerticalPosition(const GameEngine::Rect& actorShape, cons
 
 	if (intersectY < bottom + actorShape.height / 2)
 	{
-		tempRect.bottom = static_cast<int>(intersectY);
+		tempRect.bottom = static_cast<int>(intersectY - 0.5f);
 	}
 	else if (intersectY > bottom + actorShape.height / 2)
 	{
-		tempRect.bottom = static_cast<int>(intersectY - actorShape.height);
+		tempRect.bottom = static_cast<int>(intersectY - actorShape.height - 0.5f);
 	}
 	GetGameObject()->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(glm::vec3{ tempRect.left,tempRect.bottom,0 });
 }

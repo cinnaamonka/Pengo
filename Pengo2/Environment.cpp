@@ -16,11 +16,9 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 {
 	GetVerticesFromJsonFile(filename, m_VerticesIceBlocks, m_VerticesDiamondBlocks, m_BorderVertices);
 
-	std::unique_ptr<BaseBlock> pBorderBlock = std::make_unique<BaseBlock>(m_BorderVertices[0][0], scene, "Border.tga",
+	m_pBorderBlock = std::make_unique<BaseBlock>(m_BorderVertices[0][0], scene, "Border.tga",
 		m_BorderLength, m_BorderHeight,
 		glm::vec3{ m_BorderVertices[0][0].x + m_BorderWidth,m_BorderVertices[0][0].y + m_BorderWidth,0 });
-
-	m_pBlocks.push_back(std::move(pBorderBlock));
 
 	int amountOfIceBlocks = static_cast<int>(m_VerticesIceBlocks.size());
 	int amountOfDiamondBlocks = static_cast<int>(m_VerticesDiamondBlocks.size());
@@ -73,12 +71,21 @@ void Environment::CheckCollision(Rect& shape)
 			}
 		}
 
+		if(m_pBorderBlock->IsCollidingHorizontally(shape, hitInfo))
+		{
+			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
+		}
+		if (m_pBorderBlock->IsCollidingVertically(shape, hitInfo))
+		{
+			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
+		}
+
 		m_pPlayer->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(false);
 	}
+
 }
 void Environment::CheckBlocksCollision(Rect& shape)
 {
-
 	HitInfo hitInfo{};
 
 	for (int i = 0; i < m_pBlocks.size(); ++i)
@@ -104,6 +111,19 @@ void Environment::CheckBlocksCollision(Rect& shape)
 			}
 		}
 	}
+	if (m_pBorderBlock->IsCollidingHorizontally(shape, hitInfo))
+	{
+		m_BlockCanBePushed = false;
+		m_pBlocks[m_PushedBlockIndex]->SetPushSpeed(0);
+		m_pBlocks[m_PushedBlockIndex]->GetHitObserver()->Notify(hitInfo);
+	}
+	if (m_pBorderBlock->IsCollidingVertically(shape, hitInfo))
+	{
+		m_BlockCanBePushed = false;
+		m_pBlocks[m_PushedBlockIndex]->SetPushSpeed(0);
+		m_pBlocks[m_PushedBlockIndex]->GetHitObserver()->Notify(hitInfo);
+	}
+	
 }
 void Environment::Update()
 {
@@ -122,6 +142,7 @@ void Environment::PushBlock()
 	{
 		m_BlockCanBePushed = true;
 	}
+
 
 
 }

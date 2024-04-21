@@ -58,6 +58,7 @@ private:
 	GameEngine::GameObject* m_pPlayer;
 
 	GameEngine::Subject<HitInfo> m_CollisionHitInfoChanged;
+	std::unique_ptr<BaseBlock> m_pBorderBlock;
 	
 	int m_PushedBlockIndex;
 	const int m_BorderWidth = 25;

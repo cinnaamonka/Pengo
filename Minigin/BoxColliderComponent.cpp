@@ -17,8 +17,8 @@ GameEngine::BoxCollider::BoxCollider(GameObject* pGameObject, Rect shape) :
 
 bool GameEngine::BoxCollider::IsCollidingHorizontally(const Rect& rectShape, HitInfo& hitInfo) const
 {
-	const glm::vec2 ray1(rectShape.left, rectShape.bottom + rectShape.height / 2);
-	const glm::vec2 ray2(rectShape.left + rectShape.width, rectShape.bottom + rectShape.height / 2);
+	const glm::vec2 ray1(rectShape.left + 1.f, rectShape.bottom + rectShape.height / 2);
+	const glm::vec2 ray2(rectShape.left + rectShape.width - 1.f, rectShape.bottom + rectShape.height / 2);
 
 	const std::vector<glm::vec3> RectPoints = CreatePointsFromRect(m_RectCollider);
 
@@ -51,45 +51,4 @@ std::vector<glm::vec3> GameEngine::BoxCollider::CreatePointsFromRect(const Rect&
 
 	return points;
 }
-
-//void GameEngine::BoxCollider::Update()
-//{
-//    if (m_pColliderTexture == nullptr)
-//    {
-//        CreateTextureFromRect(m_RectCollider.width, m_RectCollider.height, m_Color);
-//   }
-//}
-//
-//void GameEngine::BoxCollider::CreateTextureFromRect(int width, int height, SDL_Color newColor)
-//{
-//    // Create a new SDL surface
-//    SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
-//    if (surface == nullptr) 
-//    {
-//        std::cerr << "not able to create surface" << std::endl;
-//        return;
-//    }
-//
-//    // Fill the surface with the specified color
-//    SDL_FillRect(surface, nullptr, SDL_MapRGB(surface->format, newColor.r, newColor.g, newColor.b));
-//
-//    // Convert the surface to a texture
-//    SDL_Texture* texture = SDL_CreateTextureFromSurface(GameEngine::Renderer::GetInstance().GetSDLRenderer(), surface);
-//
-//    if (texture == nullptr)
-//    {
-//        // Handle texture creation error
-//        SDL_FreeSurface(surface);
-//        std::cerr << "Texture from surface is nullptr" << std::endl;
-//        return;
-//    }
-//
-//    m_pColliderTexture = std::move(std::make_unique<Texture2D>(texture));
-//
-//    m_pTextureComponent->SetTexture(std::move(m_pColliderTexture));
-//
-//    // Free the surface
-//    SDL_FreeSurface(surface);
-//}
-
 
