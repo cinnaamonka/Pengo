@@ -79,4 +79,8 @@ void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)
 	input.AddCommand<GameEngine::Keyboard>(
 		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Previous },
 		std::make_unique<PushBlockCommand>(m_pEnvironmentReference));
+
+	input.AddCommand<GameEngine::Keyboard>( 
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Previous }, 
+		std::make_unique<GameEngine::PushCommand>(gameActor)); 
 }

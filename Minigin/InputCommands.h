@@ -26,6 +26,21 @@ namespace GameEngine
         float m_Speed;        
     };
 
+    class PushCommand final : public GameObjectCommand
+    {
+    public:
+        explicit PushCommand(GameObject* gameObject);
+        ~PushCommand() = default;
+
+       PushCommand(const PushCommand& other) = default;
+       PushCommand& operator=(const PushCommand& other) = default;
+       PushCommand(PushCommand&& other) noexcept = default;
+       PushCommand& operator=(PushCommand&& other) noexcept = default;
+
+
+        void Execute() override;
+    };
+
 	class ScoreCommand final : public GameObjectCommand
 	{
 	public:

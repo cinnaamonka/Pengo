@@ -50,4 +50,13 @@ namespace GameEngine
 		auto pLivesComponent = GetGameObject()->GetComponent<GameEngine::ActorComponent>();
 		if (pLivesComponent) pLivesComponent->Damage(m_LifesAmount);
 	}
+	PushCommand::PushCommand(GameObject* gameObject):
+		GameObjectCommand(gameObject)
+	{
+
+	}
+	void PushCommand::Execute()
+	{
+		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("WasBlockPushed", true);
+	}
 }

@@ -50,11 +50,10 @@ namespace GameEngine
 		Rect currentDimensions
 		{
 			currentHorizontalOffset * previousDimensions.width + currentAnimationFrame * previousDimensions.width,
-			currentVerticalOffset * previousDimensions.height + previousDimensions.bottom,
-			previousDimensions.width,
+			currentVerticalOffset * previousDimensions.height,
+			previousDimensions.width, 
 			previousDimensions.height
 		};
-	    
 		GetGameObject()->GetComponent<GameEngine::TransformComponent>()->SetDimensions(currentDimensions);
 	}
 	void ActorComponent::Update()
@@ -62,10 +61,12 @@ namespace GameEngine
 		int currentAnimationFrame;
 		GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("AnimationFrame", currentAnimationFrame);
 
-		int currentOffset;
-		GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("HorizontalOffset", currentOffset);
+		int currentHorizontalOffset;
+		GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("HorizontalOffset", currentHorizontalOffset);
 
+		int currentVerticalOffset;
+		GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("VerticalOffset", currentVerticalOffset);
 
-		ChangeTexture(currentAnimationFrame,currentOffset);
+		ChangeTexture(currentAnimationFrame, currentHorizontalOffset, currentVerticalOffset);
 	}
 }

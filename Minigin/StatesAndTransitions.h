@@ -24,6 +24,17 @@ namespace GameEngine
 		virtual void Update(GameEngine::Blackboard* pBlackboard) override;
 
 	};
+	class PushingState : public GameEngine::FSMState
+	{
+	public:
+		PushingState() = default;
+		~PushingState() = default;
+
+		virtual void OnEnter(GameEngine::Blackboard* pBlackboard) override;
+		virtual void OnExit(GameEngine::Blackboard* pBlackboard) override;
+		virtual void Update(GameEngine::Blackboard* pBlackboard) override;
+
+	};
 
 	class IsInputGiven : public GameEngine::FSMCondition
 	{
@@ -41,6 +52,21 @@ namespace GameEngine
 
 		virtual bool Evaluate(GameEngine::Blackboard* pBlackboard) const override;
 	};
+	class IsBlockPushed : public GameEngine::FSMCondition
+	{
+	public:
+		IsBlockPushed() = default;
+		~IsBlockPushed() = default;
 
+		virtual bool Evaluate(GameEngine::Blackboard* pBlackboard) const override;
+	};
+	class IsBlockNotPushed : public GameEngine::FSMCondition
+	{
+	public:
+		IsBlockNotPushed() = default;
+		~IsBlockNotPushed() = default;
+
+		virtual bool Evaluate(GameEngine::Blackboard* pBlackboard) const override;
+	};
 }
 

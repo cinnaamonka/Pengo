@@ -142,8 +142,5 @@ void Environment::PushBlock()
 	{
 		m_BlockCanBePushed = true;
 	}
-
-
-
 }
 

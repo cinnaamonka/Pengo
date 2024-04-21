@@ -40,9 +40,13 @@ private:
 
 	std::unique_ptr<GameEngine::IdleState> m_IdleState;
 	std::unique_ptr<GameEngine::RunningState> m_RunningState;
+	std::unique_ptr<GameEngine::PushingState> m_PushingState;
 
 	std::unique_ptr<GameEngine::IsInputGiven> m_IsInputGiven;
 	std::unique_ptr<GameEngine::IsInputNotGiven> m_IsNotInputGiven;
+	std::unique_ptr<GameEngine::IsBlockPushed> m_IsBlockPushed;
+	std::unique_ptr<GameEngine::IsBlockNotPushed> m_IsBlockNotPushed;
+
 
 	int m_HorizontalAmountOfFrames = 8;
 	int m_VerticalAmountOfFrames = 3;
