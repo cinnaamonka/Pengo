@@ -1,9 +1,8 @@
 #pragma once
 #include <memory>
 #include <GameObject.h>
-#include "Entity.h"
 
-class EnemyActor final : public Entity
+class EnemyActor final
 {
 public:
 	EnemyActor();
@@ -14,6 +13,7 @@ public:
 	EnemyActor(EnemyActor&& other) noexcept = delete;
 	EnemyActor& operator=(EnemyActor&& other) noexcept = delete;
 
+	virtual std::unique_ptr<GameEngine::GameObject>& GetActorGameObject();
 private:
 	std::unique_ptr<GameEngine::GameObject> m_pEnemy;
 };

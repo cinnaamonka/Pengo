@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <GameObject.h>
+#include <BaseComponent.h>
 #include <Helpers.h>
 #include <BoxColliderComponent.h>
 #include <Scene.h>
@@ -10,11 +11,10 @@
 class BoxCollider;
 class HitObserver;
 
-class BaseBlock
+class BaseBlock final : public GameEngine::BaseComponent
 {
 public:
-	BaseBlock(const glm::vec3& position, GameEngine::Scene* scene,const std::string& filename, 
-		int blockSizeX = 20, int blockSizeY = 20, const glm::vec3& colliderBlockPos = glm::vec3{ 0,0,0 });
+	BaseBlock(GameEngine::GameObject* GOptr);
 	~BaseBlock() = default;
 
 	BaseBlock(const BaseBlock& other) = delete;
@@ -32,18 +32,6 @@ public:
 		return m_Position;
 	}
 
-	GameEngine::Rect& GetBlockShape()
-	{
-		return m_pBoxCollider->GetBoxCollider();
-	}
-
-	HitObserver* GetHitObserver()
-	{
-		auto observer = m_pGameObjectReference->GetComponent<HitObserver>();
-		if(observer)
-		return observer;
-	}
-
 	void SetPushSpeed(float speed)
 	{
 		m_PushSpeed = speed;
@@ -54,14 +42,13 @@ public:
 		return m_PushSpeed;
 	}
 
+	static std::unique_ptr<GameEngine::GameObject> CreateBlock(const glm::vec3& position, GameEngine::Scene* scene, const std::string& filename, 
+		int blockSizeX = 20, int blockSizeY = 20, const glm::vec3& colliderBlockPos = glm::vec3{ 0,0,0 });
+	
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pGameObject;
-	GameEngine::BoxCollider* m_pBoxCollider;
-	GameEngine::GameObject* m_pGameObjectReference;
 
-	const int m_BlockSizeX;
-	const int m_BlockSizeY;
 	glm::vec3 m_Position;
 	glm::vec3 m_ColliderPosition;
 	float m_PushSpeed;

@@ -37,9 +37,6 @@
     <ClCompile Include="EnemyActor.cpp">
       <Filter>GameFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>GameFiles</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -61,9 +58,6 @@
       <Filter>GameFiles\Observers</Filter>
     </ClInclude>
     <ClInclude Include="EnemyActor.h">
-      <Filter>GameFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
       <Filter>GameFiles</Filter>
     </ClInclude>
   </ItemGroup>

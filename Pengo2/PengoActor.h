@@ -3,8 +3,6 @@
 #include <GameObject.h>
 #include <StatesAndTransitions.h>
 
-#include "Entity.h"
-
 class GameEngine::Blackboard;
 class GameEngine::IdleState;
 class GameEngine::RunningState;
@@ -14,7 +12,7 @@ class GameEngine::IsInputNotGiven;
 class HitObserver;
 class CollisionObserver;
 
-class PengoActor final : public Entity
+class PengoActor final
 {
 public:
 	PengoActor();
@@ -31,7 +29,7 @@ public:
 	}
 
 	HitObserver* GetHitObserver() const;
-
+	virtual std::unique_ptr<GameEngine::GameObject>& GetActorGameObject();
 private:
 
 	std::unique_ptr<GameEngine::Blackboard> m_pBlackboard;
@@ -50,5 +48,7 @@ private:
 	int m_VerticalAmountOfFrames = 3;
 
 	GameEngine::GameObject* m_ReferenceToCharacterPengo;
+
+	std::unique_ptr<GameEngine::GameObject> m_pActor;
 };
 

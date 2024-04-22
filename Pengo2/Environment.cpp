@@ -16,32 +16,36 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 {
 	GetVerticesFromJsonFile(filename, m_VerticesIceBlocks, m_VerticesDiamondBlocks, m_BorderVertices);
 
-	m_pBorderBlock = std::make_unique<BaseBlock>(m_BorderVertices[0][0], scene, "Border.tga",
+	auto borderBlock = BaseBlock::CreateBlock(m_BorderVertices[0][0], scene, "Border.tga",
 		m_BorderLength, m_BorderHeight,
 		glm::vec3{ m_BorderVertices[0][0].x + m_BorderWidth,m_BorderVertices[0][0].y + m_BorderWidth,0 });
+
+	m_pBorderBlock = borderBlock.get();
+	scene->Add(std::move(borderBlock));
 
 	int amountOfIceBlocks = static_cast<int>(m_VerticesIceBlocks.size());
 	int amountOfDiamondBlocks = static_cast<int>(m_VerticesDiamondBlocks.size());
 
 	for (int i = 0; i < amountOfDiamondBlocks; ++i)
 	{
-		std::unique_ptr<BaseBlock> pDiamondBlock = std::make_unique<BaseBlock>(m_VerticesDiamondBlocks[i][0], scene, "DiamondBlock.tga");
-		m_pBlocks.push_back(std::move(pDiamondBlock));
-
+		auto diamondBlock = BaseBlock::CreateBlock(m_VerticesDiamondBlocks[i][0], scene, "DiamondBlock.tga");
+		m_pBlocks.push_back(diamondBlock.get());
+		scene->Add(std::move(diamondBlock));
 	}
 	for (int i = 0; i < amountOfIceBlocks; ++i)
 	{
 		auto position = m_VerticesIceBlocks[i][0];
 		bool positionExists = std::find_if(m_pBlocks.begin(), m_pBlocks.end(),
-			[&position](const std::unique_ptr<BaseBlock>& block)
+			[&position](const auto& block)
 			{
-				return block->GetPosition() == position;
+				return block->GetComponent<BaseBlock>()->GetPosition() == position;
 			}) != m_pBlocks.end();
 
 			if (!positionExists)
 			{
-				std::unique_ptr<BaseBlock> pBaseBlock = std::make_unique<BaseBlock>(position, scene, "IceBlock.tga");
-				m_pBlocks.push_back(std::move(pBaseBlock));
+				auto iceBlock = BaseBlock::CreateBlock(position, scene, "IceBlock.tga");
+				m_pBlocks.push_back(iceBlock.get());
+				scene->Add(std::move(iceBlock));
 			}
 	}
 }
@@ -53,29 +57,29 @@ void Environment::CheckCollision(Rect& shape)
 
 		for (int i = 0; i < m_pBlocks.size(); ++i)
 		{
-			if (m_pBlocks[i]->IsCollidingHorizontally(shape, hitInfo))
+			if (m_pBlocks[i]->GetComponent<BaseBlock>()->IsCollidingHorizontally(shape, hitInfo))
 			{
 				m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 				m_PushedBlockIndex = i;
 				m_PushDirection = { hitInfo.normal.x,0,0 };
-				m_pBlocks[m_PushedBlockIndex]->SetPushSpeed(10.0f);
+				m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->SetPushSpeed(10.0f);
 				break;
 			}
-			if (m_pBlocks[i]->IsCollidingVertically(shape, hitInfo))
+			if (m_pBlocks[i]->GetComponent<BaseBlock>()->IsCollidingVertically(shape, hitInfo))
 			{
 				m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 				m_PushedBlockIndex = i;
 				m_PushDirection = { 0,hitInfo.normal.y,0 };
-				m_pBlocks[m_PushedBlockIndex]->SetPushSpeed(10.0f);
+				m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->SetPushSpeed(10.0f);
 				break;
 			}
 		}
 
-		if(m_pBorderBlock->IsCollidingHorizontally(shape, hitInfo))
+		if(m_pBorderBlock->GetComponent<BaseBlock>()->IsCollidingHorizontally(shape, hitInfo))
 		{
 			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 		}
-		if (m_pBorderBlock->IsCollidingVertically(shape, hitInfo))
+		if (m_pBorderBlock->GetComponent<BaseBlock>()->IsCollidingVertically(shape, hitInfo))
 		{
 			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 		}
@@ -90,38 +94,38 @@ void Environment::CheckBlocksCollision(Rect& shape)
 
 	for (int i = 0; i < m_pBlocks.size(); ++i)
 	{
-		if (m_pBlocks[i]->IsCollidingHorizontally(shape, hitInfo))
+		if (m_pBlocks[i]->GetComponent<BaseBlock>()->IsCollidingHorizontally(shape, hitInfo))
 		{
 			if (i != m_PushedBlockIndex)
 			{
 				m_BlockCanBePushed = false;
-				m_pBlocks[m_PushedBlockIndex]->SetPushSpeed(0);
-				m_pBlocks[m_PushedBlockIndex]->GetHitObserver()->Notify(hitInfo);
+				m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->SetPushSpeed(0);
+				m_pBlocks[m_PushedBlockIndex]->GetComponent<HitObserver>()->Notify(hitInfo);
 				break;
 			}
 		}
-		if (m_pBlocks[i]->IsCollidingVertically(shape, hitInfo))
+		if (m_pBlocks[i]->GetComponent<BaseBlock>()->IsCollidingVertically(shape, hitInfo))
 		{
 			if (i != m_PushedBlockIndex)
 			{
 				m_BlockCanBePushed = false;
-				m_pBlocks[m_PushedBlockIndex]->SetPushSpeed(0);
-				m_pBlocks[m_PushedBlockIndex]->GetHitObserver()->Notify(hitInfo);
+				m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->SetPushSpeed(0);
+				m_pBlocks[m_PushedBlockIndex]->GetComponent<HitObserver>()->Notify(hitInfo);
 				break;
 			}
 		}
 	}
-	if (m_pBorderBlock->IsCollidingHorizontally(shape, hitInfo))
+	if (m_pBorderBlock->GetComponent<BaseBlock>()->IsCollidingHorizontally(shape, hitInfo))
 	{
 		m_BlockCanBePushed = false;
-		m_pBlocks[m_PushedBlockIndex]->SetPushSpeed(0);
-		m_pBlocks[m_PushedBlockIndex]->GetHitObserver()->Notify(hitInfo);
+		m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->SetPushSpeed(0);
+		m_pBlocks[m_PushedBlockIndex]->GetComponent<HitObserver>()->Notify(hitInfo);
 	}
-	if (m_pBorderBlock->IsCollidingVertically(shape, hitInfo))
+	if (m_pBorderBlock->GetComponent<BaseBlock>()->IsCollidingVertically(shape, hitInfo))
 	{
 		m_BlockCanBePushed = false;
-		m_pBlocks[m_PushedBlockIndex]->SetPushSpeed(0);
-		m_pBlocks[m_PushedBlockIndex]->GetHitObserver()->Notify(hitInfo);
+		m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->SetPushSpeed(0);
+		m_pBlocks[m_PushedBlockIndex]->GetComponent<HitObserver>()->Notify(hitInfo);
 	}
 	
 }
@@ -131,14 +135,14 @@ void Environment::Update()
 
 	if (m_BlockCanBePushed)
 	{
-		m_pBlocks[m_PushedBlockIndex]->PushBlock(m_PushDirection);
-		CheckBlocksCollision(m_pBlocks[m_PushedBlockIndex]->GetBlockShape());
+		m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->PushBlock(m_PushDirection);
+		CheckBlocksCollision(m_pBlocks[m_PushedBlockIndex]->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider());
 	}
 }
 
 void Environment::PushBlock()
 {
-	if (m_pBlocks[m_PushedBlockIndex]->GetPushSpeed() != 0)
+	if (m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->GetPushSpeed() != 0)
 	{
 		m_BlockCanBePushed = true;
 	}

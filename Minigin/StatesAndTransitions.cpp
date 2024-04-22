@@ -49,13 +49,9 @@ namespace GameEngine
 		glm::vec3 movementDirection;
 		pBlackboard->GetData("MovementDirection", movementDirection);
 	  
-		if (movementDirection.x > 0 )
+		if (movementDirection.x > 0 || movementDirection.x < 0)
 		{
 			pBlackboard->ChangeData("HorizontalOffset", 2);
-		}
-		else if (movementDirection.x < 0)
-		{
-			pBlackboard->ChangeData("HorizontalOffset", 6);
 		}
 		else if (movementDirection.y < 0)
 		{

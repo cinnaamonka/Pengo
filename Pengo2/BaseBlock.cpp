@@ -4,60 +4,61 @@
 #include <TransformComponent.h>
 #include <TextureComponent.h>
 #include <RenderComponent.h>
+#include <GameObject.h>
 #include <BoxColliderComponent.h>
 
 
-BaseBlock::BaseBlock(const glm::vec3& position, GameEngine::Scene* scene, const std::string& filename, 
-	int blockSizeX, int blockSizeY, const glm::vec3& colliderBlockPos):
-	m_BlockSizeX(blockSizeX),
-	m_BlockSizeY(blockSizeY),
-	m_pBoxCollider(nullptr), 
-	m_Position(position),
+BaseBlock::BaseBlock(GameEngine::GameObject* GOptr) :
+	GameEngine::BaseComponent(GOptr),
 	m_PushSpeed(10.0f)
 {
-	if (colliderBlockPos == glm::vec3{ 0,0,0 })
-	{
-		m_ColliderPosition = m_Position;
-	}
-	else
-	{
-		m_ColliderPosition = colliderBlockPos;
-	}
 
-	m_pGameObject = std::make_unique<GameEngine::GameObject>();
-
-	int xPos = static_cast<int>(position.x);
-	int yPos = static_cast<int>(position.y);
-	
-	m_pGameObject->AddComponent<GameEngine::BoxCollider>(m_ColliderPosition.x, m_ColliderPosition.y, m_BlockSizeX, m_BlockSizeY);
-	m_pGameObject->AddComponent<GameEngine::TransformComponent>(position);
-	m_pGameObject->AddComponent<GameEngine::TextureComponent>(filename);
-	m_pGameObject->AddComponent<GameEngine::RenderComponent>();
-	m_pGameObject->AddComponent<HitObserver>();
-	
-	m_pBoxCollider = m_pGameObject->GetComponent<GameEngine::BoxCollider>();
-
-	m_pGameObjectReference = m_pGameObject.get();
-
-	scene->Add(std::move(m_pGameObject));
 }
 
 bool BaseBlock::IsCollidingHorizontally(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo)
 {
-	return m_pBoxCollider->IsCollidingHorizontally(rectShape, hitInfo);
+	return GetGameObject()->GetComponent<GameEngine::BoxCollider>()->IsCollidingHorizontally(rectShape, hitInfo);
 }
 
 bool BaseBlock::IsCollidingVertically(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo)
 {
-	return m_pBoxCollider->IsCollidingVertically(rectShape, hitInfo);
+	return GetGameObject()->GetComponent<GameEngine::BoxCollider>()->IsCollidingVertically(rectShape, hitInfo);
 }
 
 void BaseBlock::PushBlock(const glm::vec3& direction)
 {
-	auto currentPosition = m_pGameObjectReference->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
+	auto currentPosition = GetGameObject()->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
 
 	currentPosition += m_PushSpeed * direction;
 
-	m_pGameObjectReference->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(currentPosition);
-	m_pGameObjectReference->GetComponent<GameEngine::BoxCollider>()->SetBoxCollider(currentPosition);
+	GetGameObject()->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(currentPosition);
+	GetGameObject()->GetComponent<GameEngine::BoxCollider>()->SetBoxCollider(currentPosition);
+}
+
+std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& position, GameEngine::Scene* scene, const std::string& filename, int blockSizeX, int blockSizeY, const glm::vec3& colliderBlockPos)
+{
+	auto gameObject = std::make_unique<GameEngine::GameObject>();
+
+	auto colliderPosition = glm::vec3{ 0,0,0 };
+
+	int xPos = static_cast<int>(position.x);
+	int yPos = static_cast<int>(position.y);
+
+	if (colliderBlockPos == glm::vec3{ 0,0,0 })
+	{
+		colliderPosition = position;
+	}
+	else
+	{
+		colliderPosition = colliderBlockPos;
+	}
+
+	gameObject->AddComponent<GameEngine::BoxCollider>(colliderPosition.x, colliderPosition.y, blockSizeX, blockSizeY);
+	gameObject->AddComponent<GameEngine::TransformComponent>(position);
+	gameObject->AddComponent<GameEngine::TextureComponent>(filename);
+	gameObject->AddComponent<GameEngine::RenderComponent>();
+	gameObject->AddComponent<BaseBlock>();
+	gameObject->AddComponent<HitObserver>();
+
+	return gameObject;
 }

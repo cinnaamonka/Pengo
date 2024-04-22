@@ -50,15 +50,15 @@ public:
 	void PushBlock();
 
 private:
-	std::vector<std::unique_ptr<BaseBlock>> m_pBlocks;
+	std::vector<GameEngine::GameObject*> m_pBlocks;
 	std::vector<std::vector<glm::vec3>> m_VerticesIceBlocks;
 	std::vector<std::vector<glm::vec3>> m_VerticesDiamondBlocks;
 	std::vector<std::vector<glm::vec3>> m_BorderVertices;
 
 	GameEngine::GameObject* m_pPlayer;
+	GameEngine::GameObject* m_pBorderBlock;
 
 	GameEngine::Subject<HitInfo> m_CollisionHitInfoChanged;
-	std::unique_ptr<BaseBlock> m_pBorderBlock;
 	
 	int m_PushedBlockIndex;
 	const int m_BorderWidth = 25;
