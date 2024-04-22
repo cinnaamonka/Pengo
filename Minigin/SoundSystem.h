@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "BaseSoundSystem.h"
 
 namespace GameEngine
@@ -12,10 +13,11 @@ namespace GameEngine
 		void Pause()override;
 		void Resume()override;
 		void Stop()override;
-		void Load(const std::string& filePath)override;
+		void Load(const std::string& filePath, const sound_id id)override;
+		void Update() override;
 	private:
 		class SoundSystemImpl;
-		SoundSystemImpl* pImpl;
+		std::unique_ptr<SoundSystemImpl> m_pImpl;
 	};
 
 }

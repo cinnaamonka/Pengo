@@ -19,7 +19,8 @@ namespace GameEngine
 		void Pause()override;
 		void Resume()override;
 		void Stop()override;
-		void Load(const std::string& filePath)override;
+		void Load(const std::string& filePath, const sound_id id)override;
+		void Update()override;
 	private:
 		std::unique_ptr<BaseSoundSystem> pSoundSystem;
 	};

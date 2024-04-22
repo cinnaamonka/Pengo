@@ -14,6 +14,8 @@
 
 namespace GameEngine
 {
+	using sound_id = unsigned short;
+
 	void GetVerticesFromJsonFile(std::string fileName, std::vector<std::vector<glm::vec3>>& m_Vertices, 
 		std::vector<std::vector<glm::vec3>>& m_VerticesSecondType, std::vector<std::vector<glm::vec3>>& m_BorderVertices);
 
@@ -29,6 +31,16 @@ namespace GameEngine
 		int bottom;
 		int width;
 		int height;
+	};
+	struct Sound
+	{
+		Sound() = default;
+		Sound(const sound_id id,const float volume):
+			id(id),
+			volume(volume)
+		{}
+		sound_id id;
+		float volume;
 	};
 
 	bool IsOverlapping(const Rect& r1, const Rect& r2);

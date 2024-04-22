@@ -255,6 +255,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="RingBuffer.h" />
     <ClInclude Include="RotationComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />

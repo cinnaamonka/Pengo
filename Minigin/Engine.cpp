@@ -10,6 +10,7 @@
 #include "ResourceManager.h"
 #include "TimeManager.h"
 #include "General.h" 
+#include "SoundServiceLocator.h" 
 
 
 SDL_Window* g_window{};
@@ -84,6 +85,7 @@ void GameEngine::Engine::Run(const std::function<std::unique_ptr<BaseGame>()>& l
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
+	auto& soundSystem = SoundServiceLocator::GetSoundSystemInstance();
 
 	bool doContinue = true;
 	auto lastTime = std::chrono::high_resolution_clock::now();
@@ -103,8 +105,9 @@ void GameEngine::Engine::Run(const std::function<std::unique_ptr<BaseGame>()>& l
 			m_Lag -= GameEngine::General::FIXED_TIME_STEP;
 		}
 		// Update
+		soundSystem.Update();
 		sceneManager.Update();
-
+	
 		// late update for camera 
 		
 		//render(lag / MS_PER_UPDATE); 

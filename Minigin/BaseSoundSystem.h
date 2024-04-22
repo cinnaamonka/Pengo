@@ -1,10 +1,9 @@
 #pragma once
 #include <string>
+#include "Helpers.h"
 
 namespace GameEngine
 {
-	using sound_id = unsigned short;
-
 	class BaseSoundSystem
 	{
 		public:
@@ -18,7 +17,9 @@ namespace GameEngine
 			virtual void Pause() = 0;
 			virtual void Resume() = 0;
 			virtual void Stop() = 0;
-			virtual void Load(const std::string& filePath) = 0;
+			virtual void Load(const std::string& filePath,const sound_id id) = 0;
+			virtual void Update() = 0;
+
 	protected:
 		BaseSoundSystem() = default;
 		

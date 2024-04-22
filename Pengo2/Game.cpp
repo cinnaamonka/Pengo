@@ -42,7 +42,7 @@ void Game::Initialize()
 
 	auto& soundSystem = GameEngine::SoundServiceLocator::GetSoundSystemInstance();
 	// test implementation
-	soundSystem.Load("../Data/Sound/test.wav");
+	soundSystem.Load("../Data/Sound/test.wav",0);
 	soundSystem.Play(0, 100.0f);
 }
 

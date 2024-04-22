@@ -18,7 +18,8 @@ namespace GameEngine
 		virtual void Pause() override {};
 		virtual void Resume() override {};
 		virtual void Stop() override {};
-		virtual void Load(const std::string&) override {};
+		virtual void Load(const std::string&, const sound_id) override {};
+		virtual void Update() {};
 
 	};
 

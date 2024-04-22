@@ -144,6 +144,9 @@
     <ClInclude Include="SoundLogSystem.h">
       <Filter>Sound</Filter>
     </ClInclude>
+    <ClInclude Include="RingBuffer.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">

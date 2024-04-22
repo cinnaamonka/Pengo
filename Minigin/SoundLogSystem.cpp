@@ -31,9 +31,14 @@ void GameEngine::SoundLogSystem::Stop()
 	pSoundSystem->Stop();
 }
 
-void GameEngine::SoundLogSystem::Load(const std::string& filePath)
+void GameEngine::SoundLogSystem::Load(const std::string& filePath, const sound_id id)
 {
 	std::cout << "Loading sound from file: " << filePath << std::endl;
-	pSoundSystem->Load(filePath);
+	pSoundSystem->Load(filePath, id);
+}
+
+void GameEngine::SoundLogSystem::Update()
+{
+	pSoundSystem->Update();
 }
 
