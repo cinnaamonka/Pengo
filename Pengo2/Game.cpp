@@ -8,6 +8,10 @@
 #include "BlockComponent.h"
 #include "PengoInputCommands.h"
 
+#include <SoundSystem.h>
+#include <SoundServiceLocator.h>
+#include <SoundLogSystem.h>
+
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 
@@ -16,8 +20,8 @@ void Game::Initialize()
 	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene("Demo");
 
 	m_pEnemyActor = std::make_unique<EnemyActor>();
-
 	m_pPengoActor = std::make_unique<PengoActor>();
+
 	auto hitObserverComponent = m_pPengoActor->GetHitObserver();
 
 	m_pEnvironment = std::make_unique<GameEngine::GameObject>();
@@ -32,6 +36,14 @@ void Game::Initialize()
 	scene.Add(std::move(m_pEnemyActor->GetActorGameObject()));
 
 	InitializeInputSystem(m_pPengoActor->GetReferenceToActor());
+
+	GameEngine::SoundServiceLocator::RegisterSoundSystem(std::make_unique<GameEngine::SoundLogSystem>
+		(std::make_unique<GameEngine::SoundSystem>()));
+
+	auto& soundSystem = GameEngine::SoundServiceLocator::GetSoundSystemInstance();
+	// test implementation
+	soundSystem.Load("../Data/Sound/test.wav");
+	soundSystem.Play(0, 100.0f);
 }
 
 void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)

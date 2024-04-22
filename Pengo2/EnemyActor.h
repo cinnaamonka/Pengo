@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <GameObject.h>
+#include <Helpers.h>
 
 class EnemyActor final
 {
@@ -16,5 +17,10 @@ public:
 	virtual std::unique_ptr<GameEngine::GameObject>& GetActorGameObject();
 private:
 	std::unique_ptr<GameEngine::GameObject> m_pEnemy;
+
+	std::unique_ptr<GameEngine::Blackboard> m_pBlackboard; 
+
+	int m_HorizontalAmountOfFrames = 8;
+	int m_VerticalAmountOfFrames = 3;
 };
 

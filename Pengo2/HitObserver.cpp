@@ -16,13 +16,13 @@ void HitObserver::ResetHorizontalPosition(const GameEngine::Rect& actorShape, co
 
 	float intersectX = static_cast<float>(hitInfo.intersectPoint.x);
 
-	if (intersectX < left + actorShape.width / 2)
+	if (intersectX < left + actorShape.width / 2 + 0.1f)
 	{
 		tempRect.left = static_cast<int>(intersectX);
 	}
 	else if (intersectX > left + actorShape.width / 2)
 	{
-		tempRect.left = static_cast<int>(intersectX - actorShape.width);
+		tempRect.left = static_cast<int>(intersectX - actorShape.width - 0.1f);
 	}
 
 	GetGameObject()->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(glm::vec3{ tempRect.left,tempRect.bottom,0 });
