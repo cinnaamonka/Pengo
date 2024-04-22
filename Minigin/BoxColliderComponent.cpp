@@ -17,8 +17,8 @@ GameEngine::BoxCollider::BoxCollider(GameObject* pGameObject, Rect shape) :
 
 bool GameEngine::BoxCollider::IsCollidingHorizontally(const Rect& rectShape, HitInfo& hitInfo) const
 {
-	const glm::vec2 ray1(rectShape.left + 1.f, rectShape.bottom + rectShape.height / 2);
-	const glm::vec2 ray2(rectShape.left + rectShape.width - 1.f, rectShape.bottom + rectShape.height / 2);
+	const glm::vec2 ray1(rectShape.left, rectShape.bottom + rectShape.height / 2);
+	const glm::vec2 ray2(rectShape.left + rectShape.width, rectShape.bottom + rectShape.height / 2);
 
 	const std::vector<glm::vec3> RectPoints = CreatePointsFromRect(m_RectCollider);
 
