@@ -4,6 +4,7 @@
 #include <thread>
 #include <iostream>
 #include <mutex>
+#include <future>
 #include "Helpers.h"
 #include <unordered_map>
 #include "RingBuffer.h"
@@ -37,16 +38,18 @@ namespace GameEngine
 		}
 		void Update()
 		{
-			// Lock the mutex to synchronize access to m_SoundQueue
 			std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
 
-			// Exit early if queue is empty
 			if (m_SoundQueue.GetPending() == 0)
 				return;
 
-			// Execute the sound playing logic in a separate thread
-			std::thread soundThread([this]() {
-				// Lock the mutex again in the worker thread to synchronize access
+			if (m_AsyncResult.valid())
+			{
+				m_AsyncResult.get();
+			}
+			
+			m_AsyncResult = std::async(std::launch::async, [this]() {
+				
 				std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
 
 				Sound sound = m_SoundQueue.GetFront();
@@ -66,10 +69,8 @@ namespace GameEngine
 					return;
 				}
 
-				// Set volume
 				pChunk->volume = static_cast<Uint8>(glm::clamp(sound.volume, 0.f, 1.f) * MIX_MAX_VOLUME);
 
-				// Try playing sound and exit if none are available
 				int channel = Mix_PlayChannel(-1, pChunk.get(), 0);
 				if (channel == -1)
 					return;
@@ -77,12 +78,8 @@ namespace GameEngine
 				// Keep shared pointer alive while sound is playing
 				m_ActiveAudio[channel] = pChunk;
 
-				// Remove front item from queue
 				m_SoundQueue.PullFront();
 				});
-
-			// Detach the thread to run asynchronously
-			soundThread.detach();
 		}
 		void Play(const sound_id id, const float volume)
 		{
@@ -121,6 +118,7 @@ namespace GameEngine
 		std::unordered_map<sound_id, std::shared_ptr<Mix_Chunk>> m_pSoundEffects;
 		std::vector<std::shared_ptr<Mix_Chunk>> m_ActiveAudio;
 		std::mutex m_SoundEffectsMutex;
+		std::future<void> m_AsyncResult; 
 	};
 
 	SoundSystem::SoundSystem() :
