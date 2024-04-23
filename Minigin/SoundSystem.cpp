@@ -57,7 +57,7 @@ namespace GameEngine
 			}
 			std::cout << "Launching new task..." << std::endl;
 
-			m_AsyncResult = std::async(std::launch::async, [this] { AsyncUpdate(); }); 
+			m_AsyncResult = std::async(std::launch::async, [this] { AsyncUpdate(); });
 
 			std::cout << "New task launched." << std::endl;
 
@@ -69,13 +69,13 @@ namespace GameEngine
 		}
 		bool Contains(const sound_id id) const
 		{
-			if(m_pSoundEffects.find(id) != m_pSoundEffects.end()) return true;
+			if (m_pSoundEffects.find(id) != m_pSoundEffects.end()) return true;
 			return false;
 		}
 
 		bool IsPlaying(const sound_id id) const
 		{
-			std::shared_ptr<Mix_Chunk> pChunk = nullptr; 
+			std::shared_ptr<Mix_Chunk> pChunk = nullptr;
 
 			if (id != UINT_MAX)
 			{
@@ -190,10 +190,7 @@ namespace GameEngine
 
 	void SoundSystem::Play(const sound_id id, const float volume)
 	{
-		if (!IsPlaying(id))
-		{
-			m_pImpl->Play(id, volume);
-		}
+		m_pImpl->Play(id, volume);
 	}
 
 	void SoundSystem::Pause()

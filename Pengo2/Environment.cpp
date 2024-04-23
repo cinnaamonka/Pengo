@@ -18,7 +18,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	m_BorderLength(310),
 	m_BorderHeight(355)
 {
-	GetVerticesFromJsonFile(filename, m_VerticesIceBlocks, m_VerticesDiamondBlocks, m_BorderVertices);
+	GameEngine::GetVerticesFromJsonFile(filename, m_VerticesIceBlocks, m_VerticesDiamondBlocks, m_BorderVertices);
 
 	auto borderBlock = BaseBlock::CreateBlock(m_BorderVertices[0][0],"Border.tga",
 		m_BorderLength, m_BorderHeight,
@@ -53,11 +53,11 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 			}
 	}
 }
-void Environment::CheckCollision(Rect& shape)
+void Environment::CheckCollision(GameEngine::Rect& shape)
 {
-	if (m_pPlayer->GetComponent<ActorComponent>()->GetCollisionBeChecked())
+	if (m_pPlayer->GetComponent<GameEngine::ActorComponent>()->GetCollisionBeChecked())
 	{
-		HitInfo hitInfo{};
+		GameEngine::HitInfo hitInfo{};
 
 		for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 		{
@@ -88,13 +88,13 @@ void Environment::CheckCollision(Rect& shape)
 			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 		}
 
-		m_pPlayer->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(false);
+		m_pPlayer->GetComponent<GameEngine::ActorComponent>()->SetCollisionCanBeChecked(false);
 	}
 
 }
-void Environment::CheckBlocksCollision(Rect& shape)
+void Environment::CheckBlocksCollision(GameEngine::Rect& shape)
 {
-	HitInfo hitInfo{};
+	GameEngine::HitInfo hitInfo{};
 
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{

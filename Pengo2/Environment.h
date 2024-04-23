@@ -16,21 +16,19 @@
 
 class GameObject;
 
-using namespace GameEngine;
-
 class Environment final : public GameEngine::BaseComponent
 {
 public:
 	Environment(GameEngine::GameObject* pGameObject, const std::string& filename, GameEngine::Scene* scene);
-	~Environment() = default;
+	~Environment() {};
 
 	Environment(const Environment& other) = delete;
 	Environment& operator=(const Environment& other) = delete;
 	Environment(Environment&& other) noexcept = delete;
 	Environment& operator=(Environment&& other) noexcept = delete;
 
-	void CheckCollision(Rect& shape);
-	void CheckBlocksCollision(Rect& shape);
+	void CheckCollision(GameEngine::Rect& shape);
+	void CheckBlocksCollision(GameEngine::Rect& shape);
 
 	void Update() override;
 
@@ -58,12 +56,12 @@ private:
 	GameEngine::GameObject* m_pPlayer;
 	GameEngine::GameObject* m_pBorderBlock;
 
-	GameEngine::Subject<HitInfo> m_CollisionHitInfoChanged;
+	GameEngine::Subject<GameEngine::HitInfo> m_CollisionHitInfoChanged;
 
 	int m_PushedBlockIndex;
-	int m_BorderWidth;
-	int m_BorderLength;
-	int m_BorderHeight;
+	const int m_BorderWidth;
+	const int m_BorderLength;
+	const int m_BorderHeight;
 	glm::vec3 m_PushDirection;
 	bool m_BlockCanBePushed;
 };

@@ -9,6 +9,11 @@ GameEngine::SoundLogSystem::SoundLogSystem(std::unique_ptr<BaseSoundSystem>&& so
 
 void GameEngine::SoundLogSystem::Play(const sound_id id, const float volume)
 {
+	if (IsPlaying(id))
+	{
+		std::cout << "Sound with id: " << id << " is already playing" << std::endl;
+		return;
+	};
 	std::cout << "Playing sound with id: " << id << " and volume: " << volume << std::endl;
 	pSoundSystem->Play(id, volume);
 }
