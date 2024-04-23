@@ -42,7 +42,7 @@ public:
 		return m_PushSpeed;
 	}
 
-	static std::unique_ptr<GameEngine::GameObject> CreateBlock(const glm::vec3& position, GameEngine::Scene* scene, const std::string& filename, 
+	static std::unique_ptr<GameEngine::GameObject> CreateBlock(const glm::vec3& position,const std::string& filename, 
 		int blockSizeX = 20, int blockSizeY = 20, const glm::vec3& colliderBlockPos = glm::vec3{ 0,0,0 });
 	
 private:

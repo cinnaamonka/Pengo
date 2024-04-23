@@ -19,6 +19,8 @@
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 
+//#include <vld.h>
+
 void Game::Initialize()
 {
 	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene("Demo");

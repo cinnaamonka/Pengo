@@ -10,7 +10,11 @@
 
 BaseBlock::BaseBlock(GameEngine::GameObject* GOptr) :
 	GameEngine::BaseComponent(GOptr),
-	m_PushSpeed(10.0f)
+	m_PushSpeed(10.0f),
+	//intialize
+	m_Position{ 0,0,0 },
+	m_ColliderPosition{ 0,0,0 },
+	m_pGameObject(nullptr)
 {
 
 }
@@ -35,14 +39,11 @@ void BaseBlock::PushBlock(const glm::vec3& direction)
 	GetGameObject()->GetComponent<GameEngine::BoxCollider>()->SetBoxCollider(currentPosition);
 }
 
-std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& position, GameEngine::Scene* scene, const std::string& filename, int blockSizeX, int blockSizeY, const glm::vec3& colliderBlockPos)
+std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& position,const std::string& filename, int blockSizeX, int blockSizeY, const glm::vec3& colliderBlockPos)
 {
 	auto gameObject = std::make_unique<GameEngine::GameObject>();
 
 	auto colliderPosition = glm::vec3{ 0,0,0 };
-
-	int xPos = static_cast<int>(position.x);
-	int yPos = static_cast<int>(position.y);
 
 	if (colliderBlockPos == glm::vec3{ 0,0,0 })
 	{
@@ -53,7 +54,7 @@ std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& 
 		colliderPosition = colliderBlockPos;
 	}
 
-	gameObject->AddComponent<GameEngine::BoxCollider>(colliderPosition.x, colliderPosition.y, blockSizeX, blockSizeY);
+	gameObject->AddComponent<GameEngine::BoxCollider>(static_cast<int>(colliderPosition.x),static_cast<int>(colliderPosition.y), blockSizeX, blockSizeY);
 	gameObject->AddComponent<GameEngine::TransformComponent>(position);
 	gameObject->AddComponent<GameEngine::TextureComponent>(filename);
 	gameObject->AddComponent<GameEngine::RenderComponent>();

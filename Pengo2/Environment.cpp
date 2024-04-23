@@ -17,7 +17,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 {
 	GetVerticesFromJsonFile(filename, m_VerticesIceBlocks, m_VerticesDiamondBlocks, m_BorderVertices);
 
-	auto borderBlock = BaseBlock::CreateBlock(m_BorderVertices[0][0], scene, "Border.tga",
+	auto borderBlock = BaseBlock::CreateBlock(m_BorderVertices[0][0],"Border.tga",
 		m_BorderLength, m_BorderHeight,
 		glm::vec3{ m_BorderVertices[0][0].x + m_BorderWidth,m_BorderVertices[0][0].y + m_BorderWidth,0 });
 
@@ -29,7 +29,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 
 	for (int i = 0; i < amountOfDiamondBlocks; ++i)
 	{
-		auto diamondBlock = BaseBlock::CreateBlock(m_VerticesDiamondBlocks[i][0], scene, "DiamondBlock.tga");
+		auto diamondBlock = BaseBlock::CreateBlock(m_VerticesDiamondBlocks[i][0], "DiamondBlock.tga");
 		m_pBlocks.push_back(diamondBlock.get());
 		scene->Add(std::move(diamondBlock));
 	}
@@ -44,7 +44,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 
 			if (!positionExists)
 			{
-				auto iceBlock = BaseBlock::CreateBlock(position, scene, "IceBlock.tga");
+				auto iceBlock = BaseBlock::CreateBlock(position, "IceBlock.tga");
 				m_pBlocks.push_back(iceBlock.get());
 				scene->Add(std::move(iceBlock));
 			}
