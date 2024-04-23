@@ -1,11 +1,15 @@
 #include "Game.h"
 
 #include <InputManager.h>
+#include <ResourceManager.h>
 #include <InputCommands.h>
 
 #include <StatesAndTransitions.h>
 #include "HitObserver.h"
 #include "BlockComponent.h"
+#include "TextComponent.h"
+#include "RenderComponent.h"
+#include "TransformComponent.h"
 #include "PengoInputCommands.h"
 
 #include <SoundSystem.h>
@@ -40,10 +44,14 @@ void Game::Initialize()
 	GameEngine::SoundServiceLocator::RegisterSoundSystem(std::make_unique<GameEngine::SoundLogSystem>
 		(std::make_unique<GameEngine::SoundSystem>()));
 
-	auto& soundSystem = GameEngine::SoundServiceLocator::GetSoundSystemInstance();
-	// test implementation
-	soundSystem.Load("../Data/Sound/test.wav",0);
-	soundSystem.Play(0, 100.0f);
+	auto font = GameEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 24);
+
+	std::unique_ptr<GameEngine::GameObject> text = std::make_unique<GameEngine::GameObject>();
+	text->AddComponent<GameEngine::TextComponent>("Push block horizontally to hear the sound",
+		font);
+	text->AddComponent<GameEngine::TransformComponent>(glm::vec3{ 0,0,0 });
+	text->AddComponent<GameEngine::RenderComponent>();
+	scene.Add(std::move(text));
 }
 
 void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)

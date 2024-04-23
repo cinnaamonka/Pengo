@@ -15,6 +15,8 @@ namespace GameEngine
 		void Stop()override;
 		void Load(const std::string& filePath, const sound_id id)override;
 		void Update() override;
+		bool Contains(const sound_id id) const override;
+		bool IsPlaying(const sound_id id) const override;
 	private:
 		class SoundSystemImpl;
 		std::unique_ptr<SoundSystemImpl> m_pImpl;

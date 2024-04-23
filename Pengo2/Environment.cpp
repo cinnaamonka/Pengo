@@ -4,6 +4,7 @@
 #include <BoxColliderComponent.h>
 #include <TransformComponent.h> 
 #include <ActorComponent.h>
+#include <SoundServiceLocator.h>
 #include <memory>
 #include <Helpers.h>
 
@@ -103,6 +104,10 @@ void Environment::CheckBlocksCollision(Rect& shape)
 				m_pBlocks[m_PushedBlockIndex]->GetComponent<HitObserver>()->Notify(hitInfo);
 				break;
 			}
+
+			auto& soundSystem = GameEngine::SoundServiceLocator::GetSoundSystemInstance();
+			soundSystem.Load("../Data/Sound/test.wav", 0);
+			soundSystem.Play(0, 5.f);
 		}
 		if (m_pBlocks[i]->GetComponent<BaseBlock>()->IsCollidingVertically(shape, hitInfo))
 		{

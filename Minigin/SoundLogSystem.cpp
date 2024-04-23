@@ -7,7 +7,7 @@ GameEngine::SoundLogSystem::SoundLogSystem(std::unique_ptr<BaseSoundSystem>&& so
 	std::cout << "Sound log system created " << std::endl;
 }
 
-void GameEngine::SoundLogSystem::Play(const unsigned short id, const float volume)
+void GameEngine::SoundLogSystem::Play(const sound_id id, const float volume)
 {
 	std::cout << "Playing sound with id: " << id << " and volume: " << volume << std::endl;
 	pSoundSystem->Play(id, volume);
@@ -33,6 +33,11 @@ void GameEngine::SoundLogSystem::Stop()
 
 void GameEngine::SoundLogSystem::Load(const std::string& filePath, const sound_id id)
 {
+	if (Contains(id))
+	{
+		std::cout << "Sound with id: " << id << " already exists" << std::endl;
+		return;
+	}
 	std::cout << "Loading sound from file: " << filePath << std::endl;
 	pSoundSystem->Load(filePath, id);
 }
@@ -40,5 +45,15 @@ void GameEngine::SoundLogSystem::Load(const std::string& filePath, const sound_i
 void GameEngine::SoundLogSystem::Update()
 {
 	pSoundSystem->Update();
+}
+
+bool GameEngine::SoundLogSystem::Contains(const sound_id id) const
+{
+	return pSoundSystem->Contains(id);
+}
+
+bool GameEngine::SoundLogSystem::IsPlaying(const sound_id id) const
+{
+	return pSoundSystem->IsPlaying(id);
 }
 

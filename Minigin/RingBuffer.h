@@ -20,7 +20,7 @@ namespace GameEngine
             assert(m_Head != m_Tail && "RingBuffer is empty");
             return m_Array[m_Head];
         }
-        const T& PullFront()
+        const T& PopFront()
         {
             assert(m_Head != m_Tail && "RingBuffer is empty");
             const T& value = m_Array[m_Head];
@@ -41,10 +41,24 @@ namespace GameEngine
 
         size_t GetPending() const
         {
-            return (m_Head != m_Tail) ? (m_Tail > m_Head ? m_Tail - m_Head : Capacity - m_Head + m_Tail) : 0; 
+            if (m_Head != m_Tail)
+            {
+                if (m_Tail > m_Head) 
+                {
+                    return m_Tail - m_Head;
+                }
+                else
+                {
+                    return Capacity - m_Head + m_Tail;
+                }
+            }
+            else
+            {
+                return 0;
+            }
         }
 
-        size_t GetMaxPending() const 
+        size_t GetCapacity() const 
         {
             return Capacity;
         }
