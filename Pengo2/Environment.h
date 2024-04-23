@@ -41,7 +41,7 @@ public:
 	template<typename T>
 	void AttachObserver(GameEngine::IObserver<T>* pObserver)
 	{
-		if constexpr (std::is_same_v<T, GameEngine::HitInfo>)
+		if (std::is_same_v<T, GameEngine::HitInfo>)
 		{
 			m_CollisionHitInfoChanged.Attach(pObserver);
 		}
