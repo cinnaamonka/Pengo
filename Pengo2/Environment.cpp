@@ -13,7 +13,10 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	m_pPlayer(nullptr),
 	m_PushDirection{},
 	m_PushedBlockIndex{},
-	m_BlockCanBePushed(false)
+	m_BlockCanBePushed(false),
+	m_BorderWidth(25),
+	m_BorderLength(310),
+	m_BorderHeight(355)
 {
 	GetVerticesFromJsonFile(filename, m_VerticesIceBlocks, m_VerticesDiamondBlocks, m_BorderVertices);
 
