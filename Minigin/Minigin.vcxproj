@@ -99,7 +99,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\3rdParty\SDL2_mixer\include;$(SolutionDir)\3rdParty\SDL2_mixer\include;$(SolutionDir)\3rdParty\imgui;$(SolutionDir)\3rdParty\steamworks_sdk_158a\sdk\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL_mixer\include\SDL3_mixer;$(SolutionDir)\3rdParty\SDL2_mixer\include;$(SolutionDir)\3rdParty\imgui;$(SolutionDir)\3rdParty\steamworks_sdk_158a\sdk\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -165,7 +165,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\3rdParty\SDL2_mixer\include;$(SolutionDir)\3rdParty\SDL2_mixer\include;$(SolutionDir)\3rdParty\imgui;$(SolutionDir)\3rdParty\steamworks_sdk_158a\sdk\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL_mixer\include\SDL3_mixer;$(SolutionDir)\3rdParty\SDL2_mixer\include;$(SolutionDir)\3rdParty\imgui;$(SolutionDir)\3rdParty\steamworks_sdk_158a\sdk\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>

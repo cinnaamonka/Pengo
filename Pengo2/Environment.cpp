@@ -56,7 +56,7 @@ void Environment::CheckCollision(Rect& shape)
 	{
 		HitInfo hitInfo{};
 
-		for (int i = 0; i < m_pBlocks.size(); ++i)
+		for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 		{
 			if (m_pBlocks[i]->GetComponent<BaseBlock>()->IsCollidingHorizontally(shape, hitInfo))
 			{
@@ -93,7 +93,7 @@ void Environment::CheckBlocksCollision(Rect& shape)
 {
 	HitInfo hitInfo{};
 
-	for (int i = 0; i < m_pBlocks.size(); ++i)
+	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
 		if (m_pBlocks[i]->GetComponent<BaseBlock>()->IsCollidingHorizontally(shape, hitInfo))
 		{
