@@ -212,13 +212,6 @@
     },
     {
       "position": {
-        "left": 200,
-        "top": 230
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
         "left": 220,
         "top": 250
       },
