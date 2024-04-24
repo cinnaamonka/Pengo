@@ -46,6 +46,7 @@ void Game::Initialize()
 	GameEngine::SoundServiceLocator::RegisterSoundSystem(std::make_unique<GameEngine::SoundLogSystem>
 		(std::make_unique<GameEngine::SoundSystem>()));
 
+	//test
 	auto font = GameEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 24);
 
 	std::unique_ptr<GameEngine::GameObject> text = std::make_unique<GameEngine::GameObject>();

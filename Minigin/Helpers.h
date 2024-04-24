@@ -25,6 +25,12 @@ namespace GameEngine
 		glm::vec2 intersectPoint;
 		glm::vec2 normal;
 	};
+
+	enum class CollisionEvent
+	{
+		CollidedHorizontally,
+		CollidedVertically
+	};
 	struct Rect
 	{
 		int left;

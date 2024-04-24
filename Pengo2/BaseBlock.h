@@ -23,7 +23,7 @@ public:
 	BaseBlock& operator=(BaseBlock&& other) noexcept = delete;
 
 	bool IsCollidingHorizontally(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo);
-	bool IsCollidingVertically(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo); 
+	bool IsCollidingVertically(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo);
 
 	void PushBlock(const glm::vec3& direction);
 
@@ -42,9 +42,19 @@ public:
 		return m_PushSpeed;
 	}
 
-	static std::unique_ptr<GameEngine::GameObject> CreateBlock(const glm::vec3& position,const std::string& filename, 
+	static std::unique_ptr<GameEngine::GameObject> CreateBlock(const glm::vec3& position, const std::string& filename,
 		int blockSizeX = 20, int blockSizeY = 20, const glm::vec3& colliderBlockPos = glm::vec3{ 0,0,0 });
-	
+
+	enum class CollisionEvent
+	{
+		collidedHor,
+		collidedVer,
+		none,
+		both
+	};
+
+	CollisionEvent m_CollisionEvent = CollisionEvent::none;
+
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pGameObject;
@@ -52,6 +62,10 @@ private:
 	glm::vec3 m_Position;
 	glm::vec3 m_ColliderPosition;
 	float m_PushSpeed;
+
+	glm::vec3 m_Direction;
+
+	bool m_HasCollidedHor = false;
 
 };
 

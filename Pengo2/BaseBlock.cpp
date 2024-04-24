@@ -11,7 +11,6 @@
 BaseBlock::BaseBlock(GameEngine::GameObject* GOptr) :
 	GameEngine::BaseComponent(GOptr),
 	m_PushSpeed(10.0f),
-	//intialize
 	m_Position{ 0,0,0 },
 	m_ColliderPosition{ 0,0,0 },
 	m_pGameObject(nullptr)
@@ -30,7 +29,7 @@ bool BaseBlock::IsCollidingVertically(const GameEngine::Rect& rectShape, GameEng
 }
 
 void BaseBlock::PushBlock(const glm::vec3& direction)
-{
+{ 
 	auto currentPosition = GetGameObject()->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
 
 	currentPosition += m_PushSpeed * direction;

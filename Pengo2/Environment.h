@@ -28,7 +28,7 @@ public:
 	Environment& operator=(Environment&& other) noexcept = delete;
 
 	void CheckCollision(GameEngine::Rect& shape);
-	void CheckBlocksCollision(GameEngine::Rect& shape);
+	void CheckBlocksCollision(GameEngine::GameObject* gameObject);
 
 	void Update() override;
 

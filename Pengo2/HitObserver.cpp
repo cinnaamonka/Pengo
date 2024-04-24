@@ -2,6 +2,7 @@
 #include <ActorComponent.h>
 #include <BoxColliderComponent.h>
 #include <TransformComponent.h>
+#include "BaseBlock.h"
 
 HitObserver::HitObserver(GameEngine::GameObject* pGameObject) :
 	BaseComponent(pGameObject)
@@ -16,13 +17,13 @@ void HitObserver::ResetHorizontalPosition(const GameEngine::Rect& actorShape, co
 
 	float intersectX = static_cast<float>(hitInfo.intersectPoint.x);
 
-	if (intersectX < left + actorShape.width / 2 + 0.1f)
+	if (intersectX < left + actorShape.width / 2)
 	{
-		tempRect.left = static_cast<int>(intersectX);
+		tempRect.left = static_cast<int>(intersectX + 0.1f);
 	}
 	else if (intersectX > left + actorShape.width / 2)
 	{
-		tempRect.left = static_cast<int>(intersectX - actorShape.width - 0.1f);
+		tempRect.left = static_cast<int>(intersectX - actorShape.width - 0.1f) ;
 	}
 
 	GetGameObject()->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(glm::vec3{ tempRect.left,tempRect.bottom,0 });
@@ -79,5 +80,6 @@ void HitObserver::Notify(const GameEngine::HitInfo& message_from_subject)
 	
 		ResetHorizontalPosition(shapeCopy, message_from_subject);
 	}
+
 }
 

@@ -4,7 +4,7 @@
 #include "TextureComponent.h"
 
 GameEngine::BoxCollider::BoxCollider(GameObject* pGameObject, int left, int bottom, int width, int height) :
-	m_RectCollider({ left,bottom,width - 2,height -2}), BaseComponent(pGameObject)
+	m_RectCollider({ left,bottom,width - 2,height - 2 }), BaseComponent(pGameObject)
 {
 
 }
@@ -36,7 +36,6 @@ bool GameEngine::BoxCollider::IsCollidingVertically(const Rect& rectShape, HitIn
 
 	const std::vector<glm::vec3> RectPoints = CreatePointsFromRect(m_RectCollider);
 
-	
 	return Raycast(RectPoints, ray1, ray2, hitInfo) || Raycast(RectPoints, ray3, ray4, hitInfo);
 }
 
