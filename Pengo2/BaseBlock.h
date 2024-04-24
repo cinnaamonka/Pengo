@@ -7,6 +7,7 @@
 #include <Scene.h>
 
 #include "HitObserver.h"
+#include "CollisionComponent.h"
 
 class BoxCollider;
 class HitObserver;
@@ -45,15 +46,6 @@ public:
 	static std::unique_ptr<GameEngine::GameObject> CreateBlock(const glm::vec3& position, const std::string& filename,
 		int blockSizeX = 20, int blockSizeY = 20, const glm::vec3& colliderBlockPos = glm::vec3{ 0,0,0 });
 
-	enum class CollisionEvent
-	{
-		collidedHor,
-		collidedVer,
-		none,
-		both
-	};
-
-	CollisionEvent m_CollisionEvent = CollisionEvent::none;
 
 private:
 

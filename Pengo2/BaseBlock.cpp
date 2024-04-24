@@ -57,6 +57,7 @@ std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& 
 	gameObject->AddComponent<GameEngine::TransformComponent>(position);
 	gameObject->AddComponent<GameEngine::TextureComponent>(filename);
 	gameObject->AddComponent<GameEngine::RenderComponent>();
+	gameObject->AddComponent<CollisionComponent>();
 	gameObject->AddComponent<BaseBlock>();
 	gameObject->AddComponent<HitObserver>();
 
