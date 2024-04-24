@@ -64,5 +64,7 @@ private:
 
 	bool m_HasCollidedHor = false;
 
+
+
 };
 

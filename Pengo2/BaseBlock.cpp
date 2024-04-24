@@ -74,5 +74,7 @@ std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& 
 	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_pStaticBlockState.get(), m_pBreakingBlockState.get(),
 		m_pIsBlockBreaking.get());
 
+	gameObject->GetComponent<AnimationComponent>()->AddData("WasBlockDestroyed", false);
+
 	return gameObject;
 }

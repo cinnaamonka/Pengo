@@ -58,5 +58,7 @@ namespace GameEngine
 	void PushCommand::Execute()
 	{
 		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("WasBlockPushed", true);
+		GetGameObject()->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(true);
+
 	}
 }

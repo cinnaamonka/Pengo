@@ -30,10 +30,10 @@ public:
 		m_pBlackboard->AddData(key, value);
 	}
 
-	template <typename T>
-	T GetData(const std::string& key)
+	template<typename T>
+	void GetData(const std::string& key,T& data)
 	{
-		return m_pBlackboard->GetData<T>(key);
+		m_pBlackboard->GetData(key,data);
 	}
 
 	void Update() override;

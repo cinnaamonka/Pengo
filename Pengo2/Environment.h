@@ -27,7 +27,7 @@ public:
 	Environment(Environment&& other) noexcept = delete;
 	Environment& operator=(Environment&& other) noexcept = delete;
 
-	void CheckCollision(GameEngine::Rect& shape);
+	void CheckCollision();
 	void CheckBlocksCollision(GameEngine::GameObject* gameObject);
 
 	void Update() override;
@@ -46,7 +46,7 @@ public:
 	}
 
 	void PushBlock();
-
+	bool m_test = false;
 private:
 	std::vector<GameEngine::GameObject*> m_pBlocks;
 	std::vector<std::vector<glm::vec3>> m_VerticesIceBlocks;
@@ -66,5 +66,8 @@ private:
 	const int m_BorderHeight;
 	glm::vec3 m_PushDirection;
 	bool m_BlockCanBePushed;
+	
+	
+	
 };
 

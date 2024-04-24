@@ -1,6 +1,7 @@
 #include "CollisionComponent.h"
 #include "BaseBlock.h"
 #include <GameObject.h>
+#include "AnimationComponent.h"
 
 CollisionComponent::CollisionComponent(GameEngine::GameObject* pGameObject) :
 	BaseComponent(pGameObject),
@@ -9,10 +10,11 @@ CollisionComponent::CollisionComponent(GameEngine::GameObject* pGameObject) :
 
 }
 
-void CollisionComponent::HandleCollision(GameEngine::Rect& shape, GameEngine::GameObject* border,
-	glm::vec3& pushDirection, GameEngine::GameObject* pushedBlock, GameEngine::HitInfo& hitInfo)
+void CollisionComponent::HandleCollision(GameEngine::GameObject* actor, GameEngine::GameObject* border,
+	glm::vec3& pushDirection, GameEngine::GameObject* pushedBlock, GameEngine::HitInfo& hitInfo, bool wasPushed)
 {
 	GameEngine::HitInfo test{};
+	auto shape = actor->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
 
 	if (GetGameObject()->GetComponent<BaseBlock>()->IsCollidingHorizontally(shape, hitInfo))
 	{
@@ -35,13 +37,20 @@ void CollisionComponent::HandleCollision(GameEngine::Rect& shape, GameEngine::Ga
 				pushedBlockCollider.height
 			};
 
-
 			if (!border->GetComponent<BaseBlock>()->IsCollidingHorizontally(collingRect, hitInfo))
 			{
 				pushedBlock->GetComponent<BaseBlock>()->SetPushSpeed(10.0f);
 			}
-
 		}
+		else
+		{
+			if (wasPushed)
+			{
+				pushedBlock->GetComponent<AnimationComponent>()->ChangeData("WasBlockDestroyed", true);
+			}
+		}
+
+
 		m_HasCollided = true;
 		hitInfo.normal = test.normal;
 		hitInfo.intersectPoint = test.intersectPoint;
@@ -81,23 +90,31 @@ void CollisionComponent::HandleCollision(GameEngine::Rect& shape, GameEngine::Ga
 			{
 				pushedBlock->GetComponent<BaseBlock>()->SetPushSpeed(10.0f);
 			}
-		
+
+		}
+		else {
+			if (wasPushed)
+			{
+				pushedBlock->GetComponent<AnimationComponent>()->ChangeData("WasBlockDestroyed", true);
+			}
 		}
 		m_HasCollided = true;
 		hitInfo.normal = test.normal;
 		hitInfo.intersectPoint = test.intersectPoint;
+
 		return;
 	}
 	else
 	{
 		hitInfo.normal = test.normal;
 		hitInfo.intersectPoint = test.intersectPoint;
+
 		m_HasCollided = false;
 	}
 
 }
 
-void CollisionComponent::HandleBlocksCollision(GameEngine::GameObject* gameObject, bool& blockCanBePushed)
+void CollisionComponent::HandleBlocksCollision(GameEngine::GameObject* gameObject)
 {
 	GameEngine::HitInfo hitInfo{};
 
@@ -105,7 +122,6 @@ void CollisionComponent::HandleBlocksCollision(GameEngine::GameObject* gameObjec
 
 	if (GetGameObject()->GetComponent<BaseBlock>()->IsCollidingHorizontally(boxCollider, hitInfo))
 	{
-		blockCanBePushed = false;
 
 		gameObject->GetComponent<BaseBlock>()->SetPushSpeed(0);
 		gameObject->GetComponent<CollisionComponent>()->m_CollisionEvent = CollisionEvent::CollidedHor;
@@ -119,9 +135,6 @@ void CollisionComponent::HandleBlocksCollision(GameEngine::GameObject* gameObjec
 	}
 	if (GetGameObject()->GetComponent<BaseBlock>()->IsCollidingVertically(boxCollider, hitInfo))
 	{
-	
-		blockCanBePushed = false;
-
 		gameObject->GetComponent<BaseBlock>()->SetPushSpeed(0);
 		gameObject->GetComponent<CollisionComponent>()->m_CollisionEvent = CollisionEvent::CollidedVer;
 		gameObject->GetComponent<HitObserver>()->Notify(hitInfo);

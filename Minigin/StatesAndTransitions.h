@@ -42,7 +42,7 @@ namespace GameEngine
 		~StaticBlockState() = default;
 
 		virtual void OnEnter(GameEngine::Blackboard* pBlackboard) override;
-		virtual void OnExit(GameEngine::Blackboard* pBlackboard) override;
+		virtual void OnExit(GameEngine::Blackboard*) override;
 		virtual void Update(GameEngine::Blackboard* pBlackboard) override;
 
 	};

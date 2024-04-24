@@ -14,9 +14,9 @@ public:
 	CollisionComponent& operator=(const CollisionComponent& other) = delete;
 	CollisionComponent& operator=(CollisionComponent&& other) = delete;
 
-	void HandleCollision(GameEngine::Rect& shape, GameEngine::GameObject* border,glm::vec3& pushDirection,
-		GameEngine::GameObject* pushedBlock, GameEngine::HitInfo& hitInfo);
-	void HandleBlocksCollision(GameEngine::GameObject* gameObject, bool& blockCanBePushed);
+	void HandleCollision(GameEngine::GameObject* actor, GameEngine::GameObject* border,glm::vec3& pushDirection,
+		GameEngine::GameObject* pushedBlock, GameEngine::HitInfo& hitInfo,bool wasPushed);
+	void HandleBlocksCollision(GameEngine::GameObject* gameObject);
 
 	bool m_Pushed;
 
@@ -36,5 +36,6 @@ public:
 private:
 
 	bool m_HasCollided;
+
 };
 

@@ -79,6 +79,7 @@ namespace GameEngine
 	void PushingState::OnExit(GameEngine::Blackboard* pBlackboard)
 	{
 		pBlackboard->ChangeData("WasBlockPushed", false);
+		pBlackboard->ChangeData("WasInputGiven", false);
 	}
 	void PushingState::Update(GameEngine::Blackboard* pBlackboard)
 	{
@@ -87,49 +88,37 @@ namespace GameEngine
 	}
 	void StaticBlockState::OnEnter(GameEngine::Blackboard* pBlackboard)
 	{
-		pBlackboard = pBlackboard;
-		/*pBlackboard->ChangeData("NumberOfFrames", 1); 
+		pBlackboard->ChangeData("NumberOfFrames", 1); 
 		pBlackboard->ChangeData("HorizontalOffset", 0); 
-		pBlackboard->ChangeData("VerticalOffset", 0); */
+		pBlackboard->ChangeData("VerticalOffset", 0); 
 	}
-	void StaticBlockState::OnExit(GameEngine::Blackboard* pBlackboard)
+	void StaticBlockState::OnExit(GameEngine::Blackboard*)
 	{
-		pBlackboard = pBlackboard;
-
-	/*	pBlackboard->ChangeData("NumberOfFrames", 1);
-		pBlackboard->ChangeData("HorizontalOffset", 0);
-		pBlackboard->ChangeData("VerticalOffset", 0);*/
 	}
 	void StaticBlockState::Update(GameEngine::Blackboard* pBlackboard)
 	{
 		pBlackboard = pBlackboard;
 
-		//AnimationUpdate(pBlackboard);
+		AnimationUpdate(pBlackboard); 
 	}
 
 	void BreakingBlockState::OnEnter(GameEngine::Blackboard* pBlackboard)
 	{
-		pBlackboard = pBlackboard;
-
-		/*pBlackboard->ChangeData("NumberOfFrames", 1);
-		pBlackboard->ChangeData("HorizontalOffset", 0);
-		pBlackboard->ChangeData("VerticalOffset", 0);*/
+		pBlackboard->ChangeData("NumberOfFrames", 9);
+		pBlackboard->ChangeData("HorizontalOffset", 1);
+		pBlackboard->ChangeData("VerticalOffset", 0);
 	}
 
 	void BreakingBlockState::OnExit(GameEngine::Blackboard* pBlackboard)
 	{
-		pBlackboard = pBlackboard;
-
-		/*pBlackboard->ChangeData("NumberOfFrames", 1);
-		pBlackboard->ChangeData("HorizontalOffset", 0);
-		pBlackboard->ChangeData("VerticalOffset", 0);*/
+		pBlackboard->ChangeData("NumberOfFrames", 1);
+		pBlackboard->ChangeData("HorizontalOffset", 9);
+		pBlackboard->ChangeData("VerticalOffset", 0);
 	}
 
 	void BreakingBlockState::Update(GameEngine::Blackboard* pBlackboard)
 	{
-				pBlackboard = pBlackboard;
-
-		//AnimationUpdate(pBlackboard);
+		AnimationUpdate(pBlackboard);
 	}
 
 	// conditions
@@ -199,8 +188,10 @@ namespace GameEngine
 
 	bool IsBlockBreaking::Evaluate(GameEngine::Blackboard* pBlackboard) const
 	{
-		pBlackboard = pBlackboard;
-		return false;
+		bool wasBlockDedtroyed;
+		pBlackboard->GetData("WasBlockDestroyed", wasBlockDedtroyed);
+
+		return wasBlockDedtroyed;
 	}
 
 }
