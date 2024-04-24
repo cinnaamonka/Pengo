@@ -19,36 +19,15 @@ namespace GameEngine
 
 	void IdleState::Update(GameEngine::Blackboard* pBlackboard)
 	{
-		float animTime;
-		int nrFramesPerSec;
-		int animFrame;
-		int nrOfFrames;
+		AnimationUpdate(pBlackboard);
 
-		pBlackboard->GetData("NumberOfFrames", nrOfFrames);
-		pBlackboard->GetData("AnimationTime", animTime);
-		pBlackboard->GetData("FramesPerSec", nrFramesPerSec);
-		pBlackboard->GetData("AnimationFrame", animFrame);
-
-		animTime += GameEngine::TimeManager::GetElapsed();
-
-		if (animTime >= 1.f / nrFramesPerSec)
-		{
-			++animFrame %= nrOfFrames;
-
-			pBlackboard->ChangeData("AnimationFrame", animFrame);
-
-			animTime = 0.0f;
-
-			pBlackboard->ChangeData("AnimationTime", animTime);
-		}
-		pBlackboard->ChangeData("AnimationTime", animTime);
 	}
 
 	void RunningState::OnEnter(GameEngine::Blackboard* pBlackboard)
 	{
 		glm::vec3 movementDirection;
 		pBlackboard->GetData("MovementDirection", movementDirection);
-	  
+
 		if (movementDirection.x > 0 || movementDirection.x < 0)
 		{
 			pBlackboard->ChangeData("HorizontalOffset", 2);
@@ -72,38 +51,17 @@ namespace GameEngine
 
 	void RunningState::Update(GameEngine::Blackboard* pBlackboard)
 	{
-		float animTime;
-		int nrFramesPerSec;
-		int animFrame;
-		int nrOfFrames;
+		AnimationUpdate(pBlackboard);
 
-		pBlackboard->GetData("NumberOfFrames", nrOfFrames);
-		pBlackboard->GetData("AnimationTime", animTime);
-		pBlackboard->GetData("FramesPerSec", nrFramesPerSec);
-		pBlackboard->GetData("AnimationFrame", animFrame);
-
-		animTime += GameEngine::TimeManager::GetElapsed();
-
-		if (animTime >= 1.f / nrFramesPerSec)
-		{
-			++animFrame %= nrOfFrames;
-
-			pBlackboard->ChangeData("AnimationFrame", animFrame);
-
-			animTime = 0.0f;
-
-			pBlackboard->ChangeData("AnimationTime", animTime);
-		}
-		pBlackboard->ChangeData("AnimationTime", animTime);
 		pBlackboard->ChangeData("WasInputGiven", false);
 	}
 
 	void PushingState::OnEnter(GameEngine::Blackboard* pBlackboard)
 	{
-		glm::vec3 movementDirection; 
-		pBlackboard->GetData("MovementDirection", movementDirection); 
+		glm::vec3 movementDirection;
+		pBlackboard->GetData("MovementDirection", movementDirection);
 
-		if (movementDirection.x > 0 || movementDirection.x < 0) 
+		if (movementDirection.x > 0 || movementDirection.x < 0)
 		{
 			pBlackboard->ChangeData("HorizontalOffset", 2);
 		}
@@ -120,35 +78,61 @@ namespace GameEngine
 	}
 	void PushingState::OnExit(GameEngine::Blackboard* pBlackboard)
 	{
-		pBlackboard->ChangeData("WasBlockPushed", false); 
+		pBlackboard->ChangeData("WasBlockPushed", false);
 	}
 	void PushingState::Update(GameEngine::Blackboard* pBlackboard)
 	{
-		float animTime;
-		int nrFramesPerSec;
-		int animFrame;
-		int nrOfFrames;
-
-		pBlackboard->GetData("NumberOfFrames", nrOfFrames);
-		pBlackboard->GetData("AnimationTime", animTime);
-		pBlackboard->GetData("FramesPerSec", nrFramesPerSec);
-		pBlackboard->GetData("AnimationFrame", animFrame);
-
-		animTime += GameEngine::TimeManager::GetElapsed();
-
-		if (animTime >= 1.f / nrFramesPerSec)
-		{
-			++animFrame %= nrOfFrames;
-
-			animTime = 0;
-
-			pBlackboard->ChangeData("AnimationFrame", animFrame);
-			pBlackboard->ChangeData("AnimationTime", animTime);
-		}
-		pBlackboard->ChangeData("AnimationTime", animTime);
+		AnimationUpdate(pBlackboard);
 		pBlackboard->ChangeData("WasBlockPushed", false);
 	}
+	void StaticBlockState::OnEnter(GameEngine::Blackboard* pBlackboard)
+	{
+		pBlackboard = pBlackboard;
+		/*pBlackboard->ChangeData("NumberOfFrames", 1); 
+		pBlackboard->ChangeData("HorizontalOffset", 0); 
+		pBlackboard->ChangeData("VerticalOffset", 0); */
+	}
+	void StaticBlockState::OnExit(GameEngine::Blackboard* pBlackboard)
+	{
+		pBlackboard = pBlackboard;
 
+	/*	pBlackboard->ChangeData("NumberOfFrames", 1);
+		pBlackboard->ChangeData("HorizontalOffset", 0);
+		pBlackboard->ChangeData("VerticalOffset", 0);*/
+	}
+	void StaticBlockState::Update(GameEngine::Blackboard* pBlackboard)
+	{
+		pBlackboard = pBlackboard;
+
+		//AnimationUpdate(pBlackboard);
+	}
+
+	void BreakingBlockState::OnEnter(GameEngine::Blackboard* pBlackboard)
+	{
+		pBlackboard = pBlackboard;
+
+		/*pBlackboard->ChangeData("NumberOfFrames", 1);
+		pBlackboard->ChangeData("HorizontalOffset", 0);
+		pBlackboard->ChangeData("VerticalOffset", 0);*/
+	}
+
+	void BreakingBlockState::OnExit(GameEngine::Blackboard* pBlackboard)
+	{
+		pBlackboard = pBlackboard;
+
+		/*pBlackboard->ChangeData("NumberOfFrames", 1);
+		pBlackboard->ChangeData("HorizontalOffset", 0);
+		pBlackboard->ChangeData("VerticalOffset", 0);*/
+	}
+
+	void BreakingBlockState::Update(GameEngine::Blackboard* pBlackboard)
+	{
+				pBlackboard = pBlackboard;
+
+		//AnimationUpdate(pBlackboard);
+	}
+
+	// conditions
 	bool IsInputGiven::Evaluate(GameEngine::Blackboard* pBlackboard) const
 	{
 		bool inputWasGiven;
@@ -186,4 +170,37 @@ namespace GameEngine
 		}
 		return true;
 	}
+	
+	void AnimationUpdate(GameEngine::Blackboard* pBlackboard)
+	{
+		float animTime;
+		int nrFramesPerSec;
+		int animFrame;
+		int nrOfFrames;
+
+		pBlackboard->GetData("NumberOfFrames", nrOfFrames);
+		pBlackboard->GetData("AnimationTime", animTime);
+		pBlackboard->GetData("FramesPerSec", nrFramesPerSec);
+		pBlackboard->GetData("AnimationFrame", animFrame);
+
+		animTime += GameEngine::TimeManager::GetElapsed();
+
+		if (animTime >= 1.f / nrFramesPerSec)
+		{
+			++animFrame %= nrOfFrames;
+
+			animTime = 0;
+
+			pBlackboard->ChangeData("AnimationFrame", animFrame);
+			pBlackboard->ChangeData("AnimationTime", animTime);
+		}
+		pBlackboard->ChangeData("AnimationTime", animTime);
+	}
+
+	bool IsBlockBreaking::Evaluate(GameEngine::Blackboard* pBlackboard) const
+	{
+		pBlackboard = pBlackboard;
+		return false;
+	}
+
 }

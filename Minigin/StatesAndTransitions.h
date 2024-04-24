@@ -35,6 +35,28 @@ namespace GameEngine
 		virtual void Update(GameEngine::Blackboard* pBlackboard) override;
 
 	};
+	class StaticBlockState : public GameEngine::FSMState
+	{
+	public:
+		StaticBlockState() = default;
+		~StaticBlockState() = default;
+
+		virtual void OnEnter(GameEngine::Blackboard* pBlackboard) override;
+		virtual void OnExit(GameEngine::Blackboard* pBlackboard) override;
+		virtual void Update(GameEngine::Blackboard* pBlackboard) override;
+
+	};
+	class BreakingBlockState : public GameEngine::FSMState
+	{
+	public:
+		BreakingBlockState() = default;
+		~BreakingBlockState() = default;
+
+		virtual void OnEnter(GameEngine::Blackboard* pBlackboard) override;
+		virtual void OnExit(GameEngine::Blackboard* pBlackboard) override;
+		virtual void Update(GameEngine::Blackboard* pBlackboard) override;
+
+	};
 
 	class IsInputGiven : public GameEngine::FSMCondition
 	{
@@ -68,5 +90,15 @@ namespace GameEngine
 
 		virtual bool Evaluate(GameEngine::Blackboard* pBlackboard) const override;
 	};
+	class IsBlockBreaking : public GameEngine::FSMCondition
+	{
+	public:
+		IsBlockBreaking() = default;
+		~IsBlockBreaking() = default;
+
+		virtual bool Evaluate(GameEngine::Blackboard* pBlackboard) const override;
+	};
+
+	void AnimationUpdate(GameEngine::Blackboard* pBlackboard);
 }
 

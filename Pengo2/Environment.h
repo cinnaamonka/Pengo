@@ -58,6 +58,8 @@ private:
 
 	GameEngine::Subject<GameEngine::HitInfo> m_CollisionHitInfoChanged;
 
+
+
 	int m_PushedBlockIndex;
 	const int m_BorderWidth;
 	const int m_BorderLength;

@@ -32,8 +32,6 @@ public:
 	virtual std::unique_ptr<GameEngine::GameObject>& GetActorGameObject();
 private:
 
-	std::unique_ptr<GameEngine::Blackboard> m_pBlackboard;
-
 	std::unique_ptr<GameEngine::IdleState> m_IdleState;
 	std::unique_ptr<GameEngine::RunningState> m_RunningState;
 	std::unique_ptr<GameEngine::PushingState> m_PushingState;

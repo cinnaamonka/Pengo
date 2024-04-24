@@ -78,9 +78,6 @@ namespace GameEngine
 			return m_DestTextureRect;
 		}
 
-		void ChangeTexture(int currentAnimationFrame,int currentHorizontalOffset = 0, int currentVerticalOffset = 0);
-
-		void Update() override; 
 
 	private:
 

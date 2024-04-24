@@ -4,6 +4,7 @@
 #include <BaseComponent.h>
 #include <Helpers.h>
 #include <BoxColliderComponent.h>
+#include <StatesAndTransitions.h>
 #include <Scene.h>
 
 #include "HitObserver.h"
@@ -50,6 +51,10 @@ public:
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pGameObject;
+
+	static std::unique_ptr<GameEngine::StaticBlockState> m_pStaticBlockState;
+	static std::unique_ptr<GameEngine::BreakingBlockState> m_pBreakingBlockState;
+	static std::unique_ptr<GameEngine::IsBlockBreaking> m_pIsBlockBreaking;
 
 	glm::vec3 m_Position;
 	glm::vec3 m_ColliderPosition;

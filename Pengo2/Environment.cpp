@@ -6,7 +6,9 @@
 #include <ActorComponent.h>
 #include <SoundServiceLocator.h>
 #include <memory>
+#include <FSM.h>
 #include <Helpers.h>
+#include "AnimationComponent.h"
 
 Environment::Environment(GameEngine::GameObject* pGameObject, const std::string& filename, GameEngine::Scene* scene) :
 	BaseComponent(pGameObject),
@@ -33,6 +35,8 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	for (int i = 0; i < amountOfDiamondBlocks; ++i)
 	{
 		auto diamondBlock = BaseBlock::CreateBlock(m_VerticesDiamondBlocks[i][0], "DiamondBlock.tga");
+
+		
 		m_pBlocks.push_back(diamondBlock.get());
 		scene->Add(std::move(diamondBlock));
 	}
@@ -96,25 +100,27 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* gameObject)
 		if (i != m_PushedBlockIndex)
 		{
 			m_pBlocks[i]->GetComponent<CollisionComponent>()->HandleBlocksCollision(gameObject, m_BlockCanBePushed);
-			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->GetHasCollided()) break;
+			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->GetHasCollided())
+			{
+				m_BlockCanBePushed = false;
+				break;
+			} 
 		}
 
 	}
 	if (m_pBorderBlock->GetComponent<BaseBlock>()->IsCollidingHorizontally(test, hitInfo))
 	{
-		
 		m_BlockCanBePushed = false;
-		m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->SetPushSpeed(0);
+		gameObject->GetComponent<BaseBlock>()->SetPushSpeed(0);
 		gameObject->GetComponent<CollisionComponent>()->m_CollisionEvent = CollisionComponent::CollisionEvent::CollidedHor;
-		m_pBlocks[m_PushedBlockIndex]->GetComponent<HitObserver>()->Notify(hitInfo);
+		gameObject->GetComponent<HitObserver>()->Notify(hitInfo);
 	}
 	if (m_pBorderBlock->GetComponent<BaseBlock>()->IsCollidingVertically(test, hitInfo))
 	{
-
 		m_BlockCanBePushed = false;
-		m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->SetPushSpeed(0);
+		gameObject->GetComponent<BaseBlock>()->SetPushSpeed(0);
 		gameObject->GetComponent<CollisionComponent>()->m_CollisionEvent = CollisionComponent::CollisionEvent::CollidedVer;
-		m_pBlocks[m_PushedBlockIndex]->GetComponent<HitObserver>()->Notify(hitInfo);
+		gameObject->GetComponent<HitObserver>()->Notify(hitInfo);
 	}
 }
 void Environment::Update()
