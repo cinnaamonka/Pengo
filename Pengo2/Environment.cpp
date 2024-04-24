@@ -70,9 +70,8 @@ void Environment::CheckCollision(GameEngine::Rect& shape)
 				{
 					m_PushDirection = { hitInfo.normal.x,0,0 };
 
-					const auto& pushedBlock = m_pBlocks[m_PushedBlockIndex]->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
+			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->GetHasCollided())
 
-					bool isMovingRight = hitInfo.normal.x > 0;
 
 					const GameEngine::Rect collingRect =
 					{
