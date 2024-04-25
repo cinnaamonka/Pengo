@@ -23,7 +23,11 @@ public:
 
 	bool GetHasCollided() const
 	{
-		return m_HasCollided;
+		if (this)
+		{
+			return m_HasCollided;
+		}
+		return false;
 	}
 	enum class CollisionEvent
 	{

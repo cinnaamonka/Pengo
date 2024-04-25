@@ -147,6 +147,12 @@
     <ClInclude Include="RingBuffer.h">
       <Filter>Sound</Filter>
     </ClInclude>
+    <ClInclude Include="BlackboardComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LifetimeObserver.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -236,6 +242,12 @@
     </ClCompile>
     <ClCompile Include="SoundLogSystem.cpp">
       <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackboardComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LifetimeObserver.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -57,8 +57,12 @@ namespace GameEngine
 		requires std::derived_from<ComponentType, BaseComponent>
 		bool HasComponent() const
 		{
-			return std::any_of(m_pComponents.begin(), m_pComponents.end(),
-				[](const auto& component) { return dynamic_cast<ComponentType*>(component.get()) != nullptr; });
+			if (!m_pComponents.empty())
+			{
+				return std::any_of(m_pComponents.begin(), m_pComponents.end(),
+					[](const auto& component) { return dynamic_cast<ComponentType*>(component.get()) != nullptr; });
+			}
+			return false;
 		}
 
 		void CleanUp();

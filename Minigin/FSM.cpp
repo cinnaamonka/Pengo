@@ -3,9 +3,10 @@
 #include "Helpers.h"
 #include "TransformComponent.h"
 
+
 namespace GameEngine
 {
-	GameEngine::FSM::FSM(GameObject* pGameObject, FSMState* startState, Blackboard* pBlackboard) :
+	GameEngine::FSM::FSM(GameObject* pGameObject, FSMState* startState, BlackboardComponent* pBlackboard):
 		BaseComponent(pGameObject),
 		m_pCurrentState(nullptr),
 		m_pBlackboard(pBlackboard)
@@ -42,7 +43,7 @@ namespace GameEngine
 		m_pCurrentState->Update(m_pBlackboard);
 	}
 
-	Blackboard* GameEngine::FSM::GetBlackboard() const
+	BlackboardComponent* GameEngine::FSM::GetBlackboard() const
 	{
 		return m_pBlackboard;
 	}

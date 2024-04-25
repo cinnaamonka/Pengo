@@ -13,7 +13,7 @@ namespace GameEngine
 {
 	class TextureComponent;
 	class TransformComponent;
-	class BlackBoard;
+	class BlackboardComponent;
 
 	class Texture2D;
 
@@ -49,7 +49,7 @@ namespace GameEngine
 		glm::vec3 m_Position;
 		TextureComponent* m_TextureComponent;
 		TransformComponent* m_TransformComponent;
-		Blackboard* m_pBlackboard;
+		BlackboardComponent* m_pBlackboard;
 	};
 
 

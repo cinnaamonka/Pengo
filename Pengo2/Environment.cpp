@@ -10,6 +10,7 @@
 #include <FSM.h>
 #include <Helpers.h>
 #include "AnimationComponent.h"
+#include <LifetimeObserver.h>
 
 Environment::Environment(GameEngine::GameObject* pGameObject, const std::string& filename, GameEngine::Scene* scene) :
 	BaseComponent(pGameObject),
@@ -17,7 +18,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	m_PushDirection{},
 	m_BlockCanBePushed(false),
 	m_BorderWidth(10),
-	m_BorderLength(300),
+	m_BorderLength(260),
 	m_BorderHeight(360),
 	m_PushedBlockIndex{}
 {
@@ -26,6 +27,8 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	auto borderBlock = BaseBlock::CreateBlock(m_BorderVertices[0][0], "Border.tga",
 		m_BorderLength, m_BorderHeight,
 		glm::vec3{ m_BorderVertices[0][0].x + m_BorderWidth,m_BorderVertices[0][0].y + m_BorderWidth,0 });
+
+	borderBlock->SetParent(GetGameObject());
 
 	m_pBorderBlock = borderBlock.get();
 	scene->Add(std::move(borderBlock));
@@ -38,6 +41,8 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 		auto diamondBlock = BaseBlock::CreateBlock(m_VerticesDiamondBlocks[i][0], "DiamondBlock.tga");
 
 		m_pBlocks.push_back(diamondBlock.get());
+		diamondBlock->SetParent(GetGameObject());
+
 		scene->Add(std::move(diamondBlock));
 	}
 	for (int i = 0; i < amountOfIceBlocks; ++i)
@@ -56,6 +61,8 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 				auto textureSizeY = iceBlock->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y;
 
 				iceBlock->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
+				m_BlocksLifeStateChanged.Attach(iceBlock->GetComponent<GameEngine::LifetimeObserver>());
+				iceBlock->SetParent(GetGameObject());
 				m_pBlocks.push_back(iceBlock.get());
 				scene->Add(std::move(iceBlock));
 			}
@@ -69,14 +76,19 @@ void Environment::CheckCollision()
 
 		for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 		{
-			m_pBlocks[i]->GetComponent<CollisionComponent>()->HandleCollision(m_pPlayer, m_pBorderBlock, m_PushDirection,
-				m_pBlocks[m_PushedBlockIndex], hitInfo, m_test);
-
-			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->GetHasCollided())
+			if (!m_pBlocks[i]->IsDestroyed())
 			{
-				m_CollisionHitInfoChanged.CreateMessage(hitInfo);
-				m_PushedBlockIndex = i;
-				break;
+				if (m_PushedBlockIndex == -1) return;
+				m_pBlocks[i]->GetComponent<CollisionComponent>()->HandleCollision(m_pPlayer, m_pBorderBlock, m_PushDirection,
+					m_pBlocks[m_PushedBlockIndex], hitInfo, m_WasBlockPushed);
+
+				if (m_pBlocks[i]->GetComponent<CollisionComponent>()->GetHasCollided())
+				{
+					m_CollisionHitInfoChanged.CreateMessage(hitInfo);
+					m_PushedBlockIndex = i;
+					break;
+				}
+
 			}
 		}
 
@@ -94,7 +106,7 @@ void Environment::CheckCollision()
 
 	}
 	m_pPlayer->GetComponent<GameEngine::ActorComponent>()->SetCollisionCanBeChecked(false);
-	m_test = false;
+	m_WasBlockPushed = false;
 }
 
 void Environment::CheckBlocksCollision(GameEngine::GameObject* gameObject)
@@ -141,16 +153,32 @@ void Environment::Update()
 		CheckBlocksCollision(m_pBlocks[m_PushedBlockIndex]);
 		m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->PushBlock(m_PushDirection);
 	}
+	
+	if (m_PushedBlockIndex != -1)
+	{
+		if (m_pBlocks[m_PushedBlockIndex]->IsDestroyed())
+		{
+			m_pBlocks.erase(m_pBlocks.begin() + m_PushedBlockIndex);
+			m_PushedBlockIndex = 0;
+			m_BlockCanBePushed = false;
+		}
+	}
+	
 }
 
 void Environment::PushBlock()
 {
-	m_test = true;
+	m_WasBlockPushed = true;
 
-	if (m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->GetPushSpeed() != 0)
+	if (m_pBlocks[m_PushedBlockIndex] && m_pBlocks[m_PushedBlockIndex]->HasComponent<BaseBlock>())
 	{
-		m_BlockCanBePushed = true;
+		if (m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->GetPushSpeed() != 0)
+		{
+			m_BlockCanBePushed = true;
+		}
+
 	}
+
 
 }
 

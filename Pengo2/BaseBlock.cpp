@@ -9,10 +9,13 @@
 #include <FSM.h>
 #include <memory>
 #include "AnimationComponent.h"
+#include <LifetimeObserver.h>
+#include <BlackboardComponent.h>
 
 std::unique_ptr<GameEngine::StaticBlockState> BaseBlock::m_pStaticBlockState = std::make_unique<GameEngine::StaticBlockState>();
 std::unique_ptr<GameEngine::BreakingBlockState> BaseBlock::m_pBreakingBlockState = std::make_unique<GameEngine::BreakingBlockState>();
 std::unique_ptr<GameEngine::IsBlockBreaking> BaseBlock::m_pIsBlockBreaking = std::make_unique<GameEngine::IsBlockBreaking>();
+std::unique_ptr<GameEngine::IsBlockNotBreaking> BaseBlock::m_pIsBlockNotBreaking = std::make_unique<GameEngine::IsBlockNotBreaking>();
 
 BaseBlock::BaseBlock(GameEngine::GameObject* GOptr) :
 	GameEngine::BaseComponent(GOptr),
@@ -21,7 +24,6 @@ BaseBlock::BaseBlock(GameEngine::GameObject* GOptr) :
 	m_ColliderPosition{ 0,0,0 },
 	m_pGameObject(nullptr)
 {
-	
 }
 
 bool BaseBlock::IsCollidingHorizontally(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo)
@@ -66,15 +68,19 @@ std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& 
 	gameObject->AddComponent<CollisionComponent>();
 	gameObject->AddComponent<BaseBlock>();
 	gameObject->AddComponent<HitObserver>();
-	gameObject->AddComponent<AnimationComponent>(10);
+	gameObject->AddComponent<GameEngine::LifetimeObserver>();
+	gameObject->AddComponent<GameEngine::BlackboardComponent>();
+	gameObject->AddComponent<AnimationComponent>();
 
 	gameObject->AddComponent<GameEngine::FSM>(m_pStaticBlockState.get(),
-		gameObject->GetComponent<AnimationComponent>()->GetBlackboard().get());
+		gameObject->GetComponent<GameEngine::BlackboardComponent>());
 
 	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_pStaticBlockState.get(), m_pBreakingBlockState.get(),
 		m_pIsBlockBreaking.get());
+	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_pBreakingBlockState.get(), m_pStaticBlockState.get(),
+		m_pIsBlockNotBreaking.get());
 
-	gameObject->GetComponent<AnimationComponent>()->AddData("WasBlockDestroyed", false);
+	gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("WasBlockDestroyed", false);
 
 	return gameObject;
 }

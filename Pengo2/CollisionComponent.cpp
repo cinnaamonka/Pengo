@@ -1,7 +1,7 @@
 #include "CollisionComponent.h"
 #include "BaseBlock.h"
 #include <GameObject.h>
-#include "AnimationComponent.h"
+#include "BlackboardComponent.h"
 
 CollisionComponent::CollisionComponent(GameEngine::GameObject* pGameObject) :
 	BaseComponent(pGameObject),
@@ -13,10 +13,13 @@ CollisionComponent::CollisionComponent(GameEngine::GameObject* pGameObject) :
 void CollisionComponent::HandleCollision(GameEngine::GameObject* actor, GameEngine::GameObject* border,
 	glm::vec3& pushDirection, GameEngine::GameObject* pushedBlock, GameEngine::HitInfo& hitInfo, bool wasPushed)
 {
+	if (!this) return;
+	if (pushedBlock->IsDestroyed()) return;
+
 	GameEngine::HitInfo test{};
 	auto shape = actor->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
 
-	if (GetGameObject()->GetComponent<BaseBlock>()->IsCollidingHorizontally(shape, hitInfo))
+	if ( GetGameObject() && GetGameObject()->GetComponent<BaseBlock>()->IsCollidingHorizontally(shape, hitInfo))
 	{
 		test.normal = hitInfo.normal;
 		test.intersectPoint = hitInfo.intersectPoint;
@@ -37,7 +40,8 @@ void CollisionComponent::HandleCollision(GameEngine::GameObject* actor, GameEngi
 				pushedBlockCollider.height
 			};
 
-			if (!border->GetComponent<BaseBlock>()->IsCollidingHorizontally(collingRect, hitInfo))
+			if (!border->GetComponent<BaseBlock>()->IsCollidingHorizontally(collingRect, hitInfo) &&
+				pushedBlock->GetComponent<BaseBlock>()->IsCollidingHorizontally(shape, hitInfo))
 			{
 				pushedBlock->GetComponent<BaseBlock>()->SetPushSpeed(10.0f);
 			}
@@ -46,7 +50,7 @@ void CollisionComponent::HandleCollision(GameEngine::GameObject* actor, GameEngi
 		{
 			if (wasPushed)
 			{
-				pushedBlock->GetComponent<AnimationComponent>()->ChangeData("WasBlockDestroyed", true);
+				pushedBlock->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
 			}
 		}
 
@@ -86,7 +90,8 @@ void CollisionComponent::HandleCollision(GameEngine::GameObject* actor, GameEngi
 			};
 
 
-			if (!border->GetComponent<BaseBlock>()->IsCollidingVertically(collingRect, hitInfo))
+			if (!border->GetComponent<BaseBlock>()->IsCollidingVertically(collingRect, hitInfo) &&
+				pushedBlock->GetComponent<BaseBlock>()->IsCollidingHorizontally(shape, hitInfo))
 			{
 				pushedBlock->GetComponent<BaseBlock>()->SetPushSpeed(10.0f);
 			}
@@ -95,7 +100,7 @@ void CollisionComponent::HandleCollision(GameEngine::GameObject* actor, GameEngi
 		else {
 			if (wasPushed)
 			{
-				pushedBlock->GetComponent<AnimationComponent>()->ChangeData("WasBlockDestroyed", true);
+				pushedBlock->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
 			}
 		}
 		m_HasCollided = true;

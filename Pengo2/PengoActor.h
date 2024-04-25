@@ -3,7 +3,7 @@
 #include <GameObject.h>
 #include <StatesAndTransitions.h>
 
-class GameEngine::Blackboard;
+class GameEngine::BlackboardComponent; 
 class GameEngine::IdleState;
 class GameEngine::RunningState;
 class GameEngine::IsInputGiven;

@@ -18,8 +18,6 @@ public:
 private:
 	std::unique_ptr<GameEngine::GameObject> m_pEnemy;
 
-	std::unique_ptr<GameEngine::Blackboard> m_pBlackboard; 
-
 	int m_HorizontalAmountOfFrames = 8;
 	int m_VerticalAmountOfFrames = 3;
 };

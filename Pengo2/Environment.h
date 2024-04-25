@@ -46,7 +46,7 @@ public:
 	}
 
 	void PushBlock();
-	bool m_test = false;
+	bool m_WasBlockPushed = false;
 private:
 	std::vector<GameEngine::GameObject*> m_pBlocks;
 	std::vector<std::vector<glm::vec3>> m_VerticesIceBlocks;
@@ -57,7 +57,7 @@ private:
 	GameEngine::GameObject* m_pBorderBlock;
 
 	GameEngine::Subject<GameEngine::HitInfo> m_CollisionHitInfoChanged;
-
+	GameEngine::Subject<bool> m_BlocksLifeStateChanged;
 
 
 	int m_PushedBlockIndex;

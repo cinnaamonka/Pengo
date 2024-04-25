@@ -55,6 +55,7 @@ private:
 	static std::unique_ptr<GameEngine::StaticBlockState> m_pStaticBlockState;
 	static std::unique_ptr<GameEngine::BreakingBlockState> m_pBreakingBlockState;
 	static std::unique_ptr<GameEngine::IsBlockBreaking> m_pIsBlockBreaking;
+	static std::unique_ptr<GameEngine::IsBlockNotBreaking> m_pIsBlockNotBreaking;
 
 	glm::vec3 m_Position;
 	glm::vec3 m_ColliderPosition;

@@ -234,6 +234,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClInclude Include="BaseCommand.h" />
     <ClInclude Include="BaseGame.h" />
     <ClInclude Include="BaseInputDevice.h" />
+    <ClInclude Include="BlackboardComponent.h" />
     <ClInclude Include="BoxColliderComponent.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Font.h" />
@@ -251,6 +252,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="HealthObserver.h" />
     <ClInclude Include="InputCommands.h" />
+    <ClInclude Include="LifetimeObserver.h" />
     <ClInclude Include="NullSoundSystem.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="Renderer.h" />
@@ -275,6 +277,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ActorComponent.cpp" />
+    <ClCompile Include="BlackboardComponent.cpp" />
     <ClCompile Include="BoxColliderComponent.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -288,6 +291,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClCompile Include="HealthObserver.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="InputCommands.cpp" />
+    <ClCompile Include="LifetimeObserver.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />

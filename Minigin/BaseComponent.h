@@ -34,8 +34,12 @@ namespace GameEngine
 
 		GameObject* GetGameObject() const
 		{
-			return m_GameObject;
-
+			if (m_GameObject)
+			{
+				return m_GameObject;
+			}
+			
+			return nullptr;
 		}
 
 	

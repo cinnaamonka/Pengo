@@ -64,27 +64,8 @@ namespace GameEngine
 
 	bool Raycast(const std::vector<glm::vec3>& vertices, const glm::vec2& rayP1, const glm::vec2& rayP2, HitInfo& hitInfo);
 
-	class IBlackBoardField
-	{
-	public:
-		IBlackBoardField() = default;
-		virtual ~IBlackBoardField() = default;
-	};
-
-	template<typename T>
-	class BlackboardField : public IBlackBoardField
-	{
-	public:
-		explicit BlackboardField(T data) : m_Data(data)
-		{}
-		T GetData() { return m_Data; };
-		void SetData(T data) { m_Data = data; }
-
-	private:
-		T m_Data;
-	};
-
-	class Blackboard final
+	
+	/*class Blackboard final
 	{
 	public:
 		Blackboard() = default;
@@ -143,27 +124,8 @@ namespace GameEngine
 
 	private:
 		std::unordered_map<std::string, IBlackBoardField*> m_BlackboardData;
-	};
+	};*/
 
-	class FSMState
-	{
-	public:
-		FSMState() = default;
-		virtual ~FSMState() = default;
-
-		virtual void OnEnter(Blackboard* pBlackboard) = 0;
-		virtual void OnExit(Blackboard* pBlackboard) = 0;
-		virtual void Update(Blackboard* pBlackboard) = 0;
-
-	};
-
-	class FSMCondition
-	{
-	public:
-		FSMCondition() = default;
-		virtual ~FSMCondition() = default;
-		virtual bool Evaluate(Blackboard* pBlackboard) const = 0;
-	};
 }
 
 #endif // HELPERS_H
