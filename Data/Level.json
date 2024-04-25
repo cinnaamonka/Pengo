@@ -16,6 +16,13 @@
     },
     {
       "position": {
+        "left": 260,
+        "top": 70
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
         "left": 280,
         "top": 70
       },
@@ -28,6 +35,7 @@
       },
       "type": "ice_block"
     },
+
     {
       "position": {
         "left": 340,
@@ -42,13 +50,7 @@
       },
       "type": "ice_block"
     },
-    {
-      "position": {
-        "left": 440,
-        "top": 70
-      },
-      "type": "ice_block"
-    },
+  
     {
       "position": {
         "left": 280,
@@ -203,13 +205,7 @@
       },
       "type": "ice_block"
     },
-    {
-      "position": {
-        "left": 440,
-        "top": 230
-      },
-      "type": "ice_block"
-    },
+ 
     {
       "position": {
         "left": 220,
@@ -245,30 +241,10 @@
       },
       "type": "ice_block"
     },
-    {
-      "position": {
-        "left": 440,
-        "top": 250
-      },
-      "type": "ice_block"
-    },
+ 
     {
       "position": {
         "left": 300,
-        "top": 270
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 420,
-        "top": 270
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 440,
         "top": 270
       },
       "type": "ice_block"
@@ -301,20 +277,7 @@
       },
       "type": "ice_block"
     },
-    {
-      "position": {
-        "left": 440,
-        "top": 330
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 300,
-        "top": 350
-      },
-      "type": "ice_block"
-    },
+  
     {
       "position": {
         "left": 340,
@@ -329,10 +292,11 @@
       },
       "type": "ice_block"
     },
+ 
     {
       "position": {
-        "left": 150,
-        "top": 20
+        "left": 170,
+        "top": 60
       },
       "type": "border"
     }
