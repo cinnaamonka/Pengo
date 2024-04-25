@@ -20,7 +20,7 @@ void HitObserver::ResetHorizontalPosition(const GameEngine::Rect& actorShape, co
 	if (intersectX < left + actorShape.width / 2)
 	{
 		int roundedIntersectX = static_cast<int>((intersectX + 10.0f) / 20.0f) * 20;
-		tempRect.left = roundedIntersectX - 1;
+		tempRect.left = roundedIntersectX + 1;
 	}
 	else if (intersectX > left + actorShape.width / 2)
 	{
@@ -43,7 +43,7 @@ void HitObserver::ResetVerticalPosition(const GameEngine::Rect& actorShape, cons
 	if (intersectY < bottom + actorShape.height / 2)
 	{
 		int roundedIntersectY = static_cast<int>((intersectY + 10.0f) / 20.0f) * 20;
-		tempRect.bottom = roundedIntersectY - 1;
+		tempRect.bottom = roundedIntersectY + 1;
 	}
 	else if (intersectY > bottom + actorShape.height / 2)
 	{
