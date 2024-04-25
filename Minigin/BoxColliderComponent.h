@@ -41,6 +41,7 @@ namespace GameEngine
 
 		bool IsCollidingHorizontally(const Rect& rectShape,HitInfo& hitInfo) const;
 		bool IsCollidingVertically(const Rect& rectShape, HitInfo& hitInfo) const;
+		bool IsColliding(const Rect& rectShape, HitInfo& hitInfo) const;
 
 		std::vector<glm::vec3> CreatePointsFromRect(const Rect& rectShape) const;
 		

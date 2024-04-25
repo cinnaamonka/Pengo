@@ -28,7 +28,7 @@ public:
 	Environment& operator=(Environment&& other) noexcept = delete;
 
 	void CheckCollision();
-	void CheckBlocksCollision(GameEngine::GameObject* gameObject);
+	void HandleBlockCollision(GameEngine::GameObject* gameObject);
 
 	void Update() override;
 
@@ -66,8 +66,5 @@ private:
 	const int m_BorderHeight;
 	glm::vec3 m_PushDirection;
 	bool m_BlockCanBePushed;
-	
-	
-	
 };
 

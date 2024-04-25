@@ -22,19 +22,16 @@ BaseBlock::BaseBlock(GameEngine::GameObject* GOptr) :
 	m_PushSpeed(10.0f),
 	m_Position{ 0,0,0 },
 	m_ColliderPosition{ 0,0,0 },
-	m_pGameObject(nullptr)
+	m_pGameObject(nullptr),
+	m_Direction{}
 {
 }
 
-bool BaseBlock::IsCollidingHorizontally(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo)
+bool BaseBlock::IsColliding(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo)
 {
-	return GetGameObject()->GetComponent<GameEngine::BoxCollider>()->IsCollidingHorizontally(rectShape, hitInfo);
+	return GetGameObject()->GetComponent<GameEngine::BoxCollider>()->IsColliding(rectShape, hitInfo);
 }
 
-bool BaseBlock::IsCollidingVertically(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo)
-{
-	return GetGameObject()->GetComponent<GameEngine::BoxCollider>()->IsCollidingVertically(rectShape, hitInfo);
-}
 
 void BaseBlock::PushBlock(const glm::vec3& direction)
 {

@@ -15,6 +15,29 @@ GameEngine::BoxCollider::BoxCollider(GameObject* pGameObject, Rect shape) :
 
 }
 
+bool GameEngine::BoxCollider::IsColliding(const Rect& rectShape, HitInfo& hitInfo) const
+{
+	const float borderDist = 5.f;
+
+	const glm::vec2 topLeftRay{ rectShape.left, rectShape.bottom + rectShape.height / 2 };
+	const glm::vec2 topRightRay{ rectShape.left + rectShape.width, rectShape.bottom + rectShape.height / 2 };
+	const glm::vec2 bottomLeftRay{ rectShape.left + borderDist, rectShape.bottom };
+	const glm::vec2 bottomRightRay{ rectShape.left + rectShape.width - borderDist, rectShape.bottom };
+	const glm::vec2 topMiddleRay{ rectShape.left + borderDist, rectShape.bottom + rectShape.height };
+	const glm::vec2 bottomMiddleRay{ rectShape.left + rectShape.width - borderDist, rectShape.bottom + rectShape.height };
+
+	const std::vector <glm::vec3> RectPoints = CreatePointsFromRect(m_RectCollider);
+
+	bool isColliding = false;
+
+	isColliding |= Raycast(RectPoints, topLeftRay, topRightRay, hitInfo);
+
+	isColliding |= Raycast(RectPoints, bottomLeftRay, topMiddleRay, hitInfo);
+	isColliding |= Raycast(RectPoints, bottomRightRay, bottomMiddleRay, hitInfo);
+
+	return isColliding;
+}
+
 bool GameEngine::BoxCollider::IsCollidingHorizontally(const Rect& rectShape, HitInfo& hitInfo) const
 {
 	const glm::vec2 ray1(rectShape.left, rectShape.bottom + rectShape.height / 2);

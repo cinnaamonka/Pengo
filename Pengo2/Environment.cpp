@@ -19,7 +19,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	m_BlockCanBePushed(false),
 	m_BorderWidth(10),
 	m_BorderLength(260),
-	m_BorderHeight(360),
+	m_BorderHeight(300),
 	m_PushedBlockIndex{}
 {
 	GameEngine::GetVerticesFromJsonFile(filename, m_VerticesIceBlocks, m_VerticesDiamondBlocks, m_BorderVertices);
@@ -70,79 +70,60 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 }
 void Environment::CheckCollision()
 {
-	if (m_pPlayer->GetComponent<GameEngine::ActorComponent>()->GetCollisionBeChecked())
+	GameEngine::HitInfo blockCollisionInfo{};
+
+	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
-		GameEngine::HitInfo hitInfo{};
+		const bool isColliding = m_pBlocks[i]->GetComponent<CollisionComponent>()->IsColliding(m_pPlayer, blockCollisionInfo);
 
-		for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
+		if (isColliding)
 		{
-			if (!m_pBlocks[i]->IsDestroyed())
-			{
-				if (m_PushedBlockIndex == -1) return;
-				m_pBlocks[i]->GetComponent<CollisionComponent>()->HandleCollision(m_pPlayer, m_pBorderBlock, m_PushDirection,
-					m_pBlocks[m_PushedBlockIndex], hitInfo, m_WasBlockPushed);
+			m_CollisionHitInfoChanged.CreateMessage(blockCollisionInfo);
+			m_PushDirection = { blockCollisionInfo.normal.x,blockCollisionInfo.normal.y, 0 };
+			m_PushedBlockIndex = i;
 
-				if (m_pBlocks[i]->GetComponent<CollisionComponent>()->GetHasCollided())
-				{
-					m_CollisionHitInfoChanged.CreateMessage(hitInfo);
-					m_PushedBlockIndex = i;
-					break;
-				}
-
-			}
+			break;
 		}
+	}
 
-		auto shape = m_pPlayer->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
+	GameEngine::HitInfo borderCollisionInfo{};;
 
-		if (m_pBorderBlock->GetComponent<BaseBlock>()->IsCollidingHorizontally(shape, hitInfo))
-		{
-			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
+	const auto& shape = m_pPlayer->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
 
-		}
-		if (m_pBorderBlock->GetComponent<BaseBlock>()->IsCollidingVertically(shape, hitInfo))
-		{
-			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
-		}
+	if (m_pBorderBlock->GetComponent<BaseBlock>()->IsColliding(shape, borderCollisionInfo))
+	{
+		m_CollisionHitInfoChanged.CreateMessage(borderCollisionInfo);
 
 	}
+
 	m_pPlayer->GetComponent<GameEngine::ActorComponent>()->SetCollisionCanBeChecked(false);
+
 	m_WasBlockPushed = false;
 }
 
-void Environment::CheckBlocksCollision(GameEngine::GameObject* gameObject)
+void Environment::HandleBlockCollision(GameEngine::GameObject* pushedBlock)
 {
 	GameEngine::HitInfo hitInfo{};
-	auto test = gameObject->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
+
+	auto& pushedBlockCollider = pushedBlock->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
 
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
 		if (i != m_PushedBlockIndex)
 		{
-			m_pBlocks[i]->GetComponent<CollisionComponent>()->HandleBlocksCollision(gameObject);
-
-			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->GetHasCollided())
+			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockColliding(pushedBlock))
 			{
 				m_BlockCanBePushed = false;
 				break;
 			}
 		}
-
-	}
-	if (m_pBorderBlock->GetComponent<BaseBlock>()->IsCollidingHorizontally(test, hitInfo))
-	{
-		m_BlockCanBePushed = false;
-		gameObject->GetComponent<BaseBlock>()->SetPushSpeed(0);
-		gameObject->GetComponent<CollisionComponent>()->m_CollisionEvent = CollisionComponent::CollisionEvent::CollidedHor;
-		gameObject->GetComponent<HitObserver>()->Notify(hitInfo);
-	}
-	if (m_pBorderBlock->GetComponent<BaseBlock>()->IsCollidingVertically(test, hitInfo))
-	{
-		m_BlockCanBePushed = false;
-		gameObject->GetComponent<BaseBlock>()->SetPushSpeed(0);
-		gameObject->GetComponent<CollisionComponent>()->m_CollisionEvent = CollisionComponent::CollisionEvent::CollidedVer;
-		gameObject->GetComponent<HitObserver>()->Notify(hitInfo);
 	}
 
+	if (m_pBorderBlock->GetComponent<BaseBlock>()->IsColliding(pushedBlockCollider, hitInfo))
+	{
+		m_BlockCanBePushed = false;
+		pushedBlock->GetComponent<HitObserver>()->Notify(hitInfo);
+	}
 }
 void Environment::Update()
 {
@@ -150,20 +131,12 @@ void Environment::Update()
 
 	if (m_BlockCanBePushed)
 	{
-		CheckBlocksCollision(m_pBlocks[m_PushedBlockIndex]);
+		m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->SetPushSpeed(5);
+
 		m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->PushBlock(m_PushDirection);
+
+		HandleBlockCollision(m_pBlocks[m_PushedBlockIndex]);
 	}
-	
-	if (m_PushedBlockIndex != -1)
-	{
-		if (m_pBlocks[m_PushedBlockIndex]->IsDestroyed())
-		{
-			m_pBlocks.erase(m_pBlocks.begin() + m_PushedBlockIndex);
-			m_PushedBlockIndex = 0;
-			m_BlockCanBePushed = false;
-		}
-	}
-	
 }
 
 void Environment::PushBlock()
@@ -172,13 +145,7 @@ void Environment::PushBlock()
 
 	if (m_pBlocks[m_PushedBlockIndex] && m_pBlocks[m_PushedBlockIndex]->HasComponent<BaseBlock>())
 	{
-		if (m_pBlocks[m_PushedBlockIndex]->GetComponent<BaseBlock>()->GetPushSpeed() != 0)
-		{
-			m_BlockCanBePushed = true;
-		}
-
+		m_BlockCanBePushed = true;
 	}
-
-
 }
 

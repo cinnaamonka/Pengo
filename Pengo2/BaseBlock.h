@@ -24,8 +24,7 @@ public:
 	BaseBlock(BaseBlock&& other) noexcept = delete;
 	BaseBlock& operator=(BaseBlock&& other) noexcept = delete;
 
-	bool IsCollidingHorizontally(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo);
-	bool IsCollidingVertically(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo);
+	bool IsColliding(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo);
 
 	void PushBlock(const glm::vec3& direction);
 
@@ -61,7 +60,7 @@ private:
 	glm::vec3 m_ColliderPosition;
 	float m_PushSpeed;
 
-	glm::vec3 m_Direction;
+	glm::vec3 m_Direction = {};
 
 	bool m_HasCollidedHor = false;
 

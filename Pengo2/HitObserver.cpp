@@ -19,11 +19,14 @@ void HitObserver::ResetHorizontalPosition(const GameEngine::Rect& actorShape, co
 
 	if (intersectX < left + actorShape.width / 2)
 	{
-		tempRect.left = static_cast<int>(intersectX + 0.1f);
+		int roundedIntersectX = static_cast<int>((intersectX + 10.0f) / 20.0f) * 20;
+		tempRect.left = roundedIntersectX - 1;
 	}
 	else if (intersectX > left + actorShape.width / 2)
 	{
-		tempRect.left = static_cast<int>(intersectX - actorShape.width - 0.1f) ;
+		int roundedIntersectX = static_cast<int>(intersectX - actorShape.height);
+		roundedIntersectX -= roundedIntersectX % 20;
+		tempRect.left = roundedIntersectX - 1;
 	}
 
 	GetGameObject()->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(glm::vec3{ tempRect.left,tempRect.bottom,0 });
@@ -39,12 +42,16 @@ void HitObserver::ResetVerticalPosition(const GameEngine::Rect& actorShape, cons
 
 	if (intersectY < bottom + actorShape.height / 2)
 	{
-		tempRect.bottom = static_cast<int>(intersectY + 0.1f);
+		int roundedIntersectY = static_cast<int>((intersectY + 10.0f) / 20.0f) * 20;
+		tempRect.bottom = roundedIntersectY - 1;
 	}
 	else if (intersectY > bottom + actorShape.height / 2)
 	{
-		tempRect.bottom = static_cast<int>(intersectY - actorShape.height - 0.1f);
+		int roundedIntersectY = static_cast<int>(intersectY - actorShape.height);
+		roundedIntersectY -= roundedIntersectY % 20;
+		tempRect.bottom = roundedIntersectY - 1;
 	}
+
 	GetGameObject()->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(glm::vec3{ tempRect.left,tempRect.bottom,0 });
 }
 void HitObserver::Notify(const GameEngine::HitInfo& message_from_subject)
@@ -77,7 +84,7 @@ void HitObserver::Notify(const GameEngine::HitInfo& message_from_subject)
 			shape.height
 
 		};
-	
+
 		ResetHorizontalPosition(shapeCopy, message_from_subject);
 	}
 

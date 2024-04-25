@@ -14,32 +14,7 @@ public:
 	CollisionComponent& operator=(const CollisionComponent& other) = delete;
 	CollisionComponent& operator=(CollisionComponent&& other) = delete;
 
-	void HandleCollision(GameEngine::GameObject* actor, GameEngine::GameObject* border,glm::vec3& pushDirection,
-		GameEngine::GameObject* pushedBlock, GameEngine::HitInfo& hitInfo,bool wasPushed);
-	void HandleBlocksCollision(GameEngine::GameObject* gameObject);
-
-	bool m_Pushed;
-
-
-	bool GetHasCollided() const
-	{
-		if (this)
-		{
-			return m_HasCollided;
-		}
-		return false;
-	}
-	enum class CollisionEvent
-	{
-		CollidedHor,
-		CollidedVer,
-		none
-	};
-
-	CollisionEvent m_CollisionEvent = CollisionEvent::none;
-private:
-
-	bool m_HasCollided;
-
+	bool IsColliding(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo);
+	bool IsBlockColliding(GameEngine::GameObject* gameObject);
 };
 
