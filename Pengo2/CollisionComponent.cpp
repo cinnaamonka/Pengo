@@ -10,8 +10,6 @@ CollisionComponent::CollisionComponent(GameEngine::GameObject* pGameObject) :
 
 bool CollisionComponent::IsColliding(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo)
 {
-	GameEngine::HitInfo test{};
-
 	const auto& actorColliderBox = actor->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
 
 	if (!GetGameObject()->GetComponent<BaseBlock>()->IsColliding(actorColliderBox, hitInfo)) { return false; }
