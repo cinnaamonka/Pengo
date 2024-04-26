@@ -60,7 +60,7 @@ private:
 	GameEngine::Subject<GameEngine::HitInfo> m_CollisionHitInfoChanged;
 	GameEngine::Subject<BlockCollisionInfo> m_BlockCollisionInfo;
 
-	std::vector<int> m_PushedBlocksIndexes;
+	int m_PushBlockIndex = -1;
 
 	const int m_BorderWidth;
 	const int m_BorderLength;

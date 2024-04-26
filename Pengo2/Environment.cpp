@@ -108,9 +108,7 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 				m_BlockCollisionInfo.CreateMessage(info);
 				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
 
-
-				auto it = std::find(m_PushedBlocksIndexes.begin(), m_PushedBlocksIndexes.end(), pGameObject->GetComponent<BaseBlock>()->GetBlockIndex());
-				m_PushedBlocksIndexes.erase(it); 
+				m_PushBlockIndex = -1;
 			}
 		}
 		else if (pGameObject->GetComponent<BaseBlock>()->GetDirection().y != 0)
@@ -127,9 +125,7 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 				m_BlockCollisionInfo.CreateMessage(info);
 				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
 	
-
-				auto it = std::find(m_PushedBlocksIndexes.begin(), m_PushedBlocksIndexes.end(), pGameObject->GetComponent<BaseBlock>()->GetBlockIndex());
-				m_PushedBlocksIndexes.erase(it);
+				m_PushBlockIndex = -1;
 			}
 		}
 
@@ -139,7 +135,7 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 			{
 				const BlockCollisionInfo& info
 				{
-					0,
+					pGameObject->GetComponent<BaseBlock>()->GetBlockIndex(),
 					hitInfo,
 					false
 				};
@@ -147,18 +143,16 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 				m_BlockCollisionInfo.CreateMessage(info);
 				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo); 
 
-
-				auto it = std::find(m_PushedBlocksIndexes.begin(), m_PushedBlocksIndexes.end(), pGameObject->GetComponent<BaseBlock>()->GetBlockIndex());
-				m_PushedBlocksIndexes.erase(it);
+				m_PushBlockIndex = -1;
 			}
 		}
-		else if (pGameObject->GetComponent<BaseBlock>()->GetDirection().y != 0)
+		if (pGameObject->GetComponent<BaseBlock>()->GetDirection().y != 0)
 		{
 			if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(pGameObject, hitInfo))
 			{
 				const BlockCollisionInfo& info
 				{
-					0,
+					pGameObject->GetComponent<BaseBlock>()->GetBlockIndex(),
 					hitInfo,
 					false
 				};
@@ -166,9 +160,7 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 				m_BlockCollisionInfo.CreateMessage(info);
 				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
 
-
-				auto it = std::find(m_PushedBlocksIndexes.begin(), m_PushedBlocksIndexes.end(), pGameObject->GetComponent<BaseBlock>()->GetBlockIndex());
-				m_PushedBlocksIndexes.erase(it);
+				m_PushBlockIndex = -1;
 			}
 		}
 
@@ -179,12 +171,9 @@ void Environment::Update()
 {
 	CheckCollision();
 	
-	if(!m_PushedBlocksIndexes.empty())
+	if(m_PushBlockIndex != -1)
 	{
-		for (auto boxIndex : m_PushedBlocksIndexes)
-		{
-			CheckBlocksCollision(m_pBlocks[boxIndex]);
-		}
+			CheckBlocksCollision(m_pBlocks[m_PushBlockIndex]);
 	}
 
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
@@ -230,7 +219,7 @@ void Environment::PushBlock()
 			};
 
 			m_BlockCollisionInfo.CreateMessage(info);
-			m_PushedBlocksIndexes.push_back(i);
+			m_PushBlockIndex = i;
 			break;
 		}
 	
@@ -259,7 +248,7 @@ void Environment::PushBlock()
 			};
 
 			m_BlockCollisionInfo.CreateMessage(info);
-			m_PushedBlocksIndexes.push_back(i);
+			m_PushBlockIndex = i;
 			break;
 		}
 	}
