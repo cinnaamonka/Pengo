@@ -25,8 +25,8 @@ namespace GameEngine
 
 		void Detach(IObserver<T>* observerPtr)
 		{
-			if(observerPtr != nullptr)
 			m_ObserversPtr.remove(observerPtr);
+			
 		}
 		void Notify()
 		{

@@ -27,7 +27,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 
 	m_pBorderBlock = borderBlock.get();
 	scene->Add(std::move(borderBlock));
-	
+
 	int amountOfIceBlocks = static_cast<int>(m_VerticesIceBlocks.size());
 	int amountOfDiamondBlocks = static_cast<int>(m_VerticesDiamondBlocks.size());
 
@@ -89,14 +89,16 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 	GameEngine::HitInfo hitInfo{};
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
-		if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetBlockIndex() == pGameObject->GetComponent<BaseBlock>()->GetBlockIndex())
+		if (m_pBlocks[i]->IsDestroyed()) return;
+
+		if ( m_pBlocks[i]->GetComponent<BaseBlock>()->GetBlockIndex() == pGameObject->GetComponent<BaseBlock>()->GetBlockIndex())
 		{
 			continue;
 		};
 
 		if (pGameObject->GetComponent<BaseBlock>()->GetDirection().x != 0)
 		{
-			if(m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(pGameObject, hitInfo))
+			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(pGameObject, hitInfo))
 			{
 				const BlockCollisionInfo& info
 				{
@@ -110,10 +112,12 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 
 				m_PushBlockIndex = -1;
 			}
+
+			
 		}
 		else if (pGameObject->GetComponent<BaseBlock>()->GetDirection().y != 0)
 		{
-			if(m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(pGameObject, hitInfo))
+			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(pGameObject, hitInfo))
 			{
 				const BlockCollisionInfo& info
 				{
@@ -124,8 +128,9 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 
 				m_BlockCollisionInfo.CreateMessage(info);
 				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
-	
+
 				m_PushBlockIndex = -1;
+
 			}
 		}
 
@@ -141,9 +146,9 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 				};
 
 				m_BlockCollisionInfo.CreateMessage(info);
-				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo); 
+				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
 
-				m_PushBlockIndex = -1;
+				
 			}
 		}
 		if (pGameObject->GetComponent<BaseBlock>()->GetDirection().y != 0)
@@ -160,7 +165,6 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 				m_BlockCollisionInfo.CreateMessage(info);
 				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
 
-				m_PushBlockIndex = -1;
 			}
 		}
 
@@ -169,24 +173,24 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 }
 void Environment::Update()
 {
-	CheckCollision();
-	
-	if(m_PushBlockIndex != -1)
-	{
-			CheckBlocksCollision(m_pBlocks[m_PushBlockIndex]);
-	}
+    CheckCollision();
 
-	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
-	{
-		if (m_pBlocks[i]->IsDestroyed())
-		{
-			m_pBlocks.erase(m_pBlocks.begin() + i);
-			
-			m_BlockCollisionInfo.Detach(m_pBlocks[i]->GetComponent<BlockObserver>());
+    if (m_PushBlockIndex != -1)
+    {
+        if (m_pBlocks[m_PushBlockIndex]->IsDestroyed())
+        {
+			m_BlockCollisionInfo.Detach(m_pBlocks[m_PushBlockIndex]->GetComponent<BlockObserver>());
+            m_pBlocks.erase(std::remove(m_pBlocks.begin(), m_pBlocks.end(), m_pBlocks[m_PushBlockIndex]), m_pBlocks.end());
 
-			continue;
-		}
-	}
+   
+            m_PushBlockIndex = -1;
+        }
+    }
+
+    if (m_PushBlockIndex != -1)
+    {
+        CheckBlocksCollision(m_pBlocks[m_PushBlockIndex]);
+    }
 }
 
 void Environment::PushBlock()
@@ -195,13 +199,19 @@ void Environment::PushBlock()
 
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
-		
+
 		if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pPlayer, hitInfo))
 		{
+			if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pBlocks[i], hitInfo))
+			{
+				m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+				return;
+			}
+
 			bool canBlockBePushed = true;
 			for (int j = 0; j < static_cast<int>(m_pBlocks.size()); ++j)
 			{
-				if(m_pBlocks[i] == m_pBlocks[j]) continue;
+				if (m_pBlocks[i] == m_pBlocks[j]) continue;
 				if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pBlocks[j], hitInfo))
 				{
 					m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
@@ -210,7 +220,7 @@ void Environment::PushBlock()
 				}
 			}
 			if (!canBlockBePushed) return;
-			
+
 			const BlockCollisionInfo& info
 			{
 				i,
@@ -222,12 +232,16 @@ void Environment::PushBlock()
 			m_PushBlockIndex = i;
 			break;
 		}
-	
+
 		if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pPlayer, hitInfo))
 		{
-
+			if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pBlocks[i], hitInfo))
+			{
+				m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+				return;
+			}
 			bool canBlockBePushed = true;
-			
+
 			for (int j = 0; j < static_cast<int>(m_pBlocks.size()); ++j)
 			{
 				if (m_pBlocks[i] == m_pBlocks[j]) continue;
@@ -252,5 +266,6 @@ void Environment::PushBlock()
 			break;
 		}
 	}
+
 }
 

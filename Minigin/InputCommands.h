@@ -41,41 +41,19 @@ namespace GameEngine
         void Execute() override;
     };
 
-	class ScoreCommand final : public GameObjectCommand
+	class StopCollisionCheck final : public GameObjectCommand
 	{
 	public:
-		explicit ScoreCommand(GameObject* pGameObject, int amount);
+		explicit StopCollisionCheck(GameObject* pGameObject);
 		
-		~ScoreCommand() = default;
+		~StopCollisionCheck() = default;
 
-		ScoreCommand(const ScoreCommand& other) = delete;
-		ScoreCommand& operator=(const ScoreCommand& other) = delete;
-		ScoreCommand(ScoreCommand&& other) noexcept = delete;
-		ScoreCommand& operator=(ScoreCommand&& other) noexcept = delete;
-
-		void Execute() override;
-	
-	private:
-		int m_Amount;
-
-	};
-
-	class LifesCommand final : public GameObjectCommand
-	{
-	public:
-		explicit LifesCommand(GameObject* pGameObject,int lifesAmount);
-
-		~LifesCommand() = default;
-
-		LifesCommand(const LifesCommand& other) = delete;
-		LifesCommand& operator=(const LifesCommand& other) = delete;
-		LifesCommand(LifesCommand&& other) noexcept = delete;
-		LifesCommand& operator=(LifesCommand&& other) noexcept = delete;
+		StopCollisionCheck(const StopCollisionCheck& other) = delete;
+		StopCollisionCheck& operator=(const StopCollisionCheck& other) = delete;
+		StopCollisionCheck(StopCollisionCheck&& other) noexcept = delete;
+		StopCollisionCheck& operator=(StopCollisionCheck&& other) noexcept = delete;
 
 		void Execute() override;
-
-	private:
-		int m_LifesAmount;
 
 	};
 

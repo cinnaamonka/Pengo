@@ -102,6 +102,25 @@ void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)
 		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_S, GameEngine::InputState::Previous },
 		std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 0,1, 0 }));
 
+	//Keyboard Input
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_A, GameEngine::InputState::Released },
+		std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
+
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_D, GameEngine::InputState::Released },
+		std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
+
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_W, GameEngine::InputState::Released },
+		std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
+
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_S, GameEngine::InputState::Released },
+		std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
+
+
+
 	input.AddCommand<GameEngine::Keyboard>(
 		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Previous },
 		std::make_unique<PushBlockCommand>(m_pEnvironmentReference));
