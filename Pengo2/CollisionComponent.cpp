@@ -43,7 +43,7 @@ bool CollisionComponent::IsBlockNearbyHorizontally(GameEngine::GameObject* actor
 	{
 		increasedRect.width += offset;
 	}
-	else
+	else if (direction.y == 0)
 	{
 		increasedRect.left -= offset;
 		increasedRect.width += 2 * offset;

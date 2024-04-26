@@ -18,13 +18,14 @@ namespace GameEngine
 
 		}
 
-		void Attach(IObserver<T>* observerPtr) 
+		void Attach(IObserver<T>* observerPtr)
 		{
 			m_ObserversPtr.push_back(observerPtr);
 		}
 
-		void Detach(IObserver<T>* observerPtr) 
+		void Detach(IObserver<T>* observerPtr)
 		{
+			if(observerPtr != nullptr)
 			m_ObserversPtr.remove(observerPtr);
 		}
 		void Notify()
@@ -32,12 +33,9 @@ namespace GameEngine
 			typename std::list<IObserver<T>*>::iterator iterator = m_ObserversPtr.begin();
 			while (iterator != m_ObserversPtr.end())
 			{
-				if (*iterator != NULL)
-				{
-					(*iterator)->Notify(m_Message);
-					++iterator;
-				}
-				
+				(*iterator)->Notify(m_Message);
+				++iterator;
+
 			}
 		}
 

@@ -27,7 +27,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 
 	m_pBorderBlock = borderBlock.get();
 	scene->Add(std::move(borderBlock));
-
+	
 	int amountOfIceBlocks = static_cast<int>(m_VerticesIceBlocks.size());
 	int amountOfDiamondBlocks = static_cast<int>(m_VerticesDiamondBlocks.size());
 
@@ -148,7 +148,9 @@ void Environment::Update()
 		if (m_pBlocks[i]->IsDestroyed())
 		{
 			m_pBlocks.erase(m_pBlocks.begin() + i);
+			
 			m_BlockCollisionInfo.Detach(m_pBlocks[i]->GetComponent<BlockObserver>());
+
 			continue;
 		}
 	}
@@ -190,6 +192,7 @@ void Environment::PushBlock()
 	
 		if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pPlayer, hitInfo))
 		{
+
 			bool canBlockBePushed = true;
 			
 			for (int j = 0; j < static_cast<int>(m_pBlocks.size()); ++j)

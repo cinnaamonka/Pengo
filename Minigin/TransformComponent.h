@@ -29,6 +29,7 @@ namespace GameEngine
 
 		glm::vec3 GetLocalPosition() const
 		{
+
 			return m_LocalPosition;
 		}
 

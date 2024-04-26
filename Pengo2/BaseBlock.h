@@ -49,6 +49,7 @@ public:
 
 	int GetBlockIndex() const
 	{
+		
 		return m_BlockIndex;
 	}
 	void SetIsPushed(bool pushed)

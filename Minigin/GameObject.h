@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <iostream>
 
 namespace GameEngine
 {
@@ -21,7 +22,7 @@ namespace GameEngine
 		GameObject(GameObject&& other) = delete;
 
 		template <typename ComponentType, typename... Args>
-		requires std::derived_from<ComponentType, BaseComponent>
+			requires std::derived_from<ComponentType, BaseComponent>
 		void AddComponent(Args&&... args)
 		{
 			if (GetComponent<ComponentType>() == nullptr)
@@ -33,7 +34,7 @@ namespace GameEngine
 		}
 
 		template <typename ComponentType, typename... Args>
-		requires std::derived_from<ComponentType, BaseComponent>
+			requires std::derived_from<ComponentType, BaseComponent>
 		void RemoveComponent()
 		{
 			m_pComponents.erase(std::remove_if(m_pComponents.begin(), m_pComponents.end(),
@@ -42,11 +43,12 @@ namespace GameEngine
 		}
 
 		template <typename ComponentType, typename... Args>
-		requires std::derived_from<ComponentType, BaseComponent>
+			requires std::derived_from<ComponentType, BaseComponent>
 		ComponentType* GetComponent()
 		{
 			for (const auto& component : m_pComponents)
 			{
+
 				if (auto castedComponent = dynamic_cast<ComponentType*>(component.get()))
 					return castedComponent;
 			}
@@ -54,13 +56,24 @@ namespace GameEngine
 		}
 
 		template <typename ComponentType, typename... Args>
-		requires std::derived_from<ComponentType, BaseComponent>
+			requires std::derived_from<ComponentType, BaseComponent>
 		bool HasComponent() const
 		{
 			if (!m_pComponents.empty())
 			{
 				return std::any_of(m_pComponents.begin(), m_pComponents.end(),
-					[](const auto& component) { return dynamic_cast<ComponentType*>(component.get()) != nullptr; });
+					[](const auto& component)
+					{
+						if (component != nullptr)
+						{
+							return dynamic_cast<ComponentType*>(component.get()) != nullptr;
+						}
+						else
+						{
+							return false;
+						}
+
+					});
 			}
 			return false;
 		}
@@ -73,13 +86,14 @@ namespace GameEngine
 			return m_pParent;
 		}
 
-		const std::vector<GameObject*>& GetChildren() const 
+		const std::vector<GameObject*>& GetChildren() const
 		{
 			return m_pChildren;
 		}
 
 		bool IsDestroyed() const
 		{
+			if (!this) return false;
 			return m_IsDestroyed;
 		}
 
@@ -87,9 +101,9 @@ namespace GameEngine
 		{
 			m_IsDestroyed = isDestroyed;
 		}
-		
+
 	private:
-		
+
 		std::vector<std::unique_ptr<BaseComponent>> m_pComponents;
 
 		bool m_IsDestroyed;

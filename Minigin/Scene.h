@@ -15,6 +15,7 @@ namespace GameEngine
 	public:
 		void Add(std::unique_ptr<GameObject>&& object);
 		void RemoveAll();
+		void RemoveObject();
 
 		void Update();
 		void Render() const;
