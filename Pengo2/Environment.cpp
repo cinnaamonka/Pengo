@@ -17,7 +17,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	m_pPlayer(nullptr),
 	m_BorderWidth(10),
 	m_BorderLength(260),
-	m_BorderHeight(360)
+	m_BorderHeight(300)
 {
 	GameEngine::GetVerticesFromJsonFile(filename, m_VerticesIceBlocks, m_VerticesDiamondBlocks, m_BorderVertices);
 
@@ -77,6 +77,11 @@ void Environment::CheckCollision()
 		}
 
 	}
+
+	if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsColliding(m_pPlayer, hitInfo))
+	{
+		m_CollisionHitInfoChanged.CreateMessage(hitInfo);
+	}
 }
 
 void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
@@ -122,6 +127,45 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 				m_BlockCollisionInfo.CreateMessage(info);
 				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
 	
+
+				auto it = std::find(m_PushedBlocksIndexes.begin(), m_PushedBlocksIndexes.end(), pGameObject->GetComponent<BaseBlock>()->GetBlockIndex());
+				m_PushedBlocksIndexes.erase(it);
+			}
+		}
+
+		if (pGameObject->GetComponent<BaseBlock>()->GetDirection().x != 0)
+		{
+			if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(pGameObject, hitInfo))
+			{
+				const BlockCollisionInfo& info
+				{
+					0,
+					hitInfo,
+					false
+				};
+
+				m_BlockCollisionInfo.CreateMessage(info);
+				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo); 
+
+
+				auto it = std::find(m_PushedBlocksIndexes.begin(), m_PushedBlocksIndexes.end(), pGameObject->GetComponent<BaseBlock>()->GetBlockIndex());
+				m_PushedBlocksIndexes.erase(it);
+			}
+		}
+		else if (pGameObject->GetComponent<BaseBlock>()->GetDirection().y != 0)
+		{
+			if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(pGameObject, hitInfo))
+			{
+				const BlockCollisionInfo& info
+				{
+					0,
+					hitInfo,
+					false
+				};
+
+				m_BlockCollisionInfo.CreateMessage(info);
+				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
+
 
 				auto it = std::find(m_PushedBlocksIndexes.begin(), m_PushedBlocksIndexes.end(), pGameObject->GetComponent<BaseBlock>()->GetBlockIndex());
 				m_PushedBlocksIndexes.erase(it);
