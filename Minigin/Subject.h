@@ -32,9 +32,12 @@ namespace GameEngine
 			typename std::list<IObserver<T>*>::iterator iterator = m_ObserversPtr.begin();
 			while (iterator != m_ObserversPtr.end())
 			{
+				if (*iterator != NULL)
+				{
+					(*iterator)->Notify(m_Message);
+					++iterator;
+				}
 				
-				(*iterator)->Notify(m_Message);
-				++iterator;
 			}
 		}
 

@@ -18,15 +18,8 @@ bool CollisionComponent::IsColliding(GameEngine::GameObject* actor, GameEngine::
 
 	const auto& boxCollider = actor->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
 
-	if (GetGameObject()->GetComponent<BaseBlock>()->IsCollidingVertically(boxCollider, hitInfo))
-	{
-		return true;
-	}
-	if (GetGameObject()->GetComponent<BaseBlock>()->IsCollidingHorizontally(boxCollider, hitInfo)) 
-	{
-		return true;
-	}
-	return false;
+	return GetGameObject()->GetComponent<BaseBlock>()->IsCollidingVertically(boxCollider, hitInfo) ||
+		GetGameObject()->GetComponent<BaseBlock>()->IsCollidingHorizontally(boxCollider, hitInfo);
 }
 
 bool CollisionComponent::IsBlockNearbyHorizontally(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo)
@@ -56,11 +49,8 @@ bool CollisionComponent::IsBlockNearbyHorizontally(GameEngine::GameObject* actor
 		increasedRect.width += 2 * offset;
 	}
 
-	if (GetGameObject()->GetComponent<BaseBlock>()->IsCollidingHorizontally(increasedRect, hitInfo))
-	{
-		return true;
-	}
-	return false;
+	return GetGameObject()->GetComponent<BaseBlock>()->IsCollidingHorizontally(increasedRect, hitInfo);
+	
 }
 
 bool CollisionComponent::IsBlockNearbyVertically(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo)
@@ -84,15 +74,12 @@ bool CollisionComponent::IsBlockNearbyVertically(GameEngine::GameObject* actor, 
 	{
 		increasedRect.height += offset;
 	}
-	else
+	else if(direction.x == 0)
 	{
 		increasedRect.bottom -= offset;
 		increasedRect.height += 2 * offset;
 	}
 	
-	if (GetGameObject()->GetComponent<BaseBlock>()->IsCollidingVertically(increasedRect, hitInfo))
-	{
-		return true;
-	}
-	return false;
+	return GetGameObject()->GetComponent<BaseBlock>()->IsCollidingVertically(increasedRect, hitInfo);
+	
 }

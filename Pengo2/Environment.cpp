@@ -142,11 +142,6 @@ void Environment::Update()
 			CheckBlocksCollision(m_pBlocks[boxIndex]);
 		}
 	}
-}
-
-void Environment::PushBlock()
-{
-	GameEngine::HitInfo hitInfo;
 
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
@@ -156,6 +151,15 @@ void Environment::PushBlock()
 			m_BlockCollisionInfo.Detach(m_pBlocks[i]->GetComponent<BlockObserver>());
 			continue;
 		}
+	}
+}
+
+void Environment::PushBlock()
+{
+	GameEngine::HitInfo hitInfo;
+
+	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
+	{
 		
 		if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pPlayer, hitInfo))
 		{
@@ -165,13 +169,6 @@ void Environment::PushBlock()
 				if(m_pBlocks[i] == m_pBlocks[j]) continue;
 				if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pBlocks[j], hitInfo))
 				{
-					if (m_pBlocks[j]->IsDestroyed())
-					{
-						m_pBlocks.erase(m_pBlocks.begin() + j);
-						m_BlockCollisionInfo.Detach(m_pBlocks[j]->GetComponent<BlockObserver>());
-						
-						continue;
-					}
 					m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
 					canBlockBePushed = false;
 					break;
@@ -193,25 +190,11 @@ void Environment::PushBlock()
 	
 		if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pPlayer, hitInfo))
 		{
-			if (m_pBlocks[i]->IsDestroyed())
-			{
-				m_pBlocks.erase(m_pBlocks.begin() + i);
-				m_BlockCollisionInfo.Detach(m_pBlocks[i]->GetComponent<BlockObserver>());
-				continue;
-			}
-
 			bool canBlockBePushed = true;
 			
 			for (int j = 0; j < static_cast<int>(m_pBlocks.size()); ++j)
 			{
 				if (m_pBlocks[i] == m_pBlocks[j]) continue;
-
-				if (m_pBlocks[j]->IsDestroyed())
-				{
-					m_pBlocks.erase(m_pBlocks.begin() + j);
-					m_BlockCollisionInfo.Detach(m_pBlocks[j]->GetComponent<BlockObserver>());
-					continue;
-				}
 
 				if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pBlocks[j], hitInfo))
 				{
