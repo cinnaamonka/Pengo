@@ -2,6 +2,7 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <Helpers.h>
 #include <Subject.h>
 
 #include <BaseComponent.h>
@@ -50,9 +51,8 @@ public:
 	
 private:
 	std::vector<GameEngine::GameObject*> m_pBlocks;
-	std::vector<std::vector<glm::vec3>> m_VerticesIceBlocks;
-	std::vector<std::vector<glm::vec3>> m_VerticesDiamondBlocks;
-	std::vector<std::vector<glm::vec3>> m_BorderVertices;
+	
+	std::vector<GameEngine::Block> m_LevelVertices;
 
 	GameEngine::GameObject* m_pPlayer;
 	GameEngine::GameObject* m_pBorderBlock;
