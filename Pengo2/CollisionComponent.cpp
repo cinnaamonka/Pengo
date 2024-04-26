@@ -1,155 +1,98 @@
 #include "CollisionComponent.h"
 #include "BaseBlock.h"
 #include <GameObject.h>
+#include <FSM.h>
 #include "BlackboardComponent.h"
+#include "ActorComponent.h"
 
 CollisionComponent::CollisionComponent(GameEngine::GameObject* pGameObject) :
 	BaseComponent(pGameObject),
 	m_Pushed(false)
 {
-
 }
 
-void CollisionComponent::HandleCollision(GameEngine::GameObject* actor, GameEngine::GameObject* border,
-	glm::vec3& pushDirection, GameEngine::GameObject* pushedBlock, GameEngine::HitInfo& hitInfo, bool wasPushed)
+bool CollisionComponent::IsColliding(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo)
 {
-	if (!this) return;
-	if (pushedBlock->IsDestroyed()) return;
+	if (!this) return false;
+	if (actor->IsDestroyed()) return false;
 
-	GameEngine::HitInfo test{};
-	auto shape = actor->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
+	const auto& boxCollider = actor->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
 
-	if ( GetGameObject() && GetGameObject()->GetComponent<BaseBlock>()->IsCollidingHorizontally(shape, hitInfo))
-	{
-		test.normal = hitInfo.normal;
-		test.intersectPoint = hitInfo.intersectPoint;
-
-		if (m_CollisionEvent != CollisionEvent::CollidedHor)
-		{
-			pushDirection = { hitInfo.normal.x,0,0 };
-
-			const auto& pushedBlockCollider = pushedBlock->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
-
-			bool isMovingRight = hitInfo.normal.x > 0;
-
-			const GameEngine::Rect collingRect =
-			{
-				pushedBlockCollider.left + (isMovingRight ? 10 : -10),
-				pushedBlockCollider.bottom,
-				pushedBlockCollider.width,
-				pushedBlockCollider.height
-			};
-
-			if (!border->GetComponent<BaseBlock>()->IsCollidingHorizontally(collingRect, hitInfo) &&
-				pushedBlock->GetComponent<BaseBlock>()->IsCollidingHorizontally(shape, hitInfo))
-			{
-				pushedBlock->GetComponent<BaseBlock>()->SetPushSpeed(10.0f);
-			}
-		}
-		else
-		{
-			if (wasPushed)
-			{
-				pushedBlock->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
-			}
-		}
-
-
-		m_HasCollided = true;
-		hitInfo.normal = test.normal;
-		hitInfo.intersectPoint = test.intersectPoint;
-
-		return;
-	}
-	else
-	{
-		hitInfo.normal = test.normal;
-		hitInfo.intersectPoint = test.intersectPoint;
-		m_HasCollided = false;
-	}
-
-	if (GetGameObject()->GetComponent<BaseBlock>()->IsCollidingVertically(shape, hitInfo))
-	{
-		test.normal = hitInfo.normal;
-		test.intersectPoint = hitInfo.intersectPoint;
-
-		if (m_CollisionEvent != CollisionEvent::CollidedVer)
-		{
-			pushDirection = { 0,hitInfo.normal.y,0 };
-
-			const auto& pushedBlockCollider = pushedBlock->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
-
-			bool isMovingTop = hitInfo.normal.y > 0;
-
-			const GameEngine::Rect collingRect =
-			{
-				pushedBlockCollider.left,
-				pushedBlockCollider.bottom + (isMovingTop ? 10 : -10),
-				pushedBlockCollider.width,
-				pushedBlockCollider.height
-			};
-
-
-			if (!border->GetComponent<BaseBlock>()->IsCollidingVertically(collingRect, hitInfo) &&
-				pushedBlock->GetComponent<BaseBlock>()->IsCollidingHorizontally(shape, hitInfo))
-			{
-				pushedBlock->GetComponent<BaseBlock>()->SetPushSpeed(10.0f);
-			}
-
-		}
-		else {
-			if (wasPushed)
-			{
-				pushedBlock->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
-			}
-		}
-		m_HasCollided = true;
-		hitInfo.normal = test.normal;
-		hitInfo.intersectPoint = test.intersectPoint;
-
-		return;
-	}
-	else
-	{
-		hitInfo.normal = test.normal;
-		hitInfo.intersectPoint = test.intersectPoint;
-
-		m_HasCollided = false;
-	}
-
-}
-
-void CollisionComponent::HandleBlocksCollision(GameEngine::GameObject* gameObject)
-{
-	GameEngine::HitInfo hitInfo{};
-
-	GameEngine::Rect boxCollider = gameObject->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
-
-	if (GetGameObject()->GetComponent<BaseBlock>()->IsCollidingHorizontally(boxCollider, hitInfo))
-	{
-
-		gameObject->GetComponent<BaseBlock>()->SetPushSpeed(0);
-		gameObject->GetComponent<CollisionComponent>()->m_CollisionEvent = CollisionEvent::CollidedHor;
-		gameObject->GetComponent<HitObserver>()->Notify(hitInfo);
-		m_HasCollided = true;
-		return;
-	}
-	else
-	{
-		m_HasCollided = false;
-	}
 	if (GetGameObject()->GetComponent<BaseBlock>()->IsCollidingVertically(boxCollider, hitInfo))
 	{
-		gameObject->GetComponent<BaseBlock>()->SetPushSpeed(0);
-		gameObject->GetComponent<CollisionComponent>()->m_CollisionEvent = CollisionEvent::CollidedVer;
-		gameObject->GetComponent<HitObserver>()->Notify(hitInfo);
-		m_HasCollided = true;
-		return;
+		return true;
+	}
+	if (GetGameObject()->GetComponent<BaseBlock>()->IsCollidingHorizontally(boxCollider, hitInfo)) 
+	{
+		return true;
+	}
+	return false;
+}
 
+bool CollisionComponent::IsBlockNearbyHorizontally(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo)
+{
+	if (!this) return false;
+	if (actor->IsDestroyed()) return false;
+
+	glm::vec3 direction{};
+	actor->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("MovementDirection", direction);
+
+	const auto& currentActorShape = actor->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
+
+	const int offset = 10;
+	GameEngine::Rect increasedRect = currentActorShape;
+
+	if (direction.x == -1)
+	{
+		increasedRect.left -= offset;
+	}
+	else if (direction.x == 1)
+	{
+		increasedRect.width += offset;
 	}
 	else
 	{
-		m_HasCollided = false;
+		increasedRect.left -= offset;
+		increasedRect.width += 2 * offset;
 	}
 
+	if (GetGameObject()->GetComponent<BaseBlock>()->IsCollidingHorizontally(increasedRect, hitInfo))
+	{
+		return true;
+	}
+	return false;
+}
+
+bool CollisionComponent::IsBlockNearbyVertically(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo)
+{
+	if (!this) return false;
+	if (actor->IsDestroyed()) return false;
+
+	glm::vec3 direction{};
+	actor->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("MovementDirection", direction);
+
+	const auto& currentActorShape = actor->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
+
+	const int offset = 10;
+	GameEngine::Rect increasedRect = currentActorShape;
+
+	if (direction.y == -1)
+	{
+		increasedRect.bottom -= offset;
+	}
+	else if (direction.y == 1)
+	{
+		increasedRect.height += offset;
+	}
+	else
+	{
+		increasedRect.bottom -= offset;
+		increasedRect.height += 2 * offset;
+	}
+	
+	if (GetGameObject()->GetComponent<BaseBlock>()->IsCollidingVertically(increasedRect, hitInfo))
+	{
+		return true;
+	}
+	return false;
 }

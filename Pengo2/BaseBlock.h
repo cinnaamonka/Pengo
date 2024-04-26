@@ -16,7 +16,7 @@ class HitObserver;
 class BaseBlock final : public GameEngine::BaseComponent
 {
 public:
-	BaseBlock(GameEngine::GameObject* GOptr);
+	BaseBlock(GameEngine::GameObject* GOptr, int index);
 	~BaseBlock() = default;
 
 	BaseBlock(const BaseBlock& other) = delete;
@@ -44,9 +44,29 @@ public:
 		return m_PushSpeed;
 	}
 
-	static std::unique_ptr<GameEngine::GameObject> CreateBlock(const glm::vec3& position, const std::string& filename,
+	static std::unique_ptr<GameEngine::GameObject> CreateBlock(const glm::vec3& position, const std::string& filename, int index,
 		int blockSizeX = 20, int blockSizeY = 20, const glm::vec3& colliderBlockPos = glm::vec3{ 0,0,0 });
 
+	int GetBlockIndex() const
+	{
+		return m_BlockIndex;
+	}
+	void SetIsPushed(bool pushed)
+	{
+		m_Pushed = pushed;
+	}
+
+	bool GetIsPushed() const
+	{
+		return m_Pushed;
+	}
+
+	void Update() override;
+
+	const glm::vec3& GetDirection() const
+	{
+		return m_Direction;
+	}
 
 private:
 
@@ -65,7 +85,8 @@ private:
 
 	bool m_HasCollidedHor = false;
 
-
+	int m_BlockIndex;
+	bool m_Pushed{};
 
 };
 

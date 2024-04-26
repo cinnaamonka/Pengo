@@ -38,6 +38,7 @@ namespace GameEngine
 		int width;
 		int height;
 	};
+
 	struct Sound
 	{
 		Sound() = default;

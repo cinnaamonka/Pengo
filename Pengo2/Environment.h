@@ -8,6 +8,7 @@
 
 #include "BaseBlock.h"
 #include "IObserver.h"
+#include "BlockObserver.h"
 
 #include <Scene.h>
 
@@ -28,7 +29,7 @@ public:
 	Environment& operator=(Environment&& other) noexcept = delete;
 
 	void CheckCollision();
-	void CheckBlocksCollision(GameEngine::GameObject* gameObject);
+	void CheckBlocksCollision(GameEngine::GameObject* pGameObject);
 
 	void Update() override;
 
@@ -46,7 +47,7 @@ public:
 	}
 
 	void PushBlock();
-	bool m_WasBlockPushed = false;
+	
 private:
 	std::vector<GameEngine::GameObject*> m_pBlocks;
 	std::vector<std::vector<glm::vec3>> m_VerticesIceBlocks;
@@ -57,17 +58,12 @@ private:
 	GameEngine::GameObject* m_pBorderBlock;
 
 	GameEngine::Subject<GameEngine::HitInfo> m_CollisionHitInfoChanged;
-	GameEngine::Subject<bool> m_BlocksLifeStateChanged;
+	GameEngine::Subject<BlockCollisionInfo> m_BlockCollisionInfo;
 
+	std::vector<int> m_PushedBlocksIndexes;
 
-	int m_PushedBlockIndex;
 	const int m_BorderWidth;
 	const int m_BorderLength;
 	const int m_BorderHeight;
-	glm::vec3 m_PushDirection;
-	bool m_BlockCanBePushed;
-	
-	
-	
 };
 

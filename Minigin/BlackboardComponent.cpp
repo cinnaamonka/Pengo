@@ -13,6 +13,7 @@ namespace GameEngine
 		AddData("HorizontalOffset", int());
 		AddData("VerticalOffset", int());
 		AddData("MovementDirection", glm::vec3());
+		AddData("Destroyed", bool());
 	}
 	void BlackboardComponent::Destroy()
 	{

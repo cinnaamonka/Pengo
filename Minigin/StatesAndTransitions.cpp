@@ -112,7 +112,14 @@ namespace GameEngine
 
 	void BreakingBlockState::OnExit(GameEngine::BlackboardComponent* pBlackboard)
 	{
-		pBlackboard->Destroy();
+		bool isDestroyed;
+		pBlackboard->GetData("Destroyed", isDestroyed);
+	
+		if(isDestroyed)
+		{
+				pBlackboard->Destroy();
+		}
+	
 	}
 
 	void BreakingBlockState::Update(GameEngine::BlackboardComponent* pBlackboard)
@@ -128,6 +135,7 @@ namespace GameEngine
 		if (currentAnimationFrame == numberOfFrames-1)
 		{
 			pBlackboard->ChangeData("WasBlockDestroyed", false);
+			pBlackboard->ChangeData("Destroyed", true);
 		}
 	}
 

@@ -43,6 +43,9 @@
     <ClCompile Include="AnimationComponent.cpp">
       <Filter>GameFiles</Filter>
     </ClCompile>
+    <ClCompile Include="BlockObserver.cpp">
+      <Filter>GameFiles\Observers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -71,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="AnimationComponent.h">
       <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockObserver.h">
+      <Filter>GameFiles\Observers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
