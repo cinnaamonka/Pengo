@@ -17,8 +17,8 @@ PengoActor::PengoActor()
 {
 
 	m_pActor = std::make_unique<GameEngine::GameObject>();
-	m_pActor->AddComponent<GameEngine::BoxCollider>(250, 350, 20, 20);
-	m_pActor->AddComponent<GameEngine::TransformComponent>(glm::vec3(250, 350, 0));
+	m_pActor->AddComponent<GameEngine::BoxCollider>(250, 320, 20, 20);
+	m_pActor->AddComponent<GameEngine::TransformComponent>(glm::vec3(250, 320, 0));
 	m_pActor->AddComponent<GameEngine::TextureComponent>("PengoCharacter.tga");
 	m_pActor->AddComponent<GameEngine::ActorComponent>();
 	m_pActor->AddComponent<AnimationComponent>();

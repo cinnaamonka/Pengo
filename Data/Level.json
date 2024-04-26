@@ -3,294 +3,300 @@
     {
       "position": {
         "left": 200,
-        "top": 70
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 240,
-        "top": 70
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 260,
-        "top": 70
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 280,
-        "top": 70
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 300,
-        "top": 70
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 340,
-        "top": 70
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 360,
-        "top": 70
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 280,
-        "top": 90
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 300,
-        "top": 90
-      },
-      "type": "diamond_block"
-    },
-    {
-      "position": {
-        "left": 220,
-        "top": 110
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 300,
-        "top": 110
+        "top": 80
       },
       "type": "ice_block"
     },
     {
       "position": {
         "left": 320,
-        "top": 110
+        "top": 120
       },
       "type": "ice_block"
     },
     {
       "position": {
-        "left": 220,
-        "top": 130
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 300,
-        "top": 130
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 220,
-        "top": 150
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 240,
-        "top": 150
+        "left": 340,
+        "top": 140
       },
       "type": "ice_block"
     },
     {
       "position": {
         "left": 260,
-        "top": 170
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 300,
-        "top": 170
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 320,
-        "top": 170
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 220,
-        "top": 190
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 260,
-        "top": 210
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 300,
-        "top": 210
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 340,
-        "top": 210
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 200,
-        "top": 230
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 240,
-        "top": 230
-      },
-      "type": "diamond_block"
-    },
-    {
-      "position": {
-        "left": 280,
-        "top": 230
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 300,
-        "top": 230
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 340,
-        "top": 230
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 360,
-        "top": 230
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 220,
-        "top": 250
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 300,
-        "top": 250
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 340,
-        "top": 250
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 360,
-        "top": 250
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 400,
-        "top": 250
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 300,
-        "top": 270
-      },
-      "type": "ice_block"
-    },
-    {
-      "position": {
-        "left": 220,
-        "top": 290
-      },
-      "type": "diamond_block"
-    },
-    {
-      "position": {
-        "left": 400,
-        "top": 310
+        "top": 80
       },
       "type": "ice_block"
     },
     {
       "position": {
         "left": 420,
-        "top": 310
+        "top": 160
+      },
+      "type": "ice_block"
+    },
+
+    {
+      "position": {
+        "left": 380,
+        "top": 80
       },
       "type": "ice_block"
     },
     {
       "position": {
-        "left": 360,
-        "top": 330
+        "left": 400,
+        "top": 120
+      },
+      "type": "ice_block"
+    },
+
+    {
+      "position": {
+        "left": 260,
+        "top": 100
       },
       "type": "ice_block"
     },
     {
       "position": {
-        "left": 340,
-        "top": 350
+        "left": 280,
+        "top": 100
+      },
+      "type": "diamond_block"
+    },
+    {
+      "position": {
+        "left": 220,
+        "top": 120
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 280,
+        "top": 120
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 300,
+        "top": 120
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 220,
+        "top": 140
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 280,
+        "top": 140
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 220,
+        "top": 160
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 240,
+        "top": 160
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 260,
+        "top": 180
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 300,
+        "top": 180
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 320,
+        "top": 180
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 220,
+        "top": 200
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 260,
+        "top": 220
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 300,
+        "top": 220
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 420,
+        "top": 220
       },
       "type": "ice_block"
     },
     {
       "position": {
         "left": 200,
-        "top": 350
+        "top": 240
       },
       "type": "ice_block"
     },
     {
       "position": {
+        "left": 240,
+        "top": 240
+      },
+      "type": "diamond_block"
+    },
+    {
+      "position": {
+        "left": 280,
+        "top": 240
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 300,
+        "top": 240
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 360,
+        "top": 200
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 340,
+        "top": 240
+      },
+      "type": "ice_block"
+    },
+
+    {
+      "position": {
+        "left": 220,
+        "top": 260
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 300,
+        "top": 260
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 340,
+        "top": 260
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 380,
+        "top": 260
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 400,
+        "top": 280
+      },
+      "type": "ice_block"
+    },
+
+    {
+      "position": {
+        "left": 300,
+        "top": 280
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 220,
+        "top": 300
+      },
+      "type": "diamond_block"
+    },
+    {
+      "position": {
+        "left": 360,
+        "top": 320
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 380,
+        "top": 320
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 320,
+        "top": 320
+      },
+      "type": "ice_block"
+    },
+
+    {
+      "position": {
+        "left": 300,
+        "top": 340
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 200,
+        "top": 340
+      },
+      "type": "ice_block"
+    },
+
+    {
+      "position": {
         "left": 170,
-        "top": 60
+        "top": 50
       },
       "type": "border"
     }
