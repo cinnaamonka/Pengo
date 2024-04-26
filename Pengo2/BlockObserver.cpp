@@ -13,6 +13,8 @@ void BlockObserver::Notify(const BlockCollisionInfo& message_from_subject)
 	auto baseBlock = GetGameObject()->GetComponent<BaseBlock>();
 	int baseBlockIndex = baseBlock->GetBlockIndex(); 
 
+	
+
 	if (baseBlockIndex == message_from_subject.index)
 	{
 		baseBlock->SetIsPushed(message_from_subject.isPushed);

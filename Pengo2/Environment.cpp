@@ -70,14 +70,17 @@ void Environment::CheckCollision()
 {
 	GameEngine::HitInfo hitInfo{};
 
+	// CHECK ONLY FOR PLAYER WITH BLOCKS
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
+		if(m_pBlocks[i]->IsDestroyed() || !m_pBlocks[i]) continue;
+
 		if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsColliding(m_pPlayer, hitInfo))
 		{
 			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 		}
 	}
-
+	//CHECK ONLY FOR PLAYER WITH BORDER
 	if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsColliding(m_pPlayer, hitInfo))
 	{
 		m_CollisionHitInfoChanged.CreateMessage(hitInfo);
@@ -91,13 +94,16 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 	{
 		if (m_pBlocks[i]->IsDestroyed()) continue;
 
+		// IF NOT THE SAME BLOCK
 		if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetBlockIndex() == pGameObject->GetComponent<BaseBlock>()->GetBlockIndex())
 		{
 			continue;
 		};
 
+		// IF BLOCK MOVER HORZONTALY
 		if (pGameObject->GetComponent<BaseBlock>()->GetDirection().x != 0)
 		{
+			// CHECK IF THERE IS SOMETHING NEARBY HORIZONTALLY
 			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(pGameObject, hitInfo))
 			{
 				const BlockCollisionInfo& info
@@ -106,7 +112,7 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 					hitInfo,
 					false
 				};
-
+				// NOTIFY OBSERVERS
 				m_BlockCollisionInfo.CreateMessage(info);
 				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
 
@@ -115,8 +121,10 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 
 
 		}
+		// IF BLOCK MOVER VERTICALLY
 		else if (pGameObject->GetComponent<BaseBlock>()->GetDirection().y != 0)
 		{
+			// CHECK IF THERE IS SOMETHING NEARBY VERTICALLY
 			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(pGameObject, hitInfo))
 			{
 				const BlockCollisionInfo& info
@@ -126,6 +134,7 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 					false
 				};
 
+				// NOTIFY OBSERVERS
 				m_BlockCollisionInfo.CreateMessage(info);
 				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
 
@@ -134,8 +143,10 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 			}
 		}
 
+		// IF BLOCK MOVES HORISONTALLY
 		if (pGameObject->GetComponent<BaseBlock>()->GetDirection().x != 0)
 		{
+			// CHECK BORDER COLLISION HORISONTALLY
 			if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(pGameObject, hitInfo))
 			{
 				const BlockCollisionInfo& info
@@ -153,6 +164,7 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 		}
 		if (pGameObject->GetComponent<BaseBlock>()->GetDirection().y != 0)
 		{
+			// CHECK BORDER COLLISION VERTICALLY
 			if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(pGameObject, hitInfo))
 			{
 				const BlockCollisionInfo& info
@@ -179,6 +191,7 @@ void Environment::Update()
 	{
 		if (m_pBlocks[m_PushBlockIndex]->IsDestroyed())
 		{
+			// DETACH OBSERVER
 			m_BlockCollisionInfo.Detach(m_pBlocks[m_PushBlockIndex]->GetComponent<BlockObserver>());
 
 			m_PushBlockIndex = -1;
@@ -197,13 +210,14 @@ void Environment::PushBlock()
 
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
-
+		// CHECK IF BLOCK COLLIDES WITH SOMETHING WHEN IT IS STATIC 
 		if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pPlayer, hitInfo))
 		{
 			if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pBlocks[i], hitInfo))
 			{
 				if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsBreakable())
 				{
+					// ONLY IF BREAKABLE
 					m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
 				}
 
@@ -218,6 +232,7 @@ void Environment::PushBlock()
 				{
 					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsBreakable())
 					{
+						// ONLY IF BREAKABLE
 						m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
 					}
 
@@ -245,6 +260,7 @@ void Environment::PushBlock()
 			{
 				if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsBreakable())
 				{
+					// ONLY IF BREAKABLE
 					m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
 
 				}
@@ -261,6 +277,7 @@ void Environment::PushBlock()
 					canBlockBePushed = false;
 					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsBreakable())
 					{
+						// ONLY IF BREAKABLE
 						m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
 
 					}
