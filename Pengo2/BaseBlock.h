@@ -16,7 +16,7 @@ class HitObserver;
 class BaseBlock final : public GameEngine::BaseComponent
 {
 public:
-	BaseBlock(GameEngine::GameObject* GOptr, int index);
+	BaseBlock(GameEngine::GameObject* GOptr, int index, bool isBreakable);
 	~BaseBlock() = default;
 
 	BaseBlock(const BaseBlock& other) = delete;
@@ -45,7 +45,8 @@ public:
 	}
 
 	static std::unique_ptr<GameEngine::GameObject> CreateBlock(const glm::vec3& position, const std::string& filename, int index,
-		int blockSizeX = 20, int blockSizeY = 20, const glm::vec3& colliderBlockPos = glm::vec3{ 0,0,0 });
+		bool isBreakable = true,int blockSizeX = 20, int blockSizeY = 20, 
+		const glm::vec3& colliderBlockPos = glm::vec3{ 0,0,0 });
 
 	int GetBlockIndex() const
 	{
@@ -69,6 +70,10 @@ public:
 		return m_Direction;
 	}
 
+	bool GetIsBreakable() const
+	{
+		return m_IsBreakable;
+	}
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pGameObject;
@@ -84,10 +89,9 @@ private:
 
 	glm::vec3 m_Direction;
 
-	bool m_HasCollidedHor = false;
-
 	int m_BlockIndex;
 	bool m_Pushed{};
+	bool m_IsBreakable;
 
 };
 
