@@ -21,7 +21,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	// BORDER 
 	std::vector tempCollection = GameEngine::GetBlocksWithTag(m_LevelVertices, "border");
 
-	auto borderBlock = BaseBlock::CreateBlock(tempCollection[0].block[0], "Border.tga", 50, false,
+	auto borderBlock = BaseBlock::CreateBlock(tempCollection[0].block[0], "Border.tga", 50, false,1,
 		m_BorderLength, m_BorderHeight,
 		glm::vec3{ tempCollection[0].block[0].x + m_BorderWidth,tempCollection[0].block[0].y + m_BorderWidth,0 });
 
@@ -31,39 +31,15 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 
 	// DIAMOND BLOCKS
 
-	tempCollection = GameEngine::GetBlocksWithTag(m_LevelVertices, "diamond_block");
-
-	int amountOfDiamondBlocks = static_cast<int>(tempCollection.size());
-
-	for (int i = 0; i < tempCollection.size(); ++i)
-	{
-		auto diamondBlock = BaseBlock::CreateBlock(tempCollection[i].block[0], "DiamondBlock.tga", i, false);
-
-		m_BlockCollisionInfo.Attach(diamondBlock->GetComponent<BlockObserver>());
-
-		m_pBlocks.push_back(diamondBlock.get());
-
-		scene->Add(std::move(diamondBlock));
-	}
+	int offset = 0;
+	CreateBlocksCollection(m_LevelVertices, "DiamondBlock.tga", "diamond_block", offset, scene, false);
+	
+	//EGG BLOCKS
+	CreateBlocksCollection(m_LevelVertices, "DiamondBlock.tga", "egg_block", offset, scene, true);
 
 	//ICE BLOCKS
-	tempCollection = GameEngine::GetBlocksWithTag(m_LevelVertices, "ice_block");
-
-	for (int i = 0; i < tempCollection.size(); ++i)
-	{
-		auto iceBlock = BaseBlock::CreateBlock(tempCollection[i].block[0], "IceBlock.tga", i + amountOfDiamondBlocks);
-
-		auto textureSizeX = iceBlock->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / 10;
-		auto textureSizeY = iceBlock->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y;
-
-		iceBlock->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
-
-		m_BlockCollisionInfo.Attach(iceBlock->GetComponent<BlockObserver>());
-
-		m_pBlocks.push_back(iceBlock.get());
-
-		scene->Add(std::move(iceBlock));
-	}
+	
+	CreateBlocksCollection(m_LevelVertices, "IceBlock.tga", "ice_block", offset, scene, true,10); 
 
 }
 void Environment::CheckCollision()
@@ -73,7 +49,7 @@ void Environment::CheckCollision()
 	// CHECK ONLY FOR PLAYER WITH BLOCKS
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
-		if(m_pBlocks[i]->IsDestroyed() || !m_pBlocks[i]) continue;
+		if (m_pBlocks[i]->IsDestroyed() || !m_pBlocks[i]) continue;
 
 		if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsColliding(m_pPlayer, hitInfo))
 		{
@@ -298,5 +274,34 @@ void Environment::PushBlock()
 		}
 	}
 
+}
+
+void Environment::CreateBlocksCollection(std::vector<GameEngine::Block> blocks, const std::string& name,
+	const std::string& tag, int& offset, GameEngine::Scene* scene, bool IsBreakable,int clipTextureAmount)
+{
+	std::vector<GameEngine::Block> tempCollection = GameEngine::GetBlocksWithTag(m_LevelVertices, tag);
+
+	for (int i = 0; i < static_cast<int>(tempCollection.size()); ++i)
+	{
+		auto block = BaseBlock::CreateBlock(tempCollection[i].block[0], name, i + offset, IsBreakable, clipTextureAmount);
+
+		if (tag == "ice_block")
+		{
+			auto textureComponent = block->GetComponent<GameEngine::TextureComponent>();
+
+			auto textureSizeX = textureComponent->GetTexture()->GetSize().x / textureComponent->GetTextureClipAmount();
+			auto textureSizeY = textureComponent->GetTexture()->GetSize().y;
+
+			block->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
+		}
+	
+		m_BlockCollisionInfo.Attach(block->GetComponent<BlockObserver>());
+
+		m_pBlocks.push_back(block.get());
+
+		scene->Add(std::move(block));
+	}
+
+	offset += static_cast<int>(tempCollection.size());
 }
 

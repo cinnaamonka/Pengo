@@ -46,7 +46,7 @@ void BaseBlock::PushBlock(const glm::vec3& direction)
 }
 
 std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& position, const std::string& filename,
-	int index, bool isBreakable, int blockSizeX, int blockSizeY, const glm::vec3& colliderBlockPos)
+	int index, bool isBreakable,int clipAmount, int blockSizeX, int blockSizeY, const glm::vec3& colliderBlockPos)
 {
 	auto gameObject = std::make_unique<GameEngine::GameObject>();
 
@@ -63,7 +63,7 @@ std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& 
 
 	gameObject->AddComponent<GameEngine::BoxCollider>(static_cast<int>(colliderPosition.x), static_cast<int>(colliderPosition.y), blockSizeX, blockSizeY);
 	gameObject->AddComponent<GameEngine::TransformComponent>(position);
-	gameObject->AddComponent<GameEngine::TextureComponent>(filename);
+	gameObject->AddComponent<GameEngine::TextureComponent>(filename, clipAmount);
 	gameObject->AddComponent<GameEngine::RenderComponent>();
 	gameObject->AddComponent<CollisionComponent>();
 	gameObject->AddComponent<BaseBlock>(index, isBreakable);

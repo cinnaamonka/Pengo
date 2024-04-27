@@ -48,6 +48,9 @@ public:
 	}
 
 	void PushBlock();
+
+	void CreateBlocksCollection(std::vector<GameEngine::Block> blocks, const std::string& name, const std::string& tag,
+		int& offset, GameEngine::Scene* scene, bool IsBreakable, int clipTextureAmount = 1);
 	
 private:
 	std::vector<GameEngine::GameObject*> m_pBlocks;

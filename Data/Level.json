@@ -26,7 +26,7 @@
         "left": 260,
         "top": 80
       },
-      "type": "ice_block"
+      "type": "egg_block"
     },
     {
       "position": {
@@ -84,7 +84,7 @@
         "left": 300,
         "top": 120
       },
-      "type": "ice_block"
+      "type": "egg_block"
     },
     {
       "position": {
@@ -182,7 +182,7 @@
         "left": 280,
         "top": 240
       },
-      "type": "ice_block"
+      "type": "egg_block"
     },
     {
       "position": {
