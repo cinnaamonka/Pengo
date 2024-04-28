@@ -46,15 +46,15 @@ void Game::Initialize()
 	GameEngine::SoundServiceLocator::RegisterSoundSystem(std::make_unique<GameEngine::SoundLogSystem>
 		(std::make_unique<GameEngine::SoundSystem>()));
 
-	//test
-	auto font = GameEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 24);
+	////test
+	//auto font = GameEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 24);
 
-	std::unique_ptr<GameEngine::GameObject> text = std::make_unique<GameEngine::GameObject>();
-	text->AddComponent<GameEngine::TextComponent>("Push block horizontally to hear the sound",
-		font);
-	text->AddComponent<GameEngine::TransformComponent>(glm::vec3{ 0,0,0 });
-	text->AddComponent<GameEngine::RenderComponent>();
-	scene.Add(std::move(text));
+	//std::unique_ptr<GameEngine::GameObject> text = std::make_unique<GameEngine::GameObject>();
+	//text->AddComponent<GameEngine::TextComponent>("Push block horizontally to hear the sound",
+	//	font);
+	//text->AddComponent<GameEngine::TransformComponent>(glm::vec3{ 0,0,0 });
+	//text->AddComponent<GameEngine::RenderComponent>();
+	//scene.Add(std::move(text));
 }
 
 void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)
