@@ -20,14 +20,14 @@ std::unique_ptr<GameEngine::IsBlockNotBreaking> BaseBlock::m_pIsBlockNotBreaking
 std::unique_ptr<GameEngine::FlickeringBlockState> BaseBlock::m_pFlickeringBlockState = std::make_unique<GameEngine::FlickeringBlockState>();
 std::unique_ptr<GameEngine::IsBlockFinishedFlickering> BaseBlock::m_pIsBlockFinishedFlickering = std::make_unique<GameEngine::IsBlockFinishedFlickering>();
 
-BaseBlock::BaseBlock(GameEngine::GameObject* GOptr, int index, bool isBreakable) :
+BaseBlock::BaseBlock(GameEngine::GameObject* GOptr, int index, bool isBreakable,bool containsEggs) :
 	GameEngine::BaseComponent(GOptr),
 	m_PushSpeed(10.0f),
 	m_Position{ 0,0,0 },
 	m_ColliderPosition{ 0,0,0 },
-	m_pGameObject(nullptr),
 	m_BlockIndex(index),
-	m_IsBreakable(isBreakable)
+	m_IsBreakable(isBreakable),
+	m_ContainsEggs(containsEggs)
 {
 
 }
@@ -68,7 +68,7 @@ std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& 
 	gameObject->AddComponent<GameEngine::TextureComponent>(filename, clipAmount);
 	gameObject->AddComponent<GameEngine::RenderComponent>();
 	gameObject->AddComponent<CollisionComponent>();
-	gameObject->AddComponent<BaseBlock>(index, isBreakable);
+	gameObject->AddComponent<BaseBlock>(index, isBreakable, containsEggs);  
 	gameObject->AddComponent<HitObserver>();
 	gameObject->AddComponent<GameEngine::LifetimeObserver>();
 	gameObject->AddComponent<GameEngine::BlackboardComponent>();

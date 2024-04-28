@@ -6,6 +6,7 @@
 
 #include <StatesAndTransitions.h>
 #include "HitObserver.h"
+#include "EggObserver.h"
 #include "BlockComponent.h"
 #include "TextComponent.h"
 #include "RenderComponent.h"
@@ -27,6 +28,7 @@ void Game::Initialize()
 
 	m_pEnemyActor = std::make_unique<EnemyActor>();
 	m_pPengoActor = std::make_unique<PengoActor>();
+	m_pEggsObserver = std::make_unique<EggObserver>(&scene);
 
 	auto hitObserverComponent = m_pPengoActor->GetHitObserver();
 
@@ -34,6 +36,7 @@ void Game::Initialize()
 	m_pEnvironment->AddComponent<Environment>("Level.json", &scene);
 	m_pEnvironment->GetComponent<Environment>()->SetActor(m_pPengoActor->GetReferenceToActor());
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::HitInfo>(hitObserverComponent);
+	m_pEnvironment->GetComponent<Environment>()->AttachObserver<glm::vec3>(m_pEggsObserver.get());
 	
 	m_pEnvironmentReference = m_pEnvironment.get();
 

@@ -8,6 +8,7 @@
 #include <FSM.h>
 #include <Helpers.h>
 #include "AnimationComponent.h"
+#include "EggObserver.h"
 
 Environment::Environment(GameEngine::GameObject* pGameObject, const std::string& filename, GameEngine::Scene* scene) :
 	BaseComponent(pGameObject),
@@ -170,6 +171,7 @@ void Environment::Update()
 			m_BlockCollisionInfo.Detach(m_pBlocks[m_PushBlockIndex]->GetComponent<BlockObserver>());
 
 			m_PushBlockIndex = -1;
+            
 		}
 	}
 
@@ -194,6 +196,12 @@ void Environment::PushBlock()
 				{
 					// ONLY IF BREAKABLE
 					m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+
+					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
+					{
+						m_EggSpawnEvent.CreateMessage(m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
+					}
+
 				}
 
 				return;
@@ -205,11 +213,18 @@ void Environment::PushBlock()
 				if (m_pBlocks[i] == m_pBlocks[j]) continue;
 				if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pBlocks[j], hitInfo))
 				{
-					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsBreakable())
+					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsBreakable()) 
 					{
-						// ONLY IF BREAKABLE
 						m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+
+						// ONLY IF BREAKABLE
+						if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
+						{
+							m_EggSpawnEvent.CreateMessage(m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
+						}
+					
 					}
+
 
 					canBlockBePushed = false;
 					break;
@@ -238,6 +253,11 @@ void Environment::PushBlock()
 					// ONLY IF BREAKABLE
 					m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
 
+					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
+					{
+						m_EggSpawnEvent.CreateMessage(m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
+					}
+
 				}
 				return;
 			}
@@ -254,6 +274,11 @@ void Environment::PushBlock()
 					{
 						// ONLY IF BREAKABLE
 						m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+
+						if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
+						{
+							m_EggSpawnEvent.CreateMessage(m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
+						}
 
 					}
 					break;

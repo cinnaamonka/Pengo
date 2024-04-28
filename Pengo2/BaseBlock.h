@@ -16,7 +16,7 @@ class HitObserver;
 class BaseBlock final : public GameEngine::BaseComponent
 {
 public:
-	BaseBlock(GameEngine::GameObject* GOptr, int index, bool isBreakable);
+	BaseBlock(GameEngine::GameObject* GOptr, int index, bool isBreakable, bool containsEggs);
 	~BaseBlock() = default;
 
 	BaseBlock(const BaseBlock& other) = delete;
@@ -74,9 +74,12 @@ public:
 	{
 		return m_IsBreakable;
 	}
-private:
 
-	std::unique_ptr<GameEngine::GameObject> m_pGameObject;
+	bool GetContainsEggs() const
+	{
+		return m_ContainsEggs;
+	}
+private:
 
 	static std::unique_ptr<GameEngine::StaticBlockState> m_pStaticBlockState;
 	static std::unique_ptr<GameEngine::BreakingBlockState> m_pBreakingBlockState;
@@ -94,6 +97,7 @@ private:
 	int m_BlockIndex;
 	bool m_Pushed{};
 	bool m_IsBreakable;
+	bool m_ContainsEggs;
 
 };
 

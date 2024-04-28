@@ -33,12 +33,16 @@ namespace GameEngine
 		{
 			for (const auto& transitionState : transitionItr->second)
 			{
+				if (!transitionState.first || !transitionState.second) return;
+
 				if (transitionState.first->Evaluate(m_pBlackboard))
 				{
+					
 					ChangeState(transitionState.second);
 				}
 			}
 		}
+
 
 		m_pCurrentState->Update(m_pBlackboard);
 	}
@@ -50,6 +54,7 @@ namespace GameEngine
 
 	void GameEngine::FSM::ChangeState(FSMState* newState)
 	{
+		
 		if (m_pCurrentState != nullptr)
 		{
 			m_pCurrentState->OnExit(m_pBlackboard);

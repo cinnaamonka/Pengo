@@ -10,6 +10,7 @@
 #include "BaseBlock.h"
 #include "IObserver.h"
 #include "BlockObserver.h"
+#include "EggObserver.h"
 
 #include <Scene.h>
 
@@ -17,6 +18,7 @@
 #include <glm/glm.hpp>
 
 class GameObject;
+class EggObserver;
 
 class Environment final : public GameEngine::BaseComponent
 {
@@ -41,9 +43,13 @@ public:
 	template<typename T>
 	void AttachObserver(GameEngine::IObserver<T>* pObserver)
 	{
-		if (std::is_same_v<T, GameEngine::HitInfo>)
+		if constexpr (std::is_same_v<T, GameEngine::HitInfo>) 
 		{
 			m_CollisionHitInfoChanged.Attach(pObserver);
+		}
+		else if constexpr (std::is_same_v<T, glm::vec3>)
+		{
+			m_EggSpawnEvent.Attach(pObserver);
 		}
 	}
 
@@ -62,6 +68,7 @@ private:
 
 	GameEngine::Subject<GameEngine::HitInfo> m_CollisionHitInfoChanged;
 	GameEngine::Subject<BlockCollisionInfo> m_BlockCollisionInfo;
+	GameEngine::Subject<glm::vec3> m_EggSpawnEvent; 
 
 	int m_PushBlockIndex = -1;
 
