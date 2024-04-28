@@ -16,7 +16,7 @@ EggObserver::EggObserver(GameEngine::Scene* scenePtr)
 
 void EggObserver::Notify(const glm::vec3& message_from_subject)
 {
-	if (m_BreakingEggState != nullptr)
+	if (m_BreakingEggState)
 	{
 		m_BreakingEggState.release();
 	}
