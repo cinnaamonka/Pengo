@@ -21,7 +21,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	// BORDER 
 	std::vector tempCollection = GameEngine::GetBlocksWithTag(m_LevelVertices, "border");
 
-	auto borderBlock = BaseBlock::CreateBlock(tempCollection[0].block[0], "Border.tga", 50, false,1,
+	auto borderBlock = BaseBlock::CreateBlock(tempCollection[0].block[0], "Border.tga", 50, false,false,1,
 		m_BorderLength, m_BorderHeight,
 		glm::vec3{ tempCollection[0].block[0].x + m_BorderWidth,tempCollection[0].block[0].y + m_BorderWidth,0 });
 
@@ -32,14 +32,13 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	// DIAMOND BLOCKS
 
 	int offset = 0;
-	CreateBlocksCollection(m_LevelVertices, "DiamondBlock.tga", "diamond_block", offset, scene, false);
+	CreateBlocksCollection(m_LevelVertices, "DiamondBlock.tga", "diamond_block", offset, scene, false,false);
 	
 	//EGG BLOCKS
-	CreateBlocksCollection(m_LevelVertices, "DiamondBlock.tga", "egg_block", offset, scene, true);
+	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "egg_block", offset, scene, true,true,16);
 
 	//ICE BLOCKS
-	
-	CreateBlocksCollection(m_LevelVertices, "IceBlock.tga", "ice_block", offset, scene, true,10); 
+	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "ice_block", offset, scene, true,false,16); 
 
 }
 void Environment::CheckCollision()
@@ -277,15 +276,16 @@ void Environment::PushBlock()
 }
 
 void Environment::CreateBlocksCollection(std::vector<GameEngine::Block> blocks, const std::string& name,
-	const std::string& tag, int& offset, GameEngine::Scene* scene, bool IsBreakable,int clipTextureAmount)
+	const std::string& tag, int& offset, GameEngine::Scene* scene, bool IsBreakable, bool containsEggs,int clipTextureAmount)
 {
 	std::vector<GameEngine::Block> tempCollection = GameEngine::GetBlocksWithTag(m_LevelVertices, tag);
 
 	for (int i = 0; i < static_cast<int>(tempCollection.size()); ++i)
 	{
-		auto block = BaseBlock::CreateBlock(tempCollection[i].block[0], name, i + offset, IsBreakable, clipTextureAmount);
 
-		if (tag == "ice_block")
+		auto block = BaseBlock::CreateBlock(tempCollection[i].block[0], name, i + offset, IsBreakable, containsEggs, clipTextureAmount);
+
+		if (tag == "ice_block" || tag == "egg_block")
 		{
 			auto textureComponent = block->GetComponent<GameEngine::TextureComponent>();
 

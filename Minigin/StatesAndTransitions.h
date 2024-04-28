@@ -48,6 +48,18 @@ namespace GameEngine
 		virtual void Update(GameEngine::BlackboardComponent* pBlackboard) override;
 
 	};
+	class FlickeringBlockState : public GameEngine::FSMState
+	{
+	public:
+		FlickeringBlockState() = default;
+		~FlickeringBlockState() = default;
+
+		virtual void OnEnter(GameEngine::BlackboardComponent* pBlackboard) override;
+		virtual void OnExit(GameEngine::BlackboardComponent*) override;
+		virtual void Update(GameEngine::BlackboardComponent* pBlackboard) override;
+
+	};
+
 	class BreakingBlockState : public GameEngine::FSMState
 	{
 	public:
@@ -105,6 +117,15 @@ namespace GameEngine
 	public:
 		IsBlockNotBreaking() = default;
 		~IsBlockNotBreaking() = default;
+
+		virtual bool Evaluate(GameEngine::BlackboardComponent* pBlackboard) const override;
+	};
+
+	class IsBlockFinishedFlickering : public GameEngine::FSMCondition
+	{
+	public:
+		IsBlockFinishedFlickering() = default;
+		~IsBlockFinishedFlickering() = default;
 
 		virtual bool Evaluate(GameEngine::BlackboardComponent* pBlackboard) const override;
 	};
