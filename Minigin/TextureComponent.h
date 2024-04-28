@@ -12,7 +12,7 @@ namespace GameEngine
 	class TextureComponent : public BaseComponent
 	{
 	public:
-		TextureComponent(GameObject* GOptr, const std::string& filename);
+		TextureComponent(GameObject* GOptr, const std::string& filename, int textureClipAmount = 1);
 
 		TextureComponent(GameObject* GOptr);
 
@@ -26,9 +26,14 @@ namespace GameEngine
 			return m_Texture;
 		}
 		
+		int GetTextureClipAmount() const
+		{
+			return m_TextureClipAmount;
+		}
 	private:
 		std::shared_ptr<GameEngine::Texture2D> m_Texture;
 		std::string fileName;
+		int m_TextureClipAmount;
 	};
 }
 

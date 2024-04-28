@@ -16,7 +16,7 @@ class HitObserver;
 class BaseBlock final : public GameEngine::BaseComponent
 {
 public:
-	BaseBlock(GameEngine::GameObject* GOptr);
+	BaseBlock(GameEngine::GameObject* GOptr, int index, bool isBreakable, bool containsEggs);
 	~BaseBlock() = default;
 
 	BaseBlock(const BaseBlock& other) = delete;
@@ -44,28 +44,60 @@ public:
 		return m_PushSpeed;
 	}
 
-	static std::unique_ptr<GameEngine::GameObject> CreateBlock(const glm::vec3& position, const std::string& filename,
-		int blockSizeX = 20, int blockSizeY = 20, const glm::vec3& colliderBlockPos = glm::vec3{ 0,0,0 });
+	static std::unique_ptr<GameEngine::GameObject> CreateBlock(const glm::vec3& position, const std::string& filename, int index,
+		bool isBreakable = true, bool containsEggs = false,int clipAmount = 1,int blockSizeX = 20, int blockSizeY = 20,
+		const glm::vec3& colliderBlockPos = glm::vec3{ 0,0,0 });
 
+	int GetBlockIndex() const
+	{
+		
+		return m_BlockIndex;
+	}
+	void SetIsPushed(bool pushed)
+	{
+		m_Pushed = pushed;
+	}
 
+	bool GetIsPushed() const
+	{
+		return m_Pushed;
+	}
+
+	void Update() override;
+
+	const glm::vec3& GetDirection() const
+	{
+		return m_Direction;
+	}
+
+	bool GetIsBreakable() const
+	{
+		return m_IsBreakable;
+	}
+
+	bool GetContainsEggs() const
+	{
+		return m_ContainsEggs;
+	}
 private:
-
-	std::unique_ptr<GameEngine::GameObject> m_pGameObject;
 
 	static std::unique_ptr<GameEngine::StaticBlockState> m_pStaticBlockState;
 	static std::unique_ptr<GameEngine::BreakingBlockState> m_pBreakingBlockState;
 	static std::unique_ptr<GameEngine::IsBlockBreaking> m_pIsBlockBreaking;
 	static std::unique_ptr<GameEngine::IsBlockNotBreaking> m_pIsBlockNotBreaking;
-
+	static std::unique_ptr<GameEngine::IsBlockFinishedFlickering> m_pIsBlockFinishedFlickering;
+	static std::unique_ptr<GameEngine::FlickeringBlockState> m_pFlickeringBlockState;
+	
 	glm::vec3 m_Position;
 	glm::vec3 m_ColliderPosition;
 	float m_PushSpeed;
 
 	glm::vec3 m_Direction;
 
-	bool m_HasCollidedHor = false;
-
-
+	int m_BlockIndex;
+	bool m_Pushed{};
+	bool m_IsBreakable;
+	bool m_ContainsEggs;
 
 };
 

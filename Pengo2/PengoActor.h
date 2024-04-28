@@ -29,7 +29,7 @@ public:
 	}
 
 	HitObserver* GetHitObserver() const;
-	virtual std::unique_ptr<GameEngine::GameObject>& GetActorGameObject();
+	std::unique_ptr<GameEngine::GameObject>& GetActorGameObject();
 private:
 
 	std::unique_ptr<GameEngine::IdleState> m_IdleState;

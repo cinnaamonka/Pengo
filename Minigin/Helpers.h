@@ -16,9 +16,15 @@ namespace GameEngine
 {
 	using sound_id = unsigned short;
 
-	void GetVerticesFromJsonFile(std::string fileName, std::vector<std::vector<glm::vec3>>& m_Vertices, 
-		std::vector<std::vector<glm::vec3>>& m_VerticesSecondType, std::vector<std::vector<glm::vec3>>& m_BorderVertices);
+	struct Block
+	{
+		std::vector<glm::vec3> block;
+		std::string tag;
+	};
 
+	void GetVerticesFromJsonFile(std::string fileName, std::vector<Block>& m_BlockCollection);
+	std::vector<GameEngine::Block> GetBlocksWithTag(const std::vector<GameEngine::Block>& blocks, const std::string& tag);
+	
 	struct HitInfo
 	{
 		float lambda;
@@ -38,6 +44,8 @@ namespace GameEngine
 		int width;
 		int height;
 	};
+	
+
 	struct Sound
 	{
 		Sound() = default;

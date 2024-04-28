@@ -2,9 +2,7 @@
 
 namespace GameEngine
 {
-	void GetVerticesFromJsonFile(std::string fileName, std::vector<std::vector<glm::vec3>>& m_Vertices, 
-		std::vector<std::vector<glm::vec3>>& m_VerticesSecondType, 
-		std::vector<std::vector<glm::vec3>>& m_BorderVertices)
+	void GetVerticesFromJsonFile(std::string fileName, std::vector<Block>& m_BlockCollection)
 	{
 		std::filesystem::path currentPath = std::filesystem::current_path();
 		std::filesystem::path parentPath = currentPath.parent_path();
@@ -38,24 +36,16 @@ namespace GameEngine
 
 				const int size = 20;
 
-				std::vector<glm::vec3> block{};
-				block.push_back(position);
-				block.push_back({ position.x + size, position.y,0 });
-				block.push_back({ position.x, position.y + size,0 });
-				block.push_back({ position.x + size, position.y + size,0 });
+				Block block{};
 
-				if (type == "ice_block")
-				{
-					m_Vertices.push_back(block);
-				}
-				else if(type == "diamond_block")
-				{
-					m_VerticesSecondType.push_back(block);
-				}
-				else if (type == "border")
-				{
-					m_BorderVertices.push_back(block);
-				}
+				block.block.push_back({ position });
+				block.block.push_back(glm::vec3{ position.x + size, position.y,0 });
+				block.block.push_back(glm::vec3{ position.x, position.y + size,0 });
+				block.block.push_back(glm::vec3{ position.x + size, position.y + size,0 });
+
+				block.tag = type;
+
+				m_BlockCollection.push_back(block);
 			}
 		}
 		catch (const nlohmann::json::parse_error& e)
@@ -63,6 +53,19 @@ namespace GameEngine
 			std::cerr << "JSON Parsing error: " << e.what() << std::endl;
 			return;
 		}
+	}
+
+	std::vector<GameEngine::Block> GetBlocksWithTag(const std::vector<GameEngine::Block>& blocks, const std::string& tag)
+	{
+		std::vector<GameEngine::Block> blocksWithTag;
+
+		auto hasSpecifiedTag = [&tag](const GameEngine::Block& block) {
+			return block.tag == tag;
+			};
+
+		std::copy_if(blocks.begin(), blocks.end(), std::back_inserter(blocksWithTag), hasSpecifiedTag);
+
+		return blocksWithTag;
 	}
 
 	bool IsOverlapping(const Rect& r1, const Rect& r2)

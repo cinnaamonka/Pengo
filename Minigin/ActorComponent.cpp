@@ -13,7 +13,7 @@ namespace GameEngine
 		m_LifesAmount(3),
 		m_Speed(30.0f),
 		m_DestTextureRect{},
-		m_CanCollisionBeChecked(true)
+		m_CanCollisionBeChecked(false)
 	{
 		
 	}

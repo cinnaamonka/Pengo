@@ -26,30 +26,16 @@ namespace GameEngine
 		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("MovementDirection", m_Direction);
 	}
 
-	ScoreCommand::ScoreCommand(GameObject* pGameObject, int amount)
+	StopCollisionCheck::StopCollisionCheck(GameObject* pGameObject)
 		: GameObjectCommand(pGameObject)
-		, m_Amount(amount)
 	{
 	}
-	void GameEngine::ScoreCommand::Execute()
+	void GameEngine::StopCollisionCheck::Execute()
 	{
-		auto pScoreComponent = GetGameObject()->GetComponent<GameEngine::ActorComponent>();
-		if (pScoreComponent) pScoreComponent->AddScore(m_Amount);
+		GetGameObject()->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(false);
 
 	}
 
-	LifesCommand::LifesCommand(GameObject* pGameObject,int lifesAmount)
-		:GameObjectCommand(pGameObject),
-		m_LifesAmount(lifesAmount)
-
-	{
-
-	}
-	void LifesCommand::Execute()
-	{
-		auto pLivesComponent = GetGameObject()->GetComponent<GameEngine::ActorComponent>();
-		if (pLivesComponent) pLivesComponent->Damage(m_LifesAmount);
-	}
 	PushCommand::PushCommand(GameObject* gameObject):
 		GameObjectCommand(gameObject)
 	{

@@ -18,14 +18,15 @@ namespace GameEngine
 
 		}
 
-		void Attach(IObserver<T>* observerPtr) 
+		void Attach(IObserver<T>* observerPtr)
 		{
 			m_ObserversPtr.push_back(observerPtr);
 		}
 
-		void Detach(IObserver<T>* observerPtr) 
+		void Detach(IObserver<T>* observerPtr)
 		{
 			m_ObserversPtr.remove(observerPtr);
+			
 		}
 		void Notify()
 		{
@@ -34,6 +35,7 @@ namespace GameEngine
 			{
 				(*iterator)->Notify(m_Message);
 				++iterator;
+
 			}
 		}
 

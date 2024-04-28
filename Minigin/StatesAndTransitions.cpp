@@ -87,9 +87,9 @@ namespace GameEngine
 	}
 	void StaticBlockState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
 	{
-		pBlackboard->ChangeData("NumberOfFrames", 1); 
-		pBlackboard->ChangeData("HorizontalOffset", 0); 
-		pBlackboard->ChangeData("VerticalOffset", 0); 
+		pBlackboard->ChangeData("NumberOfFrames", 1);
+		pBlackboard->ChangeData("HorizontalOffset", 0);
+		pBlackboard->ChangeData("VerticalOffset", 0);
 	}
 	void StaticBlockState::OnExit(GameEngine::BlackboardComponent* pBlackboard)
 	{
@@ -99,20 +99,27 @@ namespace GameEngine
 	{
 		pBlackboard = pBlackboard;
 
-		AnimationUpdate(pBlackboard); 
+		AnimationUpdate(pBlackboard);
 	}
 
 	void BreakingBlockState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
 	{
 		pBlackboard->ChangeData("NumberOfFrames", 9);
 		pBlackboard->ChangeData("FramesPerSec", 10);
-		pBlackboard->ChangeData("HorizontalOffset", 1);
+		pBlackboard->ChangeData("HorizontalOffset", 7);
 		pBlackboard->ChangeData("VerticalOffset", 0);
 	}
 
 	void BreakingBlockState::OnExit(GameEngine::BlackboardComponent* pBlackboard)
 	{
-		pBlackboard->Destroy();
+		bool isDestroyed;
+		pBlackboard->GetData("Destroyed", isDestroyed);
+
+		if (isDestroyed)
+		{
+			pBlackboard->Destroy();
+		}
+
 	}
 
 	void BreakingBlockState::Update(GameEngine::BlackboardComponent* pBlackboard)
@@ -125,10 +132,124 @@ namespace GameEngine
 		int numberOfFrames;
 		pBlackboard->GetData("NumberOfFrames", numberOfFrames);
 
-		if (currentAnimationFrame == numberOfFrames-1)
+		if (currentAnimationFrame == numberOfFrames - 1)
 		{
 			pBlackboard->ChangeData("WasBlockDestroyed", false);
+			pBlackboard->ChangeData("Destroyed", true);
 		}
+	}
+
+	void FlickeringBlockState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
+	{
+		pBlackboard->ChangeData("NumberOfFrames", 6);
+		pBlackboard->ChangeData("FramesPerSec", 2);
+		pBlackboard->ChangeData("HorizontalOffset", 0);
+		pBlackboard->ChangeData("VerticalOffset", 0);
+	}
+
+	void FlickeringBlockState::Update(GameEngine::BlackboardComponent* pBlackboard)
+	{
+		AnimationUpdate(pBlackboard);
+
+		int animTimes;
+		pBlackboard->GetData("AnimationTimes", animTimes);
+
+		animTimes++;
+		pBlackboard->ChangeData("AnimationTimes", animTimes);
+
+	}
+
+	// ENEMY STATES
+	void AttackState::OnEnter(GameEngine::BlackboardComponent*)
+	{
+	}
+
+	void AttackState::OnExit(GameEngine::BlackboardComponent*)
+	{
+	}
+
+	void AttackState::Update(GameEngine::BlackboardComponent*)
+	{
+	}
+
+	void MovingState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
+	{
+		glm::vec3 movementDirection;
+		pBlackboard->GetData("MovementDirection", movementDirection);
+
+		if (movementDirection.x > 0 || movementDirection.x < 0)
+		{
+			pBlackboard->ChangeData("HorizontalOffset", 2);
+		}
+		else if (movementDirection.y < 0)
+		{
+			pBlackboard->ChangeData("HorizontalOffset", 0);
+		}
+		else if (movementDirection.y > 0)
+		{
+			pBlackboard->ChangeData("HorizontalOffset", 4);
+		}
+		pBlackboard->ChangeData("NumberOfFrames", 2);
+		pBlackboard->ChangeData("VerticalOffset", 1);
+	}
+
+	void MovingState::OnExit(GameEngine::BlackboardComponent*)
+	{
+
+	}
+
+	void MovingState::Update(GameEngine::BlackboardComponent* pBlackboard)
+	{
+		AnimationUpdate(pBlackboard);
+	}
+
+	//EGG STATES
+	void BreakingEggState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
+	{
+		
+		pBlackboard->ChangeData("NumberOfFrames", 2);
+		pBlackboard->ChangeData("FramesPerSec", 1);
+		pBlackboard->ChangeData("HorizontalOffset", 1);
+		pBlackboard->ChangeData("VerticalOffset", 0);
+	}
+
+	void BreakingEggState::OnExit(GameEngine::BlackboardComponent*)
+	{
+		
+	}
+
+	void BreakingEggState::Update(GameEngine::BlackboardComponent* pBlackboard)
+	{
+		AnimationUpdate(pBlackboard);
+
+		int currentAnimationFrame;
+		pBlackboard->GetData("AnimationFrame", currentAnimationFrame);
+
+		int numberOfFrames;
+		pBlackboard->GetData("NumberOfFrames", numberOfFrames);
+
+		if (currentAnimationFrame == numberOfFrames - 1)
+		{
+			pBlackboard->ChangeData("Destroyed", true);
+		}
+	}
+
+	void WaitingState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
+	{
+		pBlackboard->ChangeData("NumberOfFrames", 1);
+		pBlackboard->ChangeData("FramesPerSec", 1);
+		pBlackboard->ChangeData("HorizontalOffset", 0);
+		pBlackboard->ChangeData("VerticalOffset", 0);
+	}
+
+	void WaitingState::Update(GameEngine::BlackboardComponent* pBlackboard)
+	{
+		float timeOffset;
+		pBlackboard->GetData("TimeOffset", timeOffset);
+
+		timeOffset += GameEngine::TimeManager::GetElapsed();
+
+		pBlackboard->ChangeData("TimeOffset", timeOffset);
 	}
 
 	// conditions
@@ -169,7 +290,7 @@ namespace GameEngine
 		}
 		return true;
 	}
-	
+
 	void AnimationUpdate(GameEngine::BlackboardComponent* pBlackboard)
 	{
 		float animTime;
@@ -189,10 +310,8 @@ namespace GameEngine
 			++animFrame %= nrOfFrames;
 
 			animTime = 0;
-
-			pBlackboard->ChangeData("AnimationFrame", animFrame);
-			pBlackboard->ChangeData("AnimationTime", animTime);
 		}
+		pBlackboard->ChangeData("AnimationFrame", animFrame);
 		pBlackboard->ChangeData("AnimationTime", animTime);
 	}
 
@@ -209,7 +328,52 @@ namespace GameEngine
 		bool wasBlockDedtroyed;
 		pBlackboard->GetData("WasBlockDestroyed", wasBlockDedtroyed);
 
-		return !wasBlockDedtroyed; 
+		return !wasBlockDedtroyed;
+	}
+
+	bool IsBlockFinishedFlickering::Evaluate(GameEngine::BlackboardComponent* pBlackboard) const
+	{
+		int animTimes;
+		pBlackboard->GetData("AnimationTimes", animTimes);
+
+		return animTimes >= 150.f;
+	}
+
+	bool HasAttacked::Evaluate(GameEngine::BlackboardComponent*) const
+	{
+		return false;
+	}
+
+	bool HasNotAttacked::Evaluate(GameEngine::BlackboardComponent*) const
+	{
+		return false;
+	}
+
+	bool IsEggBroken::Evaluate(GameEngine::BlackboardComponent* pBlackboard) const
+	{
+		bool isDestroyed;
+		pBlackboard->GetData("Destroyed", isDestroyed);
+
+		return isDestroyed;
+	}
+
+	void BrokenEggState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
+	{
+		bool isDestroyed;
+		pBlackboard->GetData("Destroyed", isDestroyed);
+
+		if (isDestroyed)
+		{
+			pBlackboard->Destroy();
+		}
+	}
+	
+	bool IsWaiting::Evaluate(GameEngine::BlackboardComponent* pBlackboard) const
+	{
+		float timeOffset;
+		pBlackboard->GetData("TimeOffset", timeOffset);
+
+		return (timeOffset >= 1.0f);
 	}
 
 }

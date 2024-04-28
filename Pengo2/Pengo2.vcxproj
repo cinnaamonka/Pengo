@@ -186,10 +186,12 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="BaseBlock.cpp" />
     <ClCompile Include="CollisionComponent.cpp" />
+    <ClCompile Include="EggObserver.cpp" />
     <ClCompile Include="EnemyActor.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HitObserver.cpp" />
+    <ClCompile Include="BlockObserver.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PengoActor.cpp" />
     <ClCompile Include="PengoInputCommands.cpp" />
@@ -206,10 +208,12 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="BaseBlock.h" />
     <ClInclude Include="CollisionComponent.h" />
+    <ClInclude Include="EggObserver.h" />
     <ClInclude Include="EnemyActor.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HitObserver.h" />
+    <ClInclude Include="BlockObserver.h" />
     <ClInclude Include="PengoActor.h" />
     <ClInclude Include="PengoInputCommands.h" />
   </ItemGroup>

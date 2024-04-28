@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "TransformComponent.h"
+#include <memory>
 
 GameEngine::GameObject::GameObject() :
 	m_IsDestroyed(false),
@@ -22,19 +23,14 @@ GameEngine::GameObject::~GameObject()
 
 void GameEngine::GameObject::CleanUp()
 {
-	for (auto iterator = m_pComponents.begin(); iterator != m_pComponents.end();)
+	if (!this) return;
+	if (!m_IsDestroyed) return;
+
+	for (auto it = m_pComponents.begin(); it != m_pComponents.end(); ++it)
 	{
-		if ((*iterator)->IsDestroyed())
-		{
-			iterator = m_pComponents.erase(iterator);
-		}
-		else
-		{
-			iterator++;
-		}
+		(*it).release();
 	}
 }
-
 void GameEngine::GameObject::SetParent(GameObject* newParent, bool keepWorldPosition)
 {
 	if (IsValidParent(newParent))
@@ -94,16 +90,25 @@ void GameEngine::GameObject::Update()
 	{
 		if (auto* updatableComponent = dynamic_cast<BaseComponent*>(component.get()))
 		{
-			updatableComponent->Update();
+			if (updatableComponent != nullptr)
+			{
+				updatableComponent->Update();
+			}
+			
 		}
 	}
 }
 
 void GameEngine::GameObject::Render() const
 {
+	if (!this) return;
 	for (const auto& component : m_pComponents)
 	{
-		component->Render();
+		if (!component->IsDestroyed())
+		{
+			component->Render();
+
+		}
 	}
 }
 

@@ -3,15 +3,17 @@
 #include "ResourceManager.h"
 #include <iostream>
 
-GameEngine::TextureComponent::TextureComponent(GameObject* GOptr, const std::string& filename)  
-	: BaseComponent(GOptr), fileName(filename)
+GameEngine::TextureComponent::TextureComponent(GameObject* GOptr, const std::string& filename,int textureClipAmount)  
+	: BaseComponent(GOptr), fileName(filename),
+	m_TextureClipAmount(textureClipAmount)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
 	
 }
 
 GameEngine::TextureComponent::TextureComponent(GameObject* GOptr) 
-	: BaseComponent(GOptr), m_Texture(nullptr)
+	: BaseComponent(GOptr), m_Texture(nullptr),
+	m_TextureClipAmount(1)
 {
 	
 }

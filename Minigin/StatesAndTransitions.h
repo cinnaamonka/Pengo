@@ -48,6 +48,18 @@ namespace GameEngine
 		virtual void Update(GameEngine::BlackboardComponent* pBlackboard) override;
 
 	};
+	class FlickeringBlockState : public GameEngine::FSMState
+	{
+	public:
+		FlickeringBlockState() = default;
+		~FlickeringBlockState() = default;
+
+		virtual void OnEnter(GameEngine::BlackboardComponent* pBlackboard) override;
+		virtual void OnExit(GameEngine::BlackboardComponent*) override {};
+		virtual void Update(GameEngine::BlackboardComponent* pBlackboard) override;
+
+	};
+
 	class BreakingBlockState : public GameEngine::FSMState
 	{
 	public:
@@ -56,6 +68,66 @@ namespace GameEngine
 
 		virtual void OnEnter(GameEngine::BlackboardComponent* pBlackboard) override;
 		virtual void OnExit(GameEngine::BlackboardComponent* pBlackboard) override;
+		virtual void Update(GameEngine::BlackboardComponent* pBlackboard) override;
+
+	};
+
+	//ENEMY STATES
+	class MovingState : public GameEngine::FSMState
+	{
+	public:
+		MovingState() = default;
+		~MovingState() = default;
+
+		virtual void OnEnter(GameEngine::BlackboardComponent* pBlackboard) override;
+		virtual void OnExit(GameEngine::BlackboardComponent* pBlackboard) override;
+		virtual void Update(GameEngine::BlackboardComponent* pBlackboard) override;
+
+	};
+
+	class AttackState : public GameEngine::FSMState
+	{
+	public:
+		AttackState() = default;
+		~AttackState() = default;
+
+		virtual void OnEnter(GameEngine::BlackboardComponent* pBlackboard) override;
+		virtual void OnExit(GameEngine::BlackboardComponent* pBlackboard) override;
+		virtual void Update(GameEngine::BlackboardComponent* pBlackboard) override;
+
+	};
+
+	// EGG STATE
+	class BreakingEggState : public GameEngine::FSMState
+	{
+	public:
+		BreakingEggState() = default;
+		~BreakingEggState() = default;
+
+		virtual void OnEnter(GameEngine::BlackboardComponent* pBlackboard) override; 
+		virtual void OnExit(GameEngine::BlackboardComponent* pBlackboard) override;
+		virtual void Update(GameEngine::BlackboardComponent* pBlackboard) override; 
+
+	};
+	class BrokenEggState : public GameEngine::FSMState
+	{
+	public:
+		BrokenEggState() = default;
+		~BrokenEggState() = default;
+
+		virtual void OnEnter(GameEngine::BlackboardComponent* pBlackboard) override;
+		virtual void OnExit(GameEngine::BlackboardComponent*) override {};
+		virtual void Update(GameEngine::BlackboardComponent*) override {};
+
+	};
+	class WaitingState : public GameEngine::FSMState
+	{
+	public:
+		WaitingState() = default;
+		~WaitingState() = default;
+
+		virtual void OnEnter(GameEngine::BlackboardComponent* pBlackboard) override;
+		virtual void OnExit(GameEngine::BlackboardComponent*) override {};
 		virtual void Update(GameEngine::BlackboardComponent* pBlackboard) override;
 
 	};
@@ -105,6 +177,51 @@ namespace GameEngine
 	public:
 		IsBlockNotBreaking() = default;
 		~IsBlockNotBreaking() = default;
+
+		virtual bool Evaluate(GameEngine::BlackboardComponent* pBlackboard) const override;
+	};
+
+	class IsBlockFinishedFlickering : public GameEngine::FSMCondition
+	{
+	public:
+		IsBlockFinishedFlickering() = default;
+		~IsBlockFinishedFlickering() = default;
+
+		virtual bool Evaluate(GameEngine::BlackboardComponent* pBlackboard) const override;
+	};
+
+	//ENEMY CONDITIONS
+	class HasAttacked : public GameEngine::FSMCondition
+	{
+	public:
+		HasAttacked() = default;
+		~HasAttacked() = default;
+
+		virtual bool Evaluate(GameEngine::BlackboardComponent* pBlackboard) const override;
+	};
+	class HasNotAttacked : public GameEngine::FSMCondition
+	{
+	public:
+		HasNotAttacked() = default;
+		~HasNotAttacked() = default;
+
+		virtual bool Evaluate(GameEngine::BlackboardComponent* pBlackboard) const override;
+	};
+
+	// EGG CONDITION
+	class IsEggBroken : public GameEngine::FSMCondition
+	{
+	public:
+		IsEggBroken() = default;
+		~IsEggBroken() = default;
+
+		virtual bool Evaluate(GameEngine::BlackboardComponent* pBlackboard) const override;
+	};
+	class IsWaiting : public GameEngine::FSMCondition
+	{
+	public:
+		IsWaiting() = default;
+		~IsWaiting() = default;
 
 		virtual bool Evaluate(GameEngine::BlackboardComponent* pBlackboard) const override;
 	};
