@@ -21,7 +21,9 @@ namespace GameEngine
 			m_SoundQueue{},
 			m_pSoundEffects{},
 			m_ActiveAudio{ static_cast<size_t>(MIX_CHANNELS), nullptr }
-		{};
+		{
+			m_Thread = std::jthread([this] { LoopFunction(); });
+		};
 		void Load(const std::string& filePath, sound_id id)
 		{
 			Mix_Chunk* soundEffect = Mix_LoadWAV(filePath.c_str());
@@ -36,33 +38,6 @@ namespace GameEngine
 			m_pSoundEffects.insert({ id, std::shared_ptr<Mix_Chunk>(soundEffect, Mix_FreeChunk) });
 		}
 
-		void Update()
-		{
-			{
-				std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
-
-				if (m_SoundQueue.GetPending() == 0)
-					return;
-			}
-
-			if (m_AsyncResult.valid())
-			{
-				std::cout << "Waiting for previous task to complete..." << std::endl;
-
-				// not necessary to call get() here because of launch policy
-				// , but before program ends makes the behavior clearer and can throw exceptions
-				m_AsyncResult.get();
-				std::cout << "Previous task completed." << std::endl;
-
-			}
-			std::cout << "Launching new task..." << std::endl;
-
-			m_AsyncResult = std::async(std::launch::async, [this] { AsyncUpdate(); });
-
-			std::cout << "New task launched." << std::endl;
-
-
-		}
 		void Play(const sound_id id, const float volume)
 		{
 			m_SoundQueue.PushBack({ id, volume });
@@ -123,9 +98,12 @@ namespace GameEngine
 	private:
 		void AsyncUpdate()
 		{
+			if (m_SoundQueue.GetPending() == 0) return;
+
 			std::cout << "Task started." << std::endl;
 			std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
 
+		
 			Sound sound = m_SoundQueue.GetFront();
 			std::shared_ptr<Mix_Chunk> pChunk = nullptr;
 
@@ -156,13 +134,27 @@ namespace GameEngine
 			std::cout << "Task completed." << std::endl;
 		}
 	private:
+		void LoopFunction ()
+		{
+			{
+				std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
+			}
 
+			std::cout << "dslokn" << std::endl;
+
+			while (true)
+			{
+				AsyncUpdate();
+			}
+				
+		}
 		// use shared ptr because the sounds should finish playing before being destroyed
 		RingBuffer<Sound, 16> m_SoundQueue;
 		std::unordered_map<sound_id, std::shared_ptr<Mix_Chunk>> m_pSoundEffects;
 		std::vector<std::shared_ptr<Mix_Chunk>> m_ActiveAudio;
 		std::mutex m_SoundEffectsMutex;
 		std::future<void> m_AsyncResult;
+		std::jthread m_Thread;
 	};
 
 	SoundSystem::SoundSystem() :
@@ -211,10 +203,6 @@ namespace GameEngine
 	void SoundSystem::Load(const std::string& filePath, const sound_id id)
 	{
 		m_pImpl->Load(filePath, id);
-	}
-	void SoundSystem::Update()
-	{
-		m_pImpl->Update();
 	}
 
 	bool SoundSystem::Contains(const sound_id id) const

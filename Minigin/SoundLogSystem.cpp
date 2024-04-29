@@ -47,11 +47,6 @@ void GameEngine::SoundLogSystem::Load(const std::string& filePath, const sound_i
 	pSoundSystem->Load(filePath, id);
 }
 
-void GameEngine::SoundLogSystem::Update()
-{
-	pSoundSystem->Update();
-}
-
 bool GameEngine::SoundLogSystem::Contains(const sound_id id) const
 {
 	return pSoundSystem->Contains(id);

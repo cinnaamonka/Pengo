@@ -4,23 +4,23 @@
     <Filter Include="Components">
       <UniqueIdentifier>{d4b15414-1b60-4e36-96d5-a4436ee984fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine">
-      <UniqueIdentifier>{cf990e42-b100-434f-820c-f5e54e491794}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Main">
       <UniqueIdentifier>{3499405e-8db5-4e9d-b4b0-9a8bf543abe5}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameObjects">
       <UniqueIdentifier>{87d57146-d6ab-4140-9291-9e66f43b14c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Input">
-      <UniqueIdentifier>{529a49d8-65d9-401e-8b5c-afa1e2ef06e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Event">
-      <UniqueIdentifier>{ced40782-a4eb-497c-840f-559806b71953}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sound">
       <UniqueIdentifier>{043357dd-09c5-4ab1-8901-949a888f639c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Engine">
+      <UniqueIdentifier>{cf990e42-b100-434f-820c-f5e54e491794}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Engine\Input">
+      <UniqueIdentifier>{529a49d8-65d9-401e-8b5c-afa1e2ef06e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Engine\Event">
+      <UniqueIdentifier>{ced40782-a4eb-497c-840f-559806b71953}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -46,28 +46,28 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
-      <Filter>Engine</Filter>
+      <Filter>Components\Engine</Filter>
     </ClInclude>
     <ClInclude Include="TimeManager.h">
-      <Filter>Engine</Filter>
+      <Filter>Components\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
-      <Filter>Engine</Filter>
+      <Filter>Components\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
-      <Filter>Engine</Filter>
+      <Filter>Components\Engine</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>Engine</Filter>
+      <Filter>Components\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Engine</Filter>
+      <Filter>Components\Engine</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
-      <Filter>Engine</Filter>
+      <Filter>Components\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>Engine</Filter>
+      <Filter>Components\Engine</Filter>
     </ClInclude>
     <ClInclude Include="RotationComponent.h">
       <Filter>Components</Filter>
@@ -76,34 +76,34 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Controller.h">
-      <Filter>Engine\Input</Filter>
+      <Filter>Components\Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="BaseCommand.h">
-      <Filter>Engine\Input</Filter>
+      <Filter>Components\Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
-      <Filter>Engine\Input</Filter>
+      <Filter>Components\Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="GameObjectCommand.h">
-      <Filter>Engine\Input</Filter>
+      <Filter>Components\Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="InputCommands.h">
-      <Filter>Engine\Input</Filter>
+      <Filter>Components\Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h">
-      <Filter>Engine\Input</Filter>
+      <Filter>Components\Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="BaseInputDevice.h">
-      <Filter>Engine\Input</Filter>
+      <Filter>Components\Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="ScoreObserver.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Subject.h">
-      <Filter>Engine\Event</Filter>
+      <Filter>Components\Engine\Event</Filter>
     </ClInclude>
     <ClInclude Include="IObserver.h">
-      <Filter>Engine\Event</Filter>
+      <Filter>Components\Engine\Event</Filter>
     </ClInclude>
     <ClInclude Include="ActorComponent.h">
       <Filter>Components</Filter>
@@ -177,25 +177,25 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Components\Engine</Filter>
     </ClCompile>
     <ClCompile Include="TimeManager.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Components\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Components\Engine</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Components\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Components\Engine</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Components\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Components\Engine</Filter>
     </ClCompile>
     <ClCompile Include="RotationComponent.cpp">
       <Filter>Components</Filter>
@@ -204,16 +204,16 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Controller.cpp">
-      <Filter>Engine\Input</Filter>
+      <Filter>Components\Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>Engine\Input</Filter>
+      <Filter>Components\Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="InputCommands.cpp">
-      <Filter>Engine\Input</Filter>
+      <Filter>Components\Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="Keyboard.cpp">
-      <Filter>Engine\Input</Filter>
+      <Filter>Components\Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="ScoreObserver.cpp">
       <Filter>Components</Filter>

@@ -93,6 +93,10 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
 
 				m_PushBlockIndex = -1;
+
+				auto& soundSystem = GameEngine::SoundServiceLocator::GetSoundSystemInstance();
+				soundSystem.Load("../Data/Sound/test.wav", 0);
+				soundSystem.Play(0, 20.f);
 			}
 
 
