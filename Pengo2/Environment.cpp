@@ -66,83 +66,103 @@ void Environment::CheckCollision()
 void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 {
 	GameEngine::HitInfo hitInfo{};
-
-	BaseBlock* const currentBaseBlock = pGameObject->GetComponent<BaseBlock>();
-	HitObserver* const currentHitObserver = pGameObject->GetComponent<HitObserver>();
-
-	const bool isMovingHorizontally = currentBaseBlock->GetDirection().x != 0;
-	const bool isMovingVertically = currentBaseBlock->GetDirection().y != 0;
-
-	bool collisionDetected = false;
-
-	for (GameEngine::GameObject* const block : m_pBlocks)
+	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
-		if (block->IsDestroyed()) continue;
+		if (m_pBlocks[i]->IsDestroyed()) continue;
 
-		BaseBlock* const blockBaseBlock = block->GetComponent<BaseBlock>();
-
-		if (blockBaseBlock->GetBlockIndex() == currentBaseBlock->GetBlockIndex()) continue;
-
-		CollisionComponent* const collisionComponent = block->GetComponent<CollisionComponent>();
-
-		const bool isCollidingHorizontally = isMovingHorizontally && collisionComponent->IsBlockNearbyHorizontally(pGameObject, hitInfo);
-		const bool isCollidingVertically = isMovingVertically && collisionComponent->IsBlockNearbyVertically(pGameObject, hitInfo);
-
-		if (isCollidingHorizontally || isCollidingVertically)
+		// IF NOT THE SAME BLOCK
+		if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetBlockIndex() == pGameObject->GetComponent<BaseBlock>()->GetBlockIndex())
 		{
-			collisionDetected = true;
-			break;
-		}
-	}
+			continue;
+		};
 
-	if (!collisionDetected)
-	{
-		CollisionComponent* const borderCollisionComponent = m_pBorderBlock->GetComponent<CollisionComponent>();
-
-		const bool isCollidingHorizontallyWithBorder = isMovingHorizontally && borderCollisionComponent->IsBlockNearbyHorizontally(pGameObject, hitInfo);
-		const bool isCollidingVerticallyWithBorder = isMovingVertically && borderCollisionComponent->IsBlockNearbyVertically(pGameObject, hitInfo);
-
-		if (isCollidingHorizontallyWithBorder || isCollidingVerticallyWithBorder)
+		// IF BLOCK MOVER HORZONTALY
+		if (pGameObject->GetComponent<BaseBlock>()->GetDirection().x != 0)
 		{
-			collisionDetected = true;
+			// CHECK IF THERE IS SOMETHING NEARBY HORIZONTALLY
+			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(pGameObject, hitInfo))
+			{
+				const BlockCollisionInfo& info
+				{
+					pGameObject->GetComponent<BaseBlock>()->GetBlockIndex(),
+					hitInfo,
+					false
+				};
+				// NOTIFY OBSERVERS
+				m_BlockCollisionInfo.CreateMessage(info);
+				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
+
+				m_PushBlockIndex = -1;
+
+				auto& soundSystem = GameEngine::SoundServiceLocator::GetSoundSystemInstance();
+				soundSystem.Load("../Data/Sound/test.wav", 0);
+				soundSystem.Play(0, 20.f);
+			}
+
+
 		}
+		// IF BLOCK MOVER VERTICALLY
+		else if (pGameObject->GetComponent<BaseBlock>()->GetDirection().y != 0)
+		{
+			// CHECK IF THERE IS SOMETHING NEARBY VERTICALLY
+			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(pGameObject, hitInfo))
+			{
+				const BlockCollisionInfo& info
+				{
+					pGameObject->GetComponent<BaseBlock>()->GetBlockIndex(),
+					hitInfo,
+					false
+				};
+
+				// NOTIFY OBSERVERS
+				m_BlockCollisionInfo.CreateMessage(info);
+				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
+
+				m_PushBlockIndex = -1;
+
+			}
+		}
+
+		// IF BLOCK MOVES HORISONTALLY
+		if (pGameObject->GetComponent<BaseBlock>()->GetDirection().x != 0)
+		{
+			// CHECK BORDER COLLISION HORISONTALLY
+			if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(pGameObject, hitInfo))
+			{
+				const BlockCollisionInfo& info
+				{
+					pGameObject->GetComponent<BaseBlock>()->GetBlockIndex(),
+					hitInfo,
+					false
+				};
+
+				m_BlockCollisionInfo.CreateMessage(info);
+				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
+
+
+			}
+		}
+		if (pGameObject->GetComponent<BaseBlock>()->GetDirection().y != 0)
+		{
+			// CHECK BORDER COLLISION VERTICALLY
+			if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(pGameObject, hitInfo))
+			{
+				const BlockCollisionInfo& info
+				{
+					pGameObject->GetComponent<BaseBlock>()->GetBlockIndex(),
+					hitInfo,
+					false
+				};
+
+				m_BlockCollisionInfo.CreateMessage(info);
+				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
+
+			}
+		}
+
 	}
 
-	if (collisionDetected)
-	{
-		NotifyCollision(currentBaseBlock->GetBlockIndex(), hitInfo, currentHitObserver);
-		PlayCollisionSound();
-	}
 }
-
-
-
-void Environment::NotifyCollision(int blockIndex, const GameEngine::HitInfo& hitInfo, HitObserver* hitObserver, bool isPushed, int pushBlockIndex)
-{
-	const BlockCollisionInfo info{
-		blockIndex,
-		hitInfo,
-		isPushed
-	};
-
-	m_BlockCollisionInfo.CreateMessage(info);
-
-	if (hitObserver)
-	{
-		hitObserver->Notify(info.hitInfo);
-	}
-
-	m_PushBlockIndex = pushBlockIndex;
-}
-
-void Environment::PlayCollisionSound()
-{
-	auto& soundSystem = GameEngine::SoundServiceLocator::GetSoundSystemInstance();
-	soundSystem.Load("../Data/Sound/test.wav", 0);
-	soundSystem.Play(0, 20.f);
-}
-
-
 void Environment::Update()
 {
 	CheckCollision();
@@ -170,72 +190,114 @@ void Environment::PushBlock()
 	GameEngine::HitInfo hitInfo;
 
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
-
 	{
-		GameEngine::TransformComponent* const transformComponent = m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>();
-		GameEngine::BlackboardComponent* const blackboardComponent = m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>();
-
-		CollisionComponent* const blockCollisionComponent = m_pBlocks[i]->GetComponent<CollisionComponent>();
-		CollisionComponent* const borderCollisionComponent = m_pBorderBlock->GetComponent<CollisionComponent>();
-
-		BaseBlock* const baseBlockComponent = m_pBlocks[i]->GetComponent<BaseBlock>();
-
-		bool isBlockNearbyPlayerVertically = blockCollisionComponent->IsBlockNearbyVertically(m_pPlayer, hitInfo);
-		const bool isBlockNearbyBorderVertically = borderCollisionComponent->IsBlockNearbyVertically(m_pBlocks[i], hitInfo);
-
-		bool isBlockNearbyPlayerHorizontally = blockCollisionComponent->IsBlockNearbyHorizontally(m_pPlayer, hitInfo);
-		const bool isBlockNearbyBorderHorizontally = borderCollisionComponent->IsBlockNearbyHorizontally(m_pBlocks[i], hitInfo);
-
-		const bool isBlockBreakable = baseBlockComponent->GetIsBreakable();
-		const bool hasEggs = baseBlockComponent->GetContainsEggs();
-
-		if ((isBlockNearbyPlayerVertically && isBlockNearbyBorderVertically) ||
-			(isBlockNearbyPlayerHorizontally && isBlockNearbyBorderHorizontally))
+		// CHECK IF BLOCK COLLIDES WITH SOMETHING WHEN IT IS STATIC 
+		if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pPlayer, hitInfo))
 		{
-			if (isBlockBreakable)
+			if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pBlocks[i], hitInfo))
 			{
-				blackboardComponent->ChangeData("WasBlockDestroyed", true);
-
-				if (hasEggs)
+				if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsBreakable())
 				{
-					m_EggSpawnEvent.CreateMessage(transformComponent->GetLocalPosition());
+					// ONLY IF BREAKABLE
+					m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+
+					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
+					{
+						m_EggSpawnEvent.CreateMessage(m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
+					}
+
 				}
+
+				return;
 			}
 
-			return;
+			bool canBlockBePushed = true;
+			for (int j = 0; j < static_cast<int>(m_pBlocks.size()); ++j)
+			{
+				if (m_pBlocks[i] == m_pBlocks[j]) continue;
+				if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pBlocks[j], hitInfo))
+				{
+					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsBreakable())
+					{
+						m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+
+						// ONLY IF BREAKABLE
+						if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
+						{
+							m_EggSpawnEvent.CreateMessage(m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
+						}
+
+					}
+
+
+					canBlockBePushed = false;
+					break;
+				}
+			}
+			if (!canBlockBePushed) return;
+
+			const BlockCollisionInfo& info
+			{
+				i,
+				hitInfo,
+				true
+			};
+
+			m_BlockCollisionInfo.CreateMessage(info);
+			m_PushBlockIndex = i;
+			break;
 		}
 
-		isBlockNearbyPlayerVertically = blockCollisionComponent->IsBlockNearbyVertically(m_pPlayer, hitInfo);
-		isBlockNearbyPlayerHorizontally = blockCollisionComponent->IsBlockNearbyHorizontally(m_pPlayer, hitInfo);
-
-		if (isBlockNearbyPlayerVertically || isBlockNearbyPlayerHorizontally)
+		if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pPlayer, hitInfo))
 		{
+			if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pBlocks[i], hitInfo))
+			{
+				if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsBreakable())
+				{
+					// ONLY IF BREAKABLE
+					m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+
+					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
+					{
+						m_EggSpawnEvent.CreateMessage(m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
+					}
+
+				}
+				return;
+			}
 			bool canBlockBePushed = true;
 
 			for (int j = 0; j < static_cast<int>(m_pBlocks.size()); ++j)
 			{
 				if (m_pBlocks[i] == m_pBlocks[j]) continue;
 
-				const bool isBlockNearby = isBlockNearbyPlayerVertically ? blockCollisionComponent->IsBlockNearbyVertically(m_pBlocks[j], hitInfo) : 
-					                                                       blockCollisionComponent->IsBlockNearbyHorizontally(m_pBlocks[j], hitInfo);
-				if (isBlockNearby && isBlockBreakable)
+				if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pBlocks[j], hitInfo))
 				{
-					blackboardComponent->ChangeData("WasBlockDestroyed", true);
-
-					if (hasEggs)
-					{
-						m_EggSpawnEvent.CreateMessage(transformComponent->GetLocalPosition());
-					}
-
 					canBlockBePushed = false;
+					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsBreakable())
+					{
+						// ONLY IF BREAKABLE
+						m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+
+						if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
+						{
+							m_EggSpawnEvent.CreateMessage(m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
+						}
+
+					}
 					break;
 				}
 			}
-
 			if (!canBlockBePushed) return;
+			const BlockCollisionInfo& info
+			{
+				i,
+				hitInfo,
+				true
+			};
 
-			NotifyCollision(i, hitInfo, nullptr, true, i);
-
+			m_BlockCollisionInfo.CreateMessage(info);
+			m_PushBlockIndex = i;
 			break;
 		}
 	}

@@ -40,7 +40,13 @@ namespace GameEngine
 
 		void Play(const sound_id id, const float volume)
 		{
+
+			std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
 			m_SoundQueue.PushBack({ id, volume });
+
+			// Notify the condition variable after adding to the queue
+			m_ConditionalVariable.notify_one();
+
 		}
 		bool Contains(const sound_id id) const
 		{
@@ -98,12 +104,8 @@ namespace GameEngine
 	private:
 		void AsyncUpdate()
 		{
-			if (m_SoundQueue.GetPending() == 0) return;
-
 			std::cout << "Task started." << std::endl;
-			std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
 
-		
 			Sound sound = m_SoundQueue.GetFront();
 			std::shared_ptr<Mix_Chunk> pChunk = nullptr;
 
@@ -134,27 +136,26 @@ namespace GameEngine
 			std::cout << "Task completed." << std::endl;
 		}
 	private:
-		void LoopFunction ()
+		void LoopFunction()
 		{
-			{
-				std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
-			}
-
-			std::cout << "dslokn" << std::endl;
-
 			while (true)
 			{
-				AsyncUpdate();
+				{
+					std::unique_lock<std::mutex> lock(m_SoundEffectsMutex);
+					m_ConditionalVariable.wait(lock, [this] { return m_SoundQueue.GetPending() != 0; });
+
+					AsyncUpdate();
+				}
 			}
-				
+
 		}
 		// use shared ptr because the sounds should finish playing before being destroyed
 		RingBuffer<Sound, 16> m_SoundQueue;
 		std::unordered_map<sound_id, std::shared_ptr<Mix_Chunk>> m_pSoundEffects;
 		std::vector<std::shared_ptr<Mix_Chunk>> m_ActiveAudio;
 		std::mutex m_SoundEffectsMutex;
-		std::future<void> m_AsyncResult;
 		std::jthread m_Thread;
+		std::condition_variable m_ConditionalVariable;
 	};
 
 	SoundSystem::SoundSystem() :
