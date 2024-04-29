@@ -43,7 +43,7 @@ public:
 	template<typename T>
 	void AttachObserver(GameEngine::IObserver<T>* pObserver)
 	{
-		if constexpr (std::is_same_v<T, GameEngine::HitInfo>) 
+		if constexpr (std::is_same_v<T, GameEngine::HitInfo>)
 		{
 			m_CollisionHitInfoChanged.Attach(pObserver);
 		}
@@ -57,10 +57,13 @@ public:
 
 	void CreateBlocksCollection(std::vector<GameEngine::Block> blocks, const std::string& name, const std::string& tag,
 		int& offset, GameEngine::Scene* scene, bool IsBreakable, bool containsEggs = false, int clipTextureAmount = 1);
-	
+
+	void NotifyCollision(int blockIndex, const GameEngine::HitInfo& hitInfo, HitObserver* hitObserver, bool isPushed = false, int pushBlockIndex = -1);
+	void PlayCollisionSound();
+
 private:
 	std::vector<GameEngine::GameObject*> m_pBlocks;
-	
+
 	std::vector<GameEngine::Block> m_LevelVertices;
 
 	GameEngine::GameObject* m_pPlayer;
@@ -68,7 +71,7 @@ private:
 
 	GameEngine::Subject<GameEngine::HitInfo> m_CollisionHitInfoChanged;
 	GameEngine::Subject<BlockCollisionInfo> m_BlockCollisionInfo;
-	GameEngine::Subject<glm::vec3> m_EggSpawnEvent; 
+	GameEngine::Subject<glm::vec3> m_EggSpawnEvent;
 
 	int m_PushBlockIndex = -1;
 
