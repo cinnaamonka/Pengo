@@ -72,11 +72,15 @@ public:
 
 	bool GetIsBreakable() const
 	{
+		if (!this) return false;
+
 		return m_IsBreakable;
 	}
 
 	bool GetContainsEggs() const
 	{
+		if (!this) return false;
+
 		return m_ContainsEggs;
 	}
 private:
