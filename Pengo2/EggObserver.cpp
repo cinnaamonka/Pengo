@@ -57,7 +57,7 @@ void EggObserver::Notify(const glm::vec3& message_from_subject)
 	m_IsEggAnimationWaiting = std::make_unique<GameEngine::IsWaiting>();
 
 	gameObject->AddComponent<GameEngine::FSM>(m_WaitingEggState.get(),
-		gameObject->GetComponent<GameEngine::BlackboardComponent>());
+		gameObject->GetComponent<GameEngine::BlackboardComponent>(),"Animation");
 
 	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_WaitingEggState.get(), m_BreakingEggState.get(),
 		m_IsEggAnimationWaiting.get());

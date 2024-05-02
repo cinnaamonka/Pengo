@@ -6,10 +6,11 @@
 
 namespace GameEngine
 {
-	GameEngine::FSM::FSM(GameObject* pGameObject, FSMState* startState, BlackboardComponent* pBlackboard):
+	GameEngine::FSM::FSM(GameObject* pGameObject, FSMState* startState, BlackboardComponent* pBlackboard, const std::string& tag):
 		BaseComponent(pGameObject),
 		m_pCurrentState(nullptr),
-		m_pBlackboard(pBlackboard)
+		m_pBlackboard(pBlackboard),
+		m_StateMachineTag(tag)
 	{
 		ChangeState(startState);
 	}

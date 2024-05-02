@@ -55,6 +55,9 @@
     <ClCompile Include="StatesAndTransitionsAI.cpp">
       <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClCompile>
+    <ClCompile Include="AIMovementComponent.cpp">
+      <Filter>GameFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -92,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="StatesAndTransitionsAI.h">
       <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClInclude>
+    <ClInclude Include="AIMovementComponent.h">
+      <Filter>GameFiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

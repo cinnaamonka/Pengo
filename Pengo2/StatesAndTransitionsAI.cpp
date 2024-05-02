@@ -1,6 +1,6 @@
 #include "StatesAndTransitionsAI.h"
 
-void PatrolState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
+void PatrolState::OnEnter(GameEngine::BlackboardComponent*)
 {
 
 }

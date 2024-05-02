@@ -35,9 +35,10 @@ EnemyActor::EnemyActor()
 	m_IsPengoAttacked = std::make_unique <GameEngine::HasAttacked>();
 	m_IsPengoNotAttacked = std::make_unique<GameEngine::HasNotAttacked>();
 
-	m_pEnemy->AddComponent<GameEngine::FSM>(m_RunningState.get(), m_pEnemy->GetComponent<GameEngine::BlackboardComponent>());
+	m_pEnemy->AddComponent<GameEngine::FSM>(m_RunningState.get(), m_pEnemy->GetComponent<GameEngine::BlackboardComponent>(),"Animation");
 	m_pEnemy->GetComponent<GameEngine::FSM>()->AddTransition(m_RunningState.get(), m_PushingState.get(), m_IsPengoAttacked.get());
 	m_pEnemy->GetComponent<GameEngine::FSM>()->AddTransition(m_PushingState.get(), m_RunningState.get(), m_IsPengoNotAttacked.get());
+
 
 	// DESIGN CHOICE
 	// add new state machine and just add new states
@@ -46,7 +47,7 @@ EnemyActor::EnemyActor()
 	m_ChaseState = std::make_unique<ChaseState>();
 	m_HasNoticedActor = std::make_unique<HasNoticedActor>();
 
-	m_pEnemy->AddComponent<GameEngine::FSM>(m_MovingState.get(), m_pEnemy->GetComponent<GameEngine::BlackboardComponent>());
+	m_pEnemy->AddComponent<GameEngine::FSM>(m_MovingState.get(), m_pEnemy->GetComponent<GameEngine::BlackboardComponent>(),"AI");
 	m_pEnemy->GetComponent<GameEngine::FSM>()->AddTransition(m_MovingState.get(), m_ChaseState.get(), m_HasNoticedActor.get());
 }
 

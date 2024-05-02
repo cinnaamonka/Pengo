@@ -183,6 +183,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AIMovementComponent.cpp" />
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="BaseBlock.cpp" />
     <ClCompile Include="CollisionComponent.cpp" />
@@ -206,6 +207,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AIMovementComponent.h" />
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="BaseBlock.h" />
     <ClInclude Include="CollisionComponent.h" />

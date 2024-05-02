@@ -13,7 +13,7 @@ namespace GameEngine
 	class FSM : public BaseComponent
 	{
 	public:
-		FSM(GameObject* pGameObject, FSMState* startState, BlackboardComponent* pBlackboard);
+		FSM(GameObject* pGameObject, FSMState* startState, BlackboardComponent* pBlackboard,const std::string& tag);
 		virtual ~FSM() = default;
 
 		void AddTransition(FSMState* startState, FSMState* toState, FSMCondition* transition);
@@ -25,6 +25,10 @@ namespace GameEngine
 		FSM(FSM&& other) noexcept = delete;
 		FSM& operator=(FSM&& other) noexcept = delete;
 
+	
+		const std::string& GetTag() const { return m_StateMachineTag; }
+		void SetTag(const std::string& tag) { m_StateMachineTag = tag; }
+
 	private:
 		void ChangeState(FSMState* newState);
 	private:
@@ -34,6 +38,8 @@ namespace GameEngine
 		std::map<FSMState*, Transitions> m_Transitions;
 		FSMState* m_pCurrentState;
 		BlackboardComponent* m_pBlackboard = nullptr;
+
+		std::string m_StateMachineTag;
 	};
 
 }
