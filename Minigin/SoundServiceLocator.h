@@ -1,12 +1,13 @@
 #pragma once
 #include <memory>
+#include "Singleton.h"
 #include "BaseSoundSystem.h"
 
 namespace GameEngine
 {
 	class BaseSoundSystem;
 
-	class SoundServiceLocator final
+	class SoundServiceLocator final : public Singleton<SoundServiceLocator>
 	{
 	public:
 		
