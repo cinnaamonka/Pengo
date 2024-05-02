@@ -4,6 +4,7 @@
 #include <Helpers.h>
 #include <memory>
 #include <StatesAndTransitions.h>
+#include "StatesAndTransitionsAI.h"
 
 class EnemyActor final
 {
@@ -26,6 +27,10 @@ private:
 
 	std::unique_ptr<GameEngine::MovingState> m_RunningState; 
 	std::unique_ptr<GameEngine::AttackState> m_PushingState; 
+
+	std::unique_ptr<PatrolState> m_MovingState;
+	std::unique_ptr<ChaseState> m_ChaseState;
+	std::unique_ptr<HasNoticedActor> m_HasNoticedActor;
 
 	std::unique_ptr<GameEngine::HasAttacked> m_IsPengoAttacked;
 	std::unique_ptr<GameEngine::HasNotAttacked> m_IsPengoNotAttacked;

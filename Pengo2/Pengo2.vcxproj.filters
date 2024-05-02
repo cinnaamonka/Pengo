@@ -11,6 +11,9 @@
     <Filter Include="GameFiles\Input">
       <UniqueIdentifier>{22883ee6-95b2-4f52-a43e-bf3ebb3b555f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameFiles\StatesAndTransitions">
+      <UniqueIdentifier>{15e94872-f61e-4cbb-a43b-33164bb463b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -49,6 +52,9 @@
     <ClCompile Include="EggObserver.cpp">
       <Filter>GameFiles\Observers</Filter>
     </ClCompile>
+    <ClCompile Include="StatesAndTransitionsAI.cpp">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -83,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="EggObserver.h">
       <Filter>GameFiles\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="StatesAndTransitionsAI.h">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

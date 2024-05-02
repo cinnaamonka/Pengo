@@ -99,6 +99,7 @@ namespace GameEngine
 			Mix_CloseAudio();
 			Mix_Quit();
 			SDL_Quit();
+			m_Thread.detach();
 		}
 		~SoundSystemImpl() = default;
 	private:
