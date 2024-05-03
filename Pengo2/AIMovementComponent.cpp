@@ -10,10 +10,12 @@ AIMovementComponent::AIMovementComponent(GameEngine::GameObject* pGameObject):
 
 void AIMovementComponent::Update()
 {
-	if (GetGameObject()->HasComponent<GameEngine::FSM>() && GetGameObject()->GetComponent<GameEngine::FSM>()
-		->GetTag() == "AI")
-	{
+	if (GetGameObject()->HasComponent<GameEngine::FSM>())
 
+	{
+			glm::vec3 pos;
+			GetGameObject()->GetComponent<GameEngine::BlackboardComponent>()->GetData("Pos", pos);
+			ChangePosition(pos);
 	};
 }
 

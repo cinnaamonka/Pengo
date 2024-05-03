@@ -9,6 +9,7 @@
 #include "HitObserver.h"
 #include "BlackboardComponent.h"
 #include "AnimationComponent.h"
+#include "AIMovementComponent.h"
 
 #include "FSM.h"
 
@@ -22,6 +23,7 @@ EnemyActor::EnemyActor()
 	m_pEnemy->AddComponent<HitObserver>();
 	m_pEnemy->AddComponent<GameEngine::RenderComponent>();
 	m_pEnemy->AddComponent<AnimationComponent>();
+	m_pEnemy->AddComponent<AIMovementComponent>(); 
 	m_pEnemy->AddComponent<GameEngine::BlackboardComponent>();
 
 	auto textureSizeX = m_pEnemy->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / m_HorizontalAmountOfFrames;
@@ -49,6 +51,8 @@ EnemyActor::EnemyActor()
 
 	m_pEnemy->AddComponent<GameEngine::FSM>(m_MovingState.get(), m_pEnemy->GetComponent<GameEngine::BlackboardComponent>(),"AI");
 	m_pEnemy->GetComponent<GameEngine::FSM>()->AddTransition(m_MovingState.get(), m_ChaseState.get(), m_HasNoticedActor.get());
+
+	m_pEnemy->GetComponent<GameEngine::BlackboardComponent>()->AddData("Pos", glm::vec3(200, 300, 0));
 }
 
 std::unique_ptr<GameEngine::GameObject>& EnemyActor::GetActorGameObject()
