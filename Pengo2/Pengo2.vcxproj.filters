@@ -58,6 +58,9 @@
     <ClCompile Include="AIMovementComponent.cpp">
       <Filter>GameFiles</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>GameFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -97,6 +100,9 @@
       <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClInclude>
     <ClInclude Include="AIMovementComponent.h">
+      <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
       <Filter>GameFiles</Filter>
     </ClInclude>
   </ItemGroup>

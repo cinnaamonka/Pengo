@@ -11,6 +11,8 @@
 #include "PengoActor.h"
 #include "EnemyActor.h"
 #include "EggObserver.h"
+#include "EnemyManager.h"
+
 
 class Game final :public GameEngine::BaseGame
 {
@@ -31,7 +33,7 @@ private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pEnvironment;
 	std::unique_ptr<PengoActor> m_pPengoActor;
-	std::unique_ptr<EnemyActor> m_pEnemyActor;
+	std::unique_ptr<EnemyManager> m_pEnemyManager;
 	std::unique_ptr<EggObserver> m_pEggsObserver;
 
 	GameEngine::GameObject* m_pEnvironmentReference;

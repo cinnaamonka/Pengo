@@ -26,7 +26,7 @@ void Game::Initialize()
 {
 	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene("Demo");
 
-	m_pEnemyActor = std::make_unique<EnemyActor>();
+	m_pEnemyManager = std::make_unique<EnemyManager>(1);
 	m_pPengoActor = std::make_unique<PengoActor>();
 	m_pEggsObserver = std::make_unique<EggObserver>(&scene);
 
@@ -42,7 +42,11 @@ void Game::Initialize()
 
 	scene.Add(std::move(m_pEnvironment));
 	scene.Add(std::move(m_pPengoActor->GetActorGameObject()));
-	scene.Add(std::move(m_pEnemyActor->GetActorGameObject()));
+	for (int i = 0; i < m_pEnemyManager->GetEnemiesAmount(); i++)
+	{
+		scene.Add(std::move(m_pEnemyManager->GetEnemies()[i]->GetActorGameObject()));
+	}
+	
 
 	InitializeInputSystem(m_pPengoActor->GetReferenceToActor());
 
