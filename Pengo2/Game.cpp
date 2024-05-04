@@ -35,6 +35,7 @@ void Game::Initialize()
 	m_pEnvironment = std::make_unique<GameEngine::GameObject>();
 	m_pEnvironment->AddComponent<Environment>("Level.json", &scene);
 	m_pEnvironment->GetComponent<Environment>()->SetActor(m_pPengoActor->GetReferenceToActor());
+	m_pEnvironment->GetComponent<Environment>()->SetEnemyManager(m_pEnemyManager.get());
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::HitInfo>(hitObserverComponent);
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<glm::vec3>(m_pEggsObserver.get());
 	
@@ -42,9 +43,10 @@ void Game::Initialize()
 
 	scene.Add(std::move(m_pEnvironment));
 	scene.Add(std::move(m_pPengoActor->GetActorGameObject()));
+
 	for (int i = 0; i < m_pEnemyManager->GetEnemiesAmount(); i++)
 	{
-		scene.Add(std::move(m_pEnemyManager->GetEnemies()[i]->GetActorGameObject()));
+		scene.Add(std::move(m_pEnemyManager->GetEnemies()[i]));
 	}
 	
 

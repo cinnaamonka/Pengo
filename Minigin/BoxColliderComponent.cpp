@@ -22,7 +22,7 @@ bool GameEngine::BoxCollider::IsCollidingHorizontally(const Rect& rectShape, Hit
 
 	const std::vector<glm::vec3> RectPoints = CreatePointsFromRect(m_RectCollider);
 
-	return Raycast(RectPoints, ray1, ray2, hitInfo);;
+	return Raycast(RectPoints, ray1, ray2, hitInfo);
 }
 
 bool GameEngine::BoxCollider::IsCollidingVertically(const Rect& rectShape, HitInfo& hitInfo) const

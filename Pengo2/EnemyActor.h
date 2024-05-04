@@ -19,20 +19,24 @@ public:
 
 	std::unique_ptr<GameEngine::GameObject>& GetActorGameObject();
 
+	static std::unique_ptr<GameEngine::GameObject> CreateEnemy();
+
 private:
 	std::unique_ptr<GameEngine::GameObject> m_pEnemy;
 
 	int m_HorizontalAmountOfFrames = 8;
 	int m_VerticalAmountOfFrames = 5;
 
-	std::unique_ptr<GameEngine::MovingState> m_RunningState; 
-	std::unique_ptr<GameEngine::AttackState> m_PushingState; 
+	static std::unique_ptr<GameEngine::MovingState> m_RunningState; 
+	static std::unique_ptr<GameEngine::AttackState> m_PushingState; 
 
-	std::unique_ptr<PatrolState> m_MovingState;
-	std::unique_ptr<ChaseState> m_ChaseState;
-	std::unique_ptr<HasNoticedActor> m_HasNoticedActor;
+	static std::unique_ptr<PatrolState> m_MovingState;
+	static std::unique_ptr<ChaseState> m_ChaseState;
+	static std::unique_ptr<HasNoticedActor> m_HasNoticedActor;
 
-	std::unique_ptr<GameEngine::HasAttacked> m_IsPengoAttacked;
-	std::unique_ptr<GameEngine::HasNotAttacked> m_IsPengoNotAttacked;
+	static std::unique_ptr<GameEngine::HasAttacked> m_IsPengoAttacked;
+	static std::unique_ptr<GameEngine::HasNotAttacked> m_IsPengoNotAttacked;
+
+
 };
 

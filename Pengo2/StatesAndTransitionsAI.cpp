@@ -15,7 +15,18 @@ void PatrolState::Update(GameEngine::BlackboardComponent* pBlackboard)
 	glm::vec3 pos;
 	pBlackboard->GetData("Pos", pos);
 
-	pos.x += 1;
+	glm::vec3 direction;
+	pBlackboard->GetData("MovementDirection", direction);
+
+	if (direction.x != 0)
+	{
+		pos.x += 0.5f * direction.x;
+	}
+	if (direction.y != 0)
+	{
+		pos.y += 0.5f * direction.y;
+	}
+
 	pBlackboard->ChangeData("Pos", pos);
 }
 

@@ -11,6 +11,7 @@
 #include "IObserver.h"
 #include "BlockObserver.h"
 #include "EggObserver.h"
+#include "EnemyManager.h"
 
 #include <Scene.h>
 
@@ -40,6 +41,15 @@ public:
 	{
 		m_pPlayer = pActor;
 	}
+	void SetEnemyManager(EnemyManager* pEnemyManager)
+	{
+		for (int i = 0; i < pEnemyManager->GetEnemiesAmount(); ++i)
+		{
+			m_Enemies.push_back(pEnemyManager->GetEnemies()[i].get());
+		}
+
+		m_pEnemyManager = pEnemyManager;
+	}
 	template<typename T>
 	void AttachObserver(GameEngine::IObserver<T>* pObserver)
 	{
@@ -58,9 +68,6 @@ public:
 	void CreateBlocksCollection(std::vector<GameEngine::Block> blocks, const std::string& name, const std::string& tag,
 		int& offset, GameEngine::Scene* scene, bool IsBreakable, bool containsEggs = false, int clipTextureAmount = 1);
 
-	void NotifyCollision(int blockIndex, const GameEngine::HitInfo& hitInfo, HitObserver* hitObserver, bool isPushed = false, int pushBlockIndex = -1);
-	void PlayCollisionSound();
-
 private:
 	std::vector<GameEngine::GameObject*> m_pBlocks;
 
@@ -68,6 +75,8 @@ private:
 
 	GameEngine::GameObject* m_pPlayer;
 	GameEngine::GameObject* m_pBorderBlock;
+	std::vector<GameEngine::GameObject*> m_Enemies;
+	EnemyManager* m_pEnemyManager;
 
 	GameEngine::Subject<GameEngine::HitInfo> m_CollisionHitInfoChanged;
 	GameEngine::Subject<BlockCollisionInfo> m_BlockCollisionInfo;
