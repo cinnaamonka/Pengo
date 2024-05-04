@@ -1,8 +1,8 @@
 #pragma once
+
 #include <memory>
 #include <GameObject.h>
 #include <Helpers.h>
-#include <memory>
 #include <StatesAndTransitions.h>
 #include "StatesAndTransitionsAI.h"
 
@@ -36,7 +36,5 @@ private:
 
 	static std::unique_ptr<GameEngine::HasAttacked> m_IsPengoAttacked;
 	static std::unique_ptr<GameEngine::HasNotAttacked> m_IsPengoNotAttacked;
-
-
 };
 

@@ -91,6 +91,12 @@ namespace GameEngine
 
 		void CleanUp()
 		{
+			// THE first thing: we need to stop the thread that plays sounds
+
+			m_quitEvent = true;
+			m_ConditionalVariable.notify_one();
+			m_Thread.join();
+
 			for (auto pSound : m_pSoundEffects)
 			{
 				Mix_FreeChunk(pSound.second.get());
@@ -99,7 +105,6 @@ namespace GameEngine
 			Mix_CloseAudio();
 			Mix_Quit();
 			SDL_Quit();
-			m_Thread.detach();
 		}
 		~SoundSystemImpl() = default;
 	private:
@@ -137,19 +142,28 @@ namespace GameEngine
 			std::cout << "Task completed." << std::endl;
 		}
 	private:
+
 		void LoopFunction()
 		{
 			while (true)
 			{
 				{
+					if (m_quitEvent) //optimalization
+						break;
+
 					std::unique_lock<std::mutex> lock(m_SoundEffectsMutex);
-					m_ConditionalVariable.wait(lock, [this] { return m_SoundQueue.GetPending() != 0; });
+					m_ConditionalVariable.wait(lock, [this] { 
+						return (m_SoundQueue.GetPending() != 0 || m_quitEvent == true); 
+					});
+
+					if (m_quitEvent)
+						break;
 
 					AsyncUpdate();
 				}
 			}
-
 		}
+
 		// use shared ptr because the sounds should finish playing before being destroyed
 		RingBuffer<Sound, 16> m_SoundQueue;
 		std::unordered_map<sound_id, std::shared_ptr<Mix_Chunk>> m_pSoundEffects;
@@ -157,6 +171,7 @@ namespace GameEngine
 		std::mutex m_SoundEffectsMutex;
 		std::jthread m_Thread;
 		std::condition_variable m_ConditionalVariable;
+		bool m_quitEvent{ false };
 	};
 
 	SoundSystem::SoundSystem() :

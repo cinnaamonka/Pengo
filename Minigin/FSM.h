@@ -36,7 +36,7 @@ namespace GameEngine
 		typedef std::vector<TransitionStatePair> Transitions;
 
 		std::map<FSMState*, Transitions> m_Transitions;
-		FSMState* m_pCurrentState;
+		FSMState* m_pCurrentState = nullptr;
 		BlackboardComponent* m_pBlackboard = nullptr;
 
 		std::string m_StateMachineTag;

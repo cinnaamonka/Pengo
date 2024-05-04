@@ -66,6 +66,7 @@ void Environment::CheckCollision()
 			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 		}
 
+		// NEW FEATURE SHITTY CODE
 		if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsColliding(m_Enemies[0], hitInfo))
 		{
 			glm::vec3 direction = {};
@@ -78,6 +79,7 @@ void Environment::CheckCollision()
 			const bool isMovingUp = direction.y < 0;
 
 			const int randDirection = randomSign(dist(gen));
+
 
 			if (isMovingRight && hitInfo.normal.y == 0)
 			{
@@ -155,11 +157,9 @@ void Environment::CheckCollision()
 				return;
 			}
 		}
-
-
 	}
-	//CHECK ONLY FOR PLAYER WITH BORDER
 
+	//CHECK ONLY FOR PLAYER WITH BORDER
 	const auto borderCollisionComponent = m_pBorderBlock->GetComponent<CollisionComponent>();
 
 	if (borderCollisionComponent->IsColliding(m_pPlayer, hitInfo))
@@ -167,6 +167,7 @@ void Environment::CheckCollision()
 		m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 	}
 
+	//BORDER LOGIC
 	if (borderCollisionComponent->IsColliding(m_Enemies[0], hitInfo))
 	{
 		glm::vec3 direction = {};
