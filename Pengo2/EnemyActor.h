@@ -17,12 +17,10 @@ public:
 	EnemyActor(EnemyActor&& other) noexcept = delete;
 	EnemyActor& operator=(EnemyActor&& other) noexcept = delete;
 
-	std::unique_ptr<GameEngine::GameObject>& GetActorGameObject();
-
 	static std::unique_ptr<GameEngine::GameObject> CreateEnemy();
 
 private:
-	std::unique_ptr<GameEngine::GameObject> m_pEnemy;
+	GameEngine::GameObject* m_pEnemy;
 
 	int m_HorizontalAmountOfFrames = 8;
 	int m_VerticalAmountOfFrames = 5;

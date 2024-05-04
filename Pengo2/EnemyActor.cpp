@@ -29,15 +29,10 @@ EnemyActor::EnemyActor()
 
 }
 
-std::unique_ptr<GameEngine::GameObject>& EnemyActor::GetActorGameObject()
-{
-	return m_pEnemy;
-}
-
 std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy()
 {
 	std::unique_ptr<GameEngine::GameObject> gameObject  = std::make_unique<GameEngine::GameObject>(); 
-	 
+
 	gameObject->AddComponent<GameEngine::BoxCollider>(200, 300, 20, 20);
 	gameObject->AddComponent<GameEngine::TransformComponent>(glm::vec3(200, 300, 0));
 	gameObject->AddComponent<GameEngine::TextureComponent>("Enemy.tga");

@@ -147,20 +147,18 @@ namespace GameEngine
 		{
 			while (true)
 			{
-				{
-					if (m_quitEvent) //optimalization
-						break;
+				if (m_quitEvent) //optimalization
+					break;
 
-					std::unique_lock<std::mutex> lock(m_SoundEffectsMutex);
-					m_ConditionalVariable.wait(lock, [this] { 
-						return (m_SoundQueue.GetPending() != 0 || m_quitEvent == true); 
+				std::unique_lock<std::mutex> lock(m_SoundEffectsMutex);
+				m_ConditionalVariable.wait(lock, [this] {
+					return (m_SoundQueue.GetPending() != 0 || m_quitEvent == true);
 					});
 
-					if (m_quitEvent)
-						break;
+				if (m_quitEvent)
+					break;
 
-					AsyncUpdate();
-				}
+				AsyncUpdate();
 			}
 		}
 
@@ -171,7 +169,7 @@ namespace GameEngine
 		std::mutex m_SoundEffectsMutex;
 		std::jthread m_Thread;
 		std::condition_variable m_ConditionalVariable;
-		bool m_quitEvent{ false };
+		std::atomic<bool> m_quitEvent{ false };
 	};
 
 	SoundSystem::SoundSystem() :

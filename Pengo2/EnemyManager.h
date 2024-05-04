@@ -19,12 +19,12 @@ public:
 
 	const size_t GetEnemiesAmount() const
 	{
-		return m_Enemies.size();
+		return m_pEnemies.size();
 	}
 	
 	std::vector<std::unique_ptr<GameEngine::GameObject>>& GetEnemies()
 	{
-		return m_Enemies;
+		return m_pEnemies;
 	}
 
 	template<typename T>
@@ -55,8 +55,12 @@ public:
 		
 	}
 
+	bool CheckEnemiesCollision( GameEngine::HitInfo& hitInfo, int enemyIndex, int currentBlockIndex,
+		 std::vector<GameEngine::GameObject*> blocks);
+
 private:
-	std::vector<std::unique_ptr<GameEngine::GameObject>> m_Enemies;
+	std::vector<std::unique_ptr<GameEngine::GameObject>> m_pEnemies;
+	std::vector<GameEngine::GameObject*> m_EnemiesRef;
 	GameEngine::Subject<GameEngine::HitInfo> m_EnemiesCollisionHitInfoChanged;
 	GameEngine::Subject<glm::vec3> m_EnemyDirectionChanged;
 };

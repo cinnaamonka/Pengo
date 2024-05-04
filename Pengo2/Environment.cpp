@@ -1,4 +1,3 @@
-#include <random> 
 
 #include "Environment.h"
 #include "BlockComponent.h"
@@ -12,13 +11,6 @@
 #include "AnimationComponent.h"
 #include "EnemyManager.h"
 #include "EggObserver.h"
-
-std::random_device rd;
-std::mt19937 gen(rd());
-
-std::uniform_int_distribution<int> dist(-1, 1);
-
-const auto randomSign = [](int val) { return val == 0 ? -1 : 1; };
 
 Environment::Environment(GameEngine::GameObject* pGameObject, const std::string& filename, GameEngine::Scene* scene) :
 	BaseComponent(pGameObject),
@@ -66,97 +58,9 @@ void Environment::CheckCollision()
 			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 		}
 
-		// NEW FEATURE SHITTY CODE
-		if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsColliding(m_Enemies[0], hitInfo))
-		{
-			glm::vec3 direction = {};
+		const bool hasCollided = m_pEnemyManager->CheckEnemiesCollision(hitInfo, 0, i, m_pBlocks);
 
-			m_Enemies[0]->GetComponent<GameEngine::BlackboardComponent>()->GetData("MovementDirection", direction);
-
-			const bool isMovingRight = direction.x > 0;
-			const bool isMovingDown = direction.y > 0;
-			const bool isMovingLeft = direction.x < 0;
-			const bool isMovingUp = direction.y < 0;
-
-			const int randDirection = randomSign(dist(gen));
-
-
-			if (isMovingRight && hitInfo.normal.y == 0)
-			{
-				for (int j = 0; j < static_cast<int>(m_pBlocks.size()); ++j)
-				{
-					if (i == j) continue;
-
-					if (m_pBlocks[j]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_Enemies[0], hitInfo))
-					{
-						m_pEnemyManager->CreateMessage(glm::vec3(0, -hitInfo.normal.y, 0));
-
-						return;
-					}
-				}
-
-				m_pEnemyManager->CreateMessage(glm::vec3(0, randDirection, 0));
-
-				return;
-			}
-
-			if (isMovingDown && hitInfo.normal.x == 0)
-			{
-				for (int j = 0; j < static_cast<int>(m_pBlocks.size()); ++j)
-				{
-					if (i == j) continue;
-
-					if (m_pBlocks[j]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_Enemies[0], hitInfo))
-					{
-						m_pEnemyManager->CreateMessage(glm::vec3(-hitInfo.normal.x, 0, 0));
-
-						return;
-					}
-				}
-
-				m_pEnemyManager->CreateMessage(glm::vec3(randDirection, 0, 0));
-
-				return;
-			}
-
-			if (isMovingUp && hitInfo.normal.y == -1)
-			{
-				for (int j = 0; j < static_cast<int>(m_pBlocks.size()); ++j)
-				{
-					if (i == j) continue;
-
-					if (m_pBlocks[j]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_Enemies[0], hitInfo))
-					{
-						m_pEnemyManager->CreateMessage(glm::vec3(-hitInfo.normal.x, 0, 0));
-
-						return;
-					}
-				}
-
-				m_pEnemyManager->CreateMessage(glm::vec3(randDirection, 0, 0));
-
-				return;
-			}
-
-			if (isMovingLeft && hitInfo.normal.x == -1)
-			{
-				for (int j = 0; j < static_cast<int>(m_pBlocks.size()); ++j)
-				{
-					if (i == j) continue;
-
-					if (m_pBlocks[j]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_Enemies[0], hitInfo))
-					{
-						m_pEnemyManager->CreateMessage(glm::vec3(0, -hitInfo.normal.y, 0));
-
-						return;
-					}
-				}
-
-				m_pEnemyManager->CreateMessage(glm::vec3(0, randDirection, 0));
-
-				return;
-			}
-		}
+		if (hasCollided) return;
 	}
 
 	//CHECK ONLY FOR PLAYER WITH BORDER
