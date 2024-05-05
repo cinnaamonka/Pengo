@@ -34,6 +34,7 @@ public:
 
 	void CheckCollision();
 	void CheckBlocksCollision(GameEngine::GameObject* pGameObject);
+	void CheckEnemiesCollision(); 
 
 	void Update() override;
 
@@ -43,11 +44,6 @@ public:
 	}
 	void SetEnemyManager(EnemyManager* pEnemyManager)
 	{
-		for (int i = 0; i < pEnemyManager->GetEnemiesAmount(); ++i)
-		{
-			m_Enemies.push_back(pEnemyManager->GetEnemies()[i].get());
-		}
-
 		m_pEnemyManager = pEnemyManager;
 	}
 	template<typename T>
@@ -75,7 +71,6 @@ private:
 
 	GameEngine::GameObject* m_pPlayer;
 	GameEngine::GameObject* m_pBorderBlock;
-	std::vector<GameEngine::GameObject*> m_Enemies;
 	EnemyManager* m_pEnemyManager;
 
 	GameEngine::Subject<GameEngine::HitInfo> m_CollisionHitInfoChanged;

@@ -41,7 +41,7 @@ PengoActor::PengoActor()
 	m_IsBlockPushed = std::make_unique<GameEngine::IsBlockPushed>(); 
 	m_IsBlockNotPushed = std::make_unique<GameEngine::IsBlockNotPushed>();
 
-	m_pActor->AddComponent<GameEngine::FSM>(m_IdleState.get(), m_pActor->GetComponent<GameEngine::BlackboardComponent>(),"Animation");
+	m_pActor->AddComponent<GameEngine::FSM>(m_IdleState.get(), m_pActor->GetComponent<GameEngine::BlackboardComponent>());
 	m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_IdleState.get(), m_RunningState.get(), m_IsInputGiven.get());
 	m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_RunningState.get(), m_IdleState.get(), m_IsNotInputGiven.get());
 	m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_IdleState.get(), m_PushingState.get(), m_IsBlockPushed.get());

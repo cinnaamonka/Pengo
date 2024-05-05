@@ -25,12 +25,12 @@ namespace GameEngine
 			requires std::derived_from<ComponentType, BaseComponent>
 		void AddComponent(Args&&... args)
 		{
-			/*if (GetComponent<ComponentType>() == nullptr)
-			{*/
+			if (GetComponent<ComponentType>() == nullptr)
+			{
 			std::unique_ptr<ComponentType> newComponent = std::make_unique<ComponentType>(this, std::forward<Args>(args)...);
 
 			m_pComponents.push_back(std::move(newComponent));
-			/*}*/
+			}
 		}
 
 		template <typename ComponentType, typename... Args>

@@ -4,28 +4,19 @@
 #include "EnemyActor.h"
 #include <Subject.h>
 #include <Helpers.h>
+#include <Scene.h>
 #include <IObserver.h>
 
 class EnemyManager
 {
 
 public:
-	EnemyManager(int enemiesAmount);
+	EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions, GameEngine::Scene* scene);
 	~EnemyManager() = default;
 	EnemyManager(const EnemyManager& other) = delete;
 	EnemyManager(EnemyManager&& other) = delete;
 	EnemyManager& operator=(const EnemyManager& other) = delete;
 	EnemyManager& operator=(EnemyManager&& other) = delete;
-
-	const size_t GetEnemiesAmount() const
-	{
-		return m_pEnemies.size();
-	}
-	
-	std::vector<std::unique_ptr<GameEngine::GameObject>>& GetEnemies()
-	{
-		return m_pEnemies;
-	}
 
 	template<typename T>
 	void AttachObserver(GameEngine::IObserver<T>* pObserver)
@@ -34,9 +25,9 @@ public:
 		{
 			m_EnemiesCollisionHitInfoChanged.Attach(pObserver);
 		}
-		else if constexpr (std::is_same_v<T, glm::vec3>)
+		else if constexpr (std::is_same_v<T, GameEngine::EnemyInfo>)
 		{
-			m_EnemyDirectionChanged.Attach(pObserver); 
+			m_EnemyDirectionChanged.Attach(pObserver);
 		}
 	}
 
@@ -47,21 +38,28 @@ public:
 		{
 			m_EnemiesCollisionHitInfoChanged.CreateMessage(info);
 		}
-		else if constexpr (std::is_same_v<T, glm::vec3>) 
+		else if constexpr (std::is_same_v<T, GameEngine::EnemyInfo>)
 		{
 			m_EnemyDirectionChanged.CreateMessage(info);
 		}
-	
-		
+
+
 	}
 
-	bool CheckEnemiesCollision( GameEngine::HitInfo& hitInfo, int enemyIndex, int currentBlockIndex,
-		 std::vector<GameEngine::GameObject*> blocks);
+	void CheckEnemiesCollision(std::vector<GameEngine::GameObject*> blocks);
+
+	void HandleBorderCollision(GameEngine::GameObject*);
 
 private:
-	std::vector<std::unique_ptr<GameEngine::GameObject>> m_pEnemies;
+
+	void HandleMovement(GameEngine::HitInfo& hitInfo, std::vector<GameEngine::GameObject*> blocks,
+		int currentBlockIndex, int currentEnemyIndex, const int randDirection, bool isHorizontal); 
+
+
+private:
 	std::vector<GameEngine::GameObject*> m_EnemiesRef;
 	GameEngine::Subject<GameEngine::HitInfo> m_EnemiesCollisionHitInfoChanged;
-	GameEngine::Subject<glm::vec3> m_EnemyDirectionChanged;
+	GameEngine::Subject<GameEngine::EnemyInfo> m_EnemyDirectionChanged;
+	std::vector<glm::vec3> m_StartPositions;
 };
 
