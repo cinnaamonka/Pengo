@@ -11,7 +11,8 @@ AnimationComponent::AnimationComponent(GameEngine::GameObject* pGameObject):
 void AnimationComponent::Update()
 {
 	if (GetGameObject()->IsDestroyed() || GetGameObject() == NULL || IsDestroyed()) return;
-	if (GetGameObject()->HasComponent<GameEngine::FSM>() && GetGameObject()->GetComponent<GameEngine::FSM>()->GetTag() == "Animation")
+
+	if (GetGameObject()->HasComponent<GameEngine::FSM>() )
 	{
 		
 		int currentAnimationFrame;

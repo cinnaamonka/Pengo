@@ -1,22 +1,34 @@
 #pragma once
 #include <BaseComponent.h>
 #include <IObserver.h>
+#include <Helpers.h>
 
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 
-class EnemyDirectionObserver : public GameEngine::IObserver<glm::vec3>, public GameEngine::BaseComponent
+class EnemyDirectionObserver : public GameEngine::IObserver<GameEngine::EnemyInfo>, public GameEngine::BaseComponent
 {
-	//rule of 5
 public:
-	EnemyDirectionObserver(GameEngine::GameObject* pGameObject);
+	EnemyDirectionObserver(GameEngine::GameObject* pGameObject, int index);
 	~EnemyDirectionObserver() = default;
 	EnemyDirectionObserver(const EnemyDirectionObserver& other) = delete;
 	EnemyDirectionObserver(EnemyDirectionObserver&& other) = delete;
 	EnemyDirectionObserver& operator=(const EnemyDirectionObserver& other) = delete;
 	EnemyDirectionObserver& operator=(EnemyDirectionObserver&& other) = delete;
 
-	void Notify(const glm::vec3& direction) override;
+	int GetIndex() const
+	{
+		return m_Index;
+	}
+	void SetIndex(int index)
+	{
+		m_Index = index;
+	}
+
+	void Notify(const GameEngine::EnemyInfo& direction) override;
+
+private:
+	int m_Index;
 
 };
 

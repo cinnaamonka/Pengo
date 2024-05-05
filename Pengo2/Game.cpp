@@ -26,7 +26,11 @@ void Game::Initialize()
 {
 	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene("Demo");
 
-	m_pEnemyManager = std::make_unique<EnemyManager>(1);
+	m_EnemiesPositions.push_back(glm::vec3{ 200, 300, 0 });
+	m_EnemiesPositions.push_back(glm::vec3{ 400, 100, 0 });
+	m_EnemiesPositions.push_back(glm::vec3{ 200, 100, 0 });
+
+
 	m_pPengoActor = std::make_unique<PengoActor>();
 	m_pEggsObserver = std::make_unique<EggObserver>(&scene);
 
@@ -35,7 +39,10 @@ void Game::Initialize()
 	m_pEnvironment = std::make_unique<GameEngine::GameObject>();
 	m_pEnvironment->AddComponent<Environment>("Level.json", &scene);
 	m_pEnvironment->GetComponent<Environment>()->SetActor(m_pPengoActor->GetReferenceToActor());
-	m_pEnvironment->GetComponent<Environment>()->SetEnemyManager(m_pEnemyManager.get());
+
+	m_pEnemyManager = std::make_unique<EnemyManager>(static_cast<int>(m_EnemiesPositions.size()), m_EnemiesPositions, &scene);
+	m_pEnvironment->GetComponent<Environment>()->SetEnemyManager(m_pEnemyManager.get()); 
+
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::HitInfo>(hitObserverComponent);
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<glm::vec3>(m_pEggsObserver.get());
 	
@@ -44,26 +51,10 @@ void Game::Initialize()
 	scene.Add(std::move(m_pEnvironment));
 	scene.Add(std::move(m_pPengoActor->GetActorGameObject()));
 
-	for (int i = 0; i < m_pEnemyManager->GetEnemiesAmount(); i++)
-	{
-		scene.Add(std::move(m_pEnemyManager->GetEnemies()[i]));
-	}
-	
-
 	InitializeInputSystem(m_pPengoActor->GetReferenceToActor());
 
 	GameEngine::SoundServiceLocator::RegisterSoundSystem(std::make_unique<GameEngine::SoundLogSystem>
 		(std::make_unique<GameEngine::SoundSystem>()));
-
-	////test
-	//auto font = GameEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 24);
-
-	//std::unique_ptr<GameEngine::GameObject> text = std::make_unique<GameEngine::GameObject>();
-	//text->AddComponent<GameEngine::TextComponent>("Push block horizontally to hear the sound",
-	//	font);
-	//text->AddComponent<GameEngine::TransformComponent>(glm::vec3{ 0,0,0 });
-	//text->AddComponent<GameEngine::RenderComponent>();
-	//scene.Add(std::move(text));
 }
 
 void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)

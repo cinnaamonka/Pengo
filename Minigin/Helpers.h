@@ -32,10 +32,10 @@ namespace GameEngine
 		glm::vec2 normal;
 	};
 
-	enum class CollisionEvent
+	struct EnemyInfo
 	{
-		CollidedHorizontally,
-		CollidedVertically
+		int index;
+		glm::vec3 position;
 	};
 	struct Rect
 	{

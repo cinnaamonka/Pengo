@@ -37,6 +37,8 @@ private:
 	std::unique_ptr<EggObserver> m_pEggsObserver;
 
 	GameEngine::GameObject* m_pEnvironmentReference;
+
+	std::vector<glm::vec3> m_EnemiesPositions;
 };
 
 

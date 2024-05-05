@@ -57,10 +57,6 @@ void Environment::CheckCollision()
 		{
 			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 		}
-
-		const bool hasCollided = m_pEnemyManager->CheckEnemiesCollision(hitInfo, 0, i, m_pBlocks);
-
-		if (hasCollided) return;
 	}
 
 	//CHECK ONLY FOR PLAYER WITH BORDER
@@ -71,42 +67,6 @@ void Environment::CheckCollision()
 		m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 	}
 
-	//BORDER LOGIC
-	if (borderCollisionComponent->IsColliding(m_Enemies[0], hitInfo))
-	{
-		glm::vec3 direction = {};
-
-		m_Enemies[0]->GetComponent<GameEngine::BlackboardComponent>()->GetData("MovementDirection", direction);
-
-		if (hitInfo.normal.y < 0 && direction.y != 0)
-		{
-			const auto toUp = glm::vec3(0, -1, 0);
-
-			m_pEnemyManager->CreateMessage(toUp);
-		}
-
-		if (hitInfo.normal.y > 0 && direction.y != 0)
-		{
-			const auto toDown = glm::vec3(0, 1, 0);
-
-			m_pEnemyManager->CreateMessage(toDown);
-		}
-
-		if (hitInfo.normal.x > 0 && direction.x != 0)
-		{
-			const auto toRight = glm::vec3(1, 0, 0);
-
-			m_pEnemyManager->CreateMessage(toRight);
-		}
-
-		if (hitInfo.normal.x < 0 && direction.x != 0)
-		{
-			const auto toLeft = glm::vec3(-1, 0, 0);
-	
-			m_pEnemyManager->CreateMessage(toLeft);
-		}
-
-	}
 }
 
 void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
@@ -209,8 +169,13 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 	}
 
 }
+
 void Environment::Update()
 {
+	CheckEnemiesCollision();
+
+	if (!m_pPlayer->GetComponent<GameEngine::ActorComponent>()->GetCollisionBeChecked()) return;
+
 	CheckCollision();
 
 	if (m_PushBlockIndex != -1)
@@ -379,4 +344,9 @@ void Environment::CreateBlocksCollection(std::vector<GameEngine::Block> blocks, 
 
 	offset += static_cast<int>(tempCollection.size());
 }
-
+void Environment::CheckEnemiesCollision()
+{
+	// CHECK ENEMIES COLLISION LOGIC
+	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks);
+	m_pEnemyManager->HandleBorderCollision(m_pBorderBlock);
+}

@@ -4,8 +4,6 @@
 #include <TextureComponent.h>
 #include <RenderComponent.h>
 #include <BoxColliderComponent.h>
-#include <ResourceManager.h>
-#include <ActorComponent.h>
 #include "HitObserver.h"
 #include "BlackboardComponent.h"
 #include "AnimationComponent.h"
@@ -13,65 +11,57 @@
 #include "EnemyDirectionObserver.h"
 #include "CollisionComponent.h"
 
-#include "FSM.h"
+#include <FSM.h>
+#include <AIFSM.h>
 
-//initialize it
-std::unique_ptr<GameEngine::MovingState> EnemyActor::m_RunningState;
-std::unique_ptr<GameEngine::AttackState> EnemyActor::m_PushingState;
-std::unique_ptr<GameEngine::HasAttacked> EnemyActor::m_IsPengoAttacked;
-std::unique_ptr<GameEngine::HasNotAttacked> EnemyActor::m_IsPengoNotAttacked;
-std::unique_ptr<PatrolState> EnemyActor::m_MovingState;
-std::unique_ptr<ChaseState> EnemyActor::m_ChaseState;
-std::unique_ptr<HasNoticedActor> EnemyActor::m_HasNoticedActor;
+std::unique_ptr<GameEngine::MovingState> EnemyActor::m_RunningState = std::make_unique<GameEngine::MovingState>();
+std::unique_ptr<GameEngine::AttackState> EnemyActor::m_PushingState = std::make_unique<GameEngine::AttackState>();
+std::unique_ptr<GameEngine::HasAttacked> EnemyActor::m_IsPengoAttacked = std::make_unique <GameEngine::HasAttacked>();
+std::unique_ptr<GameEngine::HasNotAttacked> EnemyActor::m_IsPengoNotAttacked = std::make_unique<GameEngine::HasNotAttacked>();
+std::unique_ptr<PatrolState> EnemyActor::m_MovingState = std::make_unique<PatrolState>();
+std::unique_ptr<ChaseState> EnemyActor::m_ChaseState = std::make_unique<ChaseState>();
+std::unique_ptr<HasNoticedActor> EnemyActor::m_HasNoticedActor = std::make_unique<HasNoticedActor>();
 
-EnemyActor::EnemyActor()
+
+EnemyActor::EnemyActor(GameEngine::GameObject* pGameObject): 
+	BaseComponent(pGameObject)      
 {
+	
 
 }
 
-std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy()
+std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(glm::vec3& pos,int index)
 {
-	std::unique_ptr<GameEngine::GameObject> gameObject  = std::make_unique<GameEngine::GameObject>(); 
+	std::unique_ptr<GameEngine::GameObject> gameObject = std::make_unique<GameEngine::GameObject>();
 
-	gameObject->AddComponent<GameEngine::BoxCollider>(200, 300, 20, 20);
-	gameObject->AddComponent<GameEngine::TransformComponent>(glm::vec3(200, 300, 0));
+	gameObject->AddComponent<GameEngine::BoxCollider>(static_cast<int>(pos.x), static_cast<int>(pos.y), 20, 20);
+	gameObject->AddComponent<GameEngine::TransformComponent>(glm::vec3(static_cast<int>(pos.x), static_cast<int>(pos.y), 0));
 	gameObject->AddComponent<GameEngine::TextureComponent>("Enemy.tga");
-	gameObject->AddComponent<GameEngine::ActorComponent>();
+
 	gameObject->AddComponent<HitObserver>();
 	gameObject->AddComponent<GameEngine::RenderComponent>();
 	gameObject->AddComponent<AnimationComponent>();
 	gameObject->AddComponent<AIMovementComponent>();
 	gameObject->AddComponent<GameEngine::BlackboardComponent>();
-	gameObject->AddComponent<EnemyDirectionObserver>();
-	
+	gameObject->AddComponent<EnemyDirectionObserver>(index);
+	gameObject->AddComponent<EnemyActor>();
+
 
 	auto textureSizeX = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / 8;
 	auto textureSizeY = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / 5;
 
 	gameObject->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
 
-	m_RunningState = std::make_unique<GameEngine::MovingState>();
-	m_PushingState = std::make_unique<GameEngine::AttackState>();
-
-	m_IsPengoAttacked = std::make_unique <GameEngine::HasAttacked>();
-	m_IsPengoNotAttacked = std::make_unique<GameEngine::HasNotAttacked>();
-
-	gameObject->AddComponent<GameEngine::FSM>(m_RunningState.get(), gameObject->GetComponent<GameEngine::BlackboardComponent>(), "Animation");
+	gameObject->AddComponent<GameEngine::FSM>(m_RunningState.get(), gameObject->GetComponent<GameEngine::BlackboardComponent>());
 	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_RunningState.get(), m_PushingState.get(), m_IsPengoAttacked.get());
 	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_PushingState.get(), m_RunningState.get(), m_IsPengoNotAttacked.get());
 
-	// DESIGN CHOICE
-	// add new state machine and just add new states
+	gameObject->AddComponent<GameEngine::AIFSM>(m_MovingState.get(), gameObject->GetComponent<GameEngine::BlackboardComponent>());
+	gameObject->GetComponent<GameEngine::AIFSM>()->AddTransition(m_MovingState.get(), m_ChaseState.get(), m_HasNoticedActor.get());
 
-	m_MovingState = std::make_unique<PatrolState>();
-	m_ChaseState = std::make_unique<ChaseState>();
-	m_HasNoticedActor = std::make_unique<HasNoticedActor>();
+	gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("Pos", glm::vec3(pos.x, pos.y, 0));
 
-	gameObject->AddComponent<GameEngine::FSM>(m_MovingState.get(), gameObject->GetComponent<GameEngine::BlackboardComponent>(), "AI");
-	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_MovingState.get(), m_ChaseState.get(), m_HasNoticedActor.get());
-
-	gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("Pos", glm::vec3(200, 300, 0));
-	gameObject->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("MovementDirection", glm::vec3(1,0,0));
+	gameObject->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("MovementDirection", glm::vec3(1, 0, 0));
 
 	return gameObject;
 }
