@@ -7,6 +7,7 @@
 #include <Scene.h>
 #include <IObserver.h>
 
+
 class EnemyManager
 {
 
@@ -29,6 +30,10 @@ public:
 		{
 			m_EnemyDirectionChanged.Attach(pObserver);
 		}
+		else if constexpr (std::is_same_v<T, glm::vec3>)
+		{
+			m_PlayerPositionChanged.Attach(pObserver);
+		}
 	}
 
 	template<typename T>
@@ -41,6 +46,10 @@ public:
 		else if constexpr (std::is_same_v<T, GameEngine::EnemyInfo>)
 		{
 			m_EnemyDirectionChanged.CreateMessage(info);
+		}
+		else if constexpr (std::is_same_v<T, glm::vec3>)
+		{
+			m_PlayerPositionChanged.CreateMessage(info);
 		}
 
 
@@ -60,6 +69,7 @@ private:
 	std::vector<GameEngine::GameObject*> m_EnemiesRef;
 	GameEngine::Subject<GameEngine::HitInfo> m_EnemiesCollisionHitInfoChanged;
 	GameEngine::Subject<GameEngine::EnemyInfo> m_EnemyDirectionChanged;
+	GameEngine::Subject<glm::vec3> m_PlayerPositionChanged;
 	std::vector<glm::vec3> m_StartPositions;
 };
 

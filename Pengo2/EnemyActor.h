@@ -8,7 +8,6 @@
 #include "AIStatesAndTransitions.h"
 #include "EnemyStatesAndTransitions.h"
 
-
 class EnemyActor final :public GameEngine::BaseComponent
 {
 public:

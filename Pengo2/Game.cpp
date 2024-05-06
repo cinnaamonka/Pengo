@@ -11,10 +11,12 @@
 #include "RenderComponent.h"
 #include "TransformComponent.h"
 #include "PengoInputCommands.h"
+#include "PlayerPositionObserver.h"
 
 #include <SoundSystem.h>
 #include <SoundServiceLocator.h>
 #include <SoundLogSystem.h>
+
 
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
@@ -29,9 +31,8 @@ void Game::Initialize()
 	m_EnemiesPositions.push_back(glm::vec3{ 400, 100, 0 });
 	m_EnemiesPositions.push_back(glm::vec3{ 200, 100, 0 });
 
-
-	m_pPengoActor = std::make_unique<PengoActor>();
-	m_pEggsObserver = std::make_unique<EggObserver>(&scene);
+	m_pPengoActor             = std::make_unique<PengoActor>();
+	m_pEggsObserver           = std::make_unique<EggObserver>(&scene); 
 
 	auto hitObserverComponent = m_pPengoActor->GetHitObserver();
 
@@ -40,8 +41,8 @@ void Game::Initialize()
 	m_pEnvironment->GetComponent<Environment>()->SetActor(m_pPengoActor->GetReferenceToActor());
 
 	m_pEnemyManager = std::make_unique<EnemyManager>(static_cast<int>(m_EnemiesPositions.size()), m_EnemiesPositions, &scene);
-	m_pEnvironment->GetComponent<Environment>()->SetEnemyManager(m_pEnemyManager.get()); 
 
+	m_pEnvironment->GetComponent<Environment>()->SetEnemyManager(m_pEnemyManager.get()); 
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::HitInfo>(hitObserverComponent);
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<glm::vec3>(m_pEggsObserver.get());
 	

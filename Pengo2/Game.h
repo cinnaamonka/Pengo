@@ -13,7 +13,6 @@
 #include "EggObserver.h"
 #include "EnemyManager.h"
 
-
 class Game final :public GameEngine::BaseGame
 {
 public:

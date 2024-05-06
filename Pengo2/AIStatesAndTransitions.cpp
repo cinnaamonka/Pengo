@@ -37,11 +37,30 @@ void ChaseState::OnExit(GameEngine::BlackboardComponent*)
 {
 }
 
-void ChaseState::Update(GameEngine::BlackboardComponent*)
+void ChaseState::Update(GameEngine::BlackboardComponent* pBlackboard)
 {
+	glm::vec3 pos;
+	pBlackboard->GetData("Pos", pos);
+
+	glm::vec3 direction;
+	pBlackboard->GetData("MovementDirection", direction);
+
+	if (direction.x != 0)
+	{
+		pos.x += 0.1f * direction.x;
+	}
+	if (direction.y != 0)
+	{
+		pos.y += 0.1f * direction.y;
+	}
+
+	pBlackboard->ChangeData("Pos", pos);
 }
 
-bool HasNoticedActor::Evaluate(GameEngine::BlackboardComponent*) const
+bool HasNoticedActor::Evaluate(GameEngine::BlackboardComponent* pBlackboard) const
 {
-	return false;
+	bool isChasing;
+	pBlackboard->GetData("IsChasing", isChasing);
+
+	return isChasing;
 }

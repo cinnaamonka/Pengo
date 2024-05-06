@@ -251,6 +251,7 @@ namespace GameEngine
 
 				animTime = 0;
 			}
+			
 			pBlackboard->ChangeData("AnimationFrame", animFrame);
 			pBlackboard->ChangeData("AnimationTime", animTime);
 		

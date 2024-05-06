@@ -3,6 +3,8 @@
 #include <random> 
 #include "EnemyDirectionObserver.h"
 #include "CollisionComponent.h"
+#include "BaseBlock.h"
+#include "PlayerPositionObserver.h"
 
 #pragma warning(disable : 4702)
 std::uniform_int_distribution<int> dist(-1, 1);
@@ -19,6 +21,7 @@ EnemyManager::EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions,
 		auto enemyActor = EnemyActor::CreateEnemy(positions[i], i);
 		m_EnemiesCollisionHitInfoChanged.Attach(enemyActor->GetComponent<HitObserver>());
 		m_EnemyDirectionChanged.Attach(enemyActor->GetComponent<EnemyDirectionObserver>());
+		m_PlayerPositionChanged.Attach(enemyActor->GetComponent<PlayerPositionObserver>()); 
 		m_EnemiesRef.push_back(enemyActor.get());
 		scene->Add(std::move(enemyActor));
 	}
@@ -48,13 +51,24 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*> bl
 
 				if ((isMovingRight && hitInfo.normal.y == 0) || (isMovingLeft && hitInfo.normal.x == -1))
 				{
+					if (blocks[j]->GetComponent<BaseBlock>()->GetIsBreakable())
+					{
+						blocks[j]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+					}
+
 					HandleMovement(hitInfo, blocks, j, i, randDirection, true);
 					return;
 				}
 
 				if ((isMovingDown && hitInfo.normal.x == 0) || (isMovingUp && hitInfo.normal.y == -1))
 				{
+					if (blocks[j]->GetComponent<BaseBlock>()->GetIsBreakable())
+					{
+						blocks[j]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+					}
+
 					HandleMovement(hitInfo, blocks, j, i, randDirection, false);
+
 					return;
 				}
 

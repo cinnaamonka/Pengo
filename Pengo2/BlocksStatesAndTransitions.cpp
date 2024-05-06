@@ -6,10 +6,9 @@ void StaticBlockState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
 	pBlackboard->ChangeData("HorizontalOffset", 0);
 	pBlackboard->ChangeData("VerticalOffset", 0);
 }
-void StaticBlockState::OnExit(GameEngine::BlackboardComponent* pBlackboard)
-{
-	pBlackboard->ChangeData("WasBlockDestroyed", false);
-}
+void StaticBlockState::OnExit(GameEngine::BlackboardComponent*)
+{}
+
 void StaticBlockState::Update(GameEngine::BlackboardComponent* pBlackboard)
 {
 	pBlackboard = pBlackboard;
@@ -44,7 +43,7 @@ void BreakingBlockState::Update(GameEngine::BlackboardComponent* pBlackboard)
 	int currentAnimationFrame;
 	pBlackboard->GetData("AnimationFrame", currentAnimationFrame);
 
-	int numberOfFrames;
+	int numberOfFrames; 
 	pBlackboard->GetData("NumberOfFrames", numberOfFrames);
 
 	if (currentAnimationFrame == numberOfFrames - 1)
@@ -84,10 +83,10 @@ bool IsBlockBreaking::Evaluate(GameEngine::BlackboardComponent* pBlackboard) con
 
 bool IsBlockNotBreaking::Evaluate(GameEngine::BlackboardComponent* pBlackboard) const
 {
-	bool wasBlockDedtroyed;
-	pBlackboard->GetData("WasBlockDestroyed", wasBlockDedtroyed);
+	bool wasBlockDestroyed;
+	pBlackboard->GetData("WasBlockDestroyed", wasBlockDestroyed);
 
-	return !wasBlockDedtroyed;
+	return !wasBlockDestroyed;
 }
 
 bool IsBlockFinishedFlickering::Evaluate(GameEngine::BlackboardComponent* pBlackboard) const

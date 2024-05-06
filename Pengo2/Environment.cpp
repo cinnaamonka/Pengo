@@ -175,7 +175,7 @@ void Environment::Update()
 	CheckEnemiesCollision();
 
 	if (!m_pPlayer->GetComponent<GameEngine::ActorComponent>()->GetCollisionBeChecked()) return;
-
+	
 	CheckCollision();
 
 	if (m_PushBlockIndex != -1)
@@ -349,4 +349,5 @@ void Environment::CheckEnemiesCollision()
 	// CHECK ENEMIES COLLISION LOGIC
 	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks);
 	m_pEnemyManager->HandleBorderCollision(m_pBorderBlock);
+	m_pEnemyManager->CreateMessage(m_pPlayer->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition()); 
 }

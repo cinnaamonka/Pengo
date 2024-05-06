@@ -10,6 +10,7 @@
 #include "AIMovementComponent.h"
 #include "EnemyDirectionObserver.h"
 #include "CollisionComponent.h"
+#include "PlayerPositionObserver.h"
 
 #include <FSM.h>
 #include <AIFSM.h>
@@ -25,10 +26,7 @@ std::unique_ptr<HasNoticedActor> EnemyActor::m_HasNoticedActor   = std::make_uni
 
 EnemyActor::EnemyActor(GameEngine::GameObject* pGameObject): 
 	BaseComponent(pGameObject)      
-{
-	
-
-}
+{}
 
 std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(glm::vec3& pos,int index)
 {
@@ -45,7 +43,7 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(glm::vec3& pos,i
 	gameObject->AddComponent<GameEngine::BlackboardComponent>();
 	gameObject->AddComponent<EnemyDirectionObserver>(index);
 	gameObject->AddComponent<EnemyActor>();
-
+	gameObject->AddComponent<PlayerPositionObserver>();  
 
 	auto textureSizeX = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / 8;
 	auto textureSizeY = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / 5;
@@ -60,8 +58,10 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(glm::vec3& pos,i
 	gameObject->GetComponent<GameEngine::AIFSM>()->AddTransition(m_MovingState.get(), m_ChaseState.get(), m_HasNoticedActor.get());
 
 	gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("Pos", glm::vec3(pos.x, pos.y, 0));
+	gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("IsChasing", bool());
 
 	gameObject->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("MovementDirection", glm::vec3(1, 0, 0));
+	
 
 	return gameObject;
 }
