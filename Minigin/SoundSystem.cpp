@@ -93,7 +93,7 @@ namespace GameEngine
 		{
 			// THE first thing: we need to stop the thread that plays sounds
 
-			m_quitEvent = true;
+			m_QuitEvent = true;
 			m_ConditionalVariable.notify_one();
 			m_Thread.join();
 
@@ -147,15 +147,18 @@ namespace GameEngine
 		{
 			while (true)
 			{
-				if (m_quitEvent) //optimalization
+				if (m_QuitEvent) //optimalization
 					break;
 
-				std::unique_lock<std::mutex> lock(m_SoundEffectsMutex);
-				m_ConditionalVariable.wait(lock, [this] {
-					return (m_SoundQueue.GetPending() != 0 || m_quitEvent == true);
-					});
+				if(m_SoundQueue.GetPending() == 0) 
+				{
+					std::unique_lock<std::mutex> lock(m_SoundEffectsMutex);
+					m_ConditionalVariable.wait(lock, [this] {
+						return (m_SoundQueue.GetPending() != 0 || m_QuitEvent == true);
+						});
+				}
 
-				if (m_quitEvent)
+				if (m_QuitEvent)
 					break;
 
 				AsyncUpdate();
@@ -169,7 +172,7 @@ namespace GameEngine
 		std::mutex m_SoundEffectsMutex;
 		std::jthread m_Thread;
 		std::condition_variable m_ConditionalVariable;
-		std::atomic<bool> m_quitEvent{ false };
+		std::atomic<bool> m_QuitEvent{ false };
 	};
 
 	SoundSystem::SoundSystem() :

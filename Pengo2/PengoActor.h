@@ -1,13 +1,13 @@
 #pragma once
 #include <memory>
 #include <GameObject.h>
-#include <StatesAndTransitions.h>
+#include "PlayerStatesAndTransitions.h"
 
 class GameEngine::BlackboardComponent; 
-class GameEngine::IdleState;
-class GameEngine::RunningState;
-class GameEngine::IsInputGiven;
-class GameEngine::IsInputNotGiven;
+class IdleState;
+class RunningState;
+class IsInputGiven;
+class IsInputNotGiven;
 
 class HitObserver;
 class CollisionObserver;
@@ -32,14 +32,14 @@ public:
 	std::unique_ptr<GameEngine::GameObject>& GetActorGameObject();
 private:
 
-	std::unique_ptr<GameEngine::IdleState> m_IdleState;
-	std::unique_ptr<GameEngine::RunningState> m_RunningState;
-	std::unique_ptr<GameEngine::PushingState> m_PushingState;
+	std::unique_ptr<IdleState> m_IdleState;
+	std::unique_ptr<RunningState> m_RunningState;
+	std::unique_ptr<PushingState> m_PushingState;
 
-	std::unique_ptr<GameEngine::IsInputGiven> m_IsInputGiven;
-	std::unique_ptr<GameEngine::IsInputNotGiven> m_IsNotInputGiven;
-	std::unique_ptr<GameEngine::IsBlockPushed> m_IsBlockPushed;
-	std::unique_ptr<GameEngine::IsBlockNotPushed> m_IsBlockNotPushed;
+	std::unique_ptr<IsInputGiven> m_IsInputGiven;
+	std::unique_ptr<IsInputNotGiven> m_IsNotInputGiven;
+	std::unique_ptr<IsBlockPushed> m_IsBlockPushed;
+	std::unique_ptr<IsBlockNotPushed> m_IsBlockNotPushed;
 
 
 	int m_HorizontalAmountOfFrames = 8;

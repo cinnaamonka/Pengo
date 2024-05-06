@@ -1,9 +1,8 @@
-#include "StatesAndTransitionsAI.h"
+#include "AIStatesAndTransitions.h"
 
 void PatrolState::OnEnter(GameEngine::BlackboardComponent*)
 {
-	int a = 0;
-	a++;
+
 }
 
 void PatrolState::OnExit(GameEngine::BlackboardComponent*)

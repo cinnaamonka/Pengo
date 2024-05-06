@@ -1,5 +1,6 @@
 #pragma once
-#include<StatesAndTransitions.h>
+#include <Helpers.h>
+#include <BlackboardComponent.h>
 
 class PatrolState : public GameEngine::FSMState
 {

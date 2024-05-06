@@ -1,8 +1,6 @@
 #pragma once
 #include <BaseComponent.h>
-#include <StatesAndTransitions.h>
 #include <Helpers.h>
-
 
 class AnimationComponent final: public GameEngine::BaseComponent
 {

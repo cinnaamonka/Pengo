@@ -14,13 +14,13 @@
 #include <FSM.h>
 #include <AIFSM.h>
 
-std::unique_ptr<GameEngine::MovingState> EnemyActor::m_RunningState = std::make_unique<GameEngine::MovingState>();
-std::unique_ptr<GameEngine::AttackState> EnemyActor::m_PushingState = std::make_unique<GameEngine::AttackState>();
-std::unique_ptr<GameEngine::HasAttacked> EnemyActor::m_IsPengoAttacked = std::make_unique <GameEngine::HasAttacked>();
-std::unique_ptr<GameEngine::HasNotAttacked> EnemyActor::m_IsPengoNotAttacked = std::make_unique<GameEngine::HasNotAttacked>();
-std::unique_ptr<PatrolState> EnemyActor::m_MovingState = std::make_unique<PatrolState>();
-std::unique_ptr<ChaseState> EnemyActor::m_ChaseState = std::make_unique<ChaseState>();
-std::unique_ptr<HasNoticedActor> EnemyActor::m_HasNoticedActor = std::make_unique<HasNoticedActor>();
+std::unique_ptr<MovingState> EnemyActor::m_RunningState			 = std::make_unique<MovingState>();
+std::unique_ptr<AttackState> EnemyActor::m_PushingState			 = std::make_unique<AttackState>();
+std::unique_ptr<HasAttacked> EnemyActor::m_IsPengoAttacked		 = std::make_unique <HasAttacked>();
+std::unique_ptr<HasNotAttacked> EnemyActor::m_IsPengoNotAttacked = std::make_unique<HasNotAttacked>();
+std::unique_ptr<PatrolState> EnemyActor::m_MovingState           = std::make_unique<PatrolState>();
+std::unique_ptr<ChaseState> EnemyActor::m_ChaseState             = std::make_unique<ChaseState>();
+std::unique_ptr<HasNoticedActor> EnemyActor::m_HasNoticedActor   = std::make_unique<HasNoticedActor>();
 
 
 EnemyActor::EnemyActor(GameEngine::GameObject* pGameObject): 

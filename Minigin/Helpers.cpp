@@ -1,4 +1,6 @@
 #include "Helpers.h"
+#include "TimeManager.h"
+#include "BlackboardComponent.h"
 
 namespace GameEngine
 {
@@ -228,5 +230,29 @@ namespace GameEngine
 	bool Raycast(const std::vector<glm::vec3>& vertices, const glm::vec2& rayP1, const glm::vec2& rayP2, HitInfo& hitInfo)
 	{
 		return Raycast(vertices.data(), vertices.size(), rayP1, rayP2, hitInfo);
+	}
+	void AnimationUpdate(GameEngine::BlackboardComponent* pBlackboard)
+	{
+			float animTime;
+			int nrFramesPerSec;
+			int animFrame;
+			int nrOfFrames;
+
+			pBlackboard->GetData("NumberOfFrames", nrOfFrames);
+			pBlackboard->GetData("AnimationTime", animTime);
+			pBlackboard->GetData("FramesPerSec", nrFramesPerSec);
+			pBlackboard->GetData("AnimationFrame", animFrame);
+
+			animTime += GameEngine::TimeManager::GetElapsed();
+
+			if (animTime >= 1.f / nrFramesPerSec)
+			{
+				++animFrame %= nrOfFrames;
+
+				animTime = 0;
+			}
+			pBlackboard->ChangeData("AnimationFrame", animFrame);
+			pBlackboard->ChangeData("AnimationTime", animTime);
+		
 	}
 }

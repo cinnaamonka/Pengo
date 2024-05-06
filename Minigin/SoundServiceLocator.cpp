@@ -4,7 +4,7 @@
 namespace GameEngine
 {
 
-	std::unique_ptr<BaseSoundSystem> SoundServiceLocator::m_pInstance = nullptr;
+	std::unique_ptr<BaseSoundSystem> SoundServiceLocator::m_pInstance = std::make_unique<NullSoundSystem>(); 
 
 	BaseSoundSystem& GameEngine::SoundServiceLocator::GetSoundSystemInstance()
 	{
@@ -13,11 +13,7 @@ namespace GameEngine
 
 	void SoundServiceLocator::RegisterSoundSystem(std::unique_ptr<BaseSoundSystem>&& pSoundSystem)
 	{
-		if (!pSoundSystem) 
-		{
-			m_pInstance = std::make_unique<NullSoundSystem>(); 
-		}
-		else
+		if (pSoundSystem) 
 		{
 			m_pInstance = std::move(pSoundSystem);
 		}

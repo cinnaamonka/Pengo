@@ -32,14 +32,14 @@ PengoActor::PengoActor()
 	m_pActor->GetComponent<GameEngine::BlackboardComponent>()->AddData("WasInputGiven", false);
 	m_pActor->GetComponent<GameEngine::BlackboardComponent>()->AddData("WasBlockPushed", false);
 
-	m_IdleState = std::make_unique<GameEngine::IdleState>();
-	m_RunningState = std::make_unique<GameEngine::RunningState>();
-	m_PushingState = std::make_unique<GameEngine::PushingState>();
+	m_IdleState = std::make_unique<IdleState>();
+	m_RunningState = std::make_unique<RunningState>();
+	m_PushingState = std::make_unique<PushingState>();
 
-	m_IsInputGiven = std::make_unique <GameEngine::IsInputGiven>();
-	m_IsNotInputGiven = std::make_unique<GameEngine::IsInputNotGiven>();
-	m_IsBlockPushed = std::make_unique<GameEngine::IsBlockPushed>(); 
-	m_IsBlockNotPushed = std::make_unique<GameEngine::IsBlockNotPushed>();
+	m_IsInputGiven = std::make_unique <IsInputGiven>();
+	m_IsNotInputGiven = std::make_unique<IsInputNotGiven>();
+	m_IsBlockPushed = std::make_unique<IsBlockPushed>(); 
+	m_IsBlockNotPushed = std::make_unique<IsBlockNotPushed>();
 
 	m_pActor->AddComponent<GameEngine::FSM>(m_IdleState.get(), m_pActor->GetComponent<GameEngine::BlackboardComponent>());
 	m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_IdleState.get(), m_RunningState.get(), m_IsInputGiven.get());

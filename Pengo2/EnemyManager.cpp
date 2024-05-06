@@ -32,6 +32,8 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*> bl
 	{
 		for (int j = 0; j < blocks.size(); ++j)
 		{
+			if(blocks[j]->IsDestroyed() ) continue;
+
 			if (blocks[j]->GetComponent<CollisionComponent>()->IsColliding(m_EnemiesRef[i], hitInfo))
 			{
 				glm::vec3 direction = {};

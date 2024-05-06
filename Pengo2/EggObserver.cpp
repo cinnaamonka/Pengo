@@ -50,11 +50,11 @@ void EggObserver::Notify(const glm::vec3& message_from_subject)
 
 	gameObject->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
 
-	m_BreakingEggState = std::make_unique<GameEngine::BreakingEggState>();
-	m_IsEggBroken = std::make_unique<GameEngine::IsEggBroken>();
-	m_pBrokenEggState = std::make_unique<GameEngine::BrokenEggState>();
-	m_WaitingEggState = std::make_unique<GameEngine::WaitingState>();
-	m_IsEggAnimationWaiting = std::make_unique<GameEngine::IsWaiting>();
+	m_BreakingEggState	    = std::make_unique<BreakingEggState>();
+	m_IsEggBroken		    = std::make_unique<IsEggBroken>();
+	m_pBrokenEggState	    = std::make_unique<BrokenEggState>();
+	m_WaitingEggState	    = std::make_unique<WaitingState>();
+	m_IsEggAnimationWaiting = std::make_unique<IsWaiting>();
 
 	gameObject->AddComponent<GameEngine::FSM>(m_WaitingEggState.get(),
 		gameObject->GetComponent<GameEngine::BlackboardComponent>());

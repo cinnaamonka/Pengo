@@ -52,7 +52,7 @@
     <ClCompile Include="EggObserver.cpp">
       <Filter>GameFiles\Observers</Filter>
     </ClCompile>
-    <ClCompile Include="StatesAndTransitionsAI.cpp">
+    <ClCompile Include="AIStatesAndTransitions.cpp">
       <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClCompile>
     <ClCompile Include="AIMovementComponent.cpp">
@@ -63,6 +63,18 @@
     </ClCompile>
     <ClCompile Include="EnemyDirectionObserver.cpp">
       <Filter>GameFiles\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStatesAndTransitions.cpp">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClCompile>
+    <ClCompile Include="BlocksStatesAndTransitions.cpp">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClCompile>
+    <ClCompile Include="EggsStatesAndTransitions.cpp">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyStatesAndTransitions.cpp">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -99,7 +111,7 @@
     <ClInclude Include="EggObserver.h">
       <Filter>GameFiles\Observers</Filter>
     </ClInclude>
-    <ClInclude Include="StatesAndTransitionsAI.h">
+    <ClInclude Include="AIStatesAndTransitions.h">
       <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClInclude>
     <ClInclude Include="AIMovementComponent.h">
@@ -110,6 +122,18 @@
     </ClInclude>
     <ClInclude Include="EnemyDirectionObserver.h">
       <Filter>GameFiles\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStatesAndTransitions.h">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClInclude>
+    <ClInclude Include="BlocksStatesAndTransitions.h">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClInclude>
+    <ClInclude Include="EggsStatesAndTransitions.h">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyStatesAndTransitions.h">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

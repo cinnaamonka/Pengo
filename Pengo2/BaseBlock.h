@@ -4,7 +4,7 @@
 #include <BaseComponent.h>
 #include <Helpers.h>
 #include <BoxColliderComponent.h>
-#include <StatesAndTransitions.h>
+#include "BlocksStatesAndTransitions.h"
 #include <Scene.h>
 
 #include "HitObserver.h"
@@ -85,12 +85,12 @@ public:
 	}
 private:
 
-	static std::unique_ptr<GameEngine::StaticBlockState> m_pStaticBlockState;
-	static std::unique_ptr<GameEngine::BreakingBlockState> m_pBreakingBlockState;
-	static std::unique_ptr<GameEngine::IsBlockBreaking> m_pIsBlockBreaking;
-	static std::unique_ptr<GameEngine::IsBlockNotBreaking> m_pIsBlockNotBreaking;
-	static std::unique_ptr<GameEngine::IsBlockFinishedFlickering> m_pIsBlockFinishedFlickering;
-	static std::unique_ptr<GameEngine::FlickeringBlockState> m_pFlickeringBlockState;
+	static std::unique_ptr<StaticBlockState> m_pStaticBlockState;
+	static std::unique_ptr<BreakingBlockState> m_pBreakingBlockState;
+	static std::unique_ptr<IsBlockBreaking> m_pIsBlockBreaking;
+	static std::unique_ptr<IsBlockNotBreaking> m_pIsBlockNotBreaking;
+	static std::unique_ptr<IsBlockFinishedFlickering> m_pIsBlockFinishedFlickering;
+	static std::unique_ptr<FlickeringBlockState> m_pFlickeringBlockState;
 	
 	glm::vec3 m_Position;
 	glm::vec3 m_ColliderPosition;

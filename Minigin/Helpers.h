@@ -14,6 +14,8 @@
 
 namespace GameEngine
 {
+	class BlackboardComponent;
+
 	using sound_id = unsigned short;
 
 	struct Block
@@ -73,66 +75,8 @@ namespace GameEngine
 	bool Raycast(const std::vector<glm::vec3>& vertices, const glm::vec2& rayP1, const glm::vec2& rayP2, HitInfo& hitInfo);
 
 	
-	/*class Blackboard final
-	{
-	public:
-		Blackboard() = default;
-		~Blackboard()
-		{
-			for (auto el : m_BlackboardData)
-				delete el.second;
-			m_BlackboardData.clear();
-
-		}
-
-		Blackboard(const Blackboard& other) = delete;
-		Blackboard& operator=(const Blackboard& other) = delete;
-		Blackboard(Blackboard&& other) = delete;
-		Blackboard& operator=(Blackboard&& other) = delete;
-
-		template<typename T> bool AddData(const std::string& name, T data)
-		{
-			auto it = m_BlackboardData.find(name);
-			if (it == m_BlackboardData.end())
-			{
-				m_BlackboardData[name] = new BlackboardField<T>(data);
-				return true;
-			}
-			printf("WARNING: Data '%s' of type '%s' already in Blackboard \n", name.c_str(), typeid(T).name());
-			return false;
-		}
-
-		template<typename T> bool ChangeData(const std::string& name, T data)
-		{
-			auto it = m_BlackboardData.find(name);
-			if (it != m_BlackboardData.end())
-			{
-				BlackboardField<T>* p = dynamic_cast<BlackboardField<T>*>(m_BlackboardData[name]);
-				if (p)
-				{
-					p->SetData(data);
-					return true;
-				}
-			}
-			printf("WARNING: Data '%s' of type '%s' not found in Blackboard \n", name.c_str(), typeid(T).name());
-			return false;
-		}
-
-		template<typename T> bool GetData(const std::string& name, T& data)
-		{
-			BlackboardField<T>* p = dynamic_cast<BlackboardField<T>*>(m_BlackboardData[name]);
-			if (p != nullptr)
-			{
-				data = p->GetData();
-				return true;
-			}
-			printf("WARNING: Data '%s' of type '%s' not found in Blackboard \n", name.c_str(), typeid(T).name());
-			return false;
-		}
-
-	private:
-		std::unordered_map<std::string, IBlackBoardField*> m_BlackboardData;
-	};*/
+	void AnimationUpdate(GameEngine::BlackboardComponent* pBlackboard);
+	
 
 }
 

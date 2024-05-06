@@ -13,13 +13,13 @@
     <Filter Include="Sound">
       <UniqueIdentifier>{043357dd-09c5-4ab1-8901-949a888f639c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Engine">
+    <Filter Include="Engine">
       <UniqueIdentifier>{cf990e42-b100-434f-820c-f5e54e491794}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Engine\Input">
+    <Filter Include="Engine\Input">
       <UniqueIdentifier>{529a49d8-65d9-401e-8b5c-afa1e2ef06e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Engine\Event">
+    <Filter Include="Engine\Event">
       <UniqueIdentifier>{ced40782-a4eb-497c-840f-559806b71953}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -46,28 +46,28 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
-      <Filter>Components\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="TimeManager.h">
-      <Filter>Components\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
-      <Filter>Components\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
-      <Filter>Components\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>Components\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Components\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
-      <Filter>Components\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>Components\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="RotationComponent.h">
       <Filter>Components</Filter>
@@ -76,34 +76,34 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Controller.h">
-      <Filter>Components\Engine\Input</Filter>
+      <Filter>Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="BaseCommand.h">
-      <Filter>Components\Engine\Input</Filter>
+      <Filter>Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
-      <Filter>Components\Engine\Input</Filter>
+      <Filter>Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="GameObjectCommand.h">
-      <Filter>Components\Engine\Input</Filter>
+      <Filter>Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="InputCommands.h">
-      <Filter>Components\Engine\Input</Filter>
+      <Filter>Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h">
-      <Filter>Components\Engine\Input</Filter>
+      <Filter>Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="BaseInputDevice.h">
-      <Filter>Components\Engine\Input</Filter>
+      <Filter>Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="ScoreObserver.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Subject.h">
-      <Filter>Components\Engine\Event</Filter>
+      <Filter>Engine\Event</Filter>
     </ClInclude>
     <ClInclude Include="IObserver.h">
-      <Filter>Components\Engine\Event</Filter>
+      <Filter>Engine\Event</Filter>
     </ClInclude>
     <ClInclude Include="ActorComponent.h">
       <Filter>Components</Filter>
@@ -126,9 +126,6 @@
     <ClInclude Include="FSM.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="StatesAndTransitions.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="SoundServiceLocator.h">
       <Filter>Sound</Filter>
     </ClInclude>
@@ -148,9 +145,6 @@
       <Filter>Sound</Filter>
     </ClInclude>
     <ClInclude Include="BlackboardComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="LifetimeObserver.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="AIFSM.h">
@@ -180,25 +174,25 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
-      <Filter>Components\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="TimeManager.cpp">
-      <Filter>Components\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
-      <Filter>Components\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>Components\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Components\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
-      <Filter>Components\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>Components\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="RotationComponent.cpp">
       <Filter>Components</Filter>
@@ -207,16 +201,16 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Controller.cpp">
-      <Filter>Components\Engine\Input</Filter>
+      <Filter>Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>Components\Engine\Input</Filter>
+      <Filter>Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="InputCommands.cpp">
-      <Filter>Components\Engine\Input</Filter>
+      <Filter>Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="Keyboard.cpp">
-      <Filter>Components\Engine\Input</Filter>
+      <Filter>Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="ScoreObserver.cpp">
       <Filter>Components</Filter>
@@ -234,9 +228,6 @@
     <ClCompile Include="FSM.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="StatesAndTransitions.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="SoundServiceLocator.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
@@ -247,9 +238,6 @@
       <Filter>Sound</Filter>
     </ClCompile>
     <ClCompile Include="BlackboardComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="LifetimeObserver.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="AIFSM.cpp">

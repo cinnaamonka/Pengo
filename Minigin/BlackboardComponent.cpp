@@ -1,5 +1,4 @@
 #include "BlackboardComponent.h"
-#include "LifetimeObserver.h"
 
 namespace GameEngine
 {

@@ -5,8 +5,8 @@
 #include <Helpers.h>
 #include <BaseComponent.h>
 #include <GameObject.h>
-#include <StatesAndTransitions.h>
-#include "StatesAndTransitionsAI.h"
+#include "AIStatesAndTransitions.h"
+#include "EnemyStatesAndTransitions.h"
 
 
 class EnemyActor final :public GameEngine::BaseComponent
@@ -27,12 +27,12 @@ private:
 	int m_HorizontalAmountOfFrames = 8;
 	int m_VerticalAmountOfFrames = 5;
 
-	static std::unique_ptr<GameEngine::MovingState> m_RunningState; 
-	static std::unique_ptr<GameEngine::AttackState> m_PushingState; 
+	static std::unique_ptr<MovingState> m_RunningState; 
+	static std::unique_ptr<AttackState> m_PushingState; 
 	static std::unique_ptr<PatrolState> m_MovingState;
 	static std::unique_ptr<ChaseState> m_ChaseState;
 	static std::unique_ptr<HasNoticedActor> m_HasNoticedActor;
-	static std::unique_ptr<GameEngine::HasAttacked> m_IsPengoAttacked;
-	static std::unique_ptr<GameEngine::HasNotAttacked> m_IsPengoNotAttacked;
+	static std::unique_ptr<HasAttacked> m_IsPengoAttacked;
+	static std::unique_ptr<HasNotAttacked> m_IsPengoNotAttacked;
 };
 

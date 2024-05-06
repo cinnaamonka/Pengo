@@ -7,7 +7,7 @@
 #include <IObserver.h>
 #include <Scene.h>
 
-#include <StatesAndTransitions.h>
+#include "EggsStatesAndTransitions.h"
 
 class EggObserver : public GameEngine::IObserver<glm::vec3>
 {
@@ -24,11 +24,11 @@ public:
 
 private:
 	GameEngine::Scene* m_ScenePtr;
-	std::unique_ptr<GameEngine::BreakingEggState> m_BreakingEggState;
-	std::unique_ptr<GameEngine::WaitingState> m_WaitingEggState;
-	std::unique_ptr<GameEngine::BrokenEggState> m_pBrokenEggState;
-	std::unique_ptr<GameEngine::IsEggBroken> m_IsEggBroken;
-	std::unique_ptr<GameEngine::IsWaiting> m_IsEggAnimationWaiting;
+	std::unique_ptr<BreakingEggState> m_BreakingEggState;
+	std::unique_ptr<WaitingState> m_WaitingEggState;
+	std::unique_ptr<BrokenEggState> m_pBrokenEggState;
+	std::unique_ptr<IsEggBroken> m_IsEggBroken;
+	std::unique_ptr<IsWaiting> m_IsEggAnimationWaiting;
 	int m_HorizontalAmountOfFrames = 4;
 
 };

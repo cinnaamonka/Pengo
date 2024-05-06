@@ -4,7 +4,6 @@
 #include <ResourceManager.h>
 #include <InputCommands.h>
 
-#include <StatesAndTransitions.h>
 #include "HitObserver.h"
 #include "EggObserver.h"
 #include "BlockComponent.h"

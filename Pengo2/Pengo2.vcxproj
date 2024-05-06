@@ -186,11 +186,14 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClCompile Include="AIMovementComponent.cpp" />
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="BaseBlock.cpp" />
+    <ClCompile Include="BlocksStatesAndTransitions.cpp" />
     <ClCompile Include="CollisionComponent.cpp" />
     <ClCompile Include="EggObserver.cpp" />
+    <ClCompile Include="EggsStatesAndTransitions.cpp" />
     <ClCompile Include="EnemyActor.cpp" />
     <ClCompile Include="EnemyDirectionObserver.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="EnemyStatesAndTransitions.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HitObserver.cpp" />
@@ -198,7 +201,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PengoActor.cpp" />
     <ClCompile Include="PengoInputCommands.cpp" />
-    <ClCompile Include="StatesAndTransitionsAI.cpp" />
+    <ClCompile Include="PlayerStatesAndTransitions.cpp" />
+    <ClCompile Include="AIStatesAndTransitions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\imgui\imgui.vcxproj">
@@ -212,18 +216,22 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClInclude Include="AIMovementComponent.h" />
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="BaseBlock.h" />
+    <ClInclude Include="BlocksStatesAndTransitions.h" />
     <ClInclude Include="CollisionComponent.h" />
     <ClInclude Include="EggObserver.h" />
+    <ClInclude Include="EggsStatesAndTransitions.h" />
     <ClInclude Include="EnemyActor.h" />
     <ClInclude Include="EnemyDirectionObserver.h" />
     <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="EnemyStatesAndTransitions.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HitObserver.h" />
     <ClInclude Include="BlockObserver.h" />
     <ClInclude Include="PengoActor.h" />
     <ClInclude Include="PengoInputCommands.h" />
-    <ClInclude Include="StatesAndTransitionsAI.h" />
+    <ClInclude Include="PlayerStatesAndTransitions.h" />
+    <ClInclude Include="AIStatesAndTransitions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
