@@ -40,7 +40,7 @@ void Game::Initialize()
 	m_pEnvironment->AddComponent<Environment>("Level.json", &scene);
 	m_pEnvironment->GetComponent<Environment>()->SetActor(m_pPengoActor->GetReferenceToActor());
 
-	m_pEnemyManager = std::make_unique<EnemyManager>(static_cast<int>(m_EnemiesPositions.size()), m_EnemiesPositions, &scene);
+	m_pEnemyManager = std::make_unique<EnemyManager>(static_cast<int>(m_EnemiesPositions.size()), m_EnemiesPositions, &scene, m_pPengoActor->GetReferenceToActor());
 
 	m_pEnvironment->GetComponent<Environment>()->SetEnemyManager(m_pEnemyManager.get()); 
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::HitInfo>(hitObserverComponent);

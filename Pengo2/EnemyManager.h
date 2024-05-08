@@ -14,7 +14,7 @@ class EnemyManager
 {
 
 public:
-	EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions, GameEngine::Scene* scene);
+	EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions, GameEngine::Scene* scene, GameEngine::GameObject* actor);
 	~EnemyManager() = default;
 	EnemyManager(const EnemyManager& other) = delete;
 	EnemyManager(EnemyManager&& other) = delete;
@@ -60,8 +60,6 @@ public:
 	void CheckEnemiesCollision(std::vector<GameEngine::GameObject*> blocks, GameEngine::Subject<BlockCollisionInfo>* subject);
 
 	void HandleBorderCollision(GameEngine::GameObject*);
-
-	void HandleActorCollision(GameEngine::GameObject* pActor);  
 private:
 
 	void HandleMovement(GameEngine::HitInfo& hitInfo, std::vector<GameEngine::GameObject*> blocks,
@@ -75,5 +73,7 @@ private:
 	GameEngine::Subject<glm::vec3> m_PlayerPositionChanged;
 	
 	std::vector<glm::vec3> m_StartPositions;
+
+
 };
 

@@ -83,97 +83,23 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 			continue;
 		};
 
-		// IF BLOCK MOVER HORZONTALY
 		if (pGameObject->GetComponent<BaseBlock>()->GetDirection().x != 0)
 		{
-			// CHECK IF THERE IS SOMETHING NEARBY HORIZONTALLY
-			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(pGameObject, hitInfo))
+			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(pGameObject, hitInfo) ||
+				m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(pGameObject, hitInfo))
 			{
-				const BlockCollisionInfo& info
-				{
-					pGameObject->GetComponent<BaseBlock>()->GetBlockIndex(),
-					hitInfo,
-					false
-				};
-				// NOTIFY OBSERVERS
-				m_BlockCollisionInfo.CreateMessage(info);
-				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
-
-			
-				m_PushBlockIndex = -1;
-
-				auto& soundSystem = GameEngine::SoundServiceLocator::GetSoundSystemInstance();
-				soundSystem.Load("../Data/Sound/test.wav", 0);
-				soundSystem.Play(0, 20.f);
-			}
-
-
-		}
-		// IF BLOCK MOVER VERTICALLY
-		else if (pGameObject->GetComponent<BaseBlock>()->GetDirection().y != 0)
-		{
-			// CHECK IF THERE IS SOMETHING NEARBY VERTICALLY
-			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(pGameObject, hitInfo))
-			{
-				const BlockCollisionInfo& info
-				{
-					pGameObject->GetComponent<BaseBlock>()->GetBlockIndex(),
-					hitInfo,
-					false
-				};
-
-				// NOTIFY OBSERVERS
-				m_BlockCollisionInfo.CreateMessage(info);
-				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
-
-			
-				m_PushBlockIndex = -1;
-
-			}
-		}
-
-		// IF BLOCK MOVES HORISONTALLY
-		if (pGameObject->GetComponent<BaseBlock>()->GetDirection().x != 0)
-		{
-			// CHECK BORDER COLLISION HORISONTALLY
-			if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(pGameObject, hitInfo))
-			{
-				const BlockCollisionInfo& info
-				{
-					pGameObject->GetComponent<BaseBlock>()->GetBlockIndex(),
-					hitInfo,
-					false
-				};
-
-				m_BlockCollisionInfo.CreateMessage(info);
-				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
-
-			
-				m_PushBlockIndex = -1;
-
+				StopBlock(pGameObject, hitInfo);
 			}
 		}
 		if (pGameObject->GetComponent<BaseBlock>()->GetDirection().y != 0)
 		{
-			// CHECK BORDER COLLISION VERTICALLY
-			if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(pGameObject, hitInfo))
+			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(pGameObject, hitInfo) ||
+				m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(pGameObject, hitInfo))
 			{
-				const BlockCollisionInfo& info
-				{
-					pGameObject->GetComponent<BaseBlock>()->GetBlockIndex(),
-					hitInfo,
-					false
-				};
-
-				m_BlockCollisionInfo.CreateMessage(info);
-				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo); 
-				
-				m_PushBlockIndex = -1;
+				StopBlock(pGameObject, hitInfo);
 			}
 		}
-
 	}
-
 }
 
 void Environment::Update()
@@ -343,11 +269,24 @@ void Environment::CreateBlocksCollection(std::vector<GameEngine::Block> blocks, 
 
 	offset += static_cast<int>(tempCollection.size());
 }
+void Environment::StopBlock(GameEngine::GameObject* block, GameEngine::HitInfo hitInfo) 
+{
+	const BlockCollisionInfo& info 
+	{
+		block->GetComponent<BaseBlock>()->GetBlockIndex(),
+		hitInfo,
+		false
+	};
+	// NOTIFY OBSERVERS
+	m_BlockCollisionInfo.CreateMessage(info); 
+	block->GetComponent<HitObserver>()->Notify(info.hitInfo);
+
+	m_PushBlockIndex = -1; 
+}
 void Environment::CheckEnemiesCollision()
 { 
 	// CHECK ENEMIES COLLISION LOGIC
 	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks, &m_BlockCollisionInfo);
 	m_pEnemyManager->HandleBorderCollision(m_pBorderBlock);
 	m_pEnemyManager->CreateMessage(m_pPlayer->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
-	m_pEnemyManager->HandleActorCollision(m_pPlayer); 
 }

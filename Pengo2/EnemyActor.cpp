@@ -10,6 +10,7 @@
 #include "AIMovementComponent.h"
 #include "EnemyDirectionObserver.h"
 #include "CollisionComponent.h"
+#include <ActorComponent.h>
 #include "PlayerPositionObserver.h"
 
 #include <FSM.h>
@@ -65,4 +66,9 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(glm::vec3& pos,i
 	
 
 	return gameObject;
+}
+
+void EnemyActor::KillPlayer()
+{
+	m_pPlayer->GetComponent<GameEngine::ActorComponent>()->Damage(1); 
 }

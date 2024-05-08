@@ -15,7 +15,9 @@ void PlayerPositionObserver::Notify(const glm::vec3& message_from_subject)
 
 	if (AreNear(message_from_subject, currentEnemyPosition,5.0f))
 	{
-		GetGameObject()->GetComponent<EnemyActor>()->SetHasKilledActor(true);
+		GetGameObject()->GetComponent<EnemyActor>()->KillPlayer();
+		GetGameObject()->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("MovementDirection", glm::vec3{0.0f,0.0f,0.0f});
+		return;
 	}
 
 	const auto distance = glm::distance(message_from_subject, currentEnemyPosition);

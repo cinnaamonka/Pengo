@@ -8,7 +8,7 @@
 #include <BaseComponent.h>
 
 #include "BaseBlock.h"
-#include "IObserver.h"
+#include <IObserver.h>
 #include "BlockObserver.h"
 #include "EggObserver.h"
 #include "EnemyManager.h"
@@ -63,7 +63,8 @@ public:
 
 	void CreateBlocksCollection(std::vector<GameEngine::Block> blocks, const std::string& name, const std::string& tag,
 		int& offset, GameEngine::Scene* scene, bool IsBreakable, bool containsEggs = false, int clipTextureAmount = 1);
-
+private:
+	void StopBlock(GameEngine::GameObject* block, GameEngine::HitInfo hitInfo);
 private:
 	std::vector<GameEngine::GameObject*> m_pBlocks;
 

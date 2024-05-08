@@ -17,7 +17,7 @@ const auto RANDOM_SIGN = [](int val) { return val == 0 ? -1 : 1; };
 std::random_device rd;
 std::mt19937 gen(rd());
 
-EnemyManager::EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions, GameEngine::Scene* scene)
+EnemyManager::EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions, GameEngine::Scene* scene,GameEngine::GameObject* actor)
 {
 	for (int i = 0; i < enemiesAmount; ++i)
 	{
@@ -25,6 +25,7 @@ EnemyManager::EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions,
 		m_EnemiesCollisionHitInfoChanged.Attach(enemyActor->GetComponent<HitObserver>());
 		m_EnemyDirectionChanged.Attach(enemyActor->GetComponent<EnemyDirectionObserver>());
 		m_PlayerPositionChanged.Attach(enemyActor->GetComponent<PlayerPositionObserver>()); 
+		enemyActor->GetComponent<EnemyActor>()->SetActor(actor);
 		m_EnemiesRef.push_back(enemyActor.get());
 		scene->Add(std::move(enemyActor));
 	}
@@ -132,13 +133,3 @@ void EnemyManager::HandleBorderCollision(GameEngine::GameObject* border)
 	}
 }
 
-void EnemyManager::HandleActorCollision(GameEngine::GameObject* pActor)
-{
-	for (int i = 0; i < m_EnemiesRef.size(); ++i)
-	{
-		if (m_EnemiesRef[i]->GetComponent<EnemyActor>()->GetHasKilledActor())
-		{
-			pActor->GetComponent<GameEngine::ActorComponent>()->Damage(1);
-		}
-	}
-}
