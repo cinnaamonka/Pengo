@@ -2,6 +2,7 @@
 #include <memory>
 #include <GameObject.h>
 #include "PlayerStatesAndTransitions.h"
+#include <HealthObserver.h>
 
 class GameEngine::BlackboardComponent; 
 class IdleState;
@@ -11,6 +12,7 @@ class IsInputNotGiven;
 
 class HitObserver;
 class CollisionObserver;
+class HealthObserver;
 
 class PengoActor final
 {
@@ -29,18 +31,20 @@ public:
 	}
 
 	HitObserver* GetHitObserver() const;
+
 	std::unique_ptr<GameEngine::GameObject>& GetActorGameObject();
 private:
 
 	std::unique_ptr<IdleState> m_IdleState;
 	std::unique_ptr<RunningState> m_RunningState;
 	std::unique_ptr<PushingState> m_PushingState;
+	std::unique_ptr<PlayerDyingState> m_DyingState;
 
 	std::unique_ptr<IsInputGiven> m_IsInputGiven;
 	std::unique_ptr<IsInputNotGiven> m_IsNotInputGiven;
 	std::unique_ptr<IsBlockPushed> m_IsBlockPushed;
 	std::unique_ptr<IsBlockNotPushed> m_IsBlockNotPushed;
-
+	std::unique_ptr<IsKilled> m_IsKilled;
 
 	int m_HorizontalAmountOfFrames = 8;
 	int m_VerticalAmountOfFrames = 3;

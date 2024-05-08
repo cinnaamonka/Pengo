@@ -53,3 +53,16 @@ bool HasNotAttacked::Evaluate(GameEngine::BlackboardComponent*) const
 {
 	return false;
 }
+
+void DyingState::OnEnter(GameEngine::BlackboardComponent* )
+{
+
+}
+
+void DyingState::OnExit(GameEngine::BlackboardComponent* )
+{
+}
+
+void DyingState::Update(GameEngine::BlackboardComponent* )
+{
+}

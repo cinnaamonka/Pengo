@@ -35,6 +35,18 @@ public:
 
 };
 
+class PlayerDyingState : public GameEngine::FSMState
+{
+public:
+	PlayerDyingState() = default;
+	~PlayerDyingState() = default;
+
+	virtual void OnEnter(GameEngine::BlackboardComponent* pBlackboard) override;
+	virtual void OnExit(GameEngine::BlackboardComponent* pBlackboard) override;
+	virtual void Update(GameEngine::BlackboardComponent* pBlackboard) override;
+
+};
+
 class IsInputGiven : public GameEngine::FSMCondition
 {
 public:
@@ -65,6 +77,14 @@ class IsBlockNotPushed : public GameEngine::FSMCondition
 public:
 	IsBlockNotPushed() = default;
 	~IsBlockNotPushed() = default;
+
+	virtual bool Evaluate(GameEngine::BlackboardComponent* pBlackboard) const override;
+};
+class IsKilled : public GameEngine::FSMCondition
+{
+public:
+	IsKilled() = default;
+	~IsKilled() = default;
 
 	virtual bool Evaluate(GameEngine::BlackboardComponent* pBlackboard) const override;
 };

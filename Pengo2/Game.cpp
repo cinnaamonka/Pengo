@@ -57,7 +57,7 @@ void Game::Initialize()
 		(std::make_unique<GameEngine::SoundSystem>()));
 }
 
-void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)
+void Game::InitializeInputSystem(GameEngine::GameObject* gameActor) 
 {
 	auto& input = GameEngine::InputManager::GetInstance();
 	auto m_Controller = std::make_unique<GameEngine::Controller>(0);

@@ -23,7 +23,9 @@ public:
 private:
 	bool AreVectorsCollinear(const glm::vec3& v1, const glm::vec3& v2,float tolerance = 0.0f) const;
 	bool AreOnSameLine(const glm::vec3& referencePoint, const glm::vec3& pos1, const glm::vec3& pos2) const;
+	bool AreNear(const glm::vec3& pos1, const glm::vec3& pos2, float threshold);
+
 private:
-	const int m_Radius = 20;
+	const int m_Radius = 40;
 };
 

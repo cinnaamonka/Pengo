@@ -15,7 +15,7 @@ namespace GameEngine
 		m_DestTextureRect{},
 		m_CanCollisionBeChecked(false)
 	{
-		
+
 	}
 
 	void ActorComponent::AddScore(int score)
@@ -38,9 +38,6 @@ namespace GameEngine
 
 		m_LifesAmountChanged.CreateMessage(m_LifesAmount);
 
-		if (m_LifesAmount <= 0)
-		{
-			m_StateChanged.CreateMessage(GameEngine::State::PlayerDied);
-		}
+		m_StateChanged.CreateMessage(GameEngine::State::PlayerDied);
 	}
 }

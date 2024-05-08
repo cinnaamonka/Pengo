@@ -67,6 +67,7 @@ void Environment::CheckCollision()
 		m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 	}
 
+
 }
 
 void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
@@ -165,7 +166,7 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 				};
 
 				m_BlockCollisionInfo.CreateMessage(info);
-				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
+				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo); 
 				
 				m_PushBlockIndex = -1;
 			}
@@ -190,6 +191,7 @@ void Environment::Update()
 }
 
 void Environment::PushBlock()
+
 {
 	GameEngine::HitInfo hitInfo;
 
@@ -342,9 +344,10 @@ void Environment::CreateBlocksCollection(std::vector<GameEngine::Block> blocks, 
 	offset += static_cast<int>(tempCollection.size());
 }
 void Environment::CheckEnemiesCollision()
-{
+{ 
 	// CHECK ENEMIES COLLISION LOGIC
 	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks, &m_BlockCollisionInfo);
 	m_pEnemyManager->HandleBorderCollision(m_pBorderBlock);
 	m_pEnemyManager->CreateMessage(m_pPlayer->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
+	m_pEnemyManager->HandleActorCollision(m_pPlayer); 
 }

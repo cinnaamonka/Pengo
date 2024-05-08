@@ -1,6 +1,7 @@
 #include "HealthObserver.h"
 #include "TextComponent.h"
 #include "ActorComponent.h"
+#include "BlackboardComponent.h"
 
 namespace GameEngine
 {
@@ -14,12 +15,12 @@ namespace GameEngine
 		switch (messageFromSubject)
 		{
 		case GameEngine::State::PlayerDied:
-			GetGameObject()->GetComponent<TextComponent>()->SetText("Player died!");
+			GetGameObject()->GetComponent<BlackboardComponent>()->ChangeData("IsKilled", true);
 		}
 		
 	}
-	void HealthObserver::Notify(const int& messageFromSubject)
+	void HealthObserver::Notify(const int&)
 	{
-		GetGameObject()->GetComponent<TextComponent>()->SetText(std::to_string(messageFromSubject));
+		//GetGameObject()->GetComponent<TextComponent>()->SetText(std::to_string(messageFromSubject));
 	}
 }

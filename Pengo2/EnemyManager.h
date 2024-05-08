@@ -61,6 +61,7 @@ public:
 
 	void HandleBorderCollision(GameEngine::GameObject*);
 
+	void HandleActorCollision(GameEngine::GameObject* pActor);  
 private:
 
 	void HandleMovement(GameEngine::HitInfo& hitInfo, std::vector<GameEngine::GameObject*> blocks,
@@ -72,6 +73,7 @@ private:
 	GameEngine::Subject<GameEngine::HitInfo> m_EnemiesCollisionHitInfoChanged;
 	GameEngine::Subject<GameEngine::EnemyInfo> m_EnemyDirectionChanged;
 	GameEngine::Subject<glm::vec3> m_PlayerPositionChanged;
+	
 	std::vector<glm::vec3> m_StartPositions;
 };
 

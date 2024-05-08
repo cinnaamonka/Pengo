@@ -2,17 +2,12 @@
 #include "BaseComponent.h"
 #include "Subject.h"
 #include "Helpers.h"
+#include "HealthObserver.h"
 
 namespace GameEngine
 {
 	class GameObject;
 	class ScoreObserver;
-	class HealthObserver;
-
-	enum class State
-	{
-		PlayerDied
-	};
 
 	class ActorComponent : public BaseComponent
 	{
@@ -53,12 +48,10 @@ namespace GameEngine
 		{
 			if constexpr (std::is_same_v<T, State>)
 			{
-				// Attach to m_StateChanged when T is State
 				m_StateChanged.Attach(pObserver);
 			}
 			else if constexpr (std::is_same_v<T, int>)
 			{
-
 				m_LifesAmountChanged.Attach(pObserver);
 				m_ScoreChanged.Attach(pObserver);
 			}
@@ -92,7 +85,7 @@ namespace GameEngine
 
 		Subject<int> m_ScoreChanged;
 		Subject<int> m_LifesAmountChanged;
-		Subject<State> m_StateChanged;
+		Subject<GameEngine::State> m_StateChanged;
 
 	};
 }

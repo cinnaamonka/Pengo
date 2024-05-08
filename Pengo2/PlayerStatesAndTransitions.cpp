@@ -81,6 +81,27 @@ void PushingState::Update(GameEngine::BlackboardComponent* pBlackboard)
 	pBlackboard->ChangeData("WasBlockPushed", false);
 }
 
+void PlayerDyingState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
+{
+	glm::vec3 movementDirection;
+	pBlackboard->GetData("MovementDirection", movementDirection);
+
+
+	pBlackboard->ChangeData("HorizontalOffset", 0);
+	pBlackboard->ChangeData("VerticalOffset", 2);
+
+	pBlackboard->ChangeData("NumberOfFrames", 2);
+}
+
+void PlayerDyingState::OnExit(GameEngine::BlackboardComponent*)
+{
+}
+
+void PlayerDyingState::Update(GameEngine::BlackboardComponent* pBlackboard)
+{
+	AnimationUpdate(pBlackboard);
+}
+
 bool IsInputGiven::Evaluate(GameEngine::BlackboardComponent* pBlackboard) const
 {
 	bool inputWasGiven;
@@ -118,3 +139,10 @@ bool IsBlockNotPushed::Evaluate(GameEngine::BlackboardComponent* pBlackboard) co
 	return true;
 }
 
+bool IsKilled::Evaluate(GameEngine::BlackboardComponent* pBlackboard) const
+{
+	bool isKilled; 
+	pBlackboard->GetData("IsKilled", isKilled); 
+
+	return isKilled; 
+}

@@ -4,6 +4,8 @@
 #include "EnemyDirectionObserver.h"
 #include "CollisionComponent.h"
 #include "BaseBlock.h"
+#include <TransformComponent.h>
+#include <ActorComponent.h>
 #include "PlayerPositionObserver.h"
 
 
@@ -126,6 +128,17 @@ void EnemyManager::HandleBorderCollision(GameEngine::GameObject* border)
 		if (direction.x)
 		{
 			CreateMessage(GameEngine::EnemyInfo{ i, hitInfo.normal.x > 0 ? right : left });
+		}
+	}
+}
+
+void EnemyManager::HandleActorCollision(GameEngine::GameObject* pActor)
+{
+	for (int i = 0; i < m_EnemiesRef.size(); ++i)
+	{
+		if (m_EnemiesRef[i]->GetComponent<EnemyActor>()->GetHasKilledActor())
+		{
+			pActor->GetComponent<GameEngine::ActorComponent>()->Damage(1);
 		}
 	}
 }

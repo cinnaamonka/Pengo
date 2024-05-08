@@ -26,7 +26,17 @@ public:
 	virtual void Update(GameEngine::BlackboardComponent* pBlackboard) override;
 
 };
+class DyingState : public GameEngine::FSMState
+{
+public:
+	DyingState() = default;
+	~DyingState() = default;
 
+	virtual void OnEnter(GameEngine::BlackboardComponent* pBlackboard) override;
+	virtual void OnExit(GameEngine::BlackboardComponent* pBlackboard) override;
+	virtual void Update(GameEngine::BlackboardComponent* pBlackboard) override;
+
+};
 
 //ENEMY CONDITIONS
 class HasAttacked : public GameEngine::FSMCondition

@@ -21,10 +21,15 @@ public:
 
 	static std::unique_ptr<GameEngine::GameObject> CreateEnemy(glm::vec3& pos,int index);
 
+	void SetHasKilledActor(bool hasKilledActor) { m_HasKilledActor = hasKilledActor; }
+	bool GetHasKilledActor() const { return m_HasKilledActor; }
+
 private:
 
 	int m_HorizontalAmountOfFrames = 8;
 	int m_VerticalAmountOfFrames = 5;
+
+	bool m_HasKilledActor;
 
 	static std::unique_ptr<MovingState> m_RunningState; 
 	static std::unique_ptr<AttackState> m_PushingState; 
