@@ -6,6 +6,8 @@
 #include <Helpers.h>
 #include <Scene.h>
 #include <IObserver.h>
+#include <Subject.h>
+#include "BlockObserver.h"
 
 
 class EnemyManager
@@ -55,7 +57,7 @@ public:
 
 	}
 
-	void CheckEnemiesCollision(std::vector<GameEngine::GameObject*> blocks);
+	void CheckEnemiesCollision(std::vector<GameEngine::GameObject*> blocks, GameEngine::Subject<BlockCollisionInfo>* subject);
 
 	void HandleBorderCollision(GameEngine::GameObject*);
 

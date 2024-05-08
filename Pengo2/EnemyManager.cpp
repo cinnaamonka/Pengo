@@ -6,6 +6,7 @@
 #include "BaseBlock.h"
 #include "PlayerPositionObserver.h"
 
+
 #pragma warning(disable : 4702)
 std::uniform_int_distribution<int> dist(-1, 1);
 
@@ -27,7 +28,7 @@ EnemyManager::EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions,
 	}
 }
 
-void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*> blocks)
+void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*> blocks, GameEngine::Subject<BlockCollisionInfo>* subject)
 {
 	GameEngine::HitInfo hitInfo;
 
@@ -35,7 +36,7 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*> bl
 	{
 		for (int j = 0; j < blocks.size(); ++j)
 		{
-			if(blocks[j]->IsDestroyed() ) continue;
+			if(blocks[j]->IsDestroyed()) continue;
 
 			if (blocks[j]->GetComponent<CollisionComponent>()->IsColliding(m_EnemiesRef[i], hitInfo))
 			{
@@ -54,6 +55,7 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*> bl
 					if (blocks[j]->GetComponent<BaseBlock>()->GetIsBreakable())
 					{
 						blocks[j]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+						subject->Detach(blocks[j]->GetComponent<BlockObserver>());
 					}
 
 					HandleMovement(hitInfo, blocks, j, i, randDirection, true);
@@ -65,6 +67,7 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*> bl
 					if (blocks[j]->GetComponent<BaseBlock>()->GetIsBreakable())
 					{
 						blocks[j]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+						subject->Detach(blocks[j]->GetComponent<BlockObserver>());
 					}
 
 					HandleMovement(hitInfo, blocks, j, i, randDirection, false);

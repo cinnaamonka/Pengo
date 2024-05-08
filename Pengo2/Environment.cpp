@@ -98,6 +98,7 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 				m_BlockCollisionInfo.CreateMessage(info);
 				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
 
+			
 				m_PushBlockIndex = -1;
 
 				auto& soundSystem = GameEngine::SoundServiceLocator::GetSoundSystemInstance();
@@ -124,6 +125,7 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 				m_BlockCollisionInfo.CreateMessage(info);
 				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
 
+			
 				m_PushBlockIndex = -1;
 
 			}
@@ -145,6 +147,8 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 				m_BlockCollisionInfo.CreateMessage(info);
 				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
 
+			
+				m_PushBlockIndex = -1;
 
 			}
 		}
@@ -162,7 +166,8 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 
 				m_BlockCollisionInfo.CreateMessage(info);
 				pGameObject->GetComponent<HitObserver>()->Notify(info.hitInfo);
-
+				
+				m_PushBlockIndex = -1;
 			}
 		}
 
@@ -175,20 +180,8 @@ void Environment::Update()
 	CheckEnemiesCollision();
 
 	if (!m_pPlayer->GetComponent<GameEngine::ActorComponent>()->GetCollisionBeChecked()) return;
-	
+
 	CheckCollision();
-
-	if (m_PushBlockIndex != -1)
-	{
-		if (m_pBlocks[m_PushBlockIndex]->IsDestroyed())
-		{
-			// DETACH OBSERVER
-			m_BlockCollisionInfo.Detach(m_pBlocks[m_PushBlockIndex]->GetComponent<BlockObserver>());
-
-			m_PushBlockIndex = -1;
-
-		}
-	}
 
 	if (m_PushBlockIndex != -1)
 	{
@@ -211,6 +204,7 @@ void Environment::PushBlock()
 				{
 					// ONLY IF BREAKABLE
 					m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+					m_BlockCollisionInfo.Detach(m_pBlocks[i]->GetComponent<BlockObserver>());
 
 					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
 					{
@@ -231,6 +225,7 @@ void Environment::PushBlock()
 					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsBreakable())
 					{
 						m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+						m_BlockCollisionInfo.Detach(m_pBlocks[i]->GetComponent<BlockObserver>());
 
 						// ONLY IF BREAKABLE
 						if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
@@ -267,6 +262,7 @@ void Environment::PushBlock()
 				{
 					// ONLY IF BREAKABLE
 					m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+					m_BlockCollisionInfo.Detach(m_pBlocks[i]->GetComponent<BlockObserver>());
 
 					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
 					{
@@ -289,6 +285,7 @@ void Environment::PushBlock()
 					{
 						// ONLY IF BREAKABLE
 						m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+						m_BlockCollisionInfo.Detach(m_pBlocks[i]->GetComponent<BlockObserver>());
 
 						if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
 						{
@@ -347,7 +344,7 @@ void Environment::CreateBlocksCollection(std::vector<GameEngine::Block> blocks, 
 void Environment::CheckEnemiesCollision()
 {
 	// CHECK ENEMIES COLLISION LOGIC
-	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks);
+	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks, &m_BlockCollisionInfo);
 	m_pEnemyManager->HandleBorderCollision(m_pBorderBlock);
-	m_pEnemyManager->CreateMessage(m_pPlayer->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition()); 
+	m_pEnemyManager->CreateMessage(m_pPlayer->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
 }
