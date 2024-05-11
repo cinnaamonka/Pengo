@@ -34,11 +34,13 @@ BaseBlock::BaseBlock(GameEngine::GameObject* GOptr, int index, bool isBreakable,
 
 bool BaseBlock::IsCollidingHorizontally(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo)
 {
+	if (GetGameObject()->IsDestroyed() || !GetGameObject())return false;
 	return GetGameObject()->GetComponent<GameEngine::BoxCollider>()->IsCollidingHorizontally(rectShape, hitInfo);
 }
 
 bool BaseBlock::IsCollidingVertically(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo)
 {
+	if (GetGameObject()->IsDestroyed() || !GetGameObject())return false;
 	return GetGameObject()->GetComponent<GameEngine::BoxCollider>()->IsCollidingVertically(rectShape, hitInfo);
 }
 

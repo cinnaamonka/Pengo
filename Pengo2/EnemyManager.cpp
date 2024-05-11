@@ -84,8 +84,6 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*> bl
 
 					return;
 				}
-
-
 			}
 
 		}
@@ -157,19 +155,8 @@ void EnemyManager::CheckCollisionWithPushedBlock(GameEngine::GameObject* blocks)
 		if (blocks->IsDestroyed())continue;
 		if (blocks->GetComponent<CollisionComponent>()->IsColliding(m_EnemiesRef[i], hitInfo))
 		{
-			std::cout << "collision happended" << std::endl;
-			/*if (i == m_KilledEnemyIndex && j != m_PushBlockIndex)
-			{
-				std::cout << "enemy killed" << std::endl;
-				KillEnemy(m_KilledEnemyIndex);
-				return;
-			}*/
-
 			glm::vec3 flyingBlockDirection;
 			blocks->GetComponent<GameEngine::BlackboardComponent>()->GetData("MovementDirection", flyingBlockDirection);
-
-		
-			std::cout << flyingBlockDirection.x << "," << flyingBlockDirection.y << std::endl;
 
 			m_EnemiesRef[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("Speed", 10.0f);
 			m_EnemiesRef[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("MovementDirection", flyingBlockDirection);
