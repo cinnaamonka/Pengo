@@ -57,13 +57,18 @@ public:
 
 	}
 
-	void CheckEnemiesCollision(std::vector<GameEngine::GameObject*> blocks, GameEngine::Subject<BlockCollisionInfo>* subject);
+	void CheckEnemiesCollision(std::vector<GameEngine::GameObject*> blocks, GameEngine::Subject<BlockCollisionInfo>* subject,int m_PushBlockIndex);
 
 	void HandleBorderCollision(GameEngine::GameObject*);
+
+	void CheckCollisionWithPushedBlock(GameEngine::GameObject* blocks);
+
 private:
 
 	void HandleMovement(GameEngine::HitInfo& hitInfo, std::vector<GameEngine::GameObject*> blocks,
 		int currentBlockIndex, int currentEnemyIndex, const int randDirection, bool isHorizontal); 
+
+	void KillEnemy(int index);
 
 
 private:
@@ -73,6 +78,8 @@ private:
 	GameEngine::Subject<glm::vec3> m_PlayerPositionChanged;
 	
 	std::vector<glm::vec3> m_StartPositions;
+
+	int m_KilledEnemyIndex;
 
 
 };

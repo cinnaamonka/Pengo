@@ -61,6 +61,7 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(glm::vec3& pos,i
 
 	gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("Pos", glm::vec3(pos.x, pos.y, 0));
 	gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("IsChasing", bool());
+	gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("Speed", 0.3f);
 
 	gameObject->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("MovementDirection", glm::vec3(1, 0, 0));
 	

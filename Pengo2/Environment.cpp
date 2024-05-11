@@ -75,7 +75,7 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 	GameEngine::HitInfo hitInfo{};
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
-		if (m_pBlocks[i]->IsDestroyed()) continue;
+		if (m_pBlocks[i]->IsDestroyed() || !m_pBlocks[i]->HasComponent<BaseBlock>()) continue;
 
 		// IF NOT THE SAME BLOCK
 		if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetBlockIndex() == pGameObject->GetComponent<BaseBlock>()->GetBlockIndex())
@@ -113,6 +113,12 @@ void Environment::Update()
 	if (m_PushBlockIndex != -1)
 	{
 		CheckBlocksCollision(m_pBlocks[m_PushBlockIndex]);
+
+		if (m_PushBlockIndex != -1)
+		{
+			m_pEnemyManager->CheckCollisionWithPushedBlock(m_pBlocks[m_PushBlockIndex]);
+		}
+		
 	}
 }
 
@@ -121,8 +127,10 @@ void Environment::PushBlock()
 {
 	GameEngine::HitInfo hitInfo;
 
+
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
+		if (m_pBlocks[i]->IsDestroyed())continue;
 		// CHECK IF BLOCK COLLIDES WITH SOMETHING WHEN IT IS STATIC 
 		if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pPlayer, hitInfo))
 		{
@@ -238,6 +246,7 @@ void Environment::PushBlock()
 		}
 	}
 
+	
 }
 
 void Environment::CreateBlocksCollection(std::vector<GameEngine::Block> blocks, const std::string& name,
@@ -286,7 +295,8 @@ void Environment::StopBlock(GameEngine::GameObject* block, GameEngine::HitInfo h
 void Environment::CheckEnemiesCollision()
 { 
 	// CHECK ENEMIES COLLISION LOGIC
-	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks, &m_BlockCollisionInfo);
+	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks, &m_BlockCollisionInfo,m_PushBlockIndex);
 	m_pEnemyManager->HandleBorderCollision(m_pBorderBlock);
 	m_pEnemyManager->CreateMessage(m_pPlayer->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
+	
 }

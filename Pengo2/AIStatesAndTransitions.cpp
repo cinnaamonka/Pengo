@@ -17,13 +17,16 @@ void PatrolState::Update(GameEngine::BlackboardComponent* pBlackboard)
 	glm::vec3 direction;
 	pBlackboard->GetData("MovementDirection", direction);
 
+	float speed;
+	pBlackboard->GetData("Speed", speed);
+
 	if (direction.x != 0)
 	{
-		pos.x += 0.5f * direction.x;
+		pos.x += speed * direction.x;
 	}
 	if (direction.y != 0)
 	{
-		pos.y += 0.5f * direction.y;
+		pos.y += speed * direction.y;
 	}
 
 	pBlackboard->ChangeData("Pos", pos);
@@ -45,13 +48,16 @@ void ChaseState::Update(GameEngine::BlackboardComponent* pBlackboard)
 	glm::vec3 direction;
 	pBlackboard->GetData("MovementDirection", direction);
 
+	float speed;
+	pBlackboard->GetData("Speed", speed);
+
 	if (direction.x != 0)
 	{
-		pos.x += 0.1f * direction.x;
+		pos.x += speed * direction.x;
 	}
 	if (direction.y != 0)
 	{
-		pos.y += 0.1f * direction.y;
+		pos.y += speed * direction.y;
 	}
 
 	pBlackboard->ChangeData("Pos", pos);

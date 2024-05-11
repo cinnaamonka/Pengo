@@ -12,14 +12,14 @@
 #include "BlockObserver.h"
 #include <BlackboardComponent.h>
 
-std::unique_ptr<StaticBlockState> BaseBlock::m_pStaticBlockState				   = std::make_unique<StaticBlockState>();
-std::unique_ptr<BreakingBlockState> BaseBlock::m_pBreakingBlockState			   = std::make_unique<BreakingBlockState>();
-std::unique_ptr<IsBlockBreaking> BaseBlock::m_pIsBlockBreaking					   = std::make_unique<IsBlockBreaking>();
-std::unique_ptr<IsBlockNotBreaking> BaseBlock::m_pIsBlockNotBreaking			   = std::make_unique<IsBlockNotBreaking>();
-std::unique_ptr<FlickeringBlockState> BaseBlock::m_pFlickeringBlockState		   = std::make_unique<FlickeringBlockState>();
+std::unique_ptr<StaticBlockState> BaseBlock::m_pStaticBlockState = std::make_unique<StaticBlockState>();
+std::unique_ptr<BreakingBlockState> BaseBlock::m_pBreakingBlockState = std::make_unique<BreakingBlockState>();
+std::unique_ptr<IsBlockBreaking> BaseBlock::m_pIsBlockBreaking = std::make_unique<IsBlockBreaking>();
+std::unique_ptr<IsBlockNotBreaking> BaseBlock::m_pIsBlockNotBreaking = std::make_unique<IsBlockNotBreaking>();
+std::unique_ptr<FlickeringBlockState> BaseBlock::m_pFlickeringBlockState = std::make_unique<FlickeringBlockState>();
 std::unique_ptr<IsBlockFinishedFlickering> BaseBlock::m_pIsBlockFinishedFlickering = std::make_unique<IsBlockFinishedFlickering>();
 
-BaseBlock::BaseBlock(GameEngine::GameObject* GOptr, int index, bool isBreakable,bool containsEggs) :
+BaseBlock::BaseBlock(GameEngine::GameObject* GOptr, int index, bool isBreakable, bool containsEggs) :
 	GameEngine::BaseComponent(GOptr),
 	m_PushSpeed(10.0f),
 	m_Position{ 0,0,0 },
@@ -48,7 +48,7 @@ void BaseBlock::PushBlock(const glm::vec3& direction)
 }
 
 std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& position, const std::string& filename,
-	int index, bool isBreakable, bool containsEggs,int clipAmount, int blockSizeX, int blockSizeY, const glm::vec3& colliderBlockPos)
+	int index, bool isBreakable, bool containsEggs, int clipAmount, int blockSizeX, int blockSizeY, const glm::vec3& colliderBlockPos)
 {
 	auto gameObject = std::make_unique<GameEngine::GameObject>();
 
@@ -68,7 +68,7 @@ std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& 
 	gameObject->AddComponent<GameEngine::TextureComponent>(filename, clipAmount);
 	gameObject->AddComponent<GameEngine::RenderComponent>();
 	gameObject->AddComponent<CollisionComponent>();
-	gameObject->AddComponent<BaseBlock>(index, isBreakable, containsEggs);  
+	gameObject->AddComponent<BaseBlock>(index, isBreakable, containsEggs);
 	gameObject->AddComponent<HitObserver>();
 	gameObject->AddComponent<GameEngine::BlackboardComponent>();
 	gameObject->AddComponent<AnimationComponent>();

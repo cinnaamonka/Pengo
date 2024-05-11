@@ -25,7 +25,7 @@ bool CollisionComponent::IsColliding(GameEngine::GameObject* actor, GameEngine::
 bool CollisionComponent::IsBlockNearbyHorizontally(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo)
 {
 	if (!this) return false;
-	if (actor->IsDestroyed()) return false;
+	if (actor->IsDestroyed() || !actor->HasComponent<GameEngine::FSM>()) return false;
 
 	glm::vec3 direction{};
 	actor->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("MovementDirection", direction);
@@ -56,7 +56,7 @@ bool CollisionComponent::IsBlockNearbyHorizontally(GameEngine::GameObject* actor
 bool CollisionComponent::IsBlockNearbyVertically(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo)
 {
 	if (!this) return false;
-	if (actor->IsDestroyed()) return false;
+	if (actor->IsDestroyed() || !actor->HasComponent<GameEngine::FSM>()) return false;
 
 	glm::vec3 direction{};
 	actor->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("MovementDirection", direction);
