@@ -191,6 +191,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClCompile Include="EggObserver.cpp" />
     <ClCompile Include="EggsStatesAndTransitions.cpp" />
     <ClCompile Include="EnemyActor.cpp" />
+    <ClCompile Include="EnemyAnimationStates.cpp" />
     <ClCompile Include="EnemyDirectionObserver.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="EnemyStatesAndTransitions.cpp" />
@@ -222,6 +223,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClInclude Include="EggObserver.h" />
     <ClInclude Include="EggsStatesAndTransitions.h" />
     <ClInclude Include="EnemyActor.h" />
+    <ClInclude Include="EnemyAnimationStates.h" />
     <ClInclude Include="EnemyDirectionObserver.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemyStatesAndTransitions.h" />

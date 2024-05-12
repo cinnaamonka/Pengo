@@ -14,7 +14,7 @@ CollisionComponent::CollisionComponent(GameEngine::GameObject* pGameObject) :
 bool CollisionComponent::IsColliding(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo)
 {
 	if (!this) return false;
-	if (actor->IsDestroyed() || (actor->GetComponentsAmount() > 100)) return false;
+	if (actor->IsDestroyed() || (actor->GetComponentsAmount() > 100) || actor->GetComponentsAmount() <= 0) return false;
 
 	const auto& boxCollider = actor->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
 

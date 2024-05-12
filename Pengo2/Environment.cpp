@@ -51,7 +51,7 @@ void Environment::CheckCollision()
 	// CHECK ONLY FOR PLAYER WITH BLOCKS
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
-		if (m_pBlocks[i]->IsDestroyed() || !m_pBlocks[i]) continue;
+		if (m_pBlocks[i]->IsDestroyed() || !m_pBlocks[i]->HasComponent<CollisionComponent>()) continue;
 
 		if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsColliding(m_pPlayer, hitInfo))
 		{

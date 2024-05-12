@@ -19,7 +19,7 @@ void MovingState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
 
 	if (movementDirection.x > 0 || movementDirection.x < 0)
 	{
-		pBlackboard->ChangeData("HorizontalOffset", 2);
+		pBlackboard->ChangeData("HorizontalOffset", 2); 
 	}
 	else if (movementDirection.y < 0)
 	{

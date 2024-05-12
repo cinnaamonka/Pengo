@@ -28,7 +28,10 @@ std::unique_ptr<HasNoticedActor> EnemyActor::m_HasNoticedActor   = std::make_uni
 EnemyActor::EnemyActor(GameEngine::GameObject* pGameObject) :
 	BaseComponent(pGameObject),
 	m_HasKilledActor(false)
-{}
+
+{
+	
+}
 
 std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(glm::vec3& pos,int index)
 {
@@ -52,9 +55,10 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(glm::vec3& pos,i
 
 	gameObject->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
 
-	gameObject->AddComponent<GameEngine::FSM>(m_RunningState.get(), gameObject->GetComponent<GameEngine::BlackboardComponent>());
+
+	/*gameObject->AddComponent<GameEngine::FSM>(m_RunningState.get(), gameObject->GetComponent<GameEngine::BlackboardComponent>());
 	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_RunningState.get(), m_PushingState.get(), m_IsPengoAttacked.get());
-	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_PushingState.get(), m_RunningState.get(), m_IsPengoNotAttacked.get());
+	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_PushingState.get(), m_RunningState.get(), m_IsPengoNotAttacked.get());*/
 
 	gameObject->AddComponent<GameEngine::AIFSM>(m_MovingState.get(), gameObject->GetComponent<GameEngine::BlackboardComponent>());
 	gameObject->GetComponent<GameEngine::AIFSM>()->AddTransition(m_MovingState.get(), m_ChaseState.get(), m_HasNoticedActor.get());
@@ -72,4 +76,18 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(glm::vec3& pos,i
 void EnemyActor::KillPlayer()
 {
 	m_pPlayer->GetComponent<GameEngine::ActorComponent>()->Damage(1); 
+}
+
+void EnemyActor::Update()
+{
+	GameEngine::GameObject* gameObject = GetGameObject();  
+	m_AnimationState->Update(gameObject);       
+}
+ 
+void EnemyActor::HandleInput(IEnemyAnimationState* state) 
+{
+	m_AnimationState = state;
+
+	GameEngine::GameObject* gameObject = GetGameObject();
+	m_AnimationState->HandleInput(gameObject);
 }

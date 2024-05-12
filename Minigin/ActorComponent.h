@@ -87,6 +87,8 @@ namespace GameEngine
 		Subject<int> m_LifesAmountChanged;
 		Subject<GameEngine::State> m_StateChanged;
 
+
+
 	};
 }
 

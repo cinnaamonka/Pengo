@@ -9,6 +9,7 @@
 #include <IObserver.h>
 #include "AIStatesAndTransitions.h"
 #include "EnemyStatesAndTransitions.h"
+#include "EnemyAnimationStates.h"
 
 class EnemyActor final :public GameEngine::BaseComponent
 {
@@ -26,21 +27,25 @@ public:
 	void SetHasKilledActor(bool hasKilledActor) { m_HasKilledActor = hasKilledActor; }
 	bool GetHasKilledActor() const { return m_HasKilledActor; }
 
-	template<typename T>
-	void AttachObserver(GameEngine::IObserver<T>* pObserver)
-	{
-		if constexpr (std::is_same_v<T, bool>)
-		{
-			m_ActorKilled.Attach(pObserver);
-		}
-	}
-
 	void SetActor(GameEngine::GameObject* pActor) { m_pPlayer = pActor; }
 
 	GameEngine::GameObject* GetPlayer() const { return m_pPlayer; }
 
 
-	void KillPlayer(); 
+	void KillPlayer();
+
+	void Update()override;
+	void HandleInput(IEnemyAnimationState* state); 
+
+	bool GetIsKilled() const
+	{
+		return m_IsKilled;
+	}
+
+	void SetIsKilled(bool isKilled)
+	{
+		m_IsKilled = isKilled;
+	}
 private:
 
 	int m_HorizontalAmountOfFrames = 8;
@@ -56,8 +61,10 @@ private:
 	static std::unique_ptr<HasAttacked> m_IsPengoAttacked;
 	static std::unique_ptr<HasNotAttacked> m_IsPengoNotAttacked;
 
-	GameEngine::Subject<bool> m_ActorKilled;
-
 	GameEngine::GameObject* m_pPlayer;
+
+	IEnemyAnimationState* m_AnimationState;
+	bool m_IsKilled;
+
 };
 

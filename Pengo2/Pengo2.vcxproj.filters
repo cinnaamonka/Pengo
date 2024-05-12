@@ -79,6 +79,9 @@
     <ClCompile Include="PlayerPositionObserver.cpp">
       <Filter>GameFiles\Observers</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyAnimationStates.cpp">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -140,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="PlayerPositionObserver.h">
       <Filter>GameFiles\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAnimationStates.h">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -17,9 +17,13 @@ const auto RANDOM_SIGN = [](int val) { return val == 0 ? -1 : 1; };
 std::random_device rd;
 std::mt19937 gen(rd());
 
+EnemyPatrolState EnemyManager::enemyPatrolState = EnemyPatrolState();
+EnemyDyingState EnemyManager::enemyDyingState = EnemyDyingState(); 
+
 EnemyManager::EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions, GameEngine::Scene* scene, GameEngine::GameObject* actor) :
 	m_KilledEnemyIndex(-1)
 {
+	
 	for (int i = 0; i < enemiesAmount; ++i)
 	{
 		auto enemyActor = EnemyActor::CreateEnemy(positions[i], i);
@@ -27,6 +31,7 @@ EnemyManager::EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions,
 		m_EnemyDirectionChanged.Attach(enemyActor->GetComponent<EnemyDirectionObserver>());
 		m_PlayerPositionChanged.Attach(enemyActor->GetComponent<PlayerPositionObserver>());
 		enemyActor->GetComponent<EnemyActor>()->SetActor(actor);
+		enemyActor->GetComponent<EnemyActor>()->HandleInput(&enemyPatrolState);
 		m_EnemiesRef.push_back(enemyActor.get());
 		scene->Add(std::move(enemyActor));
 	}
@@ -41,7 +46,7 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*> bl
 	{
 		for (int j = 0; j < blocks.size(); ++j)
 		{
-			if (blocks[j]->IsDestroyed() || !blocks[j]->HasComponent<CollisionComponent>()) continue;
+			if (blocks[j]->IsDestroyed() || blocks[j]->GetComponentsAmount() > 100) continue;
 
 			if (blocks[j]->GetComponent<CollisionComponent>()->IsColliding(m_EnemiesRef[i], hitInfo))
 			{
@@ -112,8 +117,9 @@ void EnemyManager::KillEnemy(int index)
 {
 	m_EnemiesRef[index]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("Speed", 0.f);
 	m_KilledEnemyIndex = -1;
+	m_EnemiesRef[index]->GetComponent<EnemyActor>()->HandleInput(&enemyDyingState); 
+	
 	m_PlayerPositionChanged.Detach(m_EnemiesRef[index]->GetComponent<PlayerPositionObserver>());
-	m_EnemiesRef[index]->SetIsDestroyed(true);
 }
 
 
@@ -124,6 +130,7 @@ void EnemyManager::HandleBorderCollision(GameEngine::GameObject* border)
 
 	for (int i = 0; i < m_EnemiesRef.size(); ++i)
 	{
+		if (m_EnemiesRef[i]->IsDestroyed())continue;
 		if (!borderCollisionComponent->IsColliding(m_EnemiesRef[i], hitInfo)) continue;
 
 		glm::vec3 direction;
@@ -153,6 +160,7 @@ void EnemyManager::CheckCollisionWithPushedBlock(GameEngine::GameObject* blocks)
 	for (int i = 0; i < m_EnemiesRef.size(); ++i)
 	{
 		if (blocks->IsDestroyed())continue;
+
 		if (blocks->GetComponent<CollisionComponent>()->IsColliding(m_EnemiesRef[i], hitInfo))
 		{
 			glm::vec3 flyingBlockDirection;
@@ -160,6 +168,8 @@ void EnemyManager::CheckCollisionWithPushedBlock(GameEngine::GameObject* blocks)
 
 			m_EnemiesRef[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("Speed", 10.0f);
 			m_EnemiesRef[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("MovementDirection", flyingBlockDirection);
+			m_EnemiesRef[i]->GetComponent<EnemyActor>()->SetIsKilled(true);
+
 			m_KilledEnemyIndex = i;
 
 		}

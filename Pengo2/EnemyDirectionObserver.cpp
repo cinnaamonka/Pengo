@@ -1,5 +1,6 @@
 #include "EnemyDirectionObserver.h"
 #include <BlackboardComponent.h>
+#include "EnemyActor.h"
 
 EnemyDirectionObserver::EnemyDirectionObserver(GameEngine::GameObject* pGameObject, int index):
 	BaseComponent(pGameObject),
@@ -15,7 +16,7 @@ void EnemyDirectionObserver::Notify(const GameEngine::EnemyInfo& info)
 	glm::vec3 previousDirection;
 	GetGameObject()->GetComponent<GameEngine::BlackboardComponent>()->GetData("MovementDirection", previousDirection); 
 
-	if (previousDirection != info.position)
+	if (previousDirection != info.position && !GetGameObject()->GetComponent<EnemyActor>()->GetIsKilled())
 	{
 		GetGameObject()->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("MovementDirection", info.position);
 	}

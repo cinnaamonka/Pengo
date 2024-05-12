@@ -8,7 +8,7 @@
 #include <IObserver.h>
 #include <Subject.h>
 #include "BlockObserver.h"
-
+#include "EnemyAnimationStates.h"
 
 class EnemyManager
 {
@@ -81,6 +81,7 @@ private:
 
 	int m_KilledEnemyIndex;
 
-
+	static EnemyPatrolState enemyPatrolState;
+	static EnemyDyingState enemyDyingState;
 };
 

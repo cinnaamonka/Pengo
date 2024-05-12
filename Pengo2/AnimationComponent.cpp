@@ -2,7 +2,7 @@
 #include <FSM.h>
 #include <TransformComponent.h>
 
-AnimationComponent::AnimationComponent(GameEngine::GameObject* pGameObject):
+AnimationComponent::AnimationComponent(GameEngine::GameObject* pGameObject) :
 	BaseComponent(pGameObject)
 {
 
@@ -12,20 +12,16 @@ void AnimationComponent::Update()
 {
 	if (GetGameObject()->IsDestroyed() || GetGameObject() == NULL || IsDestroyed()) return;
 
-	if (GetGameObject()->HasComponent<GameEngine::FSM>() )
-	{
-		
-		int currentAnimationFrame;
-		GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("AnimationFrame", currentAnimationFrame);
+	int currentAnimationFrame;
+	GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("AnimationFrame", currentAnimationFrame);
 
-		int currentHorizontalOffset;
-		GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("HorizontalOffset", currentHorizontalOffset);
+	int currentHorizontalOffset;
+	GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("HorizontalOffset", currentHorizontalOffset);
 
-		int currentVerticalOffset;
-		GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("VerticalOffset", currentVerticalOffset);
+	int currentVerticalOffset;
+	GetGameObject()->GetComponent<GameEngine::FSM>()->GetBlackboard()->GetData("VerticalOffset", currentVerticalOffset);
 
-		ChangeTexture(currentAnimationFrame, currentHorizontalOffset, currentVerticalOffset);
-	}
+	ChangeTexture(currentAnimationFrame, currentHorizontalOffset, currentVerticalOffset);
 
 }
 
