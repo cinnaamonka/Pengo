@@ -2,7 +2,6 @@
 #include "BaseBlock.h"
 #include <GameObject.h>
 #include <FSM.h>
-#include "BlackboardComponent.h"
 #include "ActorComponent.h"
 
 CollisionComponent::CollisionComponent(GameEngine::GameObject* pGameObject) :

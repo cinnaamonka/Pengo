@@ -69,9 +69,6 @@
     <ClInclude Include="Renderer.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="RotationComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="ImGuiComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -144,9 +141,6 @@
     <ClInclude Include="RingBuffer.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="BlackboardComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="AIFSM.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -197,9 +191,6 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="RotationComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="ImGuiComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -239,9 +230,6 @@
     </ClCompile>
     <ClCompile Include="SoundLogSystem.cpp">
       <Filter>Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="BlackboardComponent.cpp">
-      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="AIFSM.cpp">
       <Filter>Components</Filter>

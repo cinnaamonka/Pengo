@@ -42,7 +42,6 @@ bool PlayerPositionObserver::AreOnSameLine(const glm::vec3& referencePoint, cons
 	glm::vec3 dirVector1 = pos1 - referencePoint;
 	glm::vec3 dirVector2 = pos2 - referencePoint;
 
-	// Check if the direction vectors are collinear
 	return AreVectorsCollinear(dirVector1, dirVector2, 1.0f);
 
 }

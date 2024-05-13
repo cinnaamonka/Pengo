@@ -236,7 +236,6 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClInclude Include="BaseCommand.h" />
     <ClInclude Include="BaseGame.h" />
     <ClInclude Include="BaseInputDevice.h" />
-    <ClInclude Include="BlackboardComponent.h" />
     <ClInclude Include="BoxColliderComponent.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Font.h" />
@@ -259,7 +258,6 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RingBuffer.h" />
-    <ClInclude Include="RotationComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ScoreObserver.h" />
@@ -279,7 +277,6 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClCompile Include="ActorComponent.cpp" />
     <ClCompile Include="AIFSM.cpp" />
     <ClCompile Include="AnimationComponent.cpp" />
-    <ClCompile Include="BlackboardComponent.cpp" />
     <ClCompile Include="BoxColliderComponent.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -296,7 +293,6 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="RotationComponent.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ScoreObserver.cpp" />

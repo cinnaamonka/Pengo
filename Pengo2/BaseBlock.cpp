@@ -10,7 +10,6 @@
 #include <memory>
 #include <AnimationComponent.h>
 #include "BlockObserver.h"
-#include <BlackboardComponent.h>
 
 std::unique_ptr<StaticBlockState> BaseBlock::m_pStaticBlockState = std::make_unique<StaticBlockState>();
 std::unique_ptr<BreakingBlockState> BaseBlock::m_pBreakingBlockState = std::make_unique<BreakingBlockState>();

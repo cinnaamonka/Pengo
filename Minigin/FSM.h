@@ -5,11 +5,29 @@
 #include <unordered_map>
 #include "Helpers.h"
 #include "AnimationComponent.h"
-#include "BlackboardComponent.h"
 
 namespace GameEngine
 {
 	class Gameobject;
+
+	class FSMState
+	{
+	public:
+		FSMState() = default;
+		virtual ~FSMState() = default;
+
+		virtual void OnEnter(AnimationComponent* pBlackboard) = 0;
+		virtual void OnExit(AnimationComponent* pBlackboard) = 0;
+		virtual void Update(AnimationComponent* pBlackboard) = 0;
+	};
+
+	class FSMCondition
+	{
+	public:
+		FSMCondition() = default;
+		virtual ~FSMCondition() = default;
+		virtual bool Evaluate(AnimationComponent* pBlackboard) const = 0;
+	};
 
 	class FSM : public BaseComponent
 	{
@@ -34,7 +52,6 @@ namespace GameEngine
 		std::map<FSMState*, Transitions> m_Transitions;
 		FSMState* m_pCurrentState = nullptr;
 		AnimationComponent* m_pAnimationComponent = nullptr;
-		//BlackboardComponent* m_pBlackboard = nullptr;
 	};
 
 }

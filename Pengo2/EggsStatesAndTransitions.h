@@ -1,7 +1,7 @@
 #pragma once
 #include <Helpers.h>
 #include <AnimationComponent.h>
-#include <BlackboardComponent.h>
+#include <FSM.h>
 
 class BreakingEggState : public GameEngine::FSMState
 {

@@ -5,7 +5,6 @@
 #include <RenderComponent.h>
 #include <BoxColliderComponent.h>
 #include "HitObserver.h"
-#include "BlackboardComponent.h"
 #include <AnimationComponent.h>
 #include "AIMovementComponent.h"
 #include "EnemyDirectionObserver.h"

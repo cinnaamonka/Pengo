@@ -1,6 +1,6 @@
 #pragma once
 #include <Helpers.h>
-#include <BlackboardComponent.h>
+#include <FSM.h>
 
 
 class StaticBlockState : public GameEngine::FSMState
