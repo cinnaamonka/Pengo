@@ -1,77 +1,70 @@
 #include "EggsStatesAndTransitions.h"
 #include <TimeManager.h>
 
-void BreakingEggState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
+void BreakingEggState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-
-	pBlackboard->ChangeData("NumberOfFrames", 2);
-	pBlackboard->ChangeData("FramesPerSec", 1);
-	pBlackboard->ChangeData("HorizontalOffset", 1);
-	pBlackboard->ChangeData("VerticalOffset", 0);
+	pAnimationComponent->SetNumberOfFrames(2);
+	pAnimationComponent->SetFramesPerSec(1);
+	pAnimationComponent->SetHorizontalOffset(1);
+	pAnimationComponent->SetVerticalOffset(0);
 }
 
-void BreakingEggState::OnExit(GameEngine::BlackboardComponent*)
+void BreakingEggState::OnExit(GameEngine::AnimationComponent*)
 {
 
 }
 
-void BreakingEggState::Update(GameEngine::BlackboardComponent* pBlackboard)
+void BreakingEggState::Update(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	AnimationUpdate(pBlackboard);
+	AnimationUpdate(pAnimationComponent);
 
-	int currentAnimationFrame;
-	pBlackboard->GetData("AnimationFrame", currentAnimationFrame);
+	int currentAnimationFrame = pAnimationComponent->GetAnimationFrame();
 
-	int numberOfFrames;
-	pBlackboard->GetData("NumberOfFrames", numberOfFrames);
+	int numberOfFrames = pAnimationComponent->GetNumberOfFrames();
 
 	if (currentAnimationFrame == numberOfFrames - 1)
 	{
-		pBlackboard->ChangeData("Destroyed", true);
+		pAnimationComponent->SetIsDestroyed(true);
 	}
 }
 
-void WaitingState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
+void WaitingState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pBlackboard->ChangeData("NumberOfFrames", 1);
-	pBlackboard->ChangeData("FramesPerSec", 1);
-	pBlackboard->ChangeData("HorizontalOffset", 0);
-	pBlackboard->ChangeData("VerticalOffset", 0);
+	pAnimationComponent->SetNumberOfFrames(1);
+	pAnimationComponent->SetFramesPerSec(1);
+	pAnimationComponent->SetHorizontalOffset(0);
+	pAnimationComponent->SetVerticalOffset(0);
 }
 
-void WaitingState::Update(GameEngine::BlackboardComponent* pBlackboard)
+void WaitingState::Update(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	float timeOffset;
-	pBlackboard->GetData("TimeOffset", timeOffset);
+	float timeOffset = pAnimationComponent->GetTimeOffset();
 
 	timeOffset += GameEngine::TimeManager::GetElapsed();
 
-	pBlackboard->ChangeData("TimeOffset", timeOffset);
+	pAnimationComponent->SetTimeOffset(timeOffset);
 }
 
-bool IsEggBroken::Evaluate(GameEngine::BlackboardComponent* pBlackboard) const
+bool IsEggBroken::Evaluate(GameEngine::AnimationComponent* pAnimationComponent) const
 {
-	bool isDestroyed;
-	pBlackboard->GetData("Destroyed", isDestroyed);
+	bool isDestroyed = pAnimationComponent->GetIsDestroyed();
 
 	return isDestroyed;
 }
 
-void BrokenEggState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
+void BrokenEggState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	bool isDestroyed;
-	pBlackboard->GetData("Destroyed", isDestroyed);
+	bool isDestroyed = pAnimationComponent->GetIsDestroyed();
 
 	if (isDestroyed)
 	{
-		pBlackboard->Destroy();
+		pAnimationComponent->Destroy();
 	}
 }
 
-bool IsWaiting::Evaluate(GameEngine::BlackboardComponent* pBlackboard) const
+bool IsWaiting::Evaluate(GameEngine::AnimationComponent* pAnimationComponent) const
 {
-	float timeOffset;
-	pBlackboard->GetData("TimeOffset", timeOffset);
+	float timeOffset = pAnimationComponent->GetTimeOffset(); 
 
 	return (timeOffset >= 1.0f);
 }

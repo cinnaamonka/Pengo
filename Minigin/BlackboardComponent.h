@@ -33,9 +33,9 @@ namespace GameEngine
 		FSMState() = default;
 		virtual ~FSMState() = default;
 
-		virtual void OnEnter(BlackboardComponent* pBlackboard) = 0;
-		virtual void OnExit(BlackboardComponent* pBlackboard) = 0;
-		virtual void Update(BlackboardComponent* pBlackboard) = 0;
+		virtual void OnEnter(AnimationComponent* pBlackboard) = 0;
+		virtual void OnExit(AnimationComponent* pBlackboard) = 0;
+		virtual void Update(AnimationComponent* pBlackboard) = 0;
 	};
 
 	class FSMCondition
@@ -43,10 +43,10 @@ namespace GameEngine
 	public:
 		FSMCondition() = default;
 		virtual ~FSMCondition() = default;
-		virtual bool Evaluate(BlackboardComponent* pBlackboard) const = 0;
+		virtual bool Evaluate(AnimationComponent* pBlackboard) const = 0;
 	};
 
-	class BlackboardComponent : public GameEngine::BaseComponent
+	/*class BlackboardComponent : public GameEngine::BaseComponent
 	{
 	public:
 		BlackboardComponent(GameEngine::GameObject* pGameObject);
@@ -108,7 +108,7 @@ namespace GameEngine
 	private:
 		std::unordered_map<std::string, GameEngine::IBlackBoardField*> m_BlackboardData; 
 
-	};
+	};*/
 
 
 }

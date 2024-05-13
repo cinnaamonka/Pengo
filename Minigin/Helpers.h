@@ -12,9 +12,11 @@
 
 #include "BaseComponent.h"
 
+
 namespace GameEngine
 {
 	class BlackboardComponent;
+	class AnimationComponent;
 
 	using sound_id = unsigned short;
 
@@ -78,10 +80,7 @@ namespace GameEngine
 
 	bool Raycast(const std::vector<glm::vec3>& vertices, const glm::vec2& rayP1, const glm::vec2& rayP2, HitInfo& hitInfo);
 
-	
-	void AnimationUpdate(GameEngine::BlackboardComponent* pBlackboard);
-	
-
+	void AnimationUpdate(GameEngine::AnimationComponent* animationComponent);
 }
 
 #endif // HELPERS_H

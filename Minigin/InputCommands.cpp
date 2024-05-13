@@ -22,8 +22,8 @@ namespace GameEngine
 		currentLocalPosition += m_Direction * GetGameObject()->GetComponent<ActorComponent>()->GetSpeed() * TimeManager::GetElapsed();
 		GetGameObject()->GetComponent<TransformComponent>()->SetLocalPosition(currentLocalPosition);
 		GetGameObject()->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(true);
-		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("WasInputGiven", true);
-		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("MovementDirection", m_Direction);
+		GetGameObject()->GetComponent<AnimationComponent>()->SetWasInputGiven(true);
+		GetGameObject()->GetComponent<AnimationComponent>()->SetMovementDirection(m_Direction);
 	}
 
 	StopCollisionCheck::StopCollisionCheck(GameObject* pGameObject)
@@ -43,7 +43,7 @@ namespace GameEngine
 	}
 	void PushCommand::Execute()
 	{
-		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("WasBlockPushed", true);
+		GetGameObject()->GetComponent<AnimationComponent>()->SetWasPushed(true);
 		GetGameObject()->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(true);
 
 	}

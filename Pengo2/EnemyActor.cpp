@@ -6,7 +6,7 @@
 #include <BoxColliderComponent.h>
 #include "HitObserver.h"
 #include "BlackboardComponent.h"
-#include "AnimationComponent.h"
+#include <AnimationComponent.h>
 #include "AIMovementComponent.h"
 #include "EnemyDirectionObserver.h"
 #include "CollisionComponent.h"
@@ -16,10 +16,6 @@
 #include <FSM.h>
 #include <AIFSM.h>
 
-std::unique_ptr<MovingState> EnemyActor::m_RunningState			 = std::make_unique<MovingState>();
-std::unique_ptr<AttackState> EnemyActor::m_PushingState			 = std::make_unique<AttackState>();
-std::unique_ptr<HasAttacked> EnemyActor::m_IsPengoAttacked		 = std::make_unique <HasAttacked>();
-std::unique_ptr<HasNotAttacked> EnemyActor::m_IsPengoNotAttacked = std::make_unique<HasNotAttacked>();
 std::unique_ptr<PatrolState> EnemyActor::m_MovingState           = std::make_unique<PatrolState>();
 std::unique_ptr<ChaseState> EnemyActor::m_ChaseState             = std::make_unique<ChaseState>();
 std::unique_ptr<HasNoticedActor> EnemyActor::m_HasNoticedActor   = std::make_unique<HasNoticedActor>();
@@ -42,10 +38,9 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(glm::vec3& pos,i
 	gameObject->AddComponent<GameEngine::TextureComponent>("Enemy.tga");
 
 	gameObject->AddComponent<HitObserver>();
+	gameObject->AddComponent<GameEngine::AnimationComponent>();
 	gameObject->AddComponent<GameEngine::RenderComponent>();
-	gameObject->AddComponent<AnimationComponent>();
 	gameObject->AddComponent<AIMovementComponent>();
-	gameObject->AddComponent<GameEngine::BlackboardComponent>();
 	gameObject->AddComponent<EnemyDirectionObserver>(index);
 	gameObject->AddComponent<EnemyActor>();
 	gameObject->AddComponent<PlayerPositionObserver>();  
@@ -56,18 +51,13 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(glm::vec3& pos,i
 	gameObject->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
 
 
-	/*gameObject->AddComponent<GameEngine::FSM>(m_RunningState.get(), gameObject->GetComponent<GameEngine::BlackboardComponent>());
-	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_RunningState.get(), m_PushingState.get(), m_IsPengoAttacked.get());
-	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_PushingState.get(), m_RunningState.get(), m_IsPengoNotAttacked.get());*/
-
-	gameObject->AddComponent<GameEngine::AIFSM>(m_MovingState.get(), gameObject->GetComponent<GameEngine::BlackboardComponent>());
+	gameObject->AddComponent<GameEngine::AIFSM>(m_MovingState.get(), gameObject->GetComponent<GameEngine::AnimationComponent>());
 	gameObject->GetComponent<GameEngine::AIFSM>()->AddTransition(m_MovingState.get(), m_ChaseState.get(), m_HasNoticedActor.get());
 
-	gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("Pos", glm::vec3(pos.x, pos.y, 0));
-	gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("IsChasing", bool());
-	gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("Speed", 0.3f);
+	gameObject->GetComponent<GameEngine::AnimationComponent>()->SetPos(glm::vec3(pos.x, pos.y, 0));
+	gameObject->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.3f);
 
-	gameObject->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("MovementDirection", glm::vec3(1, 0, 0));
+	gameObject->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection(glm::vec3(1, 0, 0));
 	
 
 	return gameObject;

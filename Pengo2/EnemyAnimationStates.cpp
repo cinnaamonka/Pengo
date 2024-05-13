@@ -1,66 +1,61 @@
 #include "EnemyAnimationStates.h"
 #include <Helpers.h>
-#include <BlackboardComponent.h>
+#include <AnimationComponent.h>
 
 void EnemyPatrolState::HandleInput(GameEngine::GameObject* object)
 {
-	GameEngine::BlackboardComponent* blackboardComponent = object->GetComponent<GameEngine::BlackboardComponent>();
+	GameEngine::AnimationComponent* animationComponent = object->GetComponent<GameEngine::AnimationComponent>();
 
-	glm::vec3 movementDirection;
-	blackboardComponent->GetData("MovementDirection", movementDirection);
+	animationComponent->SetHorizontalOffset(0);
 
-	blackboardComponent->ChangeData("HorizontalOffset", 0);
-
-	blackboardComponent->ChangeData("NumberOfFrames", 2);
-	blackboardComponent->ChangeData("VerticalOffset", 1);
+	animationComponent->SetNumberOfFrames(2);
+	animationComponent->SetVerticalOffset(1);
 
 }
 
 void EnemyPatrolState::Update(GameEngine::GameObject* object)
 {
-	GameEngine::BlackboardComponent* blackboardComponent = object->GetComponent<GameEngine::BlackboardComponent>();
+	GameEngine::AnimationComponent* animationComponent = object->GetComponent<GameEngine::AnimationComponent>();
 
-	GameEngine::AnimationUpdate(blackboardComponent);
+	GameEngine::AnimationUpdate(animationComponent);
 }
 
 void EnemyDyingState::HandleInput(GameEngine::GameObject* object)
 {
-	GameEngine::BlackboardComponent* blackboardComponent = object->GetComponent<GameEngine::BlackboardComponent>();
+	GameEngine::AnimationComponent* animationComponent = object->GetComponent<GameEngine::AnimationComponent>();
 
-	glm::vec3 movementDirection;
-	blackboardComponent->GetData("MovementDirection", movementDirection);
+	glm::vec3 movementDirection = animationComponent->GetMovementDirection();
 
 	if (movementDirection.x != 0)
 	{
-		blackboardComponent->ChangeData("HorizontalOffset", 2);
+		animationComponent->SetHorizontalOffset(2);
 	}
 	if (movementDirection.y > 0)
 	{
-		blackboardComponent->ChangeData("HorizontalOffset", 0);
+		animationComponent->SetHorizontalOffset(0);
 	}
 	if (movementDirection.y < 0)
 	{
-		blackboardComponent->ChangeData("HorizontalOffset", 4);
+		animationComponent->SetHorizontalOffset(4);
 	}
-	blackboardComponent->ChangeData("NumberOfFrames", 2);
-	blackboardComponent->ChangeData("VerticalOffset", 4);
-	blackboardComponent->ChangeData("FramesPerSec", 1);
+
+	animationComponent->SetNumberOfFrames(2);
+	animationComponent->SetVerticalOffset(4);
+	animationComponent->SetFramesPerSec(1);
 }
 
 void EnemyDyingState::Update(GameEngine::GameObject* object)
 {
-	GameEngine::BlackboardComponent* blackboardComponent = object->GetComponent<GameEngine::BlackboardComponent>();
+	GameEngine::AnimationComponent* animationComponent = object->GetComponent<GameEngine::AnimationComponent>();
 
-	GameEngine::AnimationUpdate(blackboardComponent);
+	GameEngine::AnimationUpdate(animationComponent);
 
-	int currentAnimationFrame;
-	blackboardComponent->GetData("AnimationFrame", currentAnimationFrame);
+	int currentAnimationFrame = animationComponent->GetAnimationFrame();
 
-	int numberOfFrames;
-	blackboardComponent->GetData("NumberOfFrames", numberOfFrames); 
+	int numberOfFrames = animationComponent->GetNumberOfFrames();
 
-	if (currentAnimationFrame == numberOfFrames - 1) 
+	if (currentAnimationFrame == numberOfFrames - 1)
 	{
-		blackboardComponent->Destroy(); 
+		animationComponent->Destroy();
 	}
 }

@@ -1,6 +1,6 @@
 #include "Helpers.h"
 #include "TimeManager.h"
-#include "BlackboardComponent.h"
+#include "AnimationComponent.h"
 
 namespace GameEngine
 {
@@ -231,29 +231,24 @@ namespace GameEngine
 	{
 		return Raycast(vertices.data(), vertices.size(), rayP1, rayP2, hitInfo);
 	}
-	void AnimationUpdate(GameEngine::BlackboardComponent* pBlackboard)
+	
+	void AnimationUpdate(GameEngine::AnimationComponent* animationComponent)
 	{
-			float animTime;
-			int nrFramesPerSec;
-			int animFrame;
-			int nrOfFrames;
+		float animTime = animationComponent->GetAnimationTime();
+		int nrFramesPerSec = animationComponent->GetFramesPerSec();
+		int animFrame = animationComponent->GetAnimationFrame();
+		int nrOfFrames = animationComponent->GetNumberOfFrames();
 
-			pBlackboard->GetData("NumberOfFrames", nrOfFrames);
-			pBlackboard->GetData("AnimationTime", animTime);
-			pBlackboard->GetData("FramesPerSec", nrFramesPerSec);
-			pBlackboard->GetData("AnimationFrame", animFrame);
+		animTime += GameEngine::TimeManager::GetElapsed();
 
-			animTime += GameEngine::TimeManager::GetElapsed();
+		if (animTime >= 1.f / nrFramesPerSec)
+		{
+			++animFrame %= nrOfFrames;
 
-			if (animTime >= 1.f / nrFramesPerSec)
-			{
-				++animFrame %= nrOfFrames;
+			animTime = 0;
+		}
 
-				animTime = 0;
-			}
-			
-			pBlackboard->ChangeData("AnimationFrame", animFrame);
-			pBlackboard->ChangeData("AnimationTime", animTime);
-		
+		animationComponent->SetAnimationFrame(animFrame);
+		animationComponent->SetAnimationTime(animTime);
 	}
 }

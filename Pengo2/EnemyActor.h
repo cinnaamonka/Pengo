@@ -8,7 +8,6 @@
 #include <Subject.h>
 #include <IObserver.h>
 #include "AIStatesAndTransitions.h"
-#include "EnemyStatesAndTransitions.h"
 #include "EnemyAnimationStates.h"
 
 class EnemyActor final :public GameEngine::BaseComponent
@@ -53,13 +52,9 @@ private:
 
 	bool m_HasKilledActor;
 
-	static std::unique_ptr<MovingState> m_RunningState;
-	static std::unique_ptr<AttackState> m_PushingState;
 	static std::unique_ptr<PatrolState> m_MovingState;
 	static std::unique_ptr<ChaseState> m_ChaseState;
 	static std::unique_ptr<HasNoticedActor> m_HasNoticedActor;
-	static std::unique_ptr<HasAttacked> m_IsPengoAttacked;
-	static std::unique_ptr<HasNotAttacked> m_IsPengoNotAttacked;
 
 	GameEngine::GameObject* m_pPlayer;
 

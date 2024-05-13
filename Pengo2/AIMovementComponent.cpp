@@ -12,8 +12,8 @@ void AIMovementComponent::Update()
 {
 	if (GetGameObject()->HasComponent<GameEngine::FSM>())
 	{
-		glm::vec3 pos;
-		GetGameObject()->GetComponent<GameEngine::BlackboardComponent>()->GetData("Pos", pos);
+		glm::vec3 pos = GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->GetPos(); 
+		
 		ChangePosition(pos);
 	};
 }

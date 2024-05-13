@@ -8,7 +8,7 @@
 #include <BoxColliderComponent.h>
 #include <FSM.h>
 #include <memory>
-#include "AnimationComponent.h"
+#include <AnimationComponent.h>
 #include "BlockObserver.h"
 #include <BlackboardComponent.h>
 
@@ -66,37 +66,34 @@ std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& 
 	}
 
 	gameObject->AddComponent<GameEngine::BoxCollider>(static_cast<int>(colliderPosition.x), static_cast<int>(colliderPosition.y), blockSizeX, blockSizeY);
+	gameObject->AddComponent<GameEngine::AnimationComponent>();
 	gameObject->AddComponent<GameEngine::TransformComponent>(position);
 	gameObject->AddComponent<GameEngine::TextureComponent>(filename, clipAmount);
 	gameObject->AddComponent<GameEngine::RenderComponent>();
 	gameObject->AddComponent<CollisionComponent>();
 	gameObject->AddComponent<BaseBlock>(index, isBreakable, containsEggs);
 	gameObject->AddComponent<HitObserver>();
-	gameObject->AddComponent<GameEngine::BlackboardComponent>();
-	gameObject->AddComponent<AnimationComponent>();
 	gameObject->AddComponent<BlockObserver>();
 
 	if (isBreakable && !containsEggs)
 	{
 		gameObject->AddComponent<GameEngine::FSM>(m_pStaticBlockState.get(),
-			gameObject->GetComponent<GameEngine::BlackboardComponent>());
+			gameObject->GetComponent<GameEngine::AnimationComponent>());
 
 		gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_pStaticBlockState.get(), m_pBreakingBlockState.get(),
 			m_pIsBlockBreaking.get());
 		gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_pBreakingBlockState.get(), m_pStaticBlockState.get(),
 			m_pIsBlockNotBreaking.get());
-
-		gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("WasBlockDestroyed", false);
 	}
 	else if (!containsEggs)
 	{
 		gameObject->AddComponent<GameEngine::FSM>(m_pStaticBlockState.get(),
-			gameObject->GetComponent<GameEngine::BlackboardComponent>());
+			gameObject->GetComponent<GameEngine::AnimationComponent>());
 	}
 	else
 	{
 		gameObject->AddComponent<GameEngine::FSM>(m_pFlickeringBlockState.get(),
-			gameObject->GetComponent<GameEngine::BlackboardComponent>());
+			gameObject->GetComponent<GameEngine::AnimationComponent>());
 
 		gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_pFlickeringBlockState.get(), m_pStaticBlockState.get(),
 			m_pIsBlockFinishedFlickering.get());
@@ -105,9 +102,6 @@ std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& 
 			m_pIsBlockBreaking.get());
 		gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_pBreakingBlockState.get(), m_pStaticBlockState.get(),
 			m_pIsBlockNotBreaking.get());
-
-		gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("AnimationTimes", int());
-		gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("WasBlockDestroyed", false);
 
 	}
 

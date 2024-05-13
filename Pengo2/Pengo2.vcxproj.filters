@@ -43,9 +43,6 @@
     <ClCompile Include="CollisionComponent.cpp">
       <Filter>GameFiles</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationComponent.cpp">
-      <Filter>GameFiles</Filter>
-    </ClCompile>
     <ClCompile Include="BlockObserver.cpp">
       <Filter>GameFiles\Observers</Filter>
     </ClCompile>
@@ -71,9 +68,6 @@
       <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClCompile>
     <ClCompile Include="EggsStatesAndTransitions.cpp">
-      <Filter>GameFiles\StatesAndTransitions</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyStatesAndTransitions.cpp">
       <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClCompile>
     <ClCompile Include="PlayerPositionObserver.cpp">
@@ -108,9 +102,6 @@
     <ClInclude Include="CollisionComponent.h">
       <Filter>GameFiles</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationComponent.h">
-      <Filter>GameFiles</Filter>
-    </ClInclude>
     <ClInclude Include="BlockObserver.h">
       <Filter>GameFiles\Observers</Filter>
     </ClInclude>
@@ -136,9 +127,6 @@
       <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClInclude>
     <ClInclude Include="EggsStatesAndTransitions.h">
-      <Filter>GameFiles\StatesAndTransitions</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyStatesAndTransitions.h">
       <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClInclude>
     <ClInclude Include="PlayerPositionObserver.h">

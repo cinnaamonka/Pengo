@@ -2,6 +2,7 @@
 #include <BaseComponent.h>
 #include <IObserver.h>
 #include <Helpers.h>
+#include <AnimationComponent.h>
 
 class GameObject;
 

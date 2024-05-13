@@ -2,7 +2,7 @@
 
 namespace GameEngine
 {
-	BlackboardComponent::BlackboardComponent(GameEngine::GameObject* pGameObject) :
+	/*BlackboardComponent::BlackboardComponent(GameEngine::GameObject* pGameObject) :
 		BaseComponent(pGameObject)
 	{
 		AddData("NumberOfFrames", int());
@@ -17,5 +17,5 @@ namespace GameEngine
 	void BlackboardComponent::Destroy()
 	{
 		GetGameObject()->SetIsDestroyed(true);
-	}
+	}*/
 }

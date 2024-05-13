@@ -8,9 +8,9 @@ public:
 	PatrolState() = default;
 	~PatrolState() = default;
 
-	virtual void OnEnter(GameEngine::BlackboardComponent* pBlackboard) override;
-	virtual void OnExit(GameEngine::BlackboardComponent* pBlackboard) override; 
-	virtual void Update(GameEngine::BlackboardComponent* pBlackboard) override;
+	virtual void OnEnter(GameEngine::AnimationComponent* pBlackboard) override;
+	virtual void OnExit(GameEngine::AnimationComponent* pBlackboard) override;
+	virtual void Update(GameEngine::AnimationComponent* pBlackboard) override;
 };
 
 class ChaseState : public GameEngine::FSMState
@@ -19,9 +19,9 @@ public:
 	ChaseState() = default;
 	~ChaseState() = default;
 
-	virtual void OnEnter(GameEngine::BlackboardComponent* pBlackboard) override;
-	virtual void OnExit(GameEngine::BlackboardComponent* pBlackboard) override;
-	virtual void Update(GameEngine::BlackboardComponent* pBlackboard) override;
+	virtual void OnEnter(GameEngine::AnimationComponent* pBlackboard) override;
+	virtual void OnExit(GameEngine::AnimationComponent* pBlackboard) override;
+	virtual void Update(GameEngine::AnimationComponent* pBlackboard) override;
 };
 
 class HasNoticedActor : public GameEngine::FSMCondition
@@ -30,5 +30,5 @@ public:
 	HasNoticedActor() = default;
 	~HasNoticedActor() = default;
 
-	virtual bool Evaluate(GameEngine::BlackboardComponent* pBlackboard) const override;
+	virtual bool Evaluate(GameEngine::AnimationComponent* pBlackboard) const override;
 };

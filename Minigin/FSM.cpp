@@ -6,10 +6,10 @@
 
 namespace GameEngine
 {
-	GameEngine::FSM::FSM(GameObject* pGameObject, FSMState* startState, BlackboardComponent* pBlackboard):
+	GameEngine::FSM::FSM(GameObject* pGameObject, FSMState* startState, AnimationComponent* pAnimationComponent):
 		BaseComponent(pGameObject),
 		m_pCurrentState(nullptr),
-		m_pBlackboard(pBlackboard)
+		m_pAnimationComponent(pAnimationComponent)
 	{
 		ChangeState(startState);
 	}
@@ -35,7 +35,7 @@ namespace GameEngine
 			{
 				if (!transitionState.first || !transitionState.second) return;
 
-				if (transitionState.first->Evaluate(m_pBlackboard))
+				if (transitionState.first->Evaluate(m_pAnimationComponent))
 				{
 					
 					ChangeState(transitionState.second);
@@ -44,12 +44,7 @@ namespace GameEngine
 		}
 
 
-		m_pCurrentState->Update(m_pBlackboard);
-	}
-
-	BlackboardComponent* GameEngine::FSM::GetBlackboard() const
-	{
-		return m_pBlackboard;
+		m_pCurrentState->Update(m_pAnimationComponent);
 	}
 
 	void GameEngine::FSM::ChangeState(FSMState* newState)
@@ -57,14 +52,14 @@ namespace GameEngine
 		
 		if (m_pCurrentState != nullptr)
 		{
-			m_pCurrentState->OnExit(m_pBlackboard);
+			m_pCurrentState->OnExit(m_pAnimationComponent);
 		}
 
 		m_pCurrentState = newState;
 
 		if (m_pCurrentState != nullptr)
 		{
-			m_pCurrentState->OnEnter(m_pBlackboard);
+			m_pCurrentState->OnEnter(m_pAnimationComponent);
 		}
 	}
 }

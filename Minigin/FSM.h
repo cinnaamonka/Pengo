@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include "Helpers.h"
+#include "AnimationComponent.h"
 #include "BlackboardComponent.h"
 
 namespace GameEngine
@@ -13,12 +14,11 @@ namespace GameEngine
 	class FSM : public BaseComponent
 	{
 	public:
-		FSM(GameObject* pGameObject, FSMState* startState, BlackboardComponent* pBlackboard);
+		FSM(GameObject* pGameObject, FSMState* startState, AnimationComponent* pBlackboard);
 		virtual ~FSM() = default;
 
-		void AddTransition(FSMState* startState, FSMState* toState, FSMCondition* transition);
+		void AddTransition(FSMState* startState, FSMState* toState, FSMCondition* transition); 
 		virtual void Update() override;
-		BlackboardComponent* GetBlackboard() const;
 
 		FSM(const FSM& other) = delete;
 		FSM& operator=(const FSM& other) = delete;
@@ -33,7 +33,8 @@ namespace GameEngine
 
 		std::map<FSMState*, Transitions> m_Transitions;
 		FSMState* m_pCurrentState = nullptr;
-		BlackboardComponent* m_pBlackboard = nullptr;
+		AnimationComponent* m_pAnimationComponent = nullptr;
+		//BlackboardComponent* m_pBlackboard = nullptr;
 	};
 
 }

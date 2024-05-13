@@ -50,6 +50,7 @@ namespace GameEngine
 		TextureComponent* m_TextureComponent;
 		TransformComponent* m_TransformComponent;
 		BlackboardComponent* m_pBlackboard;
+		AnimationComponent* m_pAnimationComponent;
 	};
 
 

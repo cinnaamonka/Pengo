@@ -3,6 +3,7 @@
 #include "TransformComponent.h"
 #include "FSM.h"
 #include "Renderer.h"
+#include "AnimationComponent.h"
 
 GameEngine::RenderComponent::RenderComponent(GameObject* GOptr) :
 	BaseComponent(GOptr),
@@ -20,12 +21,7 @@ GameEngine::RenderComponent::RenderComponent(GameObject* GOptr) :
 	{
 		m_TransformComponent = GetGameObject()->GetComponent<TransformComponent>();
 	}
-
-	if (GetGameObject()->HasComponent<FSM>())
-	{
-		m_pBlackboard = GetGameObject()->GetComponent<FSM>()->GetBlackboard();
-		
-	}
+	m_pAnimationComponent = GetGameObject()->GetComponent<GameEngine::AnimationComponent>();
 };
 
 void GameEngine::RenderComponent::Render()
@@ -34,13 +30,13 @@ void GameEngine::RenderComponent::Render()
 	const auto& position = m_TransformComponent->GetWorldPosition();
 	const auto& dimensions = m_TransformComponent->GetDimensions();
 
-	glm::vec3 movementDirection;
+	if (!m_pAnimationComponent) return;
+
+	glm::vec3 movementDirection = m_pAnimationComponent->GetMovementDirection();
 	bool IsMovingLeft = false;
 
 	if (m_pBlackboard)
-	{
-		m_pBlackboard->GetData("MovementDirection", movementDirection);
-
+	{  
 		IsMovingLeft = movementDirection.x < 0;
 	}
 	 

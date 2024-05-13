@@ -9,6 +9,7 @@
 #include <Subject.h>
 #include "BlockObserver.h"
 #include "EnemyAnimationStates.h"
+#include <AnimationComponent.h>
 
 class EnemyManager
 {

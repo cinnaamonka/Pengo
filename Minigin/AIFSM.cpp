@@ -2,7 +2,7 @@
 
 namespace GameEngine
 {
-	AIFSM::AIFSM(GameObject* pGameObject, FSMState* startState, BlackboardComponent* pBlackboard) :
-		FSM(pGameObject, startState, pBlackboard)
+	AIFSM::AIFSM(GameObject* pGameObject, FSMState* startState, AnimationComponent* pAnimationComponent) :
+		FSM(pGameObject, startState, pAnimationComponent)
 	{}
 }

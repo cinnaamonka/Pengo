@@ -1,136 +1,126 @@
 #include "PlayerStatesAndTransitions.h"
+#include <AnimationComponent.h>
 
-void IdleState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
+void IdleState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pBlackboard->ChangeData("NumberOfFrames", 1);
-	pBlackboard->ChangeData("HorizontalOffset", 0);
-	pBlackboard->ChangeData("VerticalOffset", 0);
+	pAnimationComponent->SetNumberOfFrames(1);
+	pAnimationComponent->SetHorizontalOffset(0);
+	pAnimationComponent->SetVerticalOffset(0);
 }
 
-void IdleState::OnExit(GameEngine::BlackboardComponent* pBlackboard)
+void IdleState::OnExit(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pBlackboard->ChangeData("WasInputGiven", false);
+	pAnimationComponent->SetWasInputGiven(false);
 }
 
-void IdleState::Update(GameEngine::BlackboardComponent* pBlackboard)
+void IdleState::Update(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	AnimationUpdate(pBlackboard);
+	AnimationUpdate(pAnimationComponent);
 }
 
-void RunningState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
+void RunningState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	glm::vec3 movementDirection;
-	pBlackboard->GetData("MovementDirection", movementDirection);
+	glm::vec3 movementDirection = pAnimationComponent->GetMovementDirection();
 
-	if (movementDirection.x > 0 || movementDirection.x < 0)
+	if (movementDirection.x > 0 )
 	{
-		pBlackboard->ChangeData("HorizontalOffset", 2);
+		pAnimationComponent->SetHorizontalOffset(2);
+	}
+	else if (movementDirection.x < 0)
+	{
+		pAnimationComponent->SetHorizontalOffset(6);
 	}
 	else if (movementDirection.y < 0)
 	{
-		pBlackboard->ChangeData("HorizontalOffset", 4);
+		pAnimationComponent->SetHorizontalOffset(4);
 	}
 	else if (movementDirection.y > 0)
 	{
-		pBlackboard->ChangeData("HorizontalOffset", 0);
+		pAnimationComponent->SetHorizontalOffset(0);
 	}
-	pBlackboard->ChangeData("NumberOfFrames", 2);
-	pBlackboard->ChangeData("VerticalOffset", 0);
+	pAnimationComponent->SetNumberOfFrames(2);
+	pAnimationComponent->SetVerticalOffset(0);
 }
 
-void RunningState::OnExit(GameEngine::BlackboardComponent* pBlackboard)
+void RunningState::OnExit(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pBlackboard->ChangeData("WasInputGiven", false);
+	pAnimationComponent->SetWasInputGiven(false);
 }
 
-void RunningState::Update(GameEngine::BlackboardComponent* pBlackboard)
+void RunningState::Update(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	AnimationUpdate(pBlackboard);
+	AnimationUpdate(pAnimationComponent);
 
-	pBlackboard->ChangeData("WasInputGiven", false);
+	pAnimationComponent->SetWasInputGiven(false);
 }
 
-void PushingState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
+void PushingState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	glm::vec3 movementDirection;
-	pBlackboard->GetData("MovementDirection", movementDirection);
+	glm::vec3 movementDirection = pAnimationComponent->GetMovementDirection();
 
 	if (movementDirection.x > 0 || movementDirection.x < 0)
 	{
-		pBlackboard->ChangeData("HorizontalOffset", 2);
+		pAnimationComponent->SetHorizontalOffset(2);
 	}
 	else if (movementDirection.y < 0)
 	{
-		pBlackboard->ChangeData("HorizontalOffset", 4);
+		pAnimationComponent->SetHorizontalOffset(4);
 	}
 	else if (movementDirection.y > 0)
 	{
-		pBlackboard->ChangeData("HorizontalOffset", 0);
+		pAnimationComponent->SetHorizontalOffset(4);
 	}
-	pBlackboard->ChangeData("NumberOfFrames", 2);
-	pBlackboard->ChangeData("VerticalOffset", 1);
+	pAnimationComponent->SetNumberOfFrames(2); 
+	pAnimationComponent->SetVerticalOffset(1); 
 }
-void PushingState::OnExit(GameEngine::BlackboardComponent* pBlackboard)
+void PushingState::OnExit(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pBlackboard->ChangeData("WasBlockPushed", false);
-	pBlackboard->ChangeData("WasInputGiven", false);
+	pAnimationComponent->SetWasPushed(false);
+	pAnimationComponent->SetWasInputGiven(false);
 }
-void PushingState::Update(GameEngine::BlackboardComponent* pBlackboard)
+void PushingState::Update(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	AnimationUpdate(pBlackboard);
-	pBlackboard->ChangeData("WasBlockPushed", false);
-}
-
-void PlayerDyingState::OnEnter(GameEngine::BlackboardComponent* pBlackboard)
-{
-	glm::vec3 movementDirection;
-	pBlackboard->GetData("MovementDirection", movementDirection);
-
-
-	pBlackboard->ChangeData("HorizontalOffset", 0);
-	pBlackboard->ChangeData("VerticalOffset", 2);
-
-	pBlackboard->ChangeData("NumberOfFrames", 2);
+	AnimationUpdate(pAnimationComponent);  
+	pAnimationComponent->SetWasPushed(false);
 }
 
-void PlayerDyingState::OnExit(GameEngine::BlackboardComponent*)
+void PlayerDyingState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
+	pAnimationComponent->SetHorizontalOffset(0);
+	pAnimationComponent->SetVerticalOffset(2);
+	pAnimationComponent->SetNumberOfFrames(2);
 }
 
-void PlayerDyingState::Update(GameEngine::BlackboardComponent* pBlackboard)
+
+void PlayerDyingState::Update(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	AnimationUpdate(pBlackboard);
+	AnimationUpdate(pAnimationComponent); 
 }
 
-bool IsInputGiven::Evaluate(GameEngine::BlackboardComponent* pBlackboard) const
+bool IsInputGiven::Evaluate(GameEngine::AnimationComponent* pAnimationComponent) const
 {
-	bool inputWasGiven;
-	pBlackboard->GetData("WasInputGiven", inputWasGiven);
+	bool inputWasGiven = pAnimationComponent->GetWasInputGiven();
 
 	return inputWasGiven;
 }
 
-bool IsInputNotGiven::Evaluate(GameEngine::BlackboardComponent* pBlackboard) const
+bool IsInputNotGiven::Evaluate(GameEngine::AnimationComponent* pAnimationComponent) const
 {
-	bool inputWasGiven;
-	pBlackboard->GetData("WasInputGiven", inputWasGiven);
+	bool inputWasGiven = pAnimationComponent->GetWasInputGiven();
 
 	return !inputWasGiven;
 }
-bool IsBlockPushed::Evaluate(GameEngine::BlackboardComponent* pBlackboard) const
+bool IsBlockPushed::Evaluate(GameEngine::AnimationComponent* pAnimationComponent) const
 {
-	bool wasBlockPushed;
-	pBlackboard->GetData("WasBlockPushed", wasBlockPushed);
+	bool wasBlockPushed = pAnimationComponent->GetWasPushed();
 
 	return wasBlockPushed;
 }
-bool IsBlockNotPushed::Evaluate(GameEngine::BlackboardComponent* pBlackboard) const
+bool IsBlockNotPushed::Evaluate(GameEngine::AnimationComponent* pAnimationComponent) const
 {
-	bool wasBlockPushed;
-	pBlackboard->GetData("WasBlockPushed", wasBlockPushed);
-
-	float animTime = 0.0f;
-	pBlackboard->GetData("AnimationTime", animTime);
+	bool wasBlockPushed = pAnimationComponent->GetWasPushed();
+	 
+	float animTime = pAnimationComponent->GetAnimationTime();
 
 	if (animTime <= 1.f && wasBlockPushed)
 	{
@@ -139,10 +129,9 @@ bool IsBlockNotPushed::Evaluate(GameEngine::BlackboardComponent* pBlackboard) co
 	return true;
 }
 
-bool IsKilled::Evaluate(GameEngine::BlackboardComponent* pBlackboard) const
+bool IsKilled::Evaluate(GameEngine::AnimationComponent* pAnimationComponent) const
 {
-	bool isKilled; 
-	pBlackboard->GetData("IsKilled", isKilled); 
+	bool isKilled = pAnimationComponent->GetIsDestroyed();
 
 	return isKilled; 
 }

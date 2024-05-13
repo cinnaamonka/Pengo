@@ -150,6 +150,9 @@
     <ClInclude Include="AIFSM.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -241,6 +244,9 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="AIFSM.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>

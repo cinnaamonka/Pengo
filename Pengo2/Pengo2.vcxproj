@@ -184,7 +184,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AIMovementComponent.cpp" />
-    <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="BaseBlock.cpp" />
     <ClCompile Include="BlocksStatesAndTransitions.cpp" />
     <ClCompile Include="CollisionComponent.cpp" />
@@ -194,7 +193,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClCompile Include="EnemyAnimationStates.cpp" />
     <ClCompile Include="EnemyDirectionObserver.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
-    <ClCompile Include="EnemyStatesAndTransitions.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HitObserver.cpp" />
@@ -216,7 +214,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIMovementComponent.h" />
-    <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="BaseBlock.h" />
     <ClInclude Include="BlocksStatesAndTransitions.h" />
     <ClInclude Include="CollisionComponent.h" />
@@ -226,7 +223,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClInclude Include="EnemyAnimationStates.h" />
     <ClInclude Include="EnemyDirectionObserver.h" />
     <ClInclude Include="EnemyManager.h" />
-    <ClInclude Include="EnemyStatesAndTransitions.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HitObserver.h" />

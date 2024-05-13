@@ -5,7 +5,7 @@
 #include <GameObject.h>
 #include <BoxColliderComponent.h>
 #include <FSM.h>
-#include "AnimationComponent.h"
+#include <AnimationComponent.h>
 
 
 EggObserver::EggObserver(GameEngine::Scene* scenePtr)
@@ -42,8 +42,7 @@ void EggObserver::Notify(const glm::vec3& message_from_subject)
 	gameObject->AddComponent<GameEngine::TransformComponent>(message_from_subject);
 	gameObject->AddComponent<GameEngine::TextureComponent>("Egg.tga", m_HorizontalAmountOfFrames);
 	gameObject->AddComponent<GameEngine::RenderComponent>();
-	gameObject->AddComponent<GameEngine::BlackboardComponent>();
-	gameObject->AddComponent<AnimationComponent>();
+	gameObject->AddComponent<GameEngine::AnimationComponent>();
 
 	auto textureSizeX = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / m_HorizontalAmountOfFrames;
 	auto textureSizeY = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y;
@@ -57,14 +56,12 @@ void EggObserver::Notify(const glm::vec3& message_from_subject)
 	m_IsEggAnimationWaiting = std::make_unique<IsWaiting>();
 
 	gameObject->AddComponent<GameEngine::FSM>(m_WaitingEggState.get(),
-		gameObject->GetComponent<GameEngine::BlackboardComponent>());
+		gameObject->GetComponent<GameEngine::AnimationComponent>());
 
 	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_WaitingEggState.get(), m_BreakingEggState.get(),
 		m_IsEggAnimationWaiting.get());
 	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_BreakingEggState.get(), m_pBrokenEggState.get(),
 		m_IsEggBroken.get());
-
-	gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("TimeOffset", float());
 
 	m_ScenePtr->Add(std::move(gameObject));
 }

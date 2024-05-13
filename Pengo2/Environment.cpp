@@ -139,7 +139,8 @@ void Environment::PushBlock()
 				if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsBreakable())
 				{
 					// ONLY IF BREAKABLE
-					m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+					m_pBlocks[i]->GetComponent<GameEngine::AnimationComponent>()->SetIsDestroyed(true);
+
 					m_BlockCollisionInfo.Detach(m_pBlocks[i]->GetComponent<BlockObserver>());
 
 					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
@@ -160,7 +161,7 @@ void Environment::PushBlock()
 				{
 					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsBreakable())
 					{
-						m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+						m_pBlocks[i]->GetComponent<GameEngine::AnimationComponent>()->SetIsDestroyed(true);
 						m_BlockCollisionInfo.Detach(m_pBlocks[i]->GetComponent<BlockObserver>());
 
 						// ONLY IF BREAKABLE
@@ -197,7 +198,8 @@ void Environment::PushBlock()
 				if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsBreakable())
 				{
 					// ONLY IF BREAKABLE
-					m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+					m_pBlocks[i]->GetComponent<GameEngine::AnimationComponent>()->SetIsDestroyed(true);
+
 					m_BlockCollisionInfo.Detach(m_pBlocks[i]->GetComponent<BlockObserver>());
 
 					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
@@ -220,7 +222,8 @@ void Environment::PushBlock()
 					if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsBreakable())
 					{
 						// ONLY IF BREAKABLE
-						m_pBlocks[i]->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("WasBlockDestroyed", true);
+						m_pBlocks[i]->GetComponent<GameEngine::AnimationComponent>()->SetIsDestroyed(true);
+
 						m_BlockCollisionInfo.Detach(m_pBlocks[i]->GetComponent<BlockObserver>());
 
 						if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())

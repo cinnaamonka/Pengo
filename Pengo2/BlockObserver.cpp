@@ -33,7 +33,7 @@ void BlockObserver::Notify(const BlockCollisionInfo& message_from_subject)
 
 			glm::vec3 pushDirection = glm::vec3(0, isMovingUp ? 1 : -1, 0);
 
-			GetGameObject()->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("MovementDirection", pushDirection);
+			GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection(pushDirection);
 			baseBlock->PushBlock(pushDirection);
 
 		}
@@ -46,7 +46,7 @@ void BlockObserver::Notify(const BlockCollisionInfo& message_from_subject)
 			baseBlock->SetPushSpeed(10.0f);
 
 			glm::vec3 pushDirection = glm::vec3(isMovingRight ? 1 : -1, 0, 0);
-			GetGameObject()->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("MovementDirection", pushDirection);
+			GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection(pushDirection);
 
 			baseBlock->PushBlock(pushDirection);
 		}

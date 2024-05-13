@@ -11,7 +11,7 @@
 #include <Texture2D.h>
 #include <FSM.h>
 #include "BlackboardComponent.h"
-#include "AnimationComponent.h"
+#include <AnimationComponent.h>
 
 PengoActor::PengoActor()
 {
@@ -21,18 +21,13 @@ PengoActor::PengoActor()
 	m_pActor->AddComponent<GameEngine::TransformComponent>(glm::vec3(250, 320, 0));
 	m_pActor->AddComponent<GameEngine::TextureComponent>("PengoCharacter.tga");
 	m_pActor->AddComponent<GameEngine::ActorComponent>();
-	m_pActor->AddComponent<AnimationComponent>();
-	m_pActor->AddComponent<GameEngine::BlackboardComponent>();
+	m_pActor->AddComponent<GameEngine::AnimationComponent>();
 	m_pActor->AddComponent<GameEngine::HealthObserver>(); 
 
 	auto textureSizeX = m_pActor->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / m_HorizontalAmountOfFrames;
 	auto textureSizeY = m_pActor->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / m_VerticalAmountOfFrames;
 
 	m_pActor->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
-
-	m_pActor->GetComponent<GameEngine::BlackboardComponent>()->AddData("WasInputGiven", false);
-	m_pActor->GetComponent<GameEngine::BlackboardComponent>()->AddData("WasBlockPushed", false);
-	m_pActor->GetComponent<GameEngine::BlackboardComponent>()->AddData("IsKilled", false);
 
     auto actorComponent = m_pActor->GetComponent<GameEngine::ActorComponent>();
     auto healthObserver = m_pActor->GetComponent<GameEngine::HealthObserver>();
@@ -49,7 +44,7 @@ PengoActor::PengoActor()
 	m_IsBlockNotPushed = std::make_unique<IsBlockNotPushed>();
 	m_IsKilled = std::make_unique<IsKilled>(); 
 
-	m_pActor->AddComponent<GameEngine::FSM>(m_IdleState.get(), m_pActor->GetComponent<GameEngine::BlackboardComponent>());
+	m_pActor->AddComponent<GameEngine::FSM>(m_IdleState.get(), m_pActor->GetComponent<GameEngine::AnimationComponent>());
 	m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_IdleState.get(), m_RunningState.get(), m_IsInputGiven.get());
 	m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_RunningState.get(), m_IdleState.get(), m_IsNotInputGiven.get());
 	m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_IdleState.get(), m_PushingState.get(), m_IsBlockPushed.get());

@@ -1,6 +1,6 @@
 #include "PlayerPositionObserver.h"
 #include <TransformComponent.h>
-#include <BlackboardComponent.h>
+#include <AnimationComponent.h>
 #include "EnemyActor.h"
 
 PlayerPositionObserver::PlayerPositionObserver(GameEngine::GameObject* pGameObject) :
@@ -16,7 +16,7 @@ void PlayerPositionObserver::Notify(const glm::vec3& message_from_subject)
 	if (AreNear(message_from_subject, currentEnemyPosition,5.0f))
 	{
 		GetGameObject()->GetComponent<EnemyActor>()->KillPlayer();
-		GetGameObject()->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("MovementDirection", glm::vec3{0.0f,0.0f,0.0f});
+		GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection(glm::vec3{0.0f,0.0f,0.0f});
 		return;
 	}
 
@@ -26,8 +26,8 @@ void PlayerPositionObserver::Notify(const glm::vec3& message_from_subject)
 
 	if (distance < m_Radius && AreOnSameLine({ 0,0,0 }, message_from_subject, currentEnemyPosition))
 	{
-		GetGameObject()->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("IsChasing", true);
-		GetGameObject()->GetComponent<GameEngine::BlackboardComponent>()->ChangeData("MovementDirection", newDirection);
+		GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->SetIsChasing(true);
+		GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection(newDirection);
 	}
 }
 
