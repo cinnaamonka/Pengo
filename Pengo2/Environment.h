@@ -11,6 +11,7 @@
 #include <IObserver.h>
 #include "BlockObserver.h"
 #include "EggObserver.h"
+#include "EnvironmentObserver.h"
 #include "EnemyManager.h"
 
 #include <Scene.h>
@@ -20,6 +21,7 @@
 
 class GameObject;
 class EggObserver;
+class EnvironmentObserver;
 
 class Environment final : public GameEngine::BaseComponent
 {
@@ -37,6 +39,7 @@ public:
 	void CheckEnemiesCollision(); 
 
 	void Update() override;
+	
 
 	void SetActor(GameEngine::GameObject* pActor)
 	{
@@ -57,15 +60,24 @@ public:
 		{
 			m_EggSpawnEvent.Attach(pObserver);
 		}
+		else if constexpr (std::is_same_v<T, EventInfo>)
+		{
+			m_EnvEvent.Attach(pObserver);
+		}
 	}
 
 	void PushBlock();
 
 	void CreateBlocksCollection(std::vector<GameEngine::Block> blocks, const std::string& name, const std::string& tag,
 		int& offset, GameEngine::Scene* scene, bool IsBreakable, bool containsEggs = false, int clipTextureAmount = 1);
+
+	void ResetBlocksIndexes();
+	void DeleteBlockFromGame(const int blockIndex);
 private:
+
 	void StopBlock(GameEngine::GameObject* block, GameEngine::HitInfo hitInfo);
 	void BreakBlock(int index);  
+	
 private:
 	std::vector<GameEngine::GameObject*> m_pBlocks;
 
@@ -78,6 +90,7 @@ private:
 	GameEngine::Subject<GameEngine::HitInfo> m_CollisionHitInfoChanged;
 	GameEngine::Subject<BlockCollisionInfo> m_BlockCollisionInfo;
 	GameEngine::Subject<glm::vec3> m_EggSpawnEvent;
+	GameEngine::Subject<EventInfo> m_EnvEvent; 
 
 	int m_PushBlockIndex = -1;
 

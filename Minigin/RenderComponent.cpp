@@ -33,13 +33,14 @@ void GameEngine::RenderComponent::Render()
 	if (!m_pAnimationComponent) return;
 
 	glm::vec3 movementDirection = m_pAnimationComponent->GetMovementDirection();
+
 	bool IsMovingLeft = false;
 
 	if (m_pBlackboard)
 	{  
 		IsMovingLeft = movementDirection.x < 0;
 	}
-	 
+	
 	// only width can be checked
 	if (newTexture != nullptr && dimensions.width == 0)
 	{
@@ -47,6 +48,7 @@ void GameEngine::RenderComponent::Render()
 	}
 	else if (newTexture != nullptr)
 	{
-		Renderer::GetInstance().RenderTexture(*newTexture, position.x, position.y, { dimensions.left, dimensions.bottom,dimensions.width,dimensions.height }, IsMovingLeft);
+		Renderer::GetInstance().RenderTexture(*newTexture, position.x, position.y, { dimensions.left, dimensions.bottom,
+			dimensions.width,dimensions.height }, IsMovingLeft);
 	}
 }

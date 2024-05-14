@@ -50,9 +50,14 @@ public:
 
 	int GetBlockIndex() const
 	{
-		
 		return m_BlockIndex;
 	}
+
+	void SetBlockIndex(int index)
+	{
+		m_BlockIndex = index;
+	}
+
 	void SetIsPushed(bool pushed)
 	{
 		m_Pushed = pushed;

@@ -10,6 +10,7 @@
 #include "BlockObserver.h"
 #include "EnemyAnimationStates.h"
 #include <AnimationComponent.h>
+#include "EnvironmentObserver.h"
 
 class EnemyManager
 {
@@ -49,7 +50,8 @@ public:
 		
 	}
 
-	void CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks, GameEngine::Subject<BlockCollisionInfo>* subject,int m_PushBlockIndex);
+	void CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks,
+		int& m_PushBlockIndex, GameEngine::Subject<EventInfo>* eventSubject); 
 
 	void HandleBorderCollision(GameEngine::GameObject*);
 
@@ -62,6 +64,7 @@ private:
 		int currentBlockIndex, int currentEnemyIndex, const int randDirection, bool isHorizontal); 
 
 	void KillEnemy(int index);
+	void ResetEnemiesIndexes(); 
 
 
 private:

@@ -10,7 +10,7 @@ public:
 	~BreakingEggState() = default;
 
 	virtual void OnEnter(GameEngine::AnimationComponent* pBlackboard) override;
-	virtual void OnExit(GameEngine::AnimationComponent* pBlackboard) override;
+	virtual void OnExit(GameEngine::AnimationComponent*) override {};
 	virtual void Update(GameEngine::AnimationComponent* pBlackboard) override;
 
 };

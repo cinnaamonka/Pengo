@@ -28,7 +28,7 @@ void EnemyDyingState::HandleInput(GameEngine::GameObject* object)
 
 	if (movementDirection.x > 0)
 	{
-		animationComponent->SetHorizontalOffset(6);
+		animationComponent->SetHorizontalOffset(2);
 	}
 	if (movementDirection.x < 0)
 	{
@@ -46,7 +46,10 @@ void EnemyDyingState::HandleInput(GameEngine::GameObject* object)
 	animationComponent->SetNumberOfFrames(2);
 	animationComponent->SetVerticalOffset(4);
 	animationComponent->SetFramesPerSec(1);
+	animationComponent->SetAnimationTime(0.0f);
+	animationComponent->SetAnimationFrame(0);
 }
+
 
 void EnemyDyingState::Update(GameEngine::GameObject* object)
 {

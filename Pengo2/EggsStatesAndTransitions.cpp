@@ -4,14 +4,9 @@
 void BreakingEggState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
 	pAnimationComponent->SetNumberOfFrames(3);
-	pAnimationComponent->SetFramesPerSec(10);
+	pAnimationComponent->SetFramesPerSec(1);
 	pAnimationComponent->SetHorizontalOffset(1);
 	pAnimationComponent->SetVerticalOffset(0);
-}
-
-void BreakingEggState::OnExit(GameEngine::AnimationComponent*)
-{
-
 }
 
 void BreakingEggState::Update(GameEngine::AnimationComponent* pAnimationComponent)

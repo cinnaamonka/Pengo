@@ -8,8 +8,6 @@ BlockObserver::BlockObserver(GameEngine::GameObject* pGameObject):
 
 void BlockObserver::Notify(const BlockCollisionInfo& message_from_subject)
 {
-	if (!this) return;
-	if (GetGameObject() ->IsDestroyed())return;
 	auto baseBlock = GetGameObject()->GetComponent<BaseBlock>();
 	int baseBlockIndex = baseBlock->GetBlockIndex(); 
 

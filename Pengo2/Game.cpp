@@ -6,6 +6,7 @@
 
 #include "HitObserver.h"
 #include "EggObserver.h"
+#include "EnvironmentObserver.h"
 #include "BlockComponent.h"
 #include "TextComponent.h"
 #include "RenderComponent.h"
@@ -37,6 +38,7 @@ void Game::Initialize()
 
 	m_pEnvironment = std::make_unique<GameEngine::GameObject>();
 	m_pEnvironment->AddComponent<Environment>("Level.json", &scene);
+	m_pEnvironment->AddComponent<EnvironmentObserver>(); 
 	m_pEnvironment->GetComponent<Environment>()->SetActor(m_pPengoActor->GetReferenceToActor());
 
 	m_pEnemyManager = std::make_unique<EnemyManager>(static_cast<int>(m_EnemiesPositions.size()), m_EnemiesPositions, &scene, m_pPengoActor->GetReferenceToActor());
@@ -44,6 +46,7 @@ void Game::Initialize()
 	m_pEnvironment->GetComponent<Environment>()->SetEnemyManager(m_pEnemyManager.get()); 
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::HitInfo>(hitObserverComponent);
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<glm::vec3>(m_pEggsObserver.get());
+	m_pEnvironment->GetComponent<Environment>()->AttachObserver<EventInfo>(m_pEnvironment->GetComponent<EnvironmentObserver>());
 	
 	m_pEnvironmentReference = m_pEnvironment.get();
 

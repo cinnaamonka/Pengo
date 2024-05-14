@@ -41,9 +41,9 @@ void EggObserver::Notify(const glm::vec3& message_from_subject)
 
 	gameObject->AddComponent<GameEngine::TransformComponent>(message_from_subject);
 	gameObject->AddComponent<GameEngine::TextureComponent>("Egg.tga", m_HorizontalAmountOfFrames);
-	gameObject->AddComponent<GameEngine::RenderComponent>();
 	gameObject->AddComponent<GameEngine::AnimationComponent>();
-
+	gameObject->AddComponent<GameEngine::RenderComponent>();
+	
 	auto textureSizeX = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / m_HorizontalAmountOfFrames;
 	auto textureSizeY = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y;
 
