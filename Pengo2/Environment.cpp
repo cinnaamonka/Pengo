@@ -147,6 +147,7 @@ void Environment::PushBlock()
 					{
 						m_EggSpawnEvent.CreateMessage(m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
 					}
+					
 
 				}
 
@@ -230,6 +231,7 @@ void Environment::PushBlock()
 						{
 							m_EggSpawnEvent.CreateMessage(m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
 						}
+
 
 					}
 					break;

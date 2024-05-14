@@ -26,7 +26,11 @@ void EnemyDyingState::HandleInput(GameEngine::GameObject* object)
 
 	glm::vec3 movementDirection = animationComponent->GetMovementDirection();
 
-	if (movementDirection.x != 0)
+	if (movementDirection.x > 0)
+	{
+		animationComponent->SetHorizontalOffset(6);
+	}
+	if (movementDirection.x < 0)
 	{
 		animationComponent->SetHorizontalOffset(2);
 	}
