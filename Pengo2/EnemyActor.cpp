@@ -10,7 +10,6 @@
 #include "EnemyDirectionObserver.h"
 #include "CollisionComponent.h"
 #include <ActorComponent.h>
-#include "PlayerPositionObserver.h"
 
 #include <FSM.h>
 #include <AIFSM.h>
@@ -42,13 +41,11 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(glm::vec3& pos,i
 	gameObject->AddComponent<AIMovementComponent>();
 	gameObject->AddComponent<EnemyDirectionObserver>(index);
 	gameObject->AddComponent<EnemyActor>();
-	gameObject->AddComponent<PlayerPositionObserver>();  
 
 	auto textureSizeX = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / 8;
 	auto textureSizeY = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / 5;
 
 	gameObject->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
-
 
 	gameObject->AddComponent<GameEngine::AIFSM>(m_MovingState.get(), gameObject->GetComponent<GameEngine::AnimationComponent>());
 	gameObject->GetComponent<GameEngine::AIFSM>()->AddTransition(m_MovingState.get(), m_ChaseState.get(), m_HasNoticedActor.get());

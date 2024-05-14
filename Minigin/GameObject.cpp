@@ -26,10 +26,11 @@ void GameEngine::GameObject::CleanUp()
 	if (!this) return;
 	if (!m_IsDestroyed) return;
 
-	for (auto it = m_pComponents.begin(); it != m_pComponents.end(); ++it)
-	{
+    for (auto it = m_pComponents.begin(); it != m_pComponents.end(); ++it)
+    {
 		(*it).release();
-	}
+    }
+    m_pComponents.clear();
 }
 void GameEngine::GameObject::SetParent(GameObject* newParent, bool keepWorldPosition)
 {

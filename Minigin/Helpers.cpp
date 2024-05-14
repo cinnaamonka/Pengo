@@ -251,4 +251,24 @@ namespace GameEngine
 		animationComponent->SetAnimationFrame(animFrame);
 		animationComponent->SetAnimationTime(animTime);
 	}
+
+	bool AreVectorsCollinear(const glm::vec3& v1, const glm::vec3& v2, float tolerance) 
+	{
+		auto length = glm::length(glm::normalize(glm::cross(v1, v2)));
+		return length < tolerance;
+	}
+
+	bool AreOnSameLine(const glm::vec3& referencePoint, const glm::vec3& pos1, const glm::vec3& pos2) 
+	{
+		glm::vec3 dirVector1 = pos1 - referencePoint;
+		glm::vec3 dirVector2 = pos2 - referencePoint;
+
+		return AreVectorsCollinear(dirVector1, dirVector2, 1.0f);
+
+	}
+	bool AreNear(const glm::vec3& pos1, const glm::vec3& pos2, float threshold)
+	{
+		float distance = glm::distance(pos1, pos2);
+		return distance <= threshold;
+	}
 }

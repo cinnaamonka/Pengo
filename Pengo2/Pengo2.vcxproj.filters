@@ -70,9 +70,6 @@
     <ClCompile Include="EggsStatesAndTransitions.cpp">
       <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerPositionObserver.cpp">
-      <Filter>GameFiles\Observers</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyAnimationStates.cpp">
       <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClCompile>
@@ -128,9 +125,6 @@
     </ClInclude>
     <ClInclude Include="EggsStatesAndTransitions.h">
       <Filter>GameFiles\StatesAndTransitions</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerPositionObserver.h">
-      <Filter>GameFiles\Observers</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAnimationStates.h">
       <Filter>GameFiles\StatesAndTransitions</Filter>

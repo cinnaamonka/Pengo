@@ -81,6 +81,10 @@ namespace GameEngine
 	bool Raycast(const std::vector<glm::vec3>& vertices, const glm::vec2& rayP1, const glm::vec2& rayP2, HitInfo& hitInfo);
 
 	void AnimationUpdate(GameEngine::AnimationComponent* animationComponent);
+
+	bool AreVectorsCollinear(const glm::vec3& v1, const glm::vec3& v2, float tolerance = 0.0f);
+	bool AreOnSameLine(const glm::vec3& referencePoint, const glm::vec3& pos1, const glm::vec3& pos2);
+	bool AreNear(const glm::vec3& pos1, const glm::vec3& pos2, float threshold);
 }
 
 #endif // HELPERS_H

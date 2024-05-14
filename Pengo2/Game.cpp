@@ -11,7 +11,6 @@
 #include "RenderComponent.h"
 #include "TransformComponent.h"
 #include "PengoInputCommands.h"
-#include "PlayerPositionObserver.h"
 
 #include <SoundSystem.h>
 #include <SoundServiceLocator.h>

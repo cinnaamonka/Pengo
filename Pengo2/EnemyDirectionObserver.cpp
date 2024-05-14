@@ -18,6 +18,5 @@ void EnemyDirectionObserver::Notify(const GameEngine::EnemyInfo& info)
 	if (previousDirection != info.position && !GetGameObject()->GetComponent<EnemyActor>()->GetIsKilled())
 	{
 		GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection(info.position);
-		std::cout << info.position.x << "," << info.position.y << std::endl;
 	}
 }

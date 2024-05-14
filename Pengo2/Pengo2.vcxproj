@@ -200,7 +200,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PengoActor.cpp" />
     <ClCompile Include="PengoInputCommands.cpp" />
-    <ClCompile Include="PlayerPositionObserver.cpp" />
     <ClCompile Include="PlayerStatesAndTransitions.cpp" />
     <ClCompile Include="AIStatesAndTransitions.cpp" />
   </ItemGroup>
@@ -229,7 +228,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClInclude Include="BlockObserver.h" />
     <ClInclude Include="PengoActor.h" />
     <ClInclude Include="PengoInputCommands.h" />
-    <ClInclude Include="PlayerPositionObserver.h" />
     <ClInclude Include="PlayerStatesAndTransitions.h" />
     <ClInclude Include="AIStatesAndTransitions.h" />
   </ItemGroup>

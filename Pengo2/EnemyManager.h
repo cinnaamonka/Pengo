@@ -64,6 +64,7 @@ public:
 
 	void CheckCollisionWithPushedBlock(GameEngine::GameObject* blocks);
 
+	void CheckCollisionWithPlayer(const glm::vec3& pos); 
 private:
 
 	void HandleMovement(GameEngine::HitInfo& hitInfo, std::vector<GameEngine::GameObject*> blocks,
@@ -84,5 +85,7 @@ private:
 
 	static EnemyPatrolState enemyPatrolState;
 	static EnemyDyingState enemyDyingState;
+
+	const int m_Radius = 40;
 };
 
