@@ -302,6 +302,6 @@ void Environment::CheckEnemiesCollision()
 	// CHECK ENEMIES COLLISION LOGIC
 	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks, &m_BlockCollisionInfo,m_PushBlockIndex);
 	m_pEnemyManager->HandleBorderCollision(m_pBorderBlock);
-	m_pEnemyManager->CreateMessage(m_pPlayer->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
+	m_pEnemyManager->CheckCollisionWithPlayer(m_pPlayer->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
 	
 }
