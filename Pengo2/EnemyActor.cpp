@@ -61,6 +61,7 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(glm::vec3& pos,i
 
 void EnemyActor::KillPlayer()
 {
+	//TODO
 	m_pPlayer->GetComponent<GameEngine::ActorComponent>()->Damage(1); 
 }
 

@@ -65,6 +65,7 @@ public:
 		int& offset, GameEngine::Scene* scene, bool IsBreakable, bool containsEggs = false, int clipTextureAmount = 1);
 private:
 	void StopBlock(GameEngine::GameObject* block, GameEngine::HitInfo hitInfo);
+	void BreakBlock(int index);  
 private:
 	std::vector<GameEngine::GameObject*> m_pBlocks;
 

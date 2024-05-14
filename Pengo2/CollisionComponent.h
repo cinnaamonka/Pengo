@@ -14,8 +14,6 @@ public:
 	CollisionComponent& operator=(const CollisionComponent& other) = delete;
 	CollisionComponent& operator=(CollisionComponent&& other) = delete;
 
-	bool m_Pushed;
-
 	bool IsColliding(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo);
 	bool IsBlockNearbyHorizontally(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo);
 	bool IsBlockNearbyVertically(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo);

@@ -87,6 +87,7 @@ void GameEngine::GameObject::AddChild(GameObject* newChild)
 }
 void GameEngine::GameObject::Update()
 {
+	if(m_pComponents.empty()) return;
 	for (const auto& component : m_pComponents)
 	{
 		if (auto* updatableComponent = dynamic_cast<BaseComponent*>(component.get()))

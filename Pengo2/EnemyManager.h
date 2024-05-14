@@ -33,10 +33,6 @@ public:
 		{
 			m_EnemyDirectionChanged.Attach(pObserver);
 		}
-		else if constexpr (std::is_same_v<T, glm::vec3>)
-		{
-			m_PlayerPositionChanged.Attach(pObserver);
-		}
 	}
 
 	template<typename T>
@@ -50,15 +46,10 @@ public:
 		{
 			m_EnemyDirectionChanged.CreateMessage(info);
 		}
-		else if constexpr (std::is_same_v<T, glm::vec3>)
-		{
-			m_PlayerPositionChanged.CreateMessage(info);
-		}
-
-
+		
 	}
 
-	void CheckEnemiesCollision(std::vector<GameEngine::GameObject*> blocks, GameEngine::Subject<BlockCollisionInfo>* subject,int m_PushBlockIndex);
+	void CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks, GameEngine::Subject<BlockCollisionInfo>* subject,int m_PushBlockIndex);
 
 	void HandleBorderCollision(GameEngine::GameObject*);
 
@@ -77,8 +68,7 @@ private:
 	std::vector<GameEngine::GameObject*> m_EnemiesRef;
 	GameEngine::Subject<GameEngine::HitInfo> m_EnemiesCollisionHitInfoChanged;
 	GameEngine::Subject<GameEngine::EnemyInfo> m_EnemyDirectionChanged;
-	GameEngine::Subject<glm::vec3> m_PlayerPositionChanged;
-	
+
 	std::vector<glm::vec3> m_StartPositions;
 
 	int m_KilledEnemyIndex;
@@ -86,6 +76,6 @@ private:
 	static EnemyPatrolState enemyPatrolState;
 	static EnemyDyingState enemyDyingState;
 
-	const int m_Radius = 40;
+	const int m_Radius = 20;
 };
 

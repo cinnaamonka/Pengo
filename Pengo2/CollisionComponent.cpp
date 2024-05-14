@@ -5,8 +5,7 @@
 #include "ActorComponent.h"
 
 CollisionComponent::CollisionComponent(GameEngine::GameObject* pGameObject) :
-	BaseComponent(pGameObject),
-	m_Pushed(false)
+	BaseComponent(pGameObject)
 {
 }
 
