@@ -30,10 +30,24 @@ namespace GameEngine
 		{
 			return m_TextureClipAmount;
 		}
+
+		void Scale(float scaleX, float scaleY);
+
+		float GetScaleX() const
+		{
+			return m_ScaleX;
+		}
+		float GetScaleY() const
+		{
+			return m_ScaleY;
+		}
 	private:
 		std::shared_ptr<GameEngine::Texture2D> m_Texture;
 		std::string fileName;
 		int m_TextureClipAmount;
+
+		float m_ScaleX = 1;
+		float m_ScaleY = 1;
 	};
 }
 

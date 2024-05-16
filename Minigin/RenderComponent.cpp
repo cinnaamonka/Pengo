@@ -29,7 +29,7 @@ void GameEngine::RenderComponent::Render()
 	const auto& newTexture = m_TextureComponent->GetTexture();
 	const auto& position = m_TransformComponent->GetWorldPosition();
 	const auto& dimensions = m_TransformComponent->GetDimensions();
-
+	
 	if (!m_pAnimationComponent) return;
 
 	glm::vec3 movementDirection = m_pAnimationComponent->GetMovementDirection();
@@ -45,7 +45,8 @@ void GameEngine::RenderComponent::Render()
 	}
 	else if (newTexture != nullptr)
 	{
+
 		Renderer::GetInstance().RenderTexture(*newTexture, position.x, position.y, { dimensions.left, dimensions.bottom,
-			dimensions.width,dimensions.height }, IsMovingLeft);
+			  dimensions.width,dimensions.height }, IsMovingLeft);
 	}
 }

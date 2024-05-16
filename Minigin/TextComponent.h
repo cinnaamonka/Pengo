@@ -23,6 +23,7 @@ namespace GameEngine
 			m_pTextureComponent(nullptr) {};
 
 		TextComponent(GameObject* GOptr, std::string text, std::shared_ptr<Font> font);
+		TextComponent(GameObject* GOptr, std::shared_ptr<Font> font); 
 
 		void Update() override;
 

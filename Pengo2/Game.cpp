@@ -18,6 +18,7 @@
 #include <SoundServiceLocator.h>
 #include <SoundLogSystem.h>
 
+#include <HUD.h>
 
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
@@ -60,6 +61,10 @@ void Game::Initialize()
 
 	GameEngine::SoundServiceLocator::RegisterSoundSystem(std::make_unique<GameEngine::SoundLogSystem>
 		(std::make_unique<GameEngine::SoundSystem>()));
+
+	//initialize HUD
+	m_pHUD = std::make_unique<GameEngine::HUD>();
+	m_pHUD->AddScoreBar(glm::vec3{ 270,10,0 }, &scene);
 }
 
 void Game::InitializeInputSystem(GameEngine::GameObject* gameActor) 

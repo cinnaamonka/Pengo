@@ -245,6 +245,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClInclude Include="GameObjectCommand.h" />
     <ClInclude Include="General.h" />
     <ClInclude Include="Helpers.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="ImGuiComponent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Engine.h" />
@@ -253,6 +254,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="HealthObserver.h" />
     <ClInclude Include="InputCommands.h" />
+    <ClInclude Include="LifeBar.h" />
     <ClInclude Include="NullSoundSystem.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="Renderer.h" />
@@ -260,6 +262,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClInclude Include="RingBuffer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ScoreBar.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundLogSystem.h" />
     <ClInclude Include="SoundServiceLocator.h" />
@@ -283,17 +286,20 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClCompile Include="FSM.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Helpers.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="ImGuiComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="HealthObserver.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="InputCommands.cpp" />
+    <ClCompile Include="LifeBar.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ScoreBar.cpp" />
     <ClCompile Include="SoundLogSystem.cpp" />
     <ClCompile Include="SoundServiceLocator.cpp" />
     <ClCompile Include="SoundSystem.cpp" />

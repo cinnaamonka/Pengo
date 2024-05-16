@@ -14,6 +14,7 @@
 #include "EnemyManager.h"
 #include "EnvironmentObserver.h"
 #include "ScoreObserver.h"
+#include <HUD.h>
 
 class Game final :public GameEngine::BaseGame
 {
@@ -38,6 +39,7 @@ private:
 	std::unique_ptr<EggObserver> m_pEggsObserver;
 	std::unique_ptr<ScoreObserver> m_pScoreObserver;
 	std::unique_ptr<EnvironmentObserver> m_pEnvironmentObserver;
+	std::unique_ptr<GameEngine::HUD> m_pHUD;
 
 	GameEngine::GameObject* m_pEnvironmentReference;
 

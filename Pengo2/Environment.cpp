@@ -21,7 +21,6 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 {
 	GameEngine::GetVerticesFromJsonFile(filename, m_LevelVertices);
 
-	// BORDER 
 	std::vector tempCollection = GameEngine::GetBlocksWithTag(m_LevelVertices, "border");
 
 	auto borderBlock = BaseBlock::CreateBlock(tempCollection[0].block[0], "Border.tga", 50, false, false, 1,
@@ -32,15 +31,11 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 
 	scene->Add(std::move(borderBlock));
 
-	// DIAMOND BLOCKS
-
 	int offset = 0;
 	CreateBlocksCollection(m_LevelVertices, "DiamondBlock.tga", "diamond_block", offset, scene, false, false);
 
-	//EGG BLOCKS
 	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "egg_block", offset, scene, true, true, 16);
 
-	//ICE BLOCKS
 	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "ice_block", offset, scene, true, false, 16);
 
 }
@@ -48,17 +43,14 @@ void Environment::CheckCollision()
 {
 	GameEngine::HitInfo hitInfo{};
 
-	// CHECK ONLY FOR PLAYER WITH BLOCKS
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
-
 		if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsColliding(m_pPlayer, hitInfo))
 		{
 			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 		}
 	}
 
-	//CHECK ONLY FOR PLAYER WITH BORDER
 	const auto borderCollisionComponent = m_pBorderBlock->GetComponent<CollisionComponent>();
 
 	if (borderCollisionComponent->IsColliding(m_pPlayer, hitInfo))

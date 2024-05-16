@@ -111,7 +111,7 @@ void EnemyManager::HandleMovement(GameEngine::HitInfo& hitInfo, std::vector<Game
 			CreateMessage(GameEngine::EnemyInfo{ currentEnemyIndex, isHorizontal ? glm::vec3(-hitInfo.normal.x, 0, 0) : glm::vec3(0, -hitInfo.normal.y, 0) });
 
 			continue;
-		}
+		}   
 	}
 
 	CreateMessage(GameEngine::EnemyInfo{ currentEnemyIndex, !isHorizontal ? glm::vec3(randDirection, 0, 0) : glm::vec3(0, randDirection, 0) });

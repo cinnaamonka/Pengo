@@ -22,6 +22,9 @@
     <Filter Include="Engine\Event">
       <UniqueIdentifier>{ced40782-a4eb-497c-840f-559806b71953}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\HUD">
+      <UniqueIdentifier>{612ee45f-f28a-4884-a727-47b74ace8542}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseComponent.h">
@@ -144,6 +147,15 @@
     <ClInclude Include="AnimationComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>Components\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeBar.h">
+      <Filter>Components\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreBar.h">
+      <Filter>Components\HUD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -230,6 +242,15 @@
     </ClCompile>
     <ClCompile Include="AnimationComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Components\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeBar.cpp">
+      <Filter>Components\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreBar.cpp">
+      <Filter>Components\HUD</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

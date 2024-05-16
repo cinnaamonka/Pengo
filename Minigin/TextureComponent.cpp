@@ -31,3 +31,9 @@ void GameEngine::TextureComponent::SetTexture(std::shared_ptr<GameEngine::Textur
 {
 	m_Texture = texture;
 }
+
+void GameEngine::TextureComponent::Scale(float scaleX, float scaleY)
+{
+	m_ScaleX = scaleX;
+	m_ScaleY = scaleY;
+}
