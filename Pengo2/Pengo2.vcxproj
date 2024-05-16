@@ -203,6 +203,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClCompile Include="PengoInputCommands.cpp" />
     <ClCompile Include="PlayerStatesAndTransitions.cpp" />
     <ClCompile Include="AIStatesAndTransitions.cpp" />
+    <ClCompile Include="ScoreObserver.cpp" />
+    <ClCompile Include="ScoreStatesAndTransitions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\imgui\imgui.vcxproj">
@@ -232,6 +234,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClInclude Include="PengoInputCommands.h" />
     <ClInclude Include="PlayerStatesAndTransitions.h" />
     <ClInclude Include="AIStatesAndTransitions.h" />
+    <ClInclude Include="ScoreObserver.h" />
+    <ClInclude Include="ScoreStatesAndTransitions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

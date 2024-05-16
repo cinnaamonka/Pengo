@@ -36,11 +36,8 @@ void GameEngine::RenderComponent::Render()
 
 	bool IsMovingLeft = false;
 
-	if (m_pBlackboard)
-	{  
-		IsMovingLeft = movementDirection.x < 0;
-	}
-	
+	IsMovingLeft = movementDirection.x <= 0;
+
 	// only width can be checked
 	if (newTexture != nullptr && dimensions.width == 0)
 	{

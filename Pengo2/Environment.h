@@ -11,6 +11,7 @@
 #include <IObserver.h>
 #include "BlockObserver.h"
 #include "EggObserver.h"
+#include "ScoreObserver.h"
 #include "EnvironmentObserver.h"
 #include "EnemyManager.h"
 
@@ -64,6 +65,10 @@ public:
 		{
 			m_EnvEvent.Attach(pObserver);
 		}
+		else if constexpr (std::is_same_v<T, Score>) 
+		{
+			m_ScoreAppearingEvent.Attach(pObserver); 
+		}
 	}
 
 	void PushBlock();
@@ -91,6 +96,7 @@ private:
 	GameEngine::Subject<BlockCollisionInfo> m_BlockCollisionInfo;
 	GameEngine::Subject<glm::vec3> m_EggSpawnEvent;
 	GameEngine::Subject<EventInfo> m_EnvEvent; 
+	GameEngine::Subject<Score> m_ScoreAppearingEvent;
 
 	int m_PushBlockIndex = -1;
 

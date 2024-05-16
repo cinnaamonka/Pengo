@@ -93,9 +93,6 @@
     <ClInclude Include="BaseInputDevice.h">
       <Filter>Engine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreObserver.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Engine\Event</Filter>
     </ClInclude>
@@ -205,9 +202,6 @@
     </ClCompile>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Engine\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreObserver.cpp">
-      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="ActorComponent.cpp">
       <Filter>Components</Filter>

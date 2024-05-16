@@ -219,7 +219,9 @@ void Environment::BreakBlock(int index)
 
 		if (m_pBlocks[index]->GetComponent<BaseBlock>()->GetContainsEggs())
 		{
-			m_EggSpawnEvent.CreateMessage(m_pBlocks[index]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
+			auto position = m_pBlocks[index]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
+			m_EggSpawnEvent.CreateMessage(position);
+			m_ScoreAppearingEvent.CreateMessage(Score{ ScoreType::EggFound, position }); 
 		}
 
 		m_pBlocks.erase(m_pBlocks.begin() + index);

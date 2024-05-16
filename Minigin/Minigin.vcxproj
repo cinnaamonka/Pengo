@@ -260,7 +260,6 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClInclude Include="RingBuffer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="ScoreObserver.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundLogSystem.h" />
     <ClInclude Include="SoundServiceLocator.h" />
@@ -295,7 +294,6 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="ScoreObserver.cpp" />
     <ClCompile Include="SoundLogSystem.cpp" />
     <ClCompile Include="SoundServiceLocator.cpp" />
     <ClCompile Include="SoundSystem.cpp" />

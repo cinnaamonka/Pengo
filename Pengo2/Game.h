@@ -13,7 +13,7 @@
 #include "EggObserver.h"
 #include "EnemyManager.h"
 #include "EnvironmentObserver.h"
-
+#include "ScoreObserver.h"
 
 class Game final :public GameEngine::BaseGame
 {
@@ -36,6 +36,7 @@ private:
 	std::unique_ptr<PengoActor> m_pPengoActor;
 	std::unique_ptr<EnemyManager> m_pEnemyManager;
 	std::unique_ptr<EggObserver> m_pEggsObserver;
+	std::unique_ptr<ScoreObserver> m_pScoreObserver;
 	std::unique_ptr<EnvironmentObserver> m_pEnvironmentObserver;
 
 	GameEngine::GameObject* m_pEnvironmentReference;

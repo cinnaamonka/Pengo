@@ -6,6 +6,7 @@
 
 #include "HitObserver.h"
 #include "EggObserver.h"
+
 #include "EnvironmentObserver.h"
 #include "BlockComponent.h"
 #include "TextComponent.h"
@@ -33,6 +34,7 @@ void Game::Initialize()
 
 	m_pPengoActor             = std::make_unique<PengoActor>();
 	m_pEggsObserver           = std::make_unique<EggObserver>(&scene); 
+	m_pScoreObserver          = std::make_unique<ScoreObserver>(&scene);
 
 	auto hitObserverComponent = m_pPengoActor->GetHitObserver();
 
@@ -47,6 +49,7 @@ void Game::Initialize()
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::HitInfo>(hitObserverComponent);
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<glm::vec3>(m_pEggsObserver.get());
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<EventInfo>(m_pEnvironment->GetComponent<EnvironmentObserver>());
+	m_pEnvironment->GetComponent<Environment>()->AttachObserver<Score>(m_pScoreObserver.get());
 	
 	m_pEnvironmentReference = m_pEnvironment.get();
 
