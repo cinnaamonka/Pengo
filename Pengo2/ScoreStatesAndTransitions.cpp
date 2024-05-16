@@ -3,7 +3,7 @@
 
 void ScoreAppearingState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pAnimationComponent->SetNumberOfFrames(1);
+	pAnimationComponent->SetNumberOfFrames(3);
 	pAnimationComponent->SetFramesPerSec(1);
 	pAnimationComponent->SetHorizontalOffset(1);
 	pAnimationComponent->SetVerticalOffset(0);
@@ -19,7 +19,7 @@ void ScoreAppearingState::Update(GameEngine::AnimationComponent* pAnimationCompo
 
 	if (currentAnimationFrame == numberOfFrames - 1)
 	{
-		pAnimationComponent->SetIsDestroyed(true);
+		pAnimationComponent->Destroy();
 	}
 }
 
