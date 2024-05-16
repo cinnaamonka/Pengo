@@ -44,5 +44,5 @@ bool IsScoreWaiting::Evaluate(GameEngine::AnimationComponent* pAnimationComponen
 {
 	float timeOffset = pAnimationComponent->GetTimeOffset();
 
-	return (timeOffset >= 3.0f);
+	return (timeOffset >= 2.5f);
 }

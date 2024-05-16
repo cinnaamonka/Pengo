@@ -252,7 +252,7 @@ void Environment::DeleteBlockFromGame(const int blockIndex)
 
 void Environment::CheckEnemiesCollision()
 {
-	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks, m_PushBlockIndex, &m_EnvEvent);
+	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks, m_PushBlockIndex, &m_EnvEvent,&m_ScoreAppearingEvent);
 	m_pEnemyManager->HandleBorderCollision(m_pBorderBlock);
 	m_pEnemyManager->CheckCollisionWithPlayer(m_pPlayer->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
 

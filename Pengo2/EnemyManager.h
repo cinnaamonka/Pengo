@@ -11,6 +11,7 @@
 #include "EnemyAnimationStates.h"
 #include <AnimationComponent.h>
 #include "EnvironmentObserver.h"
+#include "ScoreObserver.h"
 
 class EnemyManager
 {
@@ -51,7 +52,7 @@ public:
 	}
 
 	void CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks,
-		int& m_PushBlockIndex, GameEngine::Subject<EventInfo>* eventSubject); 
+		int& m_PushBlockIndex, GameEngine::Subject<EventInfo>* eventSubject,GameEngine::Subject<Score>* scoreSubject); 
 
 	void HandleBorderCollision(GameEngine::GameObject*);
 

@@ -22,6 +22,8 @@ void ScoreObserver::Notify(const Score& message_from_subject)
 	case ScoreType::EggFound:
 		gameObject->AddComponent<GameEngine::TextureComponent>("Score.tga");
 		break;
+	case ScoreType::EnemyKilled:
+		gameObject->AddComponent<GameEngine::TextureComponent>("Score.tga");
 	default:
 		break;
 	}

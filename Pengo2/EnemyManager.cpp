@@ -36,7 +36,8 @@ EnemyManager::EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions,
 	}
 }
 
-void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks,int& m_PushBlockIndex, GameEngine::Subject<EventInfo>* eventSubject)
+void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks,int& m_PushBlockIndex, 
+	GameEngine::Subject<EventInfo>* eventSubject, GameEngine::Subject<Score>* scoreSubject)
 {
 	GameEngine::HitInfo hitInfo;
 
@@ -48,6 +49,7 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& b
 			{
 				if (i == m_KilledEnemyIndex && j != m_PushBlockIndex)
 				{
+					scoreSubject->CreateMessage(Score{ ScoreType::EnemyKilled,m_EnemiesRef[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition() });
 					KillEnemy(m_KilledEnemyIndex);
 					return;
 				}
@@ -62,7 +64,7 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& b
 
 				if ((isMovingRight && hitInfo.normal.y == 0) || (isMovingLeft && hitInfo.normal.x == -1))
 				{
-					if (!m_EnemiesRef[i]->GetComponent<EnemyActor>()->GetIsKilled())
+					if (!m_EnemiesRef[i]->GetComponent<EnemyActor>()->GetIsKilled() && !blocks[j]->GetComponent<BaseBlock>()->GetContainsEggs())
 					{
 						const EventInfo eventInfo
 						{
@@ -78,7 +80,7 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& b
 
 				if ((isMovingDown && hitInfo.normal.x == 0) || (isMovingUp && hitInfo.normal.y == -1))
 				{
-					if (!m_EnemiesRef[i]->GetComponent<EnemyActor>()->GetIsKilled())
+					if (!m_EnemiesRef[i]->GetComponent<EnemyActor>()->GetIsKilled() && !blocks[j]->GetComponent<BaseBlock>()->GetContainsEggs())
 					{
 						const EventInfo eventInfo
 						{
