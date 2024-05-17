@@ -22,7 +22,7 @@
     <Filter Include="Engine\Event">
       <UniqueIdentifier>{ced40782-a4eb-497c-840f-559806b71953}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\HUD">
+    <Filter Include="Engine\HUD">
       <UniqueIdentifier>{612ee45f-f28a-4884-a727-47b74ace8542}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -148,13 +148,13 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="HUD.h">
-      <Filter>Components\HUD</Filter>
+      <Filter>Engine\HUD</Filter>
     </ClInclude>
     <ClInclude Include="LifeBar.h">
-      <Filter>Components\HUD</Filter>
+      <Filter>Engine\HUD</Filter>
     </ClInclude>
     <ClInclude Include="ScoreBar.h">
-      <Filter>Components\HUD</Filter>
+      <Filter>Engine\HUD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -244,13 +244,13 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="HUD.cpp">
-      <Filter>Components\HUD</Filter>
+      <Filter>Engine\HUD</Filter>
     </ClCompile>
     <ClCompile Include="LifeBar.cpp">
-      <Filter>Components\HUD</Filter>
+      <Filter>Engine\HUD</Filter>
     </ClCompile>
     <ClCompile Include="ScoreBar.cpp">
-      <Filter>Components\HUD</Filter>
+      <Filter>Engine\HUD</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

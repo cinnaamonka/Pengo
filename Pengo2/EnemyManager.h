@@ -52,7 +52,8 @@ public:
 	}
 
 	void CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks,
-		int& m_PushBlockIndex, GameEngine::Subject<EventInfo>* eventSubject,GameEngine::Subject<Score>* scoreSubject); 
+		int& m_PushBlockIndex, GameEngine::Subject<EventInfo>* eventSubject,GameEngine::Subject<Score>* scoreSubject,
+		GameEngine::Subject<int>* hudSubject);
 
 	void HandleBorderCollision(GameEngine::GameObject*);
 

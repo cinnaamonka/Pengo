@@ -214,6 +214,7 @@ void Environment::BreakBlock(int index)
 			auto position = m_pBlocks[index]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
 			m_EggSpawnEvent.CreateMessage(position);
 			m_ScoreAppearingEvent.CreateMessage(Score{ ScoreType::EggFound, position }); 
+			m_AddingScoreInHUDEvent.CreateMessage(500);
 		}
 
 		m_pBlocks.erase(m_pBlocks.begin() + index);
@@ -244,7 +245,7 @@ void Environment::DeleteBlockFromGame(const int blockIndex)
 
 void Environment::CheckEnemiesCollision()
 {
-	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks, m_PushBlockIndex, &m_EnvEvent,&m_ScoreAppearingEvent);
+	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks, m_PushBlockIndex, &m_EnvEvent,&m_ScoreAppearingEvent,&m_AddingScoreInHUDEvent);
 	m_pEnemyManager->HandleBorderCollision(m_pBorderBlock);
 	m_pEnemyManager->CheckCollisionWithPlayer(m_pPlayer->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
 

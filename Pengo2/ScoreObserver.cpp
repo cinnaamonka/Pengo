@@ -14,7 +14,6 @@ ScoreObserver::ScoreObserver(GameEngine::Scene* scenePtr)
 
 void ScoreObserver::Notify(const Score& message_from_subject)
 {
-
 	auto gameObject = std::make_unique<GameEngine::GameObject>();
 
 	switch (message_from_subject.type)
@@ -24,6 +23,7 @@ void ScoreObserver::Notify(const Score& message_from_subject)
 		break;
 	case ScoreType::EnemyKilled:
 		gameObject->AddComponent<GameEngine::TextureComponent>("Score.tga");
+		break;
 	default:
 		break;
 	}

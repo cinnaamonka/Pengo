@@ -37,7 +37,7 @@ EnemyManager::EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions,
 }
 
 void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks,int& m_PushBlockIndex, 
-	GameEngine::Subject<EventInfo>* eventSubject, GameEngine::Subject<Score>* scoreSubject)
+	GameEngine::Subject<EventInfo>* eventSubject, GameEngine::Subject<Score>* scoreSubject, GameEngine::Subject<int>* hudSubject)
 {
 	GameEngine::HitInfo hitInfo;
 
@@ -50,6 +50,7 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& b
 				if (i == m_KilledEnemyIndex && j != m_PushBlockIndex)
 				{
 					scoreSubject->CreateMessage(Score{ ScoreType::EnemyKilled,m_EnemiesRef[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition() });
+					hudSubject->CreateMessage(500);
 					KillEnemy(m_KilledEnemyIndex);
 					return;
 				}

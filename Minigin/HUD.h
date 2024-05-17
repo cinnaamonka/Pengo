@@ -5,14 +5,19 @@
 #include <glm/glm.hpp>
 
 #include <memory>
-
+#include "IObserver.h"
 
 namespace GameEngine
 {
 	class Scene;
 	class GameObject;
 
-	class HUD final
+	enum class HUDEvent
+	{
+
+	};
+
+	class HUD final : public IObserver<HUDEvent>, public IObserver<int>
 	{
 	public:
 		HUD() = default;
@@ -24,8 +29,12 @@ namespace GameEngine
 		HUD& operator=(HUD&& other) noexcept = delete;
 
 		void AddScoreBar(const glm::vec3& position,Scene* scene);
+		void Notify(const HUDEvent& messageFromSubject) override;
+		void Notify(const int& messageFromSubject) override; 
 	private:
 		GameEngine::GameObject* m_pScoreBar;
+
+		int m_Score = 0;
 	};
 
 }
