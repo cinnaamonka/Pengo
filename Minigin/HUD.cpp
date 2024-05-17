@@ -9,6 +9,7 @@
 #include "ResourceManager.h"
 #include "AnimationComponent.h"
 #include "TextComponent.h"
+#include "SnoBeeShower.h"
 #include "LifeBar.h"
 #include <memory>
 #include "Texture2D.h"
@@ -71,6 +72,16 @@ void GameEngine::HUD::CreateGameMode(const glm::vec3& position, Scene* scene, Ga
 	scene->Add(std::move(PText)); 
 }
 
+void GameEngine::HUD::CreateSnoBeesBar(const glm::vec3& position, Scene* scene, int snoBeesAmount)
+{
+	for (int i = 0; i < snoBeesAmount; ++i)
+	{
+		auto gameObject = SnoBeeShower::CreateSnoBeesBar({ position.x + i * 10,position.y,position.z });
+		m_pSnoBeesLifes.push_back(gameObject.get()); 
+		scene->Add(std::move(gameObject));
+	}
+}
+
 void GameEngine::HUD::Notify(const HUDEvent& messageFromSubject)
 {
 	switch (messageFromSubject)
@@ -129,6 +140,17 @@ void GameEngine::HUD::Notify(const HUDEvent& messageFromSubject)
 		}
 
 		m_pScoreBar->GetComponent<GameEngine::TextComponent>()->SetText(scoreStrAfter);
+		break;
+	}
+	case HUDEvent::DecreaseSnoBeesAmount:
+	{
+		if (!m_pSnoBeesLifes.empty())
+		{
+			auto lastElement = std::prev(m_pSnoBeesLifes.end());
+
+			(*lastElement)->SetIsDestroyed(true);
+			m_pSnoBeesLifes.pop_back();
+		}
 		break;
 	}
 	default:

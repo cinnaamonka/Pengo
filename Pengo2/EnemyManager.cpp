@@ -53,6 +53,7 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& b
 					scoreSubject->CreateMessage(Score{ ScoreType::EnemyKilled,m_EnemiesRef[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition() });
 					hudSubject->CreateMessage(GameEngine::HUDEvent::InceaseScore500);
 					KillEnemy(m_KilledEnemyIndex);
+					hudSubject->CreateMessage(GameEngine::HUDEvent::DecreaseSnoBeesAmount);
 					return;
 				}
 				glm::vec3 direction = m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->GetMovementDirection();

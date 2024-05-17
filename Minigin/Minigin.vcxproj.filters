@@ -159,6 +159,9 @@
     <ClInclude Include="GameMode.h">
       <Filter>Engine\HUD</Filter>
     </ClInclude>
+    <ClInclude Include="SnoBeeShower.h">
+      <Filter>Engine\HUD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -256,6 +259,9 @@
       <Filter>Engine\HUD</Filter>
     </ClCompile>
     <ClCompile Include="GameMode.cpp">
+      <Filter>Engine\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="SnoBeeShower.cpp">
       <Filter>Engine\HUD</Filter>
     </ClCompile>
   </ItemGroup>

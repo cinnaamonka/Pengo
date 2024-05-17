@@ -67,6 +67,7 @@ void Game::Initialize()
 	m_pHUD->AddScoreBar(glm::vec3{ 270,10,0 }, &scene);
 	m_pHUD->AddLifeBar(glm::vec3{ 180,35,0 }, &scene,2);
 	m_pHUD->CreateGameMode(glm::vec3{ 200,10,0 }, &scene,GameEngine::GameModes::SinglePlayer);
+	m_pHUD->CreateSnoBeesBar(glm::vec3{ 400,40,0 }, &scene, 3);
 
 	m_pEnvironmentReference->GetComponent<Environment>()->AttachObserver<GameEngine::HUDEvent>(m_pHUD.get()); 
 }

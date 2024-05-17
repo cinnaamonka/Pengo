@@ -265,6 +265,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ScoreBar.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SnoBeeShower.h" />
     <ClInclude Include="SoundLogSystem.h" />
     <ClInclude Include="SoundServiceLocator.h" />
     <ClInclude Include="BaseSoundSystem.h" />
@@ -302,6 +303,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ScoreBar.cpp" />
+    <ClCompile Include="SnoBeeShower.cpp" />
     <ClCompile Include="SoundLogSystem.cpp" />
     <ClCompile Include="SoundServiceLocator.cpp" />
     <ClCompile Include="SoundSystem.cpp" />
