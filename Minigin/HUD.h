@@ -7,6 +7,8 @@
 #include <memory>
 #include <vector>
 #include "IObserver.h"
+#include "Helpers.h"
+#include "GameMode.h"
 
 namespace GameEngine
 {
@@ -33,10 +35,12 @@ namespace GameEngine
 
 		void AddScoreBar(const glm::vec3& position,Scene* scene);
 		void AddLifeBar(const glm::vec3& position, Scene* scene,int lifesAmount);
+		void CreateGameMode(const glm::vec3& position, Scene* scene, GameEngine::GameModes gameMode);
 		void Notify(const HUDEvent& messageFromSubject) override;
 	private:
 		GameEngine::GameObject* m_pScoreBar;
 		std::vector<GameEngine::GameObject*> m_pLifes;
+		GameEngine::GameObject* m_pGameMode;
 
 		int m_Score = 0;
 	};

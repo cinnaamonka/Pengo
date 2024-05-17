@@ -216,6 +216,10 @@ void Environment::BreakBlock(int index)
 			m_ScoreAppearingEvent.CreateMessage(Score{ ScoreType::EggFound, position }); 
 			m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::InceaseScore500);
 		}
+		else
+		{
+			m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::IncreaseScore30); 
+		}
 
 		m_pBlocks.erase(m_pBlocks.begin() + index);
 		m_PushBlockIndex = -1;

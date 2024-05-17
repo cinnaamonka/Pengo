@@ -53,6 +53,24 @@ void GameEngine::HUD::AddLifeBar(const glm::vec3& position, Scene* scene, int li
 
 }
 
+void GameEngine::HUD::CreateGameMode(const glm::vec3& position, Scene* scene, GameEngine::GameModes gameMode)
+{
+	auto gameObject = GameMode::CreateGameMode(position, gameMode);
+	m_pGameMode = gameObject.get();
+	scene->Add(std::move(gameObject));
+
+	auto modePos = m_pGameMode->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition(); 
+
+	std::unique_ptr<GameEngine::GameObject> PText = std::make_unique<GameEngine::GameObject>(); 
+
+	PText->AddComponent<GameEngine::TransformComponent>(glm::vec3(static_cast<int>(modePos.x + 10), static_cast<int>(position.y + 5), 0));
+	PText->AddComponent<GameEngine::TextureComponent>("P.tga"); 
+	PText->AddComponent<GameEngine::AnimationComponent>(); 
+	PText->AddComponent<GameEngine::RenderComponent>(); 
+
+	scene->Add(std::move(PText)); 
+}
+
 void GameEngine::HUD::Notify(const HUDEvent& messageFromSubject)
 {
 	switch (messageFromSubject)
@@ -80,14 +98,39 @@ void GameEngine::HUD::Notify(const HUDEvent& messageFromSubject)
 		break;
 	}
 	case HUDEvent::DecreaseLife:
-
+	{
 		if (!m_pLifes.empty())
 		{
 			auto lastElement = std::prev(m_pLifes.end());
 
 			(*lastElement)->SetIsDestroyed(true);
 			m_pLifes.pop_back();
+
 		}
+		break;
+	}
+	case HUDEvent::IncreaseScore30:
+	{
+		std::string scoreStrBefore = std::to_string(m_Score);
+		int digitsBefore = static_cast<int>(scoreStrBefore.length());
+
+		m_Score += 30;
+
+		std::string scoreStrAfter = std::to_string(m_Score);
+		int digitsAfter = static_cast<int>(scoreStrAfter.length());
+
+		if (digitsAfter != digitsBefore)
+		{
+			glm::vec3 currentPos = m_pScoreBar->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
+
+			currentPos.x -= 5.f;
+
+			m_pScoreBar->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(currentPos);
+		}
+
+		m_pScoreBar->GetComponent<GameEngine::TextComponent>()->SetText(scoreStrAfter);
+		break;
+	}
 	default:
 		break;
 	}

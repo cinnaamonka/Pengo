@@ -20,6 +20,11 @@ namespace GameEngine
 
 	using sound_id = unsigned short;
 
+	enum class GameModes
+	{
+		SinglePlayer
+	};
+
 	struct Block
 	{
 		std::vector<glm::vec3> block;
