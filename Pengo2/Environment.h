@@ -69,7 +69,7 @@ public:
 		{
 			m_ScoreAppearingEvent.Attach(pObserver); 
 		}
-		else if constexpr (std::is_same_v<T, int>)
+		else if constexpr (std::is_same_v<T, GameEngine::HUDEvent>)
 		{
 			m_AddingScoreInHUDEvent.Attach(pObserver);
 		}
@@ -101,7 +101,7 @@ private:
 	GameEngine::Subject<glm::vec3> m_EggSpawnEvent;
 	GameEngine::Subject<EventInfo> m_EnvEvent; 
 	GameEngine::Subject<Score> m_ScoreAppearingEvent;
-	GameEngine::Subject<int> m_AddingScoreInHUDEvent;
+	GameEngine::Subject<GameEngine::HUDEvent> m_AddingScoreInHUDEvent;
 
 	int m_PushBlockIndex = -1;
 

@@ -12,6 +12,7 @@
 #include <AnimationComponent.h>
 #include "EnvironmentObserver.h"
 #include "ScoreObserver.h"
+#include <HUD.h>
 
 class EnemyManager
 {
@@ -53,13 +54,13 @@ public:
 
 	void CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks,
 		int& m_PushBlockIndex, GameEngine::Subject<EventInfo>* eventSubject,GameEngine::Subject<Score>* scoreSubject,
-		GameEngine::Subject<int>* hudSubject);
+		GameEngine::Subject<GameEngine::HUDEvent>* hudSubject);
 
 	void HandleBorderCollision(GameEngine::GameObject*);
 
 	void CheckCollisionWithPushedBlock(GameEngine::GameObject* blocks);
 
-	void CheckCollisionWithPlayer(const glm::vec3& pos); 
+	void CheckCollisionWithPlayer(const glm::vec3& pos, GameEngine::Subject<GameEngine::HUDEvent>* hudSubject);
 private:
 
 	void HandleMovement(GameEngine::HitInfo& hitInfo, std::vector<GameEngine::GameObject*> blocks,

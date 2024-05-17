@@ -7,6 +7,7 @@
 #include <TransformComponent.h>
 #include <ActorComponent.h>
 #include <AnimationComponent.h>
+#include <HUD.h>
 
 #include <Helpers.h>
 
@@ -37,7 +38,7 @@ EnemyManager::EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions,
 }
 
 void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks,int& m_PushBlockIndex, 
-	GameEngine::Subject<EventInfo>* eventSubject, GameEngine::Subject<Score>* scoreSubject, GameEngine::Subject<int>* hudSubject)
+	GameEngine::Subject<EventInfo>* eventSubject, GameEngine::Subject<Score>* scoreSubject, GameEngine::Subject<GameEngine::HUDEvent>* hudSubject)
 {
 	GameEngine::HitInfo hitInfo;
 
@@ -47,10 +48,10 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& b
 		{
 			if (blocks[j]->GetComponent<CollisionComponent>()->IsColliding(m_EnemiesRef[i], hitInfo))
 			{
-				if (i == m_KilledEnemyIndex  && m_PushBlockIndex == -1)
+				if (i == m_KilledEnemyIndex && m_PushBlockIndex == -1)
 				{
 					scoreSubject->CreateMessage(Score{ ScoreType::EnemyKilled,m_EnemiesRef[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition() });
-					hudSubject->CreateMessage(500);
+					hudSubject->CreateMessage(GameEngine::HUDEvent::InceaseScore500);
 					KillEnemy(m_KilledEnemyIndex);
 					return;
 				}
@@ -187,18 +188,20 @@ void EnemyManager::CheckCollisionWithPushedBlock(GameEngine::GameObject* block)
 	}
 }
 
-void EnemyManager::CheckCollisionWithPlayer(const glm::vec3& pos)
+void EnemyManager::CheckCollisionWithPlayer(const glm::vec3& pos, GameEngine::Subject<GameEngine::HUDEvent>* hudSubject)
 {
 	for (int i = 0; i < m_EnemiesRef.size(); ++i)
 	{
-
+		if (m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->GetSpeed() == 0) return;
+		
 		const auto currentEnemyPosition = m_EnemiesRef[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
 
-		if (GameEngine::AreNear(pos, currentEnemyPosition, 5.0f))
+		if (GameEngine::AreNear(pos, currentEnemyPosition, 5.0f)  )
 		{
 			m_EnemiesRef[i]->GetComponent<EnemyActor>()->KillPlayer();
 			m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection({ 0,0,0 });
 			m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.0f);
+			hudSubject->CreateMessage(GameEngine::HUDEvent::DecreaseLife);
 			return;
 		}
 

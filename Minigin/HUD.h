@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 
 #include <memory>
+#include <vector>
 #include "IObserver.h"
 
 namespace GameEngine
@@ -14,10 +15,12 @@ namespace GameEngine
 
 	enum class HUDEvent
 	{
-
+		InceaseScore500,
+		IncreaseScore30,
+		DecreaseLife
 	};
 
-	class HUD final : public IObserver<HUDEvent>, public IObserver<int>
+	class HUD final : public IObserver<HUDEvent>
 	{
 	public:
 		HUD() = default;
@@ -29,10 +32,11 @@ namespace GameEngine
 		HUD& operator=(HUD&& other) noexcept = delete;
 
 		void AddScoreBar(const glm::vec3& position,Scene* scene);
+		void AddLifeBar(const glm::vec3& position, Scene* scene,int lifesAmount);
 		void Notify(const HUDEvent& messageFromSubject) override;
-		void Notify(const int& messageFromSubject) override; 
 	private:
 		GameEngine::GameObject* m_pScoreBar;
+		std::vector<GameEngine::GameObject*> m_pLifes;
 
 		int m_Score = 0;
 	};

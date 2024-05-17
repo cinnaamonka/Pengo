@@ -65,7 +65,8 @@ void Game::Initialize()
 	//initialize HUD
 	m_pHUD = std::make_unique<GameEngine::HUD>();
 	m_pHUD->AddScoreBar(glm::vec3{ 270,10,0 }, &scene);
-	m_pEnvironmentReference->GetComponent<Environment>()->AttachObserver<int>(m_pHUD.get());
+	m_pHUD->AddLifeBar(glm::vec3{ 180,35,0 }, &scene,2);
+	m_pEnvironmentReference->GetComponent<Environment>()->AttachObserver<GameEngine::HUDEvent>(m_pHUD.get()); 
 }
 
 void Game::InitializeInputSystem(GameEngine::GameObject* gameActor) 
