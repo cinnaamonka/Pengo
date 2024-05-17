@@ -29,9 +29,9 @@ void Game::Initialize()
 {
 	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene("Demo");
 
-	m_EnemiesPositions.push_back(glm::vec3{ 200, 300, 0 });
-	m_EnemiesPositions.push_back(glm::vec3{ 400, 100, 0 });
-	m_EnemiesPositions.push_back(glm::vec3{ 200, 100, 0 });
+	m_EnemiesPositions.push_back(glm::vec3{ 400, 280, 0 });
+	m_EnemiesPositions.push_back(glm::vec3{ 280, 140, 0 });
+	m_EnemiesPositions.push_back(glm::vec3{ 340, 140, 0 });
 
 	m_pPengoActor             = std::make_unique<PengoActor>();
 	m_pEggsObserver           = std::make_unique<EggObserver>(&scene); 
@@ -44,7 +44,8 @@ void Game::Initialize()
 	m_pEnvironment->AddComponent<EnvironmentObserver>(); 
 	m_pEnvironment->GetComponent<Environment>()->SetActor(m_pPengoActor->GetReferenceToActor());
 
-	m_pEnemyManager = std::make_unique<EnemyManager>(static_cast<int>(m_EnemiesPositions.size()), m_EnemiesPositions, &scene, m_pPengoActor->GetReferenceToActor());
+	m_pEnemyManager = std::make_unique<EnemyManager>(static_cast<int>(m_EnemiesPositions.size()), m_EnemiesPositions, &scene, 
+		m_pPengoActor->GetReferenceToActor());
 
 	m_pEnvironment->GetComponent<Environment>()->SetEnemyManager(m_pEnemyManager.get()); 
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::HitInfo>(hitObserverComponent);

@@ -49,7 +49,7 @@ void BaseBlock::PushBlock(const glm::vec3& direction)
 }
 
 std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& position, const std::string& filename,
-	int index, bool isBreakable, bool containsEggs, int clipAmount, int blockSizeX, int blockSizeY, const glm::vec3& colliderBlockPos)
+	int index, bool isBreakable, bool containsEggs, bool shouldBreakOnSpot, int clipAmount, int blockSizeX, int blockSizeY, const glm::vec3& colliderBlockPos)
 {
 	auto gameObject = std::make_unique<GameEngine::GameObject>();
 
@@ -83,6 +83,14 @@ std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& 
 			m_pIsBlockBreaking.get());
 		gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_pBreakingBlockState.get(), m_pStaticBlockState.get(),
 			m_pIsBlockNotBreaking.get());
+	}
+	else if (shouldBreakOnSpot)
+	{
+		gameObject->AddComponent<GameEngine::FSM>(m_pFlickeringBlockState.get(),
+			gameObject->GetComponent<GameEngine::AnimationComponent>());
+
+		gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_pFlickeringBlockState.get(), m_pBreakingBlockState.get(),
+			m_pIsBlockBreaking.get());
 	}
 	else if (!containsEggs)
 	{

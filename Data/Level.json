@@ -19,7 +19,7 @@
         "left": 340,
         "top": 140
       },
-      "type": "ice_block"
+      "type": "enemy_block"
     },
     {
       "position": {
@@ -98,7 +98,7 @@
         "left": 280,
         "top": 140
       },
-      "type": "ice_block"
+      "type": "enemy_block"
     },
     {
       "position": {
@@ -239,7 +239,7 @@
         "left": 400,
         "top": 280
       },
-      "type": "ice_block"
+      "type": "enemy_block"
     },
 
     {

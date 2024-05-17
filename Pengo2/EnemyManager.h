@@ -18,7 +18,7 @@ class EnemyManager
 {
 
 public:
-	EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions, GameEngine::Scene* scene, GameEngine::GameObject* actor);
+	EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions, GameEngine::Scene* scene, GameEngine::GameObject* actor); 
 	~EnemyManager() = default;
 	EnemyManager(const EnemyManager& other) = delete;
 	EnemyManager(EnemyManager&& other) = delete;

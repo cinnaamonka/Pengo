@@ -45,7 +45,7 @@ public:
 	}
 
 	static std::unique_ptr<GameEngine::GameObject> CreateBlock(const glm::vec3& position, const std::string& filename, int index,
-		bool isBreakable = true, bool containsEggs = false,int clipAmount = 1,int blockSizeX = 20, int blockSizeY = 20,
+		bool isBreakable = true, bool containsEggs = false, bool shouldBreakOnSpot = false,int clipAmount = 1,int blockSizeX = 20, int blockSizeY = 20,
 		const glm::vec3& colliderBlockPos = glm::vec3{ 0,0,0 });
 
 	int GetBlockIndex() const

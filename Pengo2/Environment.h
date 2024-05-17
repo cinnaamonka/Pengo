@@ -78,7 +78,7 @@ public:
 	void PushBlock();
 
 	void CreateBlocksCollection(std::vector<GameEngine::Block> blocks, const std::string& name, const std::string& tag,
-		int& offset, GameEngine::Scene* scene, bool IsBreakable, bool containsEggs = false, int clipTextureAmount = 1);
+		int& offset, GameEngine::Scene* scene, bool IsBreakable, bool containsEggs = false, bool shouldBreakOnSpot = false,int clipTextureAmount = 1);
 
 	void ResetBlocksIndexes();
 	void DeleteBlockFromGame(const int blockIndex);
