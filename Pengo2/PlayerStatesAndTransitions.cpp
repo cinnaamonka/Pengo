@@ -22,13 +22,9 @@ void RunningState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
 	glm::vec3 movementDirection = pAnimationComponent->GetMovementDirection();
 
-	if (movementDirection.x > 0 )
+	if (movementDirection.x != 0)
 	{
 		pAnimationComponent->SetHorizontalOffset(2);
-	}
-	else if (movementDirection.x < 0)
-	{
-		pAnimationComponent->SetHorizontalOffset(6);
 	}
 	else if (movementDirection.y < 0)
 	{

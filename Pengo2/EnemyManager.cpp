@@ -6,7 +6,7 @@
 #include "BaseBlock.h"
 #include <TransformComponent.h>
 #include <ActorComponent.h>
-
+#include <AnimationComponent.h>
 
 #include <Helpers.h>
 
@@ -47,7 +47,7 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& b
 		{
 			if (blocks[j]->GetComponent<CollisionComponent>()->IsColliding(m_EnemiesRef[i], hitInfo))
 			{
-				if (i == m_KilledEnemyIndex && j != m_PushBlockIndex)
+				if (i == m_KilledEnemyIndex  && m_PushBlockIndex == -1)
 				{
 					scoreSubject->CreateMessage(Score{ ScoreType::EnemyKilled,m_EnemiesRef[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition() });
 					hudSubject->CreateMessage(500);
