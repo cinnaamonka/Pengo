@@ -90,6 +90,7 @@ namespace GameEngine
 	bool AreVectorsCollinear(const glm::vec3& v1, const glm::vec3& v2, float tolerance = 0.0f);
 	bool AreOnSameLine(const glm::vec3& referencePoint, const glm::vec3& pos1, const glm::vec3& pos2);
 	bool AreNear(const glm::vec3& pos1, const glm::vec3& pos2, float threshold);
+	bool AreThreePointsOnSameLine(const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& p3);
 }
 
 #endif // HELPERS_H

@@ -271,4 +271,10 @@ namespace GameEngine
 		float distance = glm::distance(pos1, pos2);
 		return distance <= threshold;
 	}
+	bool AreThreePointsOnSameLine(const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& p3)
+	{
+		int determinant = static_cast<int>(p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y));
+
+		return determinant == 0;
+	}
 }

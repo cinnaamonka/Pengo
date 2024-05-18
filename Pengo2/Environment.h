@@ -78,14 +78,17 @@ public:
 	void PushBlock();
 
 	void CreateBlocksCollection(std::vector<GameEngine::Block> blocks, const std::string& name, const std::string& tag,
-		int& offset, GameEngine::Scene* scene, bool IsBreakable, bool containsEggs = false, bool shouldBreakOnSpot = false,int clipTextureAmount = 1);
+		int& offset, GameEngine::Scene* scene, bool IsBreakable, bool containsEggs = false, bool isDiamondBlock = false,bool shouldBreakOnSpot = false,
+		int clipTextureAmount = 1);
 
 	void ResetBlocksIndexes();
 	void DeleteBlockFromGame(const int blockIndex);
+	void CheckDiamondBlocksPositions();
 private:
 
 	void StopBlock(GameEngine::GameObject* block, GameEngine::HitInfo hitInfo);
 	void BreakBlock(int index);  
+	
 	
 private:
 	std::vector<GameEngine::GameObject*> m_pBlocks;
@@ -108,5 +111,7 @@ private:
 	const int m_BorderWidth;
 	const int m_BorderLength;
 	const int m_BorderHeight;
+
+	std::unordered_map<int,glm::vec3> m_DiamondBlocksPositions; 
 };
 

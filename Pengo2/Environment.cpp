@@ -24,7 +24,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 
 	std::vector tempCollection = GameEngine::GetBlocksWithTag(m_LevelVertices, "border");
 
-	auto borderBlock = BaseBlock::CreateBlock(tempCollection[0].block[0], "Border.tga", 50, false, false,false, 1,
+	auto borderBlock = BaseBlock::CreateBlock(tempCollection[0].block[0], "Border.tga", 50, false, false, false, false, 1,
 		m_BorderLength, m_BorderHeight,
 		glm::vec3{ tempCollection[0].block[0].x + m_BorderWidth,tempCollection[0].block[0].y + m_BorderWidth,0 });
 
@@ -33,14 +33,20 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	scene->Add(std::move(borderBlock));
 
 	int offset = 0;
-	CreateBlocksCollection(m_LevelVertices, "DiamondBlock.tga", "diamond_block", offset, scene, false, false,false);
+	CreateBlocksCollection(m_LevelVertices, "DiamondBlock.tga", "diamond_block", offset, scene, false, false, false, true);
 
-	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "egg_block", offset, scene, true, true,false, 16);
+	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "egg_block", offset, scene, true, true, false, false, 16);
 
-	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "ice_block", offset, scene, true, false,false, 16);
-	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "enemy_block", offset, scene, true, false,true, 16);
+	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "ice_block", offset, scene, true, false, false, false, 16);
+	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "enemy_block", offset, scene, true, false, true, false, 16);
 
-	
+	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
+	{
+		if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsDiamondBlock())
+		{
+			m_DiamondBlocksPositions.insert({ i,m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition() });
+		}
+	}
 
 }
 void Environment::CheckCollision()
@@ -165,14 +171,14 @@ void Environment::PushBlock()
 }
 
 void Environment::CreateBlocksCollection(std::vector<GameEngine::Block> blocks, const std::string& name,
-	const std::string& tag, int& offset, GameEngine::Scene* scene, bool IsBreakable, bool containsEggs, bool shouldBreakOnSpot, int clipTextureAmount)
+	const std::string& tag, int& offset, GameEngine::Scene* scene, bool IsBreakable, bool containsEggs,
+	bool shouldBreakOnSpot, bool isDiamondBlock, int clipTextureAmount)
 {
 	std::vector<GameEngine::Block> tempCollection = GameEngine::GetBlocksWithTag(m_LevelVertices, tag);
 
 	for (int i = 0; i < static_cast<int>(tempCollection.size()); ++i)
 	{
-
-		auto block = BaseBlock::CreateBlock(tempCollection[i].block[0], name, i + offset, IsBreakable, containsEggs, shouldBreakOnSpot, clipTextureAmount);
+		auto block = BaseBlock::CreateBlock(tempCollection[i].block[0], name, i + offset, IsBreakable, containsEggs, isDiamondBlock, shouldBreakOnSpot, clipTextureAmount);
 
 		if (tag == "ice_block" || tag == "egg_block" || tag == "enemy_block")
 		{
@@ -186,7 +192,7 @@ void Environment::CreateBlocksCollection(std::vector<GameEngine::Block> blocks, 
 
 		m_BlockCollisionInfo.Attach(block->GetComponent<BlockObserver>());
 
-		
+
 		m_pBlocks.push_back(block.get());
 
 		scene->Add(std::move(block));
@@ -196,17 +202,26 @@ void Environment::CreateBlocksCollection(std::vector<GameEngine::Block> blocks, 
 }
 void Environment::StopBlock(GameEngine::GameObject* block, GameEngine::HitInfo hitInfo)
 {
+	auto index = block->GetComponent<BaseBlock>()->GetBlockIndex();
+
 	const BlockCollisionInfo& info
 	{
-		block->GetComponent<BaseBlock>()->GetBlockIndex(),
+		index,
 		hitInfo,
 		false
 	};
+
+	
 
 	m_BlockCollisionInfo.CreateMessage(info);
 	block->GetComponent<HitObserver>()->Notify(info.hitInfo);
 
 	m_PushBlockIndex = -1;
+
+	if (m_pBlocks[index]->GetComponent<BaseBlock>()->GetIsDiamondBlock())
+	{
+		m_EnvEvent.CreateMessage(EventInfo{ Event::DiamondBlockChangedPos });
+	}
 }
 void Environment::BreakBlock(int index)
 {
@@ -220,29 +235,48 @@ void Environment::BreakBlock(int index)
 		{
 			auto position = m_pBlocks[index]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
 			m_EggSpawnEvent.CreateMessage(position);
-			m_ScoreAppearingEvent.CreateMessage(Score{ ScoreType::EggFound, position }); 
+			m_ScoreAppearingEvent.CreateMessage(Score{ ScoreType::EggFound, position });
 			m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::InceaseScore500);
 			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::SnoBeeEggDestroyed), 20);
 		}
 		else
 		{
-			m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::IncreaseScore30); 
+			m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::IncreaseScore30);
 			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::IceBlockDestroyed), 20);
 		}
 
 		m_pBlocks.erase(m_pBlocks.begin() + index);
 		m_PushBlockIndex = -1;
 		m_EnvEvent.CreateMessage(Event::BlockIndexesChanged);
-		
+
+	}
+}
+
+void Environment::CheckDiamondBlocksPositions()
+{
+	if (GameEngine::AreThreePointsOnSameLine(m_DiamondBlocksPositions[0], m_DiamondBlocksPositions[1], m_DiamondBlocksPositions[2]))
+	{
+		m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::IncreaseScore30); 
+		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::DiamondBlocksLinedUp), 20); 
 	}
 }
 
 void Environment::ResetBlocksIndexes()
 {
+	m_DiamondBlocksPositions.clear();
+
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
-		if(!m_pBlocks[i]->IsDestroyed())
-		m_pBlocks[i]->GetComponent<BaseBlock>()->SetBlockIndex(i);
+		if (!m_pBlocks[i]->IsDestroyed())
+		{
+			m_pBlocks[i]->GetComponent<BaseBlock>()->SetBlockIndex(i);
+
+			if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsDiamondBlock())
+			{
+				m_DiamondBlocksPositions.insert({ i,m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition() }); 
+			}
+		}
+			
 	}
 }
 
@@ -260,8 +294,8 @@ void Environment::DeleteBlockFromGame(const int blockIndex)
 
 void Environment::CheckEnemiesCollision()
 {
-	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks, m_PushBlockIndex, &m_EnvEvent,&m_ScoreAppearingEvent,&m_AddingScoreInHUDEvent);
+	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks, m_PushBlockIndex, &m_EnvEvent, &m_ScoreAppearingEvent, &m_AddingScoreInHUDEvent);
 	m_pEnemyManager->HandleBorderCollision(m_pBorderBlock);
-	m_pEnemyManager->CheckCollisionWithPlayer(m_pPlayer->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition(),&m_AddingScoreInHUDEvent);
+	m_pEnemyManager->CheckCollisionWithPlayer(m_pPlayer->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition(), &m_AddingScoreInHUDEvent);
 
 }

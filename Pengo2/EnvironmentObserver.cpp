@@ -16,6 +16,9 @@ void EnvironmentObserver::Notify(const EventInfo& eventInfo)
 	case Event::BlockDestroyed:
 			GetGameObject()->GetComponent<Environment>()->DeleteBlockFromGame(eventInfo.index);
 		break;
+	case Event::DiamondBlockChangedPos:
+		GetGameObject()->GetComponent<Environment>()->CheckDiamondBlocksPositions(); 
+		break;
 	default:
 		break;
 	}

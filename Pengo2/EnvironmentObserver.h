@@ -10,7 +10,8 @@
 enum class Event
 {
 	BlockIndexesChanged,
-	BlockDestroyed
+	BlockDestroyed,
+	DiamondBlockChangedPos,
 };
 struct EventInfo
 {

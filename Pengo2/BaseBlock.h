@@ -16,7 +16,7 @@ class HitObserver;
 class BaseBlock final : public GameEngine::BaseComponent
 {
 public:
-	BaseBlock(GameEngine::GameObject* GOptr, int index, bool isBreakable, bool containsEggs);
+	BaseBlock(GameEngine::GameObject* GOptr, int index, bool isBreakable, bool containsEggs,bool isDiamondBlock);
 	~BaseBlock() = default;
 
 	BaseBlock(const BaseBlock& other) = delete;
@@ -45,7 +45,7 @@ public:
 	}
 
 	static std::unique_ptr<GameEngine::GameObject> CreateBlock(const glm::vec3& position, const std::string& filename, int index,
-		bool isBreakable = true, bool containsEggs = false, bool shouldBreakOnSpot = false,int clipAmount = 1,int blockSizeX = 20, int blockSizeY = 20,
+		bool isBreakable = true, bool containsEggs = false, bool isDiamond = false, bool shouldBreakOnSpot = false,int clipAmount = 1,int blockSizeX = 20, int blockSizeY = 20,
 		const glm::vec3& colliderBlockPos = glm::vec3{ 0,0,0 });
 
 	int GetBlockIndex() const
@@ -77,16 +77,17 @@ public:
 
 	bool GetIsBreakable() const
 	{
-		if (!this) return false;
-
 		return m_IsBreakable;
 	}
 
 	bool GetContainsEggs() const
 	{
-		if (!this) return false;
-
 		return m_ContainsEggs;
+	}
+
+	bool GetIsDiamondBlock() const
+	{
+		return m_IsDiamondBlock;
 	}
 private:
 
@@ -107,6 +108,6 @@ private:
 	bool m_Pushed{};
 	bool m_IsBreakable;
 	bool m_ContainsEggs;
-
+	bool m_IsDiamondBlock;
 };
 
