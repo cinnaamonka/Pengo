@@ -31,6 +31,7 @@ public:
 
 private:
 	void InitializeInputSystem(GameEngine::GameObject* gameActor) override;
+	void LoadSounds();
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pEnvironment;

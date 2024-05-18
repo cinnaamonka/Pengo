@@ -236,6 +236,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClInclude Include="AIStatesAndTransitions.h" />
     <ClInclude Include="ScoreObserver.h" />
     <ClInclude Include="ScoreStatesAndTransitions.h" />
+    <ClInclude Include="Structs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

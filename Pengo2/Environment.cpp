@@ -11,6 +11,7 @@
 #include "AnimationComponent.h"
 #include "EnemyManager.h"
 #include "EggObserver.h"
+#include "Structs.h"
 
 Environment::Environment(GameEngine::GameObject* pGameObject, const std::string& filename, GameEngine::Scene* scene) :
 	BaseComponent(pGameObject),
@@ -38,6 +39,8 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 
 	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "ice_block", offset, scene, true, false,false, 16);
 	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "enemy_block", offset, scene, true, false,true, 16);
+
+	
 
 }
 void Environment::CheckCollision()
@@ -155,6 +158,8 @@ void Environment::PushBlock()
 
 			m_BlockCollisionInfo.CreateMessage(info);
 			m_PushBlockIndex = i;
+
+			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::BlockPushed), 20);
 		}
 	}
 }
@@ -226,6 +231,7 @@ void Environment::BreakBlock(int index)
 		m_pBlocks.erase(m_pBlocks.begin() + index);
 		m_PushBlockIndex = -1;
 		m_EnvEvent.CreateMessage(Event::BlockIndexesChanged);
+		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::IceBlockDestroyed), 20);
 	}
 }
 

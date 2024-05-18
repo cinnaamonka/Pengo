@@ -7,6 +7,8 @@
 #include <TransformComponent.h>
 #include <ActorComponent.h>
 #include <AnimationComponent.h>
+#include <SoundServiceLocator.h>
+#include "Structs.h"
 #include <HUD.h>
 
 #include <Helpers.h>
@@ -47,7 +49,7 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& b
 		for (int j = 0; j < blocks.size(); ++j)
 		{
 			if (blocks[j]->GetComponent<CollisionComponent>()->IsColliding(m_EnemiesRef[i], hitInfo))
-			{
+			{ 
 				if (i == m_KilledEnemyIndex && m_PushBlockIndex == -1)
 				{
 					scoreSubject->CreateMessage(Score{ ScoreType::EnemyKilled,m_EnemiesRef[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition() });
@@ -62,7 +64,7 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& b
 				const bool isMovingDown = direction.y > 0;
 				const bool isMovingLeft = direction.x < 0;
 				const bool isMovingUp = direction.y < 0;
-
+				  
 				const int randDirection = RANDOM_SIGN(dist(gen));
 
 				if ((isMovingRight && hitInfo.normal.y == 0) || (isMovingLeft && hitInfo.normal.x == -1))
@@ -129,6 +131,7 @@ void EnemyManager::KillEnemy(int index)
 	m_EnemyDirectionChanged.Detach(m_EnemiesRef[index]->GetComponent<EnemyDirectionObserver>());
 	m_EnemiesRef.erase(m_EnemiesRef.begin() + index);
 	ResetEnemiesIndexes();
+	
 }
 
 void EnemyManager::ResetEnemiesIndexes()
@@ -203,6 +206,8 @@ void EnemyManager::CheckCollisionWithPlayer(const glm::vec3& pos, GameEngine::Su
 			m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection({ 0,0,0 });
 			m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.0f);
 			hudSubject->CreateMessage(GameEngine::HUDEvent::DecreaseLife);
+			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::PlayerDeath), 20);
+			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Stop(static_cast<int>(PengoSounds::Background));
 			return;
 		}
 

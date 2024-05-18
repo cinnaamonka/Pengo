@@ -12,7 +12,7 @@ namespace GameEngine
 		void Play(const sound_id id, const float volume) override;
 		void Pause()override;
 		void Resume()override;
-		void Stop()override;
+		void Stop(const sound_id id)override;
 		void Load(const std::string& filePath, const sound_id id)override;
 		bool Contains(const sound_id id) const override;
 		bool IsPlaying(const sound_id id) const override;

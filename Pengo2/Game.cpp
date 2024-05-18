@@ -19,9 +19,12 @@
 #include <SoundLogSystem.h>
 
 #include <HUD.h>
+#include <thread>
+#include "Structs.h"
 
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
+#include <SDL_mixer.h>
 
 //#include <vld.h>
 
@@ -33,26 +36,26 @@ void Game::Initialize()
 	m_EnemiesPositions.push_back(glm::vec3{ 280, 140, 0 });
 	m_EnemiesPositions.push_back(glm::vec3{ 340, 140, 0 });
 
-	m_pPengoActor             = std::make_unique<PengoActor>();
-	m_pEggsObserver           = std::make_unique<EggObserver>(&scene); 
-	m_pScoreObserver          = std::make_unique<ScoreObserver>(&scene);
+	m_pPengoActor = std::make_unique<PengoActor>();
+	m_pEggsObserver = std::make_unique<EggObserver>(&scene);
+	m_pScoreObserver = std::make_unique<ScoreObserver>(&scene);
 
 	auto hitObserverComponent = m_pPengoActor->GetHitObserver();
 
 	m_pEnvironment = std::make_unique<GameEngine::GameObject>();
 	m_pEnvironment->AddComponent<Environment>("Level.json", &scene);
-	m_pEnvironment->AddComponent<EnvironmentObserver>(); 
+	m_pEnvironment->AddComponent<EnvironmentObserver>();
 	m_pEnvironment->GetComponent<Environment>()->SetActor(m_pPengoActor->GetReferenceToActor());
 
-	m_pEnemyManager = std::make_unique<EnemyManager>(static_cast<int>(m_EnemiesPositions.size()), m_EnemiesPositions, &scene, 
+	m_pEnemyManager = std::make_unique<EnemyManager>(static_cast<int>(m_EnemiesPositions.size()), m_EnemiesPositions, &scene,
 		m_pPengoActor->GetReferenceToActor());
 
-	m_pEnvironment->GetComponent<Environment>()->SetEnemyManager(m_pEnemyManager.get()); 
+	m_pEnvironment->GetComponent<Environment>()->SetEnemyManager(m_pEnemyManager.get());
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::HitInfo>(hitObserverComponent);
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<glm::vec3>(m_pEggsObserver.get());
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<EventInfo>(m_pEnvironment->GetComponent<EnvironmentObserver>());
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<Score>(m_pScoreObserver.get());
-	
+
 	m_pEnvironmentReference = m_pEnvironment.get();
 
 	scene.Add(std::move(m_pEnvironment));
@@ -63,17 +66,31 @@ void Game::Initialize()
 	GameEngine::SoundServiceLocator::RegisterSoundSystem(std::make_unique<GameEngine::SoundLogSystem>
 		(std::make_unique<GameEngine::SoundSystem>()));
 
+	LoadSounds();
+
 	//initialize HUD
 	m_pHUD = std::make_unique<GameEngine::HUD>();
 	m_pHUD->AddScoreBar(glm::vec3{ 270,10,0 }, &scene);
-	m_pHUD->AddLifeBar(glm::vec3{ 180,35,0 }, &scene,2);
-	m_pHUD->CreateGameMode(glm::vec3{ 200,10,0 }, &scene,GameEngine::GameModes::SinglePlayer);
+	m_pHUD->AddLifeBar(glm::vec3{ 180,35,0 }, &scene, 2);
+	m_pHUD->CreateGameMode(glm::vec3{ 200,10,0 }, &scene, GameEngine::GameModes::SinglePlayer);
 	m_pHUD->CreateSnoBeesBar(glm::vec3{ 400,40,0 }, &scene, 3);
 
-	m_pEnvironmentReference->GetComponent<Environment>()->AttachObserver<GameEngine::HUDEvent>(m_pHUD.get()); 
+	m_pEnvironmentReference->GetComponent<Environment>()->AttachObserver<GameEngine::HUDEvent>(m_pHUD.get());
+
+	//Sounds start one after another
+	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::ActStarts), 30); 
+
+	Mix_ChannelFinished([](int) {
+		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::Background), 20);
+		});
+
+	while (GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().IsPlaying(static_cast<int>(PengoSounds::ActStarts))) 
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
 }
 
-void Game::InitializeInputSystem(GameEngine::GameObject* gameActor) 
+void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)
 {
 	auto& input = GameEngine::InputManager::GetInstance();
 	auto m_Controller = std::make_unique<GameEngine::Controller>(0);
@@ -141,7 +158,17 @@ void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)
 		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Previous },
 		std::make_unique<PushBlockCommand>(m_pEnvironmentReference));
 
-	input.AddCommand<GameEngine::Keyboard>( 
-		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Previous }, 
-		std::make_unique<GameEngine::PushCommand>(gameActor)); 
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Previous },
+		std::make_unique<GameEngine::PushCommand>(gameActor));
+}
+
+void Game::LoadSounds()
+{
+	auto& soundSystem = GameEngine::SoundServiceLocator::GetSoundSystemInstance();
+
+	for (const auto& [soundType, filePath] : SOUND_PATH_MAPPING)
+	{
+		soundSystem.Load(filePath, static_cast<GameEngine::sound_id>(static_cast<int>(soundType)));
+	}
 }

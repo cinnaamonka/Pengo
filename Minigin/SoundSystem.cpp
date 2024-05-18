@@ -40,7 +40,6 @@ namespace GameEngine
 
 		void Play(const sound_id id, const float volume)
 		{
-
 			std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
 			m_SoundQueue.PushBack({ id, volume });
 
@@ -48,6 +47,7 @@ namespace GameEngine
 			m_ConditionalVariable.notify_one();
 
 		}
+		
 		bool Contains(const sound_id id) const
 		{
 			if (m_pSoundEffects.find(id) != m_pSoundEffects.end()) return true;
@@ -84,23 +84,18 @@ namespace GameEngine
 			Mix_Resume(-1);
 		}
 
-		void Stop()
+		void Stop(const sound_id id)
 		{
-			Mix_HaltChannel(-1);
+			std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
+			Mix_HaltChannel(id); 
 		}
-
+		
 		void CleanUp()
 		{
 			// THE first thing: we need to stop the thread that plays sounds
-
 			m_QuitEvent = true;
 			m_ConditionalVariable.notify_one();
 			m_Thread.join();
-
-			for (auto pSound : m_pSoundEffects)
-			{
-				Mix_FreeChunk(pSound.second.get());
-			}
 
 			Mix_CloseAudio();
 			Mix_Quit();
@@ -213,9 +208,9 @@ namespace GameEngine
 		m_pImpl->Resume();
 	}
 
-	void SoundSystem::Stop()
+	void SoundSystem::Stop(const sound_id id) 
 	{
-		m_pImpl->Stop();
+		m_pImpl->Stop(id); 
 	}
 
 	void SoundSystem::Load(const std::string& filePath, const sound_id id)
@@ -232,6 +227,5 @@ namespace GameEngine
 	{
 		return m_pImpl->IsPlaying(id);
 	}
-
 
 }

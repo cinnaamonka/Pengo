@@ -30,10 +30,10 @@ void GameEngine::SoundLogSystem::Resume()
 	pSoundSystem->Resume();
 }
 
-void GameEngine::SoundLogSystem::Stop()
+void GameEngine::SoundLogSystem::Stop(const sound_id id)
 {
 	std::cout << "Stopping sound" << std::endl;
-	pSoundSystem->Stop();
+	pSoundSystem->Stop(id);
 }
 
 void GameEngine::SoundLogSystem::Load(const std::string& filePath, const sound_id id)
