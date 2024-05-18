@@ -222,16 +222,18 @@ void Environment::BreakBlock(int index)
 			m_EggSpawnEvent.CreateMessage(position);
 			m_ScoreAppearingEvent.CreateMessage(Score{ ScoreType::EggFound, position }); 
 			m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::InceaseScore500);
+			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::SnoBeeEggDestroyed), 20);
 		}
 		else
 		{
 			m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::IncreaseScore30); 
+			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::IceBlockDestroyed), 20);
 		}
 
 		m_pBlocks.erase(m_pBlocks.begin() + index);
 		m_PushBlockIndex = -1;
 		m_EnvEvent.CreateMessage(Event::BlockIndexesChanged);
-		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::IceBlockDestroyed), 20);
+		
 	}
 }
 

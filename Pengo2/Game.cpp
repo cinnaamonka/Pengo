@@ -78,9 +78,10 @@ void Game::Initialize()
 	m_pEnvironmentReference->GetComponent<Environment>()->AttachObserver<GameEngine::HUDEvent>(m_pHUD.get());
 
 	//Sounds start one after another
-	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::ActStarts), 30); 
+	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::ActStarts), 20); 
 
-	Mix_ChannelFinished([](int) {
+	Mix_ChannelFinished([](int)
+		{
 		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::Background), 20);
 		});
 

@@ -131,7 +131,7 @@ void EnemyManager::KillEnemy(int index)
 	m_EnemyDirectionChanged.Detach(m_EnemiesRef[index]->GetComponent<EnemyDirectionObserver>());
 	m_EnemiesRef.erase(m_EnemiesRef.begin() + index);
 	ResetEnemiesIndexes();
-	
+	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::SnowBeeSquashed), 20);
 }
 
 void EnemyManager::ResetEnemiesIndexes()
