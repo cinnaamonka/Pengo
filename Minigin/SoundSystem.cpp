@@ -86,7 +86,7 @@ namespace GameEngine
 
 		void Stop(const sound_id id)
 		{
-			std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
+			
 			Mix_HaltChannel(id); 
 		}
 		
