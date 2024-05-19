@@ -12,6 +12,7 @@ enum class Event
 	BlockIndexesChanged,
 	BlockDestroyed,
 	DiamondBlockChangedPos,
+	EnemySpawnFromEggBlock,
 };
 struct EventInfo
 {

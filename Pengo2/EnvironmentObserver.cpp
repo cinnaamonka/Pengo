@@ -19,6 +19,9 @@ void EnvironmentObserver::Notify(const EventInfo& eventInfo)
 	case Event::DiamondBlockChangedPos:
 		GetGameObject()->GetComponent<Environment>()->CheckDiamondBlocksPositions(); 
 		break;
+	case Event::EnemySpawnFromEggBlock:
+		GetGameObject()->GetComponent<Environment>()->SpawnEnemyFromEggBlock();
+		break;
 	default:
 		break;
 	}

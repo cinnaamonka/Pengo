@@ -84,6 +84,7 @@ public:
 	void ResetBlocksIndexes();
 	void DeleteBlockFromGame(const int blockIndex);
 	void CheckDiamondBlocksPositions();
+	void SpawnEnemyFromEggBlock();
 private:
 
 	void StopBlock(GameEngine::GameObject* block, GameEngine::HitInfo hitInfo);
@@ -112,6 +113,7 @@ private:
 	const int m_BorderLength;
 	const int m_BorderHeight;
 
-	std::unordered_map<int,glm::vec3> m_DiamondBlocksPositions; 
+	std::unordered_map<int,glm::vec3> m_DiamondBlocksPositions;
+	std::vector<int> m_EggBlocksIndexes;
 };
 

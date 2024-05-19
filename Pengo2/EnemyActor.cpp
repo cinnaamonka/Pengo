@@ -27,7 +27,7 @@ EnemyActor::EnemyActor(GameEngine::GameObject* pGameObject) :
 	
 }
 
-std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(glm::vec3& pos,int index)
+std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(const glm::vec3& pos,int index)
 {
 	std::unique_ptr<GameEngine::GameObject> gameObject = std::make_unique<GameEngine::GameObject>();
 

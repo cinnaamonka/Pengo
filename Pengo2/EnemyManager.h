@@ -13,6 +13,7 @@
 #include "EnvironmentObserver.h"
 #include "ScoreObserver.h"
 #include <HUD.h>
+#include <Scene.h>
 
 class EnemyManager
 {
@@ -61,6 +62,7 @@ public:
 	void CheckCollisionWithPushedBlock(GameEngine::GameObject* blocks);
 
 	void CheckCollisionWithPlayer(const glm::vec3& pos, GameEngine::Subject<GameEngine::HUDEvent>* hudSubject);
+	void SpawnEnemy(const glm::vec3& pos, GameEngine::GameObject* actor);
 private:
 
 	void HandleMovement(GameEngine::HitInfo& hitInfo, std::vector<GameEngine::GameObject*> blocks,
@@ -83,5 +85,7 @@ private:
 	static EnemyDyingState enemyDyingState;
 
 	const int m_Radius = 20;
+
+	GameEngine::Scene* m_pSceneRef;
 };
 

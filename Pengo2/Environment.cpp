@@ -195,6 +195,8 @@ void Environment::CreateBlocksCollection(std::vector<GameEngine::Block> blocks, 
 
 		m_pBlocks.push_back(block.get());
 
+		m_EggBlocksIndexes.push_back(i+ offset);
+
 		scene->Add(std::move(block));
 	}
 
@@ -210,8 +212,6 @@ void Environment::StopBlock(GameEngine::GameObject* block, GameEngine::HitInfo h
 		hitInfo,
 		false
 	};
-
-	
 
 	m_BlockCollisionInfo.CreateMessage(info);
 	block->GetComponent<HitObserver>()->Notify(info.hitInfo);
@@ -237,6 +237,7 @@ void Environment::BreakBlock(int index)
 			m_EggSpawnEvent.CreateMessage(position);
 			m_ScoreAppearingEvent.CreateMessage(Score{ ScoreType::EggFound, position });
 			m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::InceaseScore500);
+			m_EggBlocksIndexes.erase(std::remove(m_EggBlocksIndexes.begin(), m_EggBlocksIndexes.end(), index), m_EggBlocksIndexes.end());
 			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::SnoBeeEggDestroyed), 20);
 		}
 		else
@@ -261,9 +262,24 @@ void Environment::CheckDiamondBlocksPositions()
 	}
 }
 
+void Environment::SpawnEnemyFromEggBlock()
+{
+	if (!m_EggBlocksIndexes.empty())
+	{
+		m_pBlocks[m_EggBlocksIndexes[0]]->GetComponent<GameEngine::AnimationComponent>()->SetIsDestroyed(true);
+		m_pEnemyManager->SpawnEnemy(m_pBlocks[m_EggBlocksIndexes[0]]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition(),m_pPlayer);
+		m_BlockCollisionInfo.Detach(m_pBlocks[m_EggBlocksIndexes[0]]->GetComponent<BlockObserver>());
+		m_pBlocks.erase(m_pBlocks.begin() + m_EggBlocksIndexes[0]);
+		m_EggBlocksIndexes.erase(std::remove(m_EggBlocksIndexes.begin(), m_EggBlocksIndexes.end(), static_cast<int>(m_EggBlocksIndexes[0])), m_EggBlocksIndexes.end());
+		m_PushBlockIndex = -1;
+		m_EnvEvent.CreateMessage(Event::BlockIndexesChanged);
+	}
+}
+
 void Environment::ResetBlocksIndexes()
 {
 	m_DiamondBlocksPositions.clear();
+	m_EggBlocksIndexes.clear();
 
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
@@ -274,6 +290,10 @@ void Environment::ResetBlocksIndexes()
 			if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsDiamondBlock())
 			{
 				m_DiamondBlocksPositions.insert({ i,m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition() }); 
+			}
+			if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
+			{
+				m_EggBlocksIndexes.push_back(i);
 			}
 		}
 			

@@ -27,19 +27,16 @@ EnemyDyingState EnemyManager::enemyDyingState = EnemyDyingState();
 EnemyManager::EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions, GameEngine::Scene* scene, GameEngine::GameObject* actor) :
 	m_KilledEnemyIndex(-1)
 {
+	m_pSceneRef = scene;
+
 	for (int i = 0; i < enemiesAmount; ++i)
 	{
-		auto enemyActor = EnemyActor::CreateEnemy(positions[i], i);
-		m_EnemiesCollisionHitInfoChanged.Attach(enemyActor->GetComponent<HitObserver>());
-		m_EnemyDirectionChanged.Attach(enemyActor->GetComponent<EnemyDirectionObserver>());
-		enemyActor->GetComponent<EnemyActor>()->SetActor(actor);
-		enemyActor->GetComponent<EnemyActor>()->HandleInput(&enemyPatrolState);
-		m_EnemiesRef.push_back(enemyActor.get());
-		scene->Add(std::move(enemyActor));
+		SpawnEnemy(positions[i],actor);
+		
 	}
 }
 
-void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks,int& m_PushBlockIndex, 
+void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks, int& m_PushBlockIndex,
 	GameEngine::Subject<EventInfo>* eventSubject, GameEngine::Subject<Score>* scoreSubject, GameEngine::Subject<GameEngine::HUDEvent>* hudSubject)
 {
 	GameEngine::HitInfo hitInfo;
@@ -49,13 +46,14 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& b
 		for (int j = 0; j < blocks.size(); ++j)
 		{
 			if (blocks[j]->GetComponent<CollisionComponent>()->IsColliding(m_EnemiesRef[i], hitInfo))
-			{ 
+			{
 				if (i == m_KilledEnemyIndex && m_PushBlockIndex == -1)
 				{
 					scoreSubject->CreateMessage(Score{ ScoreType::EnemyKilled,m_EnemiesRef[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition() });
 					hudSubject->CreateMessage(GameEngine::HUDEvent::InceaseScore500);
 					KillEnemy(m_KilledEnemyIndex);
 					hudSubject->CreateMessage(GameEngine::HUDEvent::DecreaseSnoBeesAmount);
+					eventSubject->CreateMessage(EventInfo{ Event::EnemySpawnFromEggBlock });
 					return;
 				}
 				glm::vec3 direction = m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->GetMovementDirection();
@@ -64,7 +62,7 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& b
 				const bool isMovingDown = direction.y > 0;
 				const bool isMovingLeft = direction.x < 0;
 				const bool isMovingUp = direction.y < 0;
-				  
+
 				const int randDirection = RANDOM_SIGN(dist(gen));
 
 				if ((isMovingRight && hitInfo.normal.y == 0) || (isMovingLeft && hitInfo.normal.x == -1))
@@ -116,7 +114,7 @@ void EnemyManager::HandleMovement(GameEngine::HitInfo& hitInfo, std::vector<Game
 			CreateMessage(GameEngine::EnemyInfo{ currentEnemyIndex, isHorizontal ? glm::vec3(-hitInfo.normal.x, 0, 0) : glm::vec3(0, -hitInfo.normal.y, 0) });
 
 			continue;
-		}   
+		}
 	}
 
 	CreateMessage(GameEngine::EnemyInfo{ currentEnemyIndex, !isHorizontal ? glm::vec3(randDirection, 0, 0) : glm::vec3(0, randDirection, 0) });
@@ -138,7 +136,7 @@ void EnemyManager::ResetEnemiesIndexes()
 {
 	for (int i = 0; i < m_EnemiesRef.size(); ++i)
 	{
-		m_EnemiesRef[i]->GetComponent<EnemyDirectionObserver>()->SetIndex(i);  
+		m_EnemiesRef[i]->GetComponent<EnemyDirectionObserver>()->SetIndex(i);
 	}
 }
 
@@ -197,10 +195,10 @@ void EnemyManager::CheckCollisionWithPlayer(const glm::vec3& pos, GameEngine::Su
 	for (int i = 0; i < m_EnemiesRef.size(); ++i)
 	{
 		if (m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->GetSpeed() == 0) return;
-		
+
 		const auto currentEnemyPosition = m_EnemiesRef[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
 
-		if (GameEngine::AreNear(pos, currentEnemyPosition, 5.0f)  )
+		if (GameEngine::AreNear(pos, currentEnemyPosition, 5.0f))
 		{
 			m_EnemiesRef[i]->GetComponent<EnemyActor>()->KillPlayer();
 			m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection({ 0,0,0 });
@@ -222,5 +220,18 @@ void EnemyManager::CheckCollisionWithPlayer(const glm::vec3& pos, GameEngine::Su
 
 		}
 	}
+}
+
+void EnemyManager::SpawnEnemy(const glm::vec3& pos, GameEngine::GameObject* actor)
+{
+	int enemiesAmount = static_cast<int>(m_EnemiesRef.size());
+
+	auto enemyActor = EnemyActor::CreateEnemy(pos, enemiesAmount);
+	m_EnemiesCollisionHitInfoChanged.Attach(enemyActor->GetComponent<HitObserver>());
+	m_EnemyDirectionChanged.Attach(enemyActor->GetComponent<EnemyDirectionObserver>());
+	enemyActor->GetComponent<EnemyActor>()->SetActor(actor);
+	enemyActor->GetComponent<EnemyActor>()->HandleInput(&enemyPatrolState);
+	m_EnemiesRef.push_back(enemyActor.get());
+	m_pSceneRef->Add(std::move(enemyActor));
 }
 
