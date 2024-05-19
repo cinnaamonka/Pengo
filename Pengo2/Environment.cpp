@@ -273,6 +273,7 @@ void Environment::SpawnEnemyFromEggBlock()
 		m_EggBlocksIndexes.erase(std::remove(m_EggBlocksIndexes.begin(), m_EggBlocksIndexes.end(), static_cast<int>(m_EggBlocksIndexes[0])), m_EggBlocksIndexes.end());
 		m_PushBlockIndex = -1;
 		m_EnvEvent.CreateMessage(Event::BlockIndexesChanged);
+		m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::AddSnoBeesLife); 
 	}
 }
 

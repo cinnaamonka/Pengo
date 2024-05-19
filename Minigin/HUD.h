@@ -21,6 +21,7 @@ namespace GameEngine
 		IncreaseScore30,
 		DecreaseLife,
 		DecreaseSnoBeesAmount,
+		AddSnoBeesLife
 	};
 
 	class HUD final : public IObserver<HUDEvent>
@@ -37,7 +38,7 @@ namespace GameEngine
 		void AddScoreBar(const glm::vec3& position,Scene* scene);
 		void AddLifeBar(const glm::vec3& position, Scene* scene,int lifesAmount);
 		void CreateGameMode(const glm::vec3& position, Scene* scene, GameEngine::GameModes gameMode);
-		void CreateSnoBeesBar(const glm::vec3& position, Scene* scene, int snoBeesAmount);
+		void CreateSnoBeesBar(const glm::vec3& position, int snoBeesAmount, Scene* scene = nullptr);
 		void Notify(const HUDEvent& messageFromSubject) override;
 	private:
 		GameEngine::GameObject* m_pScoreBar;
@@ -46,6 +47,8 @@ namespace GameEngine
 		GameEngine::GameObject* m_pGameMode;
 
 		int m_Score = 0;
+
+		Scene* m_pScene;
 	};
 
 }
