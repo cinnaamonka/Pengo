@@ -63,12 +63,13 @@ public:
 
 	void CheckCollisionWithPlayer(const glm::vec3& pos, GameEngine::Subject<GameEngine::HUDEvent>* hudSubject);
 	void SpawnEnemy(const glm::vec3& pos, GameEngine::GameObject* actor);
+
 private:
 
 	void HandleMovement(GameEngine::HitInfo& hitInfo, std::vector<GameEngine::GameObject*> blocks,
 		int currentBlockIndex, int currentEnemyIndex, const int randDirection, bool isHorizontal); 
 
-	void KillEnemy(int index);
+	void KillEnemy(int index, GameEngine::Subject<GameEngine::HUDEvent>* hudSubject);
 	void ResetEnemiesIndexes(); 
 
 

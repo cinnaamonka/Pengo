@@ -17,6 +17,7 @@
 #include <SoundSystem.h>
 #include <SoundServiceLocator.h>
 #include <SoundLogSystem.h>
+#include <TimeManager.h>
 
 #include <HUD.h>
 #include <thread>
@@ -89,6 +90,9 @@ void Game::Initialize()
 	{
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
+
+	GameEngine::TimeManager::GetInstance().SetTimer(3.f);
+	
 }
 
 void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)

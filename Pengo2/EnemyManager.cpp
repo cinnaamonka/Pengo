@@ -8,6 +8,7 @@
 #include <ActorComponent.h>
 #include <AnimationComponent.h>
 #include <SoundServiceLocator.h>
+#include <TimeManager.h>
 #include "Structs.h"
 #include <HUD.h>
 
@@ -34,6 +35,8 @@ EnemyManager::EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions,
 		SpawnEnemy(positions[i],actor);
 		
 	}
+	
+
 }
 
 void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks, int& m_PushBlockIndex,
@@ -51,7 +54,7 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& b
 				{
 					scoreSubject->CreateMessage(Score{ ScoreType::EnemyKilled,m_EnemiesRef[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition() });
 					hudSubject->CreateMessage(GameEngine::HUDEvent::InceaseScore500);
-					KillEnemy(m_KilledEnemyIndex);
+					KillEnemy(m_KilledEnemyIndex,hudSubject);
 					hudSubject->CreateMessage(GameEngine::HUDEvent::DecreaseSnoBeesAmount);
 					eventSubject->CreateMessage(EventInfo{ Event::EnemySpawnFromEggBlock });
 					return;
@@ -121,7 +124,7 @@ void EnemyManager::HandleMovement(GameEngine::HitInfo& hitInfo, std::vector<Game
 	return;
 }
 
-void EnemyManager::KillEnemy(int index)
+void EnemyManager::KillEnemy(int index, GameEngine::Subject<GameEngine::HUDEvent>* hudSubject)
 {
 	m_EnemiesRef[index]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.f);
 	m_KilledEnemyIndex = -1;
@@ -130,6 +133,14 @@ void EnemyManager::KillEnemy(int index)
 	m_EnemiesRef.erase(m_EnemiesRef.begin() + index);
 	ResetEnemiesIndexes();
 	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::SnowBeeSquashed), 20);
+
+	if (m_EnemiesRef.empty()) 
+	{
+		if (GameEngine::TimeManager::GetInstance().IsTimerElapsed())
+		{
+			hudSubject->CreateMessage(GameEngine::HUDEvent::IncreaseScore30);  
+		}
+	}
 }
 
 void EnemyManager::ResetEnemiesIndexes()

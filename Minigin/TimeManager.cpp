@@ -7,6 +7,7 @@ std::chrono::time_point<std::chrono::high_resolution_clock> GameEngine::TimeMana
 std::chrono::time_point<std::chrono::high_resolution_clock> GameEngine::TimeManager::m_EndTime;
 bool GameEngine::TimeManager::m_TimerSet = false;
 std::chrono::duration<float> GameEngine::TimeManager::m_Duration = std::chrono::duration<float>(0);
+bool GameEngine::TimeManager::m_Running = false;
 
 float GameEngine::TimeManager::GetElapsed()
 {
