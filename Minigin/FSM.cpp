@@ -42,9 +42,11 @@ namespace GameEngine
 				}
 			}
 		}
+		if (m_pCurrentState)
+		{
+			m_pCurrentState->Update(m_pAnimationComponent);
 
-
-		m_pCurrentState->Update(m_pAnimationComponent);
+		}
 	}
 
 	void GameEngine::FSM::ChangeState(FSMState* newState)

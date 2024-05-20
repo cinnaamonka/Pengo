@@ -22,16 +22,6 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 {
 	GameEngine::GetVerticesFromJsonFile(filename, m_LevelVertices);
 
-	std::vector tempCollection = GameEngine::GetBlocksWithTag(m_LevelVertices, "border");
-
-	auto borderBlock = BaseBlock::CreateBlock(tempCollection[0].block[0], "Border.tga", 50, false, false, false, false, 1,
-		m_BorderLength, m_BorderHeight,
-		glm::vec3{ tempCollection[0].block[0].x + m_BorderWidth,tempCollection[0].block[0].y + m_BorderWidth,0 });
-
-	m_pBorderBlock = borderBlock.get();
-
-	scene->Add(std::move(borderBlock));
-
 	int offset = 0;
 	CreateBlocksCollection(m_LevelVertices, "DiamondBlock.tga", "diamond_block", offset, scene, false, false, false, true);
 
@@ -39,6 +29,8 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 
 	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "ice_block", offset, scene, true, false, false, false, 16);
 	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "enemy_block", offset, scene, true, false, true, false, 16);
+	CreateBorder(scene,false);
+	CreateBorder(scene, true);
 
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
@@ -252,6 +244,38 @@ void Environment::BreakBlock(int index)
 
 	}
 }
+
+void Environment::CreateBorder(GameEngine::Scene* scene, bool isVertical)
+{
+	const std::string textureFile = isVertical ? "BorderV.tga" : "BorderH.tga";
+	const auto& tempCollection = isVertical ? GameEngine::GetBlocksWithTag(m_LevelVertices, "verBorder") : GameEngine::GetBlocksWithTag(m_LevelVertices, "horBorder");
+
+	for (const auto& blockData : tempCollection)
+	{
+		glm::vec3 position = isVertical
+			? glm::vec3{ blockData.block[0].x, blockData.block[0].y, 0 }
+		: glm::vec3{ blockData.block[0].x + m_BorderWidth, blockData.block[0].y + m_BorderWidth, 0 };
+
+		int borderLength = isVertical ? 20 : m_BorderLength;
+		int borderHeight = isVertical ? 360 : m_BorderHeight;
+
+		auto borderBlock = BaseBlock::CreateBlock(blockData.block[0], textureFile, 50, false, false, false, false, 3, borderLength, borderHeight, position);
+
+		auto textureComponent = borderBlock->GetComponent<GameEngine::TextureComponent>();
+		auto texture = textureComponent->GetTexture();
+		auto textureSizeX = isVertical ? (texture->GetSize().x / textureComponent->GetTextureClipAmount()) : texture->GetSize().x;
+		auto textureSizeY = isVertical ? texture->GetSize().y : (texture->GetSize().y / textureComponent->GetTextureClipAmount());
+
+		borderBlock->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0, textureSizeX, textureSizeY });
+
+		if (!isVertical && m_pBorderBlock == nullptr) {
+			m_pBorderBlock = borderBlock.get();
+		}
+
+		scene->Add(std::move(borderBlock));
+	}
+}
+
 
 void Environment::CheckDiamondBlocksPositions()
 {

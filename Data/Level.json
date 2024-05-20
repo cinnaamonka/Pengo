@@ -298,7 +298,32 @@
         "left": 170,
         "top": 50
       },
-      "type": "border"
+      "type": "horBorder"
+    },
+
+    {
+      "position": {
+        "left": 170,
+        "top": 360
+      },
+      "type": "horBorder"
+    },
+
+    {
+      "position": {
+        "left": 170,
+        "top": 50
+      },
+      "type": "verBorder"
+    },
+
+    {
+      "position": {
+        "left": 440,
+        "top": 50
+      },
+      "type": "verBorder"
     }
+
   ]
 }

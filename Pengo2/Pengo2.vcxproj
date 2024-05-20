@@ -186,6 +186,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClCompile Include="AIMovementComponent.cpp" />
     <ClCompile Include="BaseBlock.cpp" />
     <ClCompile Include="BlocksStatesAndTransitions.cpp" />
+    <ClCompile Include="BorderStatesAndTransirions.cpp" />
     <ClCompile Include="CollisionComponent.cpp" />
     <ClCompile Include="EggObserver.cpp" />
     <ClCompile Include="EggsStatesAndTransitions.cpp" />
@@ -218,6 +219,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClInclude Include="AIMovementComponent.h" />
     <ClInclude Include="BaseBlock.h" />
     <ClInclude Include="BlocksStatesAndTransitions.h" />
+    <ClInclude Include="BorderStatesAndTransirions.h" />
     <ClInclude Include="CollisionComponent.h" />
     <ClInclude Include="EggObserver.h" />
     <ClInclude Include="EggsStatesAndTransitions.h" />
