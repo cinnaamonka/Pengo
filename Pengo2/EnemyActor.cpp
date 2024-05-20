@@ -10,6 +10,8 @@
 #include "EnemyDirectionObserver.h"
 #include "CollisionComponent.h"
 #include <ActorComponent.h>
+#include <SoundServiceLocator.h>
+#include "Structs.h"
 
 #include <FSM.h>
 #include <AIFSM.h>
@@ -62,6 +64,8 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(const glm::vec3&
 void EnemyActor::KillPlayer()
 {
 	//TODO
+	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Stop(static_cast<int>(PengoSounds::Background));
+	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::PlayerDeath), 20);
 	m_pPlayer->GetComponent<GameEngine::ActorComponent>()->Damage(1); 
 }
 

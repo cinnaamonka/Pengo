@@ -84,6 +84,7 @@ void Game::Initialize()
 	Mix_ChannelFinished([](int)
 		{
 		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::Background), 20);
+		Mix_ChannelFinished(nullptr); 
 		});
 
 	while (GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().IsPlaying(static_cast<int>(PengoSounds::ActStarts))) 
@@ -91,7 +92,8 @@ void Game::Initialize()
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 
-	GameEngine::TimeManager::GetInstance().SetTimer(3.f);
+	GameEngine::TimeManager::GetInstance().SetTimer(60.f);
+
 	
 }
 

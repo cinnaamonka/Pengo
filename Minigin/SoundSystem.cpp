@@ -86,8 +86,7 @@ namespace GameEngine
 
 		void Stop(const sound_id id)
 		{
-			
-			Mix_HaltChannel(id); 
+			Mix_HaltChannel(id);
 		}
 		
 		void CleanUp()
@@ -109,6 +108,7 @@ namespace GameEngine
 
 			Sound sound = m_SoundQueue.GetFront();
 			std::shared_ptr<Mix_Chunk> pChunk = nullptr;
+			
 
 			if (sound.id != UINT_MAX)
 			{

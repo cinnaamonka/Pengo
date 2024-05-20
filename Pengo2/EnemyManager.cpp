@@ -215,8 +215,6 @@ void EnemyManager::CheckCollisionWithPlayer(const glm::vec3& pos, GameEngine::Su
 			m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection({ 0,0,0 });
 			m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.0f);
 			hudSubject->CreateMessage(GameEngine::HUDEvent::DecreaseLife);
-			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::PlayerDeath), 20);
-			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Stop(static_cast<int>(PengoSounds::Background));
 			return;
 		}
 
