@@ -85,6 +85,7 @@ public:
 	void CheckDiamondBlocksPositions();
 	void SpawnEnemyFromEggBlock();
 	void SetBordersUntouched();
+	void SetEnemyStunned(const int enemyIndex); 
 private:
 
 	void StopBlock(GameEngine::GameObject* block, GameEngine::HitInfo hitInfo);

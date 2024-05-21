@@ -39,7 +39,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	int bottom = static_cast<int>(tempCollection[0].block[0].y + m_BorderWidth);
 	int width = m_BorderLength;
 	int height = m_BorderHeight;
-	borderCollider->AddComponent<GameEngine::BoxCollider>(left,bottom,width,height);
+	borderCollider->AddComponent<GameEngine::BoxCollider>(left, bottom, width, height);
 	borderCollider->AddComponent<BaseBlock>(50, BlocksTypes::HorBorder);
 	borderCollider->AddComponent<CollisionComponent>();
 
@@ -141,7 +141,7 @@ void Environment::PushBlock()
 
 		if (verticalCollision || horizontalCollision)
 		{
-			
+
 
 			if ((verticalCollision && m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pBlocks[i], hitInfo)) ||
 				(horizontalCollision && m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pBlocks[i], hitInfo)))
@@ -180,7 +180,7 @@ void Environment::PushBlock()
 		}
 	}
 
-	if (   m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pPlayer, hitInfo)
+	if (m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pPlayer, hitInfo)
 		|| m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pPlayer, hitInfo))
 	{
 		CheckBorderCollision(hitInfo);
@@ -281,7 +281,7 @@ void Environment::CreateBorder(GameEngine::Scene* scene, bool isVertical, Blocks
 		glm::vec3 position = isVertical
 			? glm::vec3{ blockData.block[0].x, blockData.block[0].y, 0 }
 		: glm::vec3{ blockData.block[0].x + m_BorderWidth, blockData.block[0].y + m_BorderWidth, 0 };
-	
+
 		int borderLength = isVertical ? m_BorderWidth : m_BorderLength;
 		int borderHeight = isVertical ? m_BorderHeight : m_BorderWidth;
 
@@ -352,6 +352,21 @@ void Environment::SetBordersUntouched()
 	}
 }
 
+void Environment::SetEnemyStunned(const int enemyIndex)
+{
+
+	for (auto block : m_pBorderBlocks)
+	{
+		if (!block->GetComponent<GameEngine::AnimationComponent>()->GetWasPushed())continue;
+
+		GameEngine::HitInfo hitInfo{};
+
+		m_pEnemyManager->GetEnemies()[enemyIndex]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.f);
+		return;
+
+	}
+}
+
 void Environment::ResetBlocksIndexes()
 {
 	m_DiamondBlocksPositions.clear();
@@ -391,7 +406,7 @@ void Environment::DeleteBlockFromGame(const int blockIndex)
 void Environment::CheckEnemiesCollision()
 {
 	m_pEnemyManager->CheckEnemiesCollision(m_pBlocks, m_PushBlockIndex, &m_EnvEvent, &m_ScoreAppearingEvent, &m_AddingScoreInHUDEvent);
-	m_pEnemyManager->HandleBorderCollision(m_pBorderBlock);
+	m_pEnemyManager->HandleBorderCollision(m_pBorderBlock, &m_EnvEvent);
 	m_pEnemyManager->CheckCollisionWithPlayer(m_pPlayer->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition(), &m_AddingScoreInHUDEvent);
 
 }

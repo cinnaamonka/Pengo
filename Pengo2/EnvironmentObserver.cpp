@@ -22,6 +22,8 @@ void EnvironmentObserver::Notify(const EventInfo& eventInfo)
 	case Event::EnemySpawnFromEggBlock:
 		GetGameObject()->GetComponent<Environment>()->SpawnEnemyFromEggBlock();
 		break;
+	case Event::EnemyCollidedWithBorder:
+		GetGameObject()->GetComponent<Environment>()->SetEnemyStunned(eventInfo.index);
 	default:
 		break;
 	}

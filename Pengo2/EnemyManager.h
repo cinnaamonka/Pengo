@@ -53,11 +53,13 @@ public:
 		
 	}
 
+	std::vector<GameEngine::GameObject*> GetEnemies() const { return m_EnemiesRef; }
+
 	void CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks,
 		int& m_PushBlockIndex, GameEngine::Subject<EventInfo>* eventSubject,GameEngine::Subject<Score>* scoreSubject,
 		GameEngine::Subject<GameEngine::HUDEvent>* hudSubject);
 
-	void HandleBorderCollision(GameEngine::GameObject*);
+	void HandleBorderCollision(GameEngine::GameObject*, GameEngine::Subject<EventInfo>* eventSubject);
 
 	void CheckCollisionWithPushedBlock(GameEngine::GameObject* blocks);
 

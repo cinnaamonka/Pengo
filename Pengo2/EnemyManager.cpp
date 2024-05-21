@@ -152,7 +152,7 @@ void EnemyManager::ResetEnemiesIndexes()
 }
 
 
-void EnemyManager::HandleBorderCollision(GameEngine::GameObject* border)
+void EnemyManager::HandleBorderCollision(GameEngine::GameObject* border,GameEngine::Subject<EventInfo>* eventSubject)
 {
 	GameEngine::HitInfo hitInfo;
 	const auto borderCollisionComponent = border->GetComponent<CollisionComponent>();
@@ -160,6 +160,8 @@ void EnemyManager::HandleBorderCollision(GameEngine::GameObject* border)
 	for (int i = 0; i < m_EnemiesRef.size(); ++i)
 	{
 		if (!borderCollisionComponent->IsColliding(m_EnemiesRef[i], hitInfo)) continue;
+
+		eventSubject->CreateMessage(EventInfo{ Event::EnemyCollidedWithBorder,i });
 
 		glm::vec3 direction = m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->GetMovementDirection();
 

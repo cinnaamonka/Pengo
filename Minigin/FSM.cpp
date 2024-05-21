@@ -6,7 +6,7 @@
 
 namespace GameEngine
 {
-	GameEngine::FSM::FSM(GameObject* pGameObject, FSMState* startState, AnimationComponent* pAnimationComponent):
+	GameEngine::FSM::FSM(GameObject* pGameObject, FSMState* startState, AnimationComponent* pAnimationComponent) :
 		BaseComponent(pGameObject),
 		m_pCurrentState(nullptr),
 		m_pAnimationComponent(pAnimationComponent)
@@ -27,6 +27,7 @@ namespace GameEngine
 
 	void GameEngine::FSM::Update()
 	{
+		if (!this) return;
 		const auto& transitionItr = m_Transitions.find(m_pCurrentState);
 
 		if (transitionItr != m_Transitions.end())
@@ -37,21 +38,18 @@ namespace GameEngine
 
 				if (transitionState.first->Evaluate(m_pAnimationComponent))
 				{
-					
+
 					ChangeState(transitionState.second);
 				}
 			}
 		}
-		if (m_pCurrentState)
-		{
-			m_pCurrentState->Update(m_pAnimationComponent);
 
-		}
+		m_pCurrentState->Update(m_pAnimationComponent);
 	}
 
 	void GameEngine::FSM::ChangeState(FSMState* newState)
 	{
-		
+
 		if (m_pCurrentState != nullptr)
 		{
 			m_pCurrentState->OnExit(m_pAnimationComponent);
