@@ -11,8 +11,6 @@ CollisionComponent::CollisionComponent(GameEngine::GameObject* pGameObject) :
 
 bool CollisionComponent::IsColliding(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo)
 {
-	if (actor->IsDestroyed() || (actor->GetComponentsAmount() > 100) || actor->GetComponentsAmount() <= 0) return false;
-
 	const auto& boxCollider = actor->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
 
 	return GetGameObject()->GetComponent<BaseBlock>()->IsCollidingVertically(boxCollider, hitInfo) ||
@@ -21,7 +19,6 @@ bool CollisionComponent::IsColliding(GameEngine::GameObject* actor, GameEngine::
 
 bool CollisionComponent::IsBlockNearbyHorizontally(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo)
 {
-	if (actor->IsDestroyed() || !actor->HasComponent<GameEngine::FSM>()) return false;
 
 	glm::vec3 direction = actor->GetComponent<GameEngine::AnimationComponent>()->GetMovementDirection();
 
@@ -50,7 +47,6 @@ bool CollisionComponent::IsBlockNearbyHorizontally(GameEngine::GameObject* actor
 
 bool CollisionComponent::IsBlockNearbyVertically(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo)
 {
-	if (actor->IsDestroyed() || !actor->HasComponent<GameEngine::FSM>()) return false;
 
 	glm::vec3 direction = actor->GetComponent<GameEngine::AnimationComponent>()->GetMovementDirection();
 

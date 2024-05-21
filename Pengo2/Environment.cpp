@@ -10,6 +10,7 @@
 #include <Helpers.h>
 #include "AnimationComponent.h"
 #include "EnemyManager.h"
+#include <TimeManager.h>
 #include "EggObserver.h"
 #include "Structs.h"
 
@@ -55,6 +56,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 		}
 	}
 
+    GameEngine::TimeManager::GetInstance().SetTimer("StartTimer", 60.f, [this]() { m_pEnemyManager->CheckEnemiesCollectionSize(&m_AddingScoreInHUDEvent); });
 }
 void Environment::CheckCollision()
 {
@@ -362,6 +364,12 @@ void Environment::SetEnemyStunned(const int enemyIndex)
 		GameEngine::HitInfo hitInfo{};
 
 		m_pEnemyManager->GetEnemies()[enemyIndex]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.f);
+		std::string timerName = "StunTimer" + std::to_string(enemyIndex);
+
+		GameEngine::TimeManager::GetInstance().SetTimer(timerName, 10.f, [this, enemyIndex]() { 
+			m_pEnemyManager->GetEnemies()[enemyIndex]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.3f);
+			}); 
+
 		return;
 
 	}

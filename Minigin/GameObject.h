@@ -102,10 +102,6 @@ namespace GameEngine
 			m_IsDestroyed = isDestroyed;
 		}
 
-		int GetComponentsAmount() const
-		{
-			return static_cast<int>(m_pComponents.size());
-		}
 	private:
 
 		std::vector<std::unique_ptr<BaseComponent>> m_pComponents;

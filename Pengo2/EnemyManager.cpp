@@ -11,6 +11,7 @@
 #include <TimeManager.h>
 #include "Structs.h"
 #include <HUD.h>
+#include <TimeManager.h>
 
 #include <Helpers.h>
 
@@ -36,7 +37,6 @@ EnemyManager::EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions,
 		
 	}
 	
-
 }
 
 void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks, int& m_PushBlockIndex,
@@ -54,7 +54,7 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& b
 				{
 					scoreSubject->CreateMessage(Score{ ScoreType::EnemyKilled,m_EnemiesRef[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition() });
 					hudSubject->CreateMessage(GameEngine::HUDEvent::InceaseScore500);
-					KillEnemy(m_KilledEnemyIndex,hudSubject);
+					KillEnemy(m_KilledEnemyIndex);
 					hudSubject->CreateMessage(GameEngine::HUDEvent::DecreaseSnoBeesAmount);
 					eventSubject->CreateMessage(EventInfo{ Event::EnemySpawnFromEggBlock });
 					return;
@@ -124,7 +124,7 @@ void EnemyManager::HandleMovement(GameEngine::HitInfo& hitInfo, std::vector<Game
 	return;
 }
 
-void EnemyManager::KillEnemy(int index, GameEngine::Subject<GameEngine::HUDEvent>* hudSubject)
+void EnemyManager::KillEnemy(int index)
 {
 	m_EnemiesRef[index]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.f);
 	m_KilledEnemyIndex = -1;
@@ -133,14 +133,6 @@ void EnemyManager::KillEnemy(int index, GameEngine::Subject<GameEngine::HUDEvent
 	m_EnemiesRef.erase(m_EnemiesRef.begin() + index);
 	ResetEnemiesIndexes();
 	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::SnowBeeSquashed), 20);
-
-	if (m_EnemiesRef.empty()) 
-	{
-		if (GameEngine::TimeManager::GetInstance().IsTimerElapsed("StartTimer"))
-		{
-			hudSubject->CreateMessage(GameEngine::HUDEvent::IncreaseScore30);  
-		}
-	}
 }
 
 void EnemyManager::ResetEnemiesIndexes()
@@ -207,10 +199,6 @@ void EnemyManager::CheckCollisionWithPlayer(const glm::vec3& pos, GameEngine::Su
 {
 	for (int i = 0; i < m_EnemiesRef.size(); ++i)
 	{
-		// i am not rerally sure what is happening here
-		// maybe we need this line
-		//if (m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->GetSpeed() == 0) return;
-
 		const auto currentEnemyPosition = m_EnemiesRef[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
 
 		if (GameEngine::AreNear(pos, currentEnemyPosition, 5.0f))
@@ -219,7 +207,7 @@ void EnemyManager::CheckCollisionWithPlayer(const glm::vec3& pos, GameEngine::Su
 			m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection({ 0,0,0 });
 			m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.0f);
 			hudSubject->CreateMessage(GameEngine::HUDEvent::DecreaseLife);
-			KillEnemy(i,hudSubject);
+			KillEnemy(i);
 			return;
 		}
 
@@ -247,5 +235,16 @@ void EnemyManager::SpawnEnemy(const glm::vec3& pos, GameEngine::GameObject* acto
 	enemyActor->GetComponent<EnemyActor>()->HandleInput(&enemyPatrolState);
 	m_EnemiesRef.push_back(enemyActor.get());
 	m_pSceneRef->Add(std::move(enemyActor));
+}
+
+void EnemyManager::CheckEnemiesCollectionSize(GameEngine::Subject<GameEngine::HUDEvent>* hudSubject)
+{
+	if (m_EnemiesRef.empty())
+	{
+		if (GameEngine::TimeManager::GetInstance().IsTimerElapsed("StartTimer"))
+		{
+			hudSubject->CreateMessage(GameEngine::HUDEvent::IncreaseScore30);
+		}
+	}
 }
 

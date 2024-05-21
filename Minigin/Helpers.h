@@ -92,8 +92,6 @@ namespace GameEngine
 	bool AreNear(const glm::vec3& pos1, const glm::vec3& pos2, float threshold);
 	bool AreThreePointsOnSameLine(const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& p3);
 	bool IsPointInsideRect(const glm::vec3& point, const Rect& rect, float threshold);
-
-	bool IsValidPointer(void* ptr);
 }
 
 #endif // HELPERS_H
