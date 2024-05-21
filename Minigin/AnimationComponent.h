@@ -68,6 +68,12 @@ namespace GameEngine
 		bool GetIsChasing() const { return m_IsChasing; }
 		void SetIsChasing(bool isChasing) { m_IsChasing = isChasing; }
 
+		bool GetIsVertical() const { return m_IsVertical; }
+		void SetIsVertical(bool isVertical) { m_IsVertical = isVertical; }
+
+		bool GetIsHorizontal() const { return m_IsHorizontal; }
+		void SetIsHorizontal(bool isHorizontal) { m_IsHorizontal = isHorizontal; }
+
 		void Destroy(); 
 
 	private:
@@ -86,6 +92,8 @@ namespace GameEngine
 		glm::vec3 m_Pos;
 		float m_Speed;
 		bool m_IsChasing;
+		bool m_IsVertical;
+		bool m_IsHorizontal;
 
 	};
 }

@@ -17,20 +17,35 @@ Environment::Environment(GameEngine::GameObject* pGameObject, const std::string&
 	BaseComponent(pGameObject),
 	m_pPlayer(nullptr),
 	m_BorderWidth(10),
-	m_BorderLength(260),
-	m_BorderHeight(300)
+	m_BorderLength(265),
+	m_BorderHeight(305)
 {
 	GameEngine::GetVerticesFromJsonFile(filename, m_LevelVertices);
 
 	int offset = 0;
-	CreateBlocksCollection(m_LevelVertices, "DiamondBlock.tga", "diamond_block", offset, scene, false, false, false, true);
+	CreateBlocksCollection(m_LevelVertices, "DiamondBlock.tga", "diamond_block", offset, scene, BlocksTypes::Diamond);
 
-	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "egg_block", offset, scene, true, true, false, false, 16);
+	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "egg_block", offset, scene, BlocksTypes::Eggs, 16);
 
-	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "ice_block", offset, scene, true, false, false, false, 16);
-	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "enemy_block", offset, scene, true, false, true, false, 16);
-	CreateBorder(scene,false);
-	CreateBorder(scene, true);
+	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "ice_block", offset, scene, BlocksTypes::Breakable, 16);
+	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "enemy_block", offset, scene, BlocksTypes::BreaksOnSpot, 16);
+	CreateBorder(scene, false, BlocksTypes::HorBorder);
+	CreateBorder(scene, true, BlocksTypes::VerBorder);
+
+	std::vector tempCollection = GameEngine::GetBlocksWithTag(m_LevelVertices, "borderCollider");
+
+	std::unique_ptr<GameEngine::GameObject> borderCollider = std::make_unique<GameEngine::GameObject>();
+	int left = static_cast<int>(tempCollection[0].block[0].x + m_BorderWidth);
+	int bottom = static_cast<int>(tempCollection[0].block[0].y + m_BorderWidth);
+	int width = m_BorderLength;
+	int height = m_BorderHeight;
+	borderCollider->AddComponent<GameEngine::BoxCollider>(left,bottom,width,height);
+	borderCollider->AddComponent<BaseBlock>(50, BlocksTypes::HorBorder);
+	borderCollider->AddComponent<CollisionComponent>();
+
+	m_pBorderBlock = borderCollider.get();
+
+	scene->Add(std::move(borderCollider));
 
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
@@ -60,7 +75,6 @@ void Environment::CheckCollision()
 		m_CollisionHitInfoChanged.CreateMessage(hitInfo);
 	}
 
-
 }
 
 void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
@@ -80,6 +94,8 @@ void Environment::CheckBlocksCollision(GameEngine::GameObject* pGameObject)
 				m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(pGameObject, hitInfo))
 			{
 				StopBlock(pGameObject, hitInfo);
+
+
 			}
 		}
 		if (pGameObject->GetComponent<BaseBlock>()->GetDirection().y != 0)
@@ -125,9 +141,12 @@ void Environment::PushBlock()
 
 		if (verticalCollision || horizontalCollision)
 		{
+			
+
 			if ((verticalCollision && m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pBlocks[i], hitInfo)) ||
 				(horizontalCollision && m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pBlocks[i], hitInfo)))
 			{
+
 				BreakBlock(i);
 				return;
 			}
@@ -160,17 +179,22 @@ void Environment::PushBlock()
 			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::BlockPushed), 20);
 		}
 	}
+
+	if (   m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pPlayer, hitInfo)
+		|| m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pPlayer, hitInfo))
+	{
+		CheckBorderCollision(hitInfo);
+	}
 }
 
 void Environment::CreateBlocksCollection(std::vector<GameEngine::Block> blocks, const std::string& name,
-	const std::string& tag, int& offset, GameEngine::Scene* scene, bool IsBreakable, bool containsEggs,
-	bool shouldBreakOnSpot, bool isDiamondBlock, int clipTextureAmount)
+	const std::string& tag, int& offset, GameEngine::Scene* scene, BlocksTypes types, int clipTextureAmount)
 {
 	std::vector<GameEngine::Block> tempCollection = GameEngine::GetBlocksWithTag(m_LevelVertices, tag);
 
 	for (int i = 0; i < static_cast<int>(tempCollection.size()); ++i)
 	{
-		auto block = BaseBlock::CreateBlock(tempCollection[i].block[0], name, i + offset, IsBreakable, containsEggs, isDiamondBlock, shouldBreakOnSpot, clipTextureAmount);
+		auto block = BaseBlock::CreateBlock(tempCollection[i].block[0], name, i + offset, types, clipTextureAmount);
 
 		if (tag == "ice_block" || tag == "egg_block" || tag == "enemy_block")
 		{
@@ -184,10 +208,12 @@ void Environment::CreateBlocksCollection(std::vector<GameEngine::Block> blocks, 
 
 		m_BlockCollisionInfo.Attach(block->GetComponent<BlockObserver>());
 
-
 		m_pBlocks.push_back(block.get());
 
-		m_EggBlocksIndexes.push_back(i+ offset);
+		if (block->GetComponent<BaseBlock>()->GetContainsEggs())
+		{
+			m_EggBlocksIndexes.push_back(i + offset);
+		}
 
 		scene->Add(std::move(block));
 	}
@@ -245,7 +271,7 @@ void Environment::BreakBlock(int index)
 	}
 }
 
-void Environment::CreateBorder(GameEngine::Scene* scene, bool isVertical)
+void Environment::CreateBorder(GameEngine::Scene* scene, bool isVertical, BlocksTypes type)
 {
 	const std::string textureFile = isVertical ? "BorderV.tga" : "BorderH.tga";
 	const auto& tempCollection = isVertical ? GameEngine::GetBlocksWithTag(m_LevelVertices, "verBorder") : GameEngine::GetBlocksWithTag(m_LevelVertices, "horBorder");
@@ -255,11 +281,11 @@ void Environment::CreateBorder(GameEngine::Scene* scene, bool isVertical)
 		glm::vec3 position = isVertical
 			? glm::vec3{ blockData.block[0].x, blockData.block[0].y, 0 }
 		: glm::vec3{ blockData.block[0].x + m_BorderWidth, blockData.block[0].y + m_BorderWidth, 0 };
+	
+		int borderLength = isVertical ? m_BorderWidth : m_BorderLength;
+		int borderHeight = isVertical ? m_BorderHeight : m_BorderWidth;
 
-		int borderLength = isVertical ? 20 : m_BorderLength;
-		int borderHeight = isVertical ? 360 : m_BorderHeight;
-
-		auto borderBlock = BaseBlock::CreateBlock(blockData.block[0], textureFile, 50, false, false, false, false, 3, borderLength, borderHeight, position);
+		auto borderBlock = BaseBlock::CreateBlock(blockData.block[0], textureFile, 50, type, 3, borderLength, borderHeight, position);
 
 		auto textureComponent = borderBlock->GetComponent<GameEngine::TextureComponent>();
 		auto texture = textureComponent->GetTexture();
@@ -268,11 +294,28 @@ void Environment::CreateBorder(GameEngine::Scene* scene, bool isVertical)
 
 		borderBlock->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0, textureSizeX, textureSizeY });
 
-		if (!isVertical && m_pBorderBlock == nullptr) {
-			m_pBorderBlock = borderBlock.get();
-		}
+		m_pBorderBlocks.push_back(borderBlock.get());
 
 		scene->Add(std::move(borderBlock));
+	}
+}
+
+void Environment::CheckBorderCollision(const GameEngine::HitInfo& hitInfo)
+{
+	for (auto block : m_pBorderBlocks)
+	{
+		GameEngine::Rect rect = block->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
+
+		if (GameEngine::IsPointInsideRect({ hitInfo.intersectPoint.x,hitInfo.intersectPoint.y,0 }, rect, 30.0f))
+		{
+			block->GetComponent<GameEngine::AnimationComponent>()->SetWasPushed(true);
+			return;
+		}
+		else
+		{
+			block->GetComponent<GameEngine::AnimationComponent>()->SetWasPushed(false);
+		}
+
 	}
 }
 
@@ -281,8 +324,8 @@ void Environment::CheckDiamondBlocksPositions()
 {
 	if (GameEngine::AreThreePointsOnSameLine(m_DiamondBlocksPositions[0], m_DiamondBlocksPositions[1], m_DiamondBlocksPositions[2]))
 	{
-		m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::IncreaseScore30); 
-		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::DiamondBlocksLinedUp), 20); 
+		m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::IncreaseScore30);
+		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::DiamondBlocksLinedUp), 20);
 	}
 }
 
@@ -291,13 +334,21 @@ void Environment::SpawnEnemyFromEggBlock()
 	if (!m_EggBlocksIndexes.empty())
 	{
 		m_pBlocks[m_EggBlocksIndexes[0]]->GetComponent<GameEngine::AnimationComponent>()->SetIsDestroyed(true);
-		m_pEnemyManager->SpawnEnemy(m_pBlocks[m_EggBlocksIndexes[0]]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition(),m_pPlayer);
+		m_pEnemyManager->SpawnEnemy(m_pBlocks[m_EggBlocksIndexes[0]]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition(), m_pPlayer);
 		m_BlockCollisionInfo.Detach(m_pBlocks[m_EggBlocksIndexes[0]]->GetComponent<BlockObserver>());
 		m_pBlocks.erase(m_pBlocks.begin() + m_EggBlocksIndexes[0]);
 		m_EggBlocksIndexes.erase(std::remove(m_EggBlocksIndexes.begin(), m_EggBlocksIndexes.end(), static_cast<int>(m_EggBlocksIndexes[0])), m_EggBlocksIndexes.end());
 		m_PushBlockIndex = -1;
 		m_EnvEvent.CreateMessage(Event::BlockIndexesChanged);
-		m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::AddSnoBeesLife); 
+		m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::AddSnoBeesLife);
+	}
+}
+
+void Environment::SetBordersUntouched()
+{
+	for (auto block : m_pBorderBlocks)
+	{
+		block->GetComponent<GameEngine::AnimationComponent>()->SetWasPushed(false);
 	}
 }
 
@@ -314,14 +365,14 @@ void Environment::ResetBlocksIndexes()
 
 			if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetIsDiamondBlock())
 			{
-				m_DiamondBlocksPositions.insert({ i,m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition() }); 
+				m_DiamondBlocksPositions.insert({ i,m_pBlocks[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition() });
 			}
 			if (m_pBlocks[i]->GetComponent<BaseBlock>()->GetContainsEggs())
 			{
 				m_EggBlocksIndexes.push_back(i);
 			}
 		}
-			
+
 	}
 }
 

@@ -16,6 +16,16 @@ enum class PengoSounds
 	MaxSounds
 
 };
+enum class BlocksTypes
+{
+	Diamond,
+	Eggs,
+	VerBorder,
+	HorBorder,
+	BreaksOnSpot,
+	Breakable
+
+};
 const std::unordered_map<PengoSounds, std::string> SOUND_PATH_MAPPING
 {
 

@@ -2,32 +2,52 @@
 
 void VibratingState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pAnimationComponent->SetNumberOfFrames(2); 
-	pAnimationComponent->SetFramesPerSec(1); 
-	pAnimationComponent->SetHorizontalOffset(0); 
-	pAnimationComponent->SetVerticalOffset(0); 
+	bool isBorderHorizontal = pAnimationComponent->GetIsHorizontal();
+
+	if (isBorderHorizontal)
+	{
+		pAnimationComponent->SetHorizontalOffset(0);
+		pAnimationComponent->SetVerticalOffset(1);
+	}
+	else
+	{
+		pAnimationComponent->SetHorizontalOffset(1);
+		pAnimationComponent->SetVerticalOffset(0);
+	}
+	pAnimationComponent->SetNumberOfFrames(2);
+	pAnimationComponent->SetFramesPerSec(10);
+
 }
+
 
 void VibratingState::Update(GameEngine::AnimationComponent* pAnimationComponent)
 {
 	AnimationUpdate(pAnimationComponent);
+}
 
-	int currentAnimationFrame = pAnimationComponent->GetAnimationFrame();
+void StopVibrating::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
+{
+	pAnimationComponent->SetHorizontalOffset(0);
+	pAnimationComponent->SetVerticalOffset(0);
+	pAnimationComponent->SetNumberOfFrames(1);
+	pAnimationComponent->SetFramesPerSec(10);
+}
 
-	int numberOfFrames = pAnimationComponent->GetNumberOfFrames();
 
-	if (currentAnimationFrame == numberOfFrames - 1)
+bool HasFinishedVibrating::Evaluate(GameEngine::AnimationComponent* pAnimationComponent) const
+{
+	if (pAnimationComponent->GetWasPushed())
 	{
-		pAnimationComponent->SetIsDestroyed(true);
+		return true;
 	}
-}
-
-void StopVibrating::OnEnter(GameEngine::AnimationComponent*)
-{
-
-}
-
-bool HasFinishedVibrating::Evaluate(GameEngine::AnimationComponent* ) const
-{
 	return false;
+}
+
+bool IsVibrating::Evaluate(GameEngine::AnimationComponent* pAnimationComponent) const
+{
+	if (pAnimationComponent->GetWasPushed())
+	{
+		return false;
+	}
+	return true;
 }

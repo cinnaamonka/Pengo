@@ -277,4 +277,10 @@ namespace GameEngine
 
 		return determinant == 0;
 	}
+	bool IsPointInsideRect(const glm::vec3& point, const Rect& rect, float threshold)
+	{
+		return (point.x >= rect.left - threshold && point.x <= rect.left + rect.width + threshold &&
+			point.y >= rect.bottom - threshold && point.y <= rect.bottom + rect.height + threshold);
+	}
+	
 }

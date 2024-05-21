@@ -300,6 +300,13 @@
       },
       "type": "horBorder"
     },
+    {
+      "position": {
+        "left": 170,
+        "top": 50
+      },
+      "type": "borderCollider"
+    },
 
     {
       "position": {

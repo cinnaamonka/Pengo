@@ -11,25 +11,70 @@
 #include <AnimationComponent.h>
 #include "BlockObserver.h"
 
-std::unique_ptr<StaticBlockState> BaseBlock::m_pStaticBlockState = std::make_unique<StaticBlockState>();
-std::unique_ptr<BreakingBlockState> BaseBlock::m_pBreakingBlockState = std::make_unique<BreakingBlockState>();
-std::unique_ptr<IsBlockBreaking> BaseBlock::m_pIsBlockBreaking = std::make_unique<IsBlockBreaking>();
-std::unique_ptr<IsBlockNotBreaking> BaseBlock::m_pIsBlockNotBreaking = std::make_unique<IsBlockNotBreaking>();
-std::unique_ptr<FlickeringBlockState> BaseBlock::m_pFlickeringBlockState = std::make_unique<FlickeringBlockState>();
+std::unique_ptr<StaticBlockState>          BaseBlock::m_pStaticBlockState = std::make_unique<StaticBlockState>();
+std::unique_ptr<BreakingBlockState>        BaseBlock::m_pBreakingBlockState = std::make_unique<BreakingBlockState>();
+std::unique_ptr<IsBlockBreaking>           BaseBlock::m_pIsBlockBreaking = std::make_unique<IsBlockBreaking>();
+std::unique_ptr<IsBlockNotBreaking>        BaseBlock::m_pIsBlockNotBreaking = std::make_unique<IsBlockNotBreaking>();
+std::unique_ptr<FlickeringBlockState>      BaseBlock::m_pFlickeringBlockState = std::make_unique<FlickeringBlockState>();
 std::unique_ptr<IsBlockFinishedFlickering> BaseBlock::m_pIsBlockFinishedFlickering = std::make_unique<IsBlockFinishedFlickering>();
+std::unique_ptr<VibratingState>            BaseBlock::m_pVibratingBorderState = std::make_unique<VibratingState>();
+std::unique_ptr<StopVibrating>             BaseBlock::m_pStopVibratingBorderState = std::make_unique<StopVibrating>();
+std::unique_ptr<HasFinishedVibrating>      BaseBlock::m_pHasFinishedVibrating = std::make_unique<HasFinishedVibrating>();
+std::unique_ptr<IsVibrating>               BaseBlock::m_pIsVibrating = std::make_unique<IsVibrating>();
 
-BaseBlock::BaseBlock(GameEngine::GameObject* GOptr, int index, bool isBreakable, bool containsEggs,bool isDiamondBlock) :
+BaseBlock::BaseBlock(GameEngine::GameObject* GOptr, int index, BlocksTypes type) :
 	GameEngine::BaseComponent(GOptr),
 	m_PushSpeed(10.0f),
 	m_Position{ 0,0,0 },
 	m_ColliderPosition{ 0,0,0 },
 	m_BlockIndex(index),
-	m_IsBreakable(isBreakable),
-	m_ContainsEggs(containsEggs),
-	m_Direction{ 0,0,0 },
-	m_IsDiamondBlock(isDiamondBlock)
+	m_Direction{ 0,0,0 }
+	
 {
-
+	switch (type)
+	{
+    case BlocksTypes::Breakable:
+        m_IsBreakable = true;
+        m_ContainsEggs = false;
+        m_IsDiamondBlock = false;
+		m_IsHorBorder = false;
+		break;
+	case BlocksTypes::Diamond:
+		m_IsBreakable = false;
+		m_ContainsEggs = false;
+		m_IsDiamondBlock = true;
+		m_IsHorBorder = false;
+		break;
+	case BlocksTypes::Eggs:
+		m_IsBreakable = true;
+		m_ContainsEggs = true;
+		m_IsDiamondBlock = false;
+		m_IsHorBorder = false;
+		break;
+	case BlocksTypes::BreaksOnSpot:
+		m_IsBreakable = true;
+		m_IsDiamondBlock = false;
+		m_ContainsEggs = false;
+		m_ShouldBreakOnSpot = true;
+		m_IsHorBorder = false;
+		break;
+	case BlocksTypes::VerBorder:
+		m_IsVerBorder = true;
+		m_IsBreakable = false;
+		m_IsDiamondBlock = false;
+		m_ContainsEggs = false;
+		m_ShouldBreakOnSpot = false;
+		break;
+	case BlocksTypes::HorBorder:
+		m_IsHorBorder = true;
+		m_IsBreakable = false;
+		m_IsDiamondBlock = false;
+		m_ContainsEggs = false;
+		m_ShouldBreakOnSpot = false;
+		break;
+	default:
+        break;
+	}
 }
 
 bool BaseBlock::IsCollidingHorizontally(const GameEngine::Rect& rectShape, GameEngine::HitInfo& hitInfo)
@@ -50,7 +95,7 @@ void BaseBlock::PushBlock(const glm::vec3& direction)
 }
 
 std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& position, const std::string& filename,
-	int index, bool isBreakable, bool containsEggs,bool isDiamond, bool shouldBreakOnSpot, int clipAmount, int blockSizeX, int blockSizeY, const glm::vec3& colliderBlockPos)
+	int index, BlocksTypes type, int clipAmount, int blockSizeX, int blockSizeY, const glm::vec3& colliderBlockPos)
 {
 	auto gameObject = std::make_unique<GameEngine::GameObject>();
 
@@ -71,9 +116,15 @@ std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& 
 	gameObject->AddComponent<GameEngine::TextureComponent>(filename, clipAmount);
 	gameObject->AddComponent<GameEngine::RenderComponent>();
 	gameObject->AddComponent<CollisionComponent>();
-	gameObject->AddComponent<BaseBlock>(index, isBreakable, containsEggs, isDiamond);
+	gameObject->AddComponent<BaseBlock>(index, type);
 	gameObject->AddComponent<HitObserver>();
 	gameObject->AddComponent<BlockObserver>();
+
+	bool isBreakable = gameObject->GetComponent<BaseBlock>()->GetIsBreakable();
+	bool containsEggs = gameObject->GetComponent<BaseBlock>()->GetContainsEggs();
+	bool shouldBreakOnSpot = gameObject->GetComponent<BaseBlock>()->GetShouldBreakOnSpot();
+	bool isHorizontalBorder = gameObject->GetComponent<BaseBlock>()->GetHorizontalIsBorder();
+	bool isVerticalBorder = gameObject->GetComponent<BaseBlock>()->GetVerticalIsBorder();
 
 	if (isBreakable && !containsEggs)
 	{
@@ -93,10 +144,30 @@ std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& 
 		gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_pFlickeringBlockState.get(), m_pBreakingBlockState.get(),
 			m_pIsBlockBreaking.get());
 	}
-	else if (!containsEggs)
+	else if (!containsEggs && !isVerticalBorder && !isHorizontalBorder)
 	{
 		gameObject->AddComponent<GameEngine::FSM>(m_pStaticBlockState.get(),
 			gameObject->GetComponent<GameEngine::AnimationComponent>());
+	}
+	else if (isVerticalBorder || isHorizontalBorder)
+	{
+		gameObject->AddComponent<GameEngine::FSM>(m_pStopVibratingBorderState.get(),
+			gameObject->GetComponent<GameEngine::AnimationComponent>());
+
+		gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_pStopVibratingBorderState.get(), m_pVibratingBorderState.get(),
+			m_pHasFinishedVibrating.get());
+		gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_pVibratingBorderState.get(), m_pStopVibratingBorderState.get(),
+			m_pIsVibrating.get());
+
+		if (isVerticalBorder)
+		{
+			gameObject->GetComponent<GameEngine::AnimationComponent>()->SetIsVertical(true);
+		}
+		else
+		{
+			gameObject->GetComponent<GameEngine::AnimationComponent>()->SetIsHorizontal(true);
+		}
+		
 	}
 	else
 	{

@@ -5,8 +5,9 @@
 #include <Helpers.h>
 #include <BoxColliderComponent.h>
 #include "BlocksStatesAndTransitions.h"
+#include "BorderStatesAndTransirions.h"
 #include <Scene.h>
-
+#include "Structs.h"
 #include "HitObserver.h"
 #include "CollisionComponent.h"
 
@@ -16,7 +17,7 @@ class HitObserver;
 class BaseBlock final : public GameEngine::BaseComponent
 {
 public:
-	BaseBlock(GameEngine::GameObject* GOptr, int index, bool isBreakable, bool containsEggs,bool isDiamondBlock);
+	BaseBlock(GameEngine::GameObject* GOptr, int index, BlocksTypes type);
 	~BaseBlock() = default;
 
 	BaseBlock(const BaseBlock& other) = delete;
@@ -45,7 +46,7 @@ public:
 	}
 
 	static std::unique_ptr<GameEngine::GameObject> CreateBlock(const glm::vec3& position, const std::string& filename, int index,
-		bool isBreakable = true, bool containsEggs = false, bool isDiamond = false, bool shouldBreakOnSpot = false,int clipAmount = 1,int blockSizeX = 20, int blockSizeY = 20,
+		BlocksTypes types,int clipAmount = 1,int blockSizeX = 20, int blockSizeY = 20,
 		const glm::vec3& colliderBlockPos = glm::vec3{ 0,0,0 });
 
 	int GetBlockIndex() const
@@ -89,6 +90,32 @@ public:
 	{
 		return m_IsDiamondBlock;
 	}
+
+	bool GetShouldBreakOnSpot() const
+	{
+		return m_ShouldBreakOnSpot;
+	}
+	void SetShouldBreakOnSpot(bool shouldBreakOnSpot)
+	{
+		m_ShouldBreakOnSpot = shouldBreakOnSpot;
+	}
+	bool GetVerticalIsBorder() const
+	{
+		return m_IsVerBorder;
+	}
+	void SetIsVerticalBorder(bool isBorder)
+	{
+		m_IsVerBorder = isBorder;
+	}
+
+	bool GetHorizontalIsBorder() const
+	{
+		return m_IsHorBorder;
+	}
+	void SetIsHorizontalBorder(bool isBorder)
+	{
+		m_IsHorBorder = isBorder;
+	}
 private:
 
 	static std::unique_ptr<StaticBlockState> m_pStaticBlockState;
@@ -97,6 +124,10 @@ private:
 	static std::unique_ptr<IsBlockNotBreaking> m_pIsBlockNotBreaking;
 	static std::unique_ptr<IsBlockFinishedFlickering> m_pIsBlockFinishedFlickering;
 	static std::unique_ptr<FlickeringBlockState> m_pFlickeringBlockState;
+	static std::unique_ptr<VibratingState> m_pVibratingBorderState;
+	static std::unique_ptr<StopVibrating> m_pStopVibratingBorderState;
+	static std::unique_ptr<HasFinishedVibrating> m_pHasFinishedVibrating;
+	static std::unique_ptr<IsVibrating> m_pIsVibrating;;
 	
 	glm::vec3 m_Position;
 	glm::vec3 m_ColliderPosition;
@@ -109,5 +140,8 @@ private:
 	bool m_IsBreakable;
 	bool m_ContainsEggs;
 	bool m_IsDiamondBlock;
+	bool m_ShouldBreakOnSpot;
+	bool m_IsHorBorder;
+	bool m_IsVerBorder;
 };
 

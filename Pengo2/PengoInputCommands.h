@@ -21,4 +21,20 @@ public:
 
 	void Execute() override;
 };
+class StopPushCommand :public GameEngine::GameObjectCommand 
+{
+public:
+
+public:
+	explicit StopPushCommand(GameEngine::GameObject* gameObject);
+	~StopPushCommand() = default;
+
+	StopPushCommand(const StopPushCommand& other) = default;
+	StopPushCommand& operator=(const StopPushCommand& other) = default;
+	StopPushCommand(StopPushCommand&& other) noexcept = default;
+	StopPushCommand& operator=(StopPushCommand&& other) noexcept = default;
+
+
+	void Execute() override;
+};
 

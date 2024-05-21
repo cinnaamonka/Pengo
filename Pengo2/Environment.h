@@ -78,19 +78,19 @@ public:
 	void PushBlock();
 
 	void CreateBlocksCollection(std::vector<GameEngine::Block> blocks, const std::string& name, const std::string& tag,
-		int& offset, GameEngine::Scene* scene, bool IsBreakable, bool containsEggs = false, bool isDiamondBlock = false,bool shouldBreakOnSpot = false,
-		int clipTextureAmount = 1);
+		int& offset, GameEngine::Scene* scene,BlocksTypes types,int clipTextureAmount = 1);
 
 	void ResetBlocksIndexes();
 	void DeleteBlockFromGame(const int blockIndex);
 	void CheckDiamondBlocksPositions();
 	void SpawnEnemyFromEggBlock();
+	void SetBordersUntouched();
 private:
 
 	void StopBlock(GameEngine::GameObject* block, GameEngine::HitInfo hitInfo);
 	void BreakBlock(int index);  
-	void CreateBorder(GameEngine::Scene* scene, bool isVertical);
-	
+	void CreateBorder(GameEngine::Scene* scene, bool isVertical, BlocksTypes type);
+	void CheckBorderCollision(const GameEngine::HitInfo& hitInfo);
 	
 private:
 	std::vector<GameEngine::GameObject*> m_pBlocks;
@@ -116,5 +116,6 @@ private:
 
 	std::unordered_map<int,glm::vec3> m_DiamondBlocksPositions;
 	std::vector<int> m_EggBlocksIndexes;
+	std::vector<GameEngine::GameObject*> m_pBorderBlocks;
 };
 

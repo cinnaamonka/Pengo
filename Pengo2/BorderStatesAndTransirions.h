@@ -33,3 +33,12 @@ public:
 
 	virtual bool Evaluate(GameEngine::AnimationComponent* pBlackboard) const override;
 };
+class IsVibrating : public GameEngine::FSMCondition
+{
+public:
+	IsVibrating() = default;
+	~IsVibrating() = default;
+
+	virtual bool Evaluate(GameEngine::AnimationComponent* pBlackboard) const override;
+};
+

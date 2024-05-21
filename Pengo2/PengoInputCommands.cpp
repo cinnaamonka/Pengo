@@ -13,3 +13,13 @@ void PushBlockCommand::Execute()
 {
 	GetGameObject()->GetComponent<Environment>()->PushBlock();
 }
+
+StopPushCommand::StopPushCommand(GameEngine::GameObject* gameObject):
+	GameObjectCommand(gameObject)
+{
+}
+
+void StopPushCommand::Execute()
+{
+	GetGameObject()->GetComponent<Environment>()->SetBordersUntouched();
+}

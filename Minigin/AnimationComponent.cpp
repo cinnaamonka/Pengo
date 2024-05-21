@@ -21,13 +21,20 @@ namespace GameEngine
 	{
 		GameEngine::Rect previousDimensions = GetGameObject()->GetComponent<GameEngine::TransformComponent>()->GetDimensions();
 
-		GameEngine::Rect currentDimensions
+		GameEngine::Rect currentDimensions =
 		{
 			m_HorizontalOffset * previousDimensions.width + m_AnimationFrame * previousDimensions.width,
 			m_VerticalOffset * previousDimensions.height,
 			previousDimensions.width,
 			previousDimensions.height
 		};
+
+		if (m_IsHorizontal)
+		{
+			currentDimensions.left = m_HorizontalOffset * previousDimensions.width;
+			currentDimensions.bottom = m_VerticalOffset * m_AnimationFrame * previousDimensions.height;
+		}
+		
 		GetGameObject()->GetComponent<GameEngine::TransformComponent>()->SetDimensions(currentDimensions);
 	}
 
