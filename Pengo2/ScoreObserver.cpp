@@ -29,10 +29,12 @@ void ScoreObserver::Notify(const Score& message_from_subject)
 	}
 	gameObject->AddComponent<GameEngine::AnimationComponent>();
 
-	//initialize
-	m_pScoreAppearing = std::make_unique<ScoreAppearingState>();
-	m_pScoreWaiting   = std::make_unique<ScoreWaitingState>();
-	m_pIsScoreWaiting = std::make_unique<IsScoreWaiting>(); 
+	if (m_pScoreAppearing == nullptr)
+	{
+		m_pScoreAppearing = std::make_unique<ScoreAppearingState>();
+		m_pScoreWaiting = std::make_unique<ScoreWaitingState>();
+		m_pIsScoreWaiting = std::make_unique<IsScoreWaiting>();
+	}
 
 	gameObject->AddComponent<GameEngine::FSM>(m_pScoreWaiting.get(),
 		gameObject->GetComponent<GameEngine::AnimationComponent>());

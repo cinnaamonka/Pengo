@@ -114,7 +114,6 @@ void GameEngine::TransformComponent::SetPositionDirty()
 
 glm::vec3 GameEngine::TransformComponent::GetWorldPosition()
 {
-	if (!this) return { 0,0,0 };
 	if (m_IsPositionDirty)
 	{
 		UpdateWorldPosition();

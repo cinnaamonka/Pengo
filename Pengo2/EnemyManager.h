@@ -53,6 +53,9 @@ public:
 		
 	}
 
+	void SetKilledEnemyIndex(int index) { m_KilledEnemyIndex = index; }
+	int GetKilledEnemyIndex() const { return m_KilledEnemyIndex; }
+
 	std::vector<GameEngine::GameObject*> GetEnemies() const { return m_EnemiesRef; }
 
 	void CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks,

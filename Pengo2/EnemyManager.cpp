@@ -136,7 +136,7 @@ void EnemyManager::KillEnemy(int index, GameEngine::Subject<GameEngine::HUDEvent
 
 	if (m_EnemiesRef.empty()) 
 	{
-		if (GameEngine::TimeManager::GetInstance().IsTimerElapsed())
+		if (GameEngine::TimeManager::GetInstance().IsTimerElapsed("StartTimer"))
 		{
 			hudSubject->CreateMessage(GameEngine::HUDEvent::IncreaseScore30);  
 		}
@@ -207,7 +207,9 @@ void EnemyManager::CheckCollisionWithPlayer(const glm::vec3& pos, GameEngine::Su
 {
 	for (int i = 0; i < m_EnemiesRef.size(); ++i)
 	{
-		if (m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->GetSpeed() == 0) return;
+		// i am not rerally sure what is happening here
+		// maybe we need this line
+		//if (m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->GetSpeed() == 0) return;
 
 		const auto currentEnemyPosition = m_EnemiesRef[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
 
@@ -217,6 +219,7 @@ void EnemyManager::CheckCollisionWithPlayer(const glm::vec3& pos, GameEngine::Su
 			m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection({ 0,0,0 });
 			m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.0f);
 			hudSubject->CreateMessage(GameEngine::HUDEvent::DecreaseLife);
+			KillEnemy(i,hudSubject);
 			return;
 		}
 

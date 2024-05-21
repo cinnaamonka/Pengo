@@ -15,6 +15,7 @@ namespace GameEngine
 	public:
 		FSMState() = default;
 		virtual ~FSMState() = default;
+		
 
 		virtual void OnEnter(AnimationComponent* pBlackboard) = 0;
 		virtual void OnExit(AnimationComponent* pBlackboard) = 0;
@@ -24,7 +25,10 @@ namespace GameEngine
 	class FSMCondition
 	{
 	public:
-		FSMCondition() = default;
+		FSMCondition()
+		{
+
+		}
 		virtual ~FSMCondition() = default;
 		virtual bool Evaluate(AnimationComponent* pBlackboard) const = 0;
 	};
@@ -49,7 +53,9 @@ namespace GameEngine
 		typedef std::pair<FSMCondition*, FSMState*> TransitionStatePair;
 		typedef std::vector<TransitionStatePair> Transitions;
 
-		std::map<FSMState*, Transitions> m_Transitions;
+		using TransitionsMap = std::map<FSMState*, Transitions>;
+
+		TransitionsMap m_Transitions;
 		FSMState* m_pCurrentState = nullptr;
 		AnimationComponent* m_pAnimationComponent = nullptr;
 	};

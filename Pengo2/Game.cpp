@@ -92,7 +92,7 @@ void Game::Initialize()
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 
-	GameEngine::TimeManager::GetInstance().SetTimer(60.f);
+	GameEngine::TimeManager::GetInstance().SetTimer("StartTimer",60.f);
 
 	
 }

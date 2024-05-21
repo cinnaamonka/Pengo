@@ -3,80 +3,77 @@
 std::chrono::duration<float> GameEngine::TimeManager::m_ElapsedTime{};
 std::chrono::high_resolution_clock::time_point GameEngine::TimeManager::m_PreviousTime{ std::chrono::high_resolution_clock::now() };
 std::chrono::high_resolution_clock::time_point GameEngine::TimeManager::m_CurrentTime{};
-std::chrono::time_point<std::chrono::high_resolution_clock> GameEngine::TimeManager::m_StartTime;
-std::chrono::time_point<std::chrono::high_resolution_clock> GameEngine::TimeManager::m_EndTime;
-bool GameEngine::TimeManager::m_TimerSet = false;
-std::chrono::duration<float> GameEngine::TimeManager::m_Duration = std::chrono::duration<float>(0);
-bool GameEngine::TimeManager::m_Running = false;
+std::unordered_map<std::string, GameEngine::TimeManager::Timer> GameEngine::TimeManager::m_Timers;
 
 float GameEngine::TimeManager::GetElapsed()
 {
-    return m_ElapsedTime.count();
+	return m_ElapsedTime.count();
 }
 
 std::chrono::high_resolution_clock::time_point GameEngine::TimeManager::GetCurrent()
 {
-    return m_CurrentTime;
+	return m_CurrentTime;
 }
 
 void GameEngine::TimeManager::Update()
 {
-    m_CurrentTime = std::chrono::high_resolution_clock::now();
-    m_ElapsedTime = std::chrono::duration<float>(m_CurrentTime - m_PreviousTime);
-    m_PreviousTime = m_CurrentTime;
+	m_CurrentTime = std::chrono::high_resolution_clock::now();
+	m_ElapsedTime = std::chrono::duration<float>(m_CurrentTime - m_PreviousTime);
+	m_PreviousTime = m_CurrentTime;
 }
 
-void GameEngine::TimeManager::StartTimer()
+void GameEngine::TimeManager::StartTimer(const std::string& timerName)
 {
-    m_StartTime = std::chrono::high_resolution_clock::now(); 
-    m_Running = true; 
+	Timer& timer = m_Timers[timerName];
+	timer.startTime = GetCurrent();
+	timer.running = true;
 }
 
-void GameEngine::TimeManager::StopTimer()
+void GameEngine::TimeManager::StopTimer(const std::string& timerName)
 {
-    m_EndTime = std::chrono::high_resolution_clock::now();
-    m_Running = false;
+	Timer& timer = m_Timers[timerName];
+	timer.endTime = GetCurrent();
+	timer.running = false;
 }
 
-void GameEngine::TimeManager::SetTimer(float durationSeconds)
+void GameEngine::TimeManager::SetTimer(const std::string& timerName, float durationSeconds)
 {
-    m_Duration = std::chrono::duration<float>(durationSeconds);
-    m_StartTime = std::chrono::high_resolution_clock::now();
-    m_TimerSet = true;
-    m_Running = true;
+	Timer& timer = m_Timers[timerName];
+	timer.duration = std::chrono::duration<float>(durationSeconds);
+	timer.timerSet = true;
+	timer.startTime = GetCurrent();
+    timer.endTime = timer.startTime + std::chrono::duration_cast<std::chrono::high_resolution_clock::duration>(timer.duration); 
+	timer.running = true;
 }
 
-bool GameEngine::TimeManager::IsTimerElapsed()
+bool GameEngine::TimeManager::IsTimerElapsed(const std::string& timerName)
 {
-    if (!m_TimerSet)
-    {
+    const Timer& timer = m_Timers.at(timerName);
+    if (!timer.timerSet)
         return false;
-    }
 
-    auto currentTime = std::chrono::high_resolution_clock::now();
-    if ((currentTime - m_StartTime) >= m_Duration)
+    if (timer.running)
     {
-        m_Running = false;
-        m_TimerSet = false;
-        return true;
-    }
-
-    return false;
-}
-
-double GameEngine::TimeManager::GetPassedTime()
-{
-    std::chrono::time_point<std::chrono::high_resolution_clock> endTime; 
-
-    if (m_Running) 
-    { 
-        endTime = std::chrono::high_resolution_clock::now(); 
+        return GetCurrent() >= timer.endTime;
     }
     else
     {
-        endTime = m_EndTime; 
+        return timer.endTime <= timer.startTime + timer.duration;
     }
-
-    return std::chrono::duration_cast<std::chrono::milliseconds>(endTime - m_StartTime).count() / 1000.0; 
 }
+
+double GameEngine::TimeManager::GetPassedTime(const std::string& timerName)
+{
+    const Timer& timer = m_Timers.at(timerName);
+
+    if (timer.running)
+    {
+        return std::chrono::duration<double>(GetCurrent() - timer.startTime).count();
+    }
+    else
+    {
+        return std::chrono::duration<double>(timer.endTime - timer.startTime).count();
+    }
+}
+
 

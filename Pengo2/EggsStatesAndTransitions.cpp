@@ -19,7 +19,7 @@ void BreakingEggState::Update(GameEngine::AnimationComponent* pAnimationComponen
 
 	if (currentAnimationFrame == numberOfFrames - 1)
 	{
-		pAnimationComponent->SetIsDestroyed(true);
+		pAnimationComponent->Destroy();
 	}
 }
 

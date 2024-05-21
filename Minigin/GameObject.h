@@ -94,7 +94,6 @@ namespace GameEngine
 
 		bool IsDestroyed() const
 		{
-			if (!this) return false;
 			return m_IsDestroyed;
 		}
 

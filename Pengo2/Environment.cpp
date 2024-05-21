@@ -349,13 +349,13 @@ void Environment::SetBordersUntouched()
 	for (auto block : m_pBorderBlocks)
 	{
 		block->GetComponent<GameEngine::AnimationComponent>()->SetWasPushed(false);
+		
 	}
 }
 
 void Environment::SetEnemyStunned(const int enemyIndex)
 {
-
-	for (auto block : m_pBorderBlocks)
+	for (auto block : m_pBorderBlocks) 
 	{
 		if (!block->GetComponent<GameEngine::AnimationComponent>()->GetWasPushed())continue;
 

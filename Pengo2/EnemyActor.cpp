@@ -21,12 +21,14 @@ std::unique_ptr<ChaseState> EnemyActor::m_ChaseState             = std::make_uni
 std::unique_ptr<HasNoticedActor> EnemyActor::m_HasNoticedActor   = std::make_unique<HasNoticedActor>();
 
 
+
+
 EnemyActor::EnemyActor(GameEngine::GameObject* pGameObject) :
 	BaseComponent(pGameObject),
 	m_HasKilledActor(false)
 
 {
-	
+
 }
 
 std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(const glm::vec3& pos,int index)

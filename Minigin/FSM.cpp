@@ -17,6 +17,7 @@ namespace GameEngine
 	void GameEngine::FSM::AddTransition(FSMState* startState, FSMState* toState, FSMCondition* condition)
 	{
 		auto it = m_Transitions.find(startState);
+		
 		if (it == m_Transitions.end())
 		{
 			m_Transitions[startState] = Transitions();
@@ -27,24 +28,26 @@ namespace GameEngine
 
 	void GameEngine::FSM::Update()
 	{
-		if (!this) return;
-		const auto& transitionItr = m_Transitions.find(m_pCurrentState);
+		TransitionsMap::const_iterator it = m_Transitions.find(m_pCurrentState);
 
-		if (transitionItr != m_Transitions.end())
+		if (it != m_Transitions.cend())
 		{
-			for (const auto& transitionState : transitionItr->second)
+			const Transitions& transitions = it->second;
+
+			for (const TransitionStatePair& transitionState : transitions)
 			{
-				if (!transitionState.first || !transitionState.second) return;
+				FSMCondition* pCondition = transitionState.first;
+				FSMState *pState = transitionState.second;
 
-				if (transitionState.first->Evaluate(m_pAnimationComponent))
+				if (pCondition->Evaluate(m_pAnimationComponent))
 				{
-
-					ChangeState(transitionState.second);
+					ChangeState(pState);
 				}
 			}
 		}
 
 		m_pCurrentState->Update(m_pAnimationComponent);
+		
 	}
 
 	void GameEngine::FSM::ChangeState(FSMState* newState)

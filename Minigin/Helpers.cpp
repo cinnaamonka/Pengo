@@ -282,5 +282,11 @@ namespace GameEngine
 		return (point.x >= rect.left - threshold && point.x <= rect.left + rect.width + threshold &&
 			point.y >= rect.bottom - threshold && point.y <= rect.bottom + rect.height + threshold);
 	}
+
+	bool IsValidPointer(void* ptr)
+	{
+		// Check for known invalid patterns (e.g., 0xdddddddddddddddd)
+		return ptr != reinterpret_cast<void*>(0xdddddddddddddddd);
+	}
 	
 }

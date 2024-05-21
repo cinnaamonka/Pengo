@@ -23,9 +23,6 @@ GameEngine::GameObject::~GameObject()
 
 void GameEngine::GameObject::CleanUp()
 {
-	if (!this) return;
-	if (!m_IsDestroyed) return;
-
     for (auto it = m_pComponents.begin(); it != m_pComponents.end(); ++it)
     {
 		(*it).release();
@@ -87,7 +84,6 @@ void GameEngine::GameObject::AddChild(GameObject* newChild)
 }
 void GameEngine::GameObject::Update()
 {
-	if (!this)return;
 	if(m_pComponents.empty()) return;
 	for (const auto& component : m_pComponents)
 	{
@@ -104,7 +100,6 @@ void GameEngine::GameObject::Update()
 
 void GameEngine::GameObject::Render() const
 {
-	if (!this) return;
 	for (const auto& component : m_pComponents)
 	{
 		if (!component->IsDestroyed())
