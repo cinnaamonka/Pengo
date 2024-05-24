@@ -85,6 +85,9 @@
     <ClCompile Include="BorderStatesAndTransirions.cpp">
       <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClCompile>
+    <ClCompile Include="LevelLoader.cpp">
+      <Filter>GameFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -155,6 +158,9 @@
     </ClInclude>
     <ClInclude Include="BorderStatesAndTransirions.h">
       <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelLoader.h">
+      <Filter>GameFiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

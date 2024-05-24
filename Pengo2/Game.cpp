@@ -29,8 +29,9 @@
 
 //#include <vld.h>
 
-void Game::Initialize()
+void Game::Initialize(int levelIndex)
 {
+	levelIndex++;
 	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene("Demo");
 
 	m_EnemiesPositions.push_back(glm::vec3{ 400, 280, 0 });
@@ -93,6 +94,11 @@ void Game::Initialize()
 	}
 
 	
+}
+
+bool Game::IsLevelComplete()
+{
+	return m_IsLevelComplete;
 }
 
 void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)

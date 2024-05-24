@@ -27,7 +27,12 @@ public:
 	Game(Game&& other) noexcept = delete;
 	Game& operator=(Game&& other) noexcept = delete;
 
-	void Initialize();
+	void Initialize(int levelIndex);
+	bool IsLevelComplete() override;
+	void CompleteLevel()
+	{
+		m_IsLevelComplete = true;
+	}
 
 private:
 	void InitializeInputSystem(GameEngine::GameObject* gameActor) override;
@@ -46,7 +51,7 @@ private:
 
 	std::vector<glm::vec3> m_EnemiesPositions;
 
-	bool m_IspLaying = true;
+	bool m_IsLevelComplete = false;
 };
 
 

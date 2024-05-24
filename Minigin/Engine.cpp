@@ -78,7 +78,7 @@ GameEngine::Engine::~Engine()
 	SDL_Quit();
 }
 
-void GameEngine::Engine::Run(const std::function<std::unique_ptr<BaseGame>()>& load)
+bool GameEngine::Engine::Run(const std::function<std::unique_ptr<BaseGame>()>& load)
 {
 	auto game = load();
 
@@ -117,6 +117,11 @@ void GameEngine::Engine::Run(const std::function<std::unique_ptr<BaseGame>()>& l
 		const auto sleepTime = TimeManager::GetCurrent() + std::chrono::milliseconds(ms_per_frame) - std::chrono::high_resolution_clock::now();
 
 		std::this_thread::sleep_for(sleepTime); 
-	}
 
+		if (game->IsLevelComplete())
+		{
+			return true;
+		}
+	}
+	return false;
 }
