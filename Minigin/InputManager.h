@@ -86,6 +86,11 @@ namespace GameEngine
 		}
 
 		bool ProcessInput();
+
+		void CleanUp()
+		{
+			m_DevicesPtr.clear();
+		}
 	private:
 
 		InputManager() = default;

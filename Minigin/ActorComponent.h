@@ -19,21 +19,12 @@ namespace GameEngine
 		ActorComponent& operator=(const ActorComponent& other) = delete;
 		ActorComponent(ActorComponent&& other) = delete;
 
-		void AddScore(int score);
-		void RemoveScore(int score);
-
 		void Damage(int damage);
 
 		int GetLives() const
 		{
 			return m_LifesAmount;
 		}
-
-		int GetScore() const
-		{
-			return m_Score;
-		}
-
 		const float GetSpeed() const
 		{
 			return m_Speed;
@@ -53,7 +44,6 @@ namespace GameEngine
 			else if constexpr (std::is_same_v<T, int>)
 			{
 				m_LifesAmountChanged.Attach(pObserver);
-				m_ScoreChanged.Attach(pObserver);
 			}
 		}
 		void SetCollisionCanBeChecked(bool canBeChecked)
@@ -73,8 +63,6 @@ namespace GameEngine
 
 
 	private:
-
-		int m_Score;
 		int m_LifesAmount;
 
 		bool m_CanCollisionBeChecked;
@@ -83,7 +71,6 @@ namespace GameEngine
 	
 		Rect m_DestTextureRect;
 
-		Subject<int> m_ScoreChanged;
 		Subject<int> m_LifesAmountChanged;
 		Subject<GameEngine::State> m_StateChanged;
 

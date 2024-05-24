@@ -16,6 +16,7 @@ namespace GameEngine
 
 		virtual void InitializeInputSystem(GameEngine::GameObject* gameActor) = 0;
 		virtual bool IsLevelComplete() = 0;
+		virtual void ResetLevel() = 0;
 	};
 }
 

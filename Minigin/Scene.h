@@ -28,6 +28,7 @@ namespace GameEngine
 		Scene& operator=(Scene&& other) = delete;
 
 		void CleanUp();
+		void Destroy();
 
 	private: 
 		

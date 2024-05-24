@@ -49,12 +49,12 @@ void GameEngine::Renderer::Render() const
 
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
+	//ImGui::NewFrame();
 
 	SceneManager::GetInstance().Render();
 
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	/*ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());*/
 
 	SDL_RenderPresent(m_renderer);
 }

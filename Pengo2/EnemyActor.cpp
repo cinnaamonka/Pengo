@@ -12,6 +12,7 @@
 #include <ActorComponent.h>
 #include <SoundServiceLocator.h>
 #include "Structs.h"
+#include <SDL_mixer.h>
 
 #include <FSM.h>
 #include <AIFSM.h>
@@ -67,8 +68,10 @@ void EnemyActor::KillPlayer()
 {
 	//TODO
 	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Stop(static_cast<int>(PengoSounds::Background));
-	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::PlayerDeath), 20);
-	m_pPlayer->GetComponent<GameEngine::ActorComponent>()->Damage(1); 
+
+
+	m_pPlayer->GetComponent<GameEngine::ActorComponent>()->Damage(1);
+
 }
 
 void EnemyActor::Update()

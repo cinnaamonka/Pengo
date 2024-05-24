@@ -16,11 +16,8 @@ namespace GameEngine
 		{
 		case GameEngine::State::PlayerDied:
 			GetGameObject()->GetComponent<AnimationComponent>()->SetIsDestroyed(true);
+
 		}
 		
-	}
-	void HealthObserver::Notify(const int&)
-	{
-		//GetGameObject()->GetComponent<TextComponent>()->SetText(std::to_string(messageFromSubject));
 	}
 }

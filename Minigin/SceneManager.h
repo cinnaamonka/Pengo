@@ -19,6 +19,8 @@ namespace GameEngine
 		void Render();
 
 		void Cleanup();
+		void Destroy();
+		void DeleteCurrentScene();
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;

@@ -2,6 +2,7 @@
 #include <BaseGame.h>
 #include <Engine.h>
 #include <memory>
+#include <functional>
 
 #include <Scene.h>
 #include <SceneManager.h>
@@ -14,9 +15,12 @@
 #include "EnemyManager.h"
 #include "EnvironmentObserver.h"
 #include "ScoreObserver.h"
+#include <IObserver.h>
+#include <Helpers.h>
 #include <HUD.h>
+#include <SDL_mixer.h>
 
-class Game final :public GameEngine::BaseGame
+class Game final :public GameEngine::BaseGame, public GameEngine::IObserver<GameEngine::State>
 {
 public:
 	Game() = default;
@@ -29,10 +33,13 @@ public:
 
 	void Initialize(int levelIndex);
 	bool IsLevelComplete() override;
-	void CompleteLevel()
+
+	void ResetLevel() override
 	{
-		m_IsLevelComplete = true;
+		m_IsLevelComplete = false;
 	}
+
+	void Notify(const GameEngine::State& messageFromSubject) override;
 
 private:
 	void InitializeInputSystem(GameEngine::GameObject* gameActor) override;
@@ -49,7 +56,9 @@ private:
 
 	GameEngine::GameObject* m_pEnvironmentReference;
 
-	bool m_IsLevelComplete = false;
+	static bool m_IsLevelComplete;
+
+	std::function<void(int)> CompleteLevelTest; 
 };
 
 

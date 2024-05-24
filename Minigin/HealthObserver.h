@@ -6,7 +6,7 @@ namespace GameEngine
 {
 	enum class State;
 
-	class HealthObserver final: public BaseComponent, public IObserver<State>, public IObserver<int>
+	class HealthObserver final: public BaseComponent, public IObserver<State>
 	{
 	public:
 		HealthObserver(GameObject* pGameObject);
@@ -18,7 +18,6 @@ namespace GameEngine
 		HealthObserver& operator=(HealthObserver&& other) noexcept = delete;
 
 		void Notify(const State& messageFromSubject) override;
-		void Notify(const int& messageFromSubject) override;
 	};
 };
 

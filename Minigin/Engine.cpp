@@ -10,7 +10,9 @@
 #include "ResourceManager.h"
 #include "TimeManager.h"
 #include "General.h" 
-#include "SoundServiceLocator.h" 
+#include "SoundSystem.h"
+#include "SoundServiceLocator.h"
+#include "SoundLogSystem.h"
 
 
 SDL_Window* g_window{};
@@ -85,7 +87,7 @@ bool GameEngine::Engine::Run(const std::function<std::unique_ptr<BaseGame>()>& l
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
-
+	
 	bool doContinue = true;
 	auto lastTime = std::chrono::high_resolution_clock::now();
 
@@ -120,6 +122,10 @@ bool GameEngine::Engine::Run(const std::function<std::unique_ptr<BaseGame>()>& l
 
 		if (game->IsLevelComplete())
 		{
+			sceneManager.Destroy();
+			sceneManager.Cleanup();
+			sceneManager.DeleteCurrentScene(); 
+			game->ResetLevel(); 
 			return true;
 		}
 	}

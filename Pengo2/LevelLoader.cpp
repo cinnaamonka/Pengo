@@ -24,3 +24,4 @@ std::function<std::unique_ptr<Game>()> LevelLoader::GetNextLevelLoader()
 		return this->LoadLevel(m_CurrentLevelIndex++);
 		};
 }
+

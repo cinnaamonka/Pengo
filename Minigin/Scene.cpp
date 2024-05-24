@@ -10,7 +10,7 @@ void GameEngine::Scene::CleanUp()
 	// remove components from game objects
 	for (const std::unique_ptr<GameObject>& gameObject : m_pObjects)
 	{
-		if (!gameObject) return;
+		if (!gameObject) continue;
 
 		if (gameObject->IsDestroyed())
 		{
@@ -20,17 +20,29 @@ void GameEngine::Scene::CleanUp()
 	}
 	
 	// destroy objects 
-	for (auto it = m_pObjects.begin(); it != m_pObjects.end();)
+	for (auto it = m_pObjects.begin(); it != m_pObjects.end(); )
 	{
-		if ((*it)->IsDestroyed())
-		{
+		if ((*it) == nullptr) {
+			++it;
+			continue;
+		}
+
+		if ((*it)->IsDestroyed()) {
 			it = m_pObjects.erase(it);
 		}
-			
-		else
-		{
-			it++;
+		else {
+			++it;
 		}
+	}
+}
+
+void GameEngine::Scene::Destroy()
+{
+	for (auto& object : m_pObjects)
+	{
+		if (object == nullptr)continue;
+
+		object->SetIsDestroyed(true);
 	}
 }
 

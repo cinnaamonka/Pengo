@@ -13,6 +13,8 @@
 #include "RenderComponent.h"
 #include "TransformComponent.h"
 #include "PengoInputCommands.h"
+#include <ActorComponent.h>
+
 
 #include <SoundSystem.h>
 #include <SoundServiceLocator.h>
@@ -29,12 +31,13 @@
 #include <SDL_mixer.h>
 
 //#include <vld.h>
+bool Game::m_IsLevelComplete = false; 
 
 void Game::Initialize(int levelIndex)
 {
 	const std::string levelName = "Level" + std::to_string(levelIndex) + ".json";
-	
-	GameEngine::LevelInfo levelInfo{}; 
+
+	GameEngine::LevelInfo levelInfo{};
 
 	// Load level blocks
 	GameEngine::GetLevelInfo(levelName, levelInfo);
@@ -46,6 +49,7 @@ void Game::Initialize(int levelIndex)
 	m_pScoreObserver = std::make_unique<ScoreObserver>(&scene);
 
 	auto hitObserverComponent = m_pPengoActor->GetHitObserver();
+	m_pPengoActor->GetActorGameObject()->GetComponent<GameEngine::ActorComponent>()->AttachObserver(this);
 
 	m_pEnvironment = std::make_unique<GameEngine::GameObject>();
 	m_pEnvironment->AddComponent<Environment>(levelInfo.levelBlocks, &scene);
@@ -68,35 +72,30 @@ void Game::Initialize(int levelIndex)
 
 	InitializeInputSystem(m_pPengoActor->GetReferenceToActor());
 
-	GameEngine::SoundServiceLocator::RegisterSoundSystem(std::make_unique<GameEngine::SoundLogSystem>
-		(std::make_unique<GameEngine::SoundSystem>()));
-
-	LoadSounds();
-
 	//initialize HUD
 	m_pHUD = std::make_unique<GameEngine::HUD>();
 	m_pHUD->AddScoreBar(levelInfo.hudPositions["ScoreBar"], &scene);
 	m_pHUD->AddLifeBar(levelInfo.hudPositions["LifeBar"], &scene, levelInfo.lifesAmount);
 	m_pHUD->CreateGameMode(levelInfo.hudPositions["GameMode"], &scene, levelInfo.gameMode);
-	m_pHUD->CreateSnoBeesBar(levelInfo.hudPositions["SnoBeesBar"],3, &scene);
+	m_pHUD->CreateSnoBeesBar(levelInfo.hudPositions["SnoBeesBar"], 3, &scene);
 
 	m_pEnvironmentReference->GetComponent<Environment>()->AttachObserver<GameEngine::HUDEvent>(m_pHUD.get());
 
 	//Sounds start one after another
-	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::ActStarts), 20); 
+	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::ActStarts), 20);
 
 	Mix_ChannelFinished([](int)
 		{
-		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::Background), 20);
-		Mix_ChannelFinished(nullptr); 
+			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::Background), 20);
+			Mix_ChannelFinished(nullptr);
 		});
 
-	while (GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().IsPlaying(static_cast<int>(PengoSounds::ActStarts))) 
+	while (GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().IsPlaying(static_cast<int>(PengoSounds::ActStarts)))
 	{
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 
-	
+
 }
 
 bool Game::IsLevelComplete()
@@ -104,9 +103,38 @@ bool Game::IsLevelComplete()
 	return m_IsLevelComplete;
 }
 
+void Game::Notify(const GameEngine::State& messageFromSubject)
+{
+	switch (messageFromSubject)
+	{
+	case GameEngine::State::PlayerDied:
+		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::PlayerDeath), 20);
+
+	
+		Mix_ChannelFinished([](int)
+		{
+			m_IsLevelComplete = true;
+			Mix_ChannelFinished(nullptr);
+		});
+
+	while (GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().IsPlaying(static_cast<int>(PengoSounds::ActStarts)))
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
+		
+		break;
+	default:
+		break;
+	}
+
+}
+
 void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)
 {
 	auto& input = GameEngine::InputManager::GetInstance();
+
+	input.CleanUp();
+
 	auto m_Controller = std::make_unique<GameEngine::Controller>(0);
 	auto m_Keyboard = std::make_unique<GameEngine::Keyboard>();
 	input.AddDevice(std::move(m_Controller));
@@ -173,7 +201,7 @@ void Game::InitializeInputSystem(GameEngine::GameObject* gameActor)
 		std::make_unique<PushBlockCommand>(m_pEnvironmentReference));
 
 	input.AddCommand<GameEngine::Keyboard>(
-		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Released},
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Released },
 		std::make_unique<StopPushCommand>(m_pEnvironmentReference));
 
 	input.AddCommand<GameEngine::Keyboard>(
@@ -190,3 +218,4 @@ void Game::LoadSounds()
 		soundSystem.Load(filePath, static_cast<GameEngine::sound_id>(static_cast<int>(soundType)));
 	}
 }
+

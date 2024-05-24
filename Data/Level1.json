@@ -5,14 +5,91 @@
   "level": [
     {
       "position": {
-        "left": 200,
+        "left": 180,
+        "top": 60
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 240,
+        "top": 60
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 280,
+        "top": 60
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 360,
+        "top": 60
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 380,
+        "top": 60
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 400,
+        "top": 60
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 300,
         "top": 80
       },
       "type": "ice_block"
     },
     {
       "position": {
-        "left": 320,
+        "left": 420,
+        "top": 80
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 180,
+        "top": 100
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 220,
+        "top": 100
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 200,
+        "top": 120
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 420,
+        "top": 120
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 380,
         "top": 120
       },
       "type": "ice_block"
@@ -26,8 +103,22 @@
     },
     {
       "position": {
-        "left": 260,
-        "top": 80
+        "left": 360,
+        "top": 140
+      },
+      "type": "enemy_block"
+    },
+    {
+      "position": {
+        "left": 240,
+        "top": 140
+      },
+      "type": "enemy_block"
+    },
+    {
+      "position": {
+        "left": 400,
+        "top": 160
       },
       "type": "egg_block"
     },
@@ -147,6 +238,20 @@
     },
     {
       "position": {
+        "left": 240,
+        "top": 200
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 260,
+        "top": 200
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
         "left": 260,
         "top": 220
       },
@@ -155,6 +260,13 @@
     {
       "position": {
         "left": 300,
+        "top": 220
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 400,
         "top": 220
       },
       "type": "ice_block"
@@ -197,6 +309,13 @@
     {
       "position": {
         "left": 360,
+        "top": 200
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 380,
         "top": 200
       },
       "type": "ice_block"
@@ -268,6 +387,13 @@
     },
     {
       "position": {
+        "left": 340,
+        "top": 320
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
         "left": 380,
         "top": 320
       },
@@ -291,6 +417,13 @@
     {
       "position": {
         "left": 200,
+        "top": 340
+      },
+      "type": "ice_block"
+    },
+    {
+      "position": {
+        "left": 180,
         "top": 340
       },
       "type": "ice_block"
