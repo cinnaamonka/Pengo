@@ -2,10 +2,13 @@
 #include <memory>
 #include "Game.h"
 #include <functional>
+#include "Structs.h"
+#include <Helpers.h>
 
-class LevelLoader
+
+class LevelLoader final
 {
-	public:
+public:
 	LevelLoader(int totalLevels);
 	~LevelLoader() = default;
 
@@ -18,6 +21,7 @@ class LevelLoader
 	bool HasNextLevel() const;
 
 	std::function<std::unique_ptr<Game>()> GetNextLevelLoader();
+	
 	
 private:
 	int m_TotalLevelsAmount;

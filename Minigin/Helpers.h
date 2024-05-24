@@ -22,7 +22,9 @@ namespace GameEngine
 
 	enum class GameModes
 	{
-		SinglePlayer
+		SinglePlayer,
+		Co_op,
+		Versus
 	};
 
 	struct Block
@@ -30,8 +32,16 @@ namespace GameEngine
 		std::vector<glm::vec3> block;
 		std::string tag;
 	};
+	struct LevelInfo
+	{
+		std::vector<GameEngine::Block> levelBlocks;
+		std::vector<glm::vec3> enemiesPositions;
+		int lifesAmount;
+		std::unordered_map<std::string, glm::vec3> hudPositions;
+		GameModes gameMode;
+	};
 
-	void GetVerticesFromJsonFile(std::string fileName, std::vector<Block>& m_BlockCollection);
+	void GetLevelInfo(std::string fileName, LevelInfo& levelInfo);
 	std::vector<GameEngine::Block> GetBlocksWithTag(const std::vector<GameEngine::Block>& blocks, const std::string& tag);
 	
 	struct HitInfo
@@ -53,7 +63,7 @@ namespace GameEngine
 		int width;
 		int height;
 	};
-
+	
 	enum class State
 	{
 		PlayerDied

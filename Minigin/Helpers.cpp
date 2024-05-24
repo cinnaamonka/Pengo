@@ -4,11 +4,11 @@
 
 namespace GameEngine
 {
-	void GetVerticesFromJsonFile(std::string fileName, std::vector<Block>& m_BlockCollection)
+	void GetLevelInfo(std::string fileName, LevelInfo& levelInfo)
 	{
 		std::filesystem::path currentPath = std::filesystem::current_path();
 		std::filesystem::path parentPath = currentPath.parent_path();
-
+		 
 		std::filesystem::path dataPath = parentPath / "Data";
 
 		std::filesystem::path filePath = dataPath / fileName;
@@ -47,7 +47,40 @@ namespace GameEngine
 
 				block.tag = type;
 
-				m_BlockCollection.push_back(block);
+				levelInfo.levelBlocks.push_back(block);
+			}
+			for (const auto& enemyData : jsonDoc["enemies"])
+			{
+				glm::vec3 position;
+				position.x = enemyData["position"]["left"];
+				position.y = enemyData["position"]["top"];
+				position.z = 0;
+
+				levelInfo.enemiesPositions.push_back(position);
+			}
+			for (const auto& hudData : jsonDoc["hud"])
+			{
+				glm::vec3 position;
+				position.x = hudData["position"]["left"];
+				position.y = hudData["position"]["top"];
+				std::string type = hudData["type"];
+
+				// Store position in hudPositions map
+				levelInfo.hudPositions[type] = position; 
+			}
+
+			// Parse lifes amount
+			levelInfo.lifesAmount = jsonDoc["lifesAmount"];
+
+			const auto& gameModeStr = jsonDoc["game_modes"];
+			if (gameModeStr == "SinglePlayer") {
+				levelInfo.gameMode = GameModes::SinglePlayer;
+			}
+			else if (gameModeStr == "Co-op") {
+				levelInfo.gameMode = GameModes::Co_op;
+			}
+			else if (gameModeStr == "Versus") {
+				levelInfo.gameMode = GameModes::Versus;
 			}
 		}
 		catch (const nlohmann::json::parse_error& e)

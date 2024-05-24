@@ -1,4 +1,9 @@
 {
+  "game_modes": [
+    "SinglePlayer",
+    "Co-op",
+    "Versus"
+  ],
   "level": [
     {
       "position": {
@@ -332,5 +337,56 @@
       "type": "verBorder"
     }
 
-  ]
+  ],
+  "enemies": [
+    {
+      "position": {
+        "left": 400,
+        "top": 280
+      }
+    },
+    {
+      "position": {
+        "left": 280,
+        "top": 140
+      }
+    },
+    {
+      "position": {
+        "left": 340,
+        "top": 140
+      }
+    }
+  ],
+  "hud": [
+    {
+      "position": {
+        "left": 270,
+        "top": 10
+      },
+      "type": "ScoreBar"
+    },
+    {
+      "position": {
+        "left": 180,
+        "top": 35
+      },
+      "type": "LifeBar"
+    },
+    {
+      "position": {
+        "left": 200,
+        "top": 10
+      },
+      "type": "GameMode"
+    },
+    {
+      "position": {
+        "left": 400,
+        "top": 40
+      },
+      "type": "SnoBeesBar"
+    }
+  ],
+  "lifesAmount": 2
 }

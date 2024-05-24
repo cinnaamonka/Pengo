@@ -19,6 +19,7 @@
 #include <SoundLogSystem.h>
 #include <TimeManager.h>
 
+
 #include <HUD.h>
 #include <thread>
 #include "Structs.h"
@@ -31,12 +32,14 @@
 
 void Game::Initialize(int levelIndex)
 {
-	levelIndex++;
-	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene("Demo");
+	const std::string levelName = "Level" + std::to_string(levelIndex) + ".json";
+	
+	GameEngine::LevelInfo levelInfo{}; 
 
-	m_EnemiesPositions.push_back(glm::vec3{ 400, 280, 0 });
-	m_EnemiesPositions.push_back(glm::vec3{ 280, 140, 0 });
-	m_EnemiesPositions.push_back(glm::vec3{ 340, 140, 0 });
+	// Load level blocks
+	GameEngine::GetLevelInfo(levelName, levelInfo);
+
+	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene(levelName);
 
 	m_pPengoActor = std::make_unique<PengoActor>();
 	m_pEggsObserver = std::make_unique<EggObserver>(&scene);
@@ -45,11 +48,11 @@ void Game::Initialize(int levelIndex)
 	auto hitObserverComponent = m_pPengoActor->GetHitObserver();
 
 	m_pEnvironment = std::make_unique<GameEngine::GameObject>();
-	m_pEnvironment->AddComponent<Environment>("Level.json", &scene);
+	m_pEnvironment->AddComponent<Environment>(levelInfo.levelBlocks, &scene);
 	m_pEnvironment->AddComponent<EnvironmentObserver>();
 	m_pEnvironment->GetComponent<Environment>()->SetActor(m_pPengoActor->GetReferenceToActor());
 
-	m_pEnemyManager = std::make_unique<EnemyManager>(static_cast<int>(m_EnemiesPositions.size()), m_EnemiesPositions, &scene,
+	m_pEnemyManager = std::make_unique<EnemyManager>(static_cast<int>(levelInfo.enemiesPositions.size()), levelInfo.enemiesPositions, &scene,
 		m_pPengoActor->GetReferenceToActor());
 
 	m_pEnvironment->GetComponent<Environment>()->SetEnemyManager(m_pEnemyManager.get());
@@ -72,10 +75,10 @@ void Game::Initialize(int levelIndex)
 
 	//initialize HUD
 	m_pHUD = std::make_unique<GameEngine::HUD>();
-	m_pHUD->AddScoreBar(glm::vec3{ 270,10,0 }, &scene);
-	m_pHUD->AddLifeBar(glm::vec3{ 180,35,0 }, &scene, 2);
-	m_pHUD->CreateGameMode(glm::vec3{ 200,10,0 }, &scene, GameEngine::GameModes::SinglePlayer);
-	m_pHUD->CreateSnoBeesBar(glm::vec3{ 400,40,0 },3, &scene);
+	m_pHUD->AddScoreBar(levelInfo.hudPositions["ScoreBar"], &scene);
+	m_pHUD->AddLifeBar(levelInfo.hudPositions["LifeBar"], &scene, levelInfo.lifesAmount);
+	m_pHUD->CreateGameMode(levelInfo.hudPositions["GameMode"], &scene, levelInfo.gameMode);
+	m_pHUD->CreateSnoBeesBar(levelInfo.hudPositions["SnoBeesBar"],3, &scene);
 
 	m_pEnvironmentReference->GetComponent<Environment>()->AttachObserver<GameEngine::HUDEvent>(m_pHUD.get());
 

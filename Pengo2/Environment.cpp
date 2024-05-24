@@ -14,15 +14,15 @@
 #include "EggObserver.h"
 #include "Structs.h"
 
-Environment::Environment(GameEngine::GameObject* pGameObject, const std::string& filename, GameEngine::Scene* scene) :
+Environment::Environment(GameEngine::GameObject* pGameObject, std::vector<GameEngine::Block>& levelVertices, GameEngine::Scene* scene) :
 	BaseComponent(pGameObject),
 	m_pPlayer(nullptr),
 	m_BorderWidth(10),
 	m_BorderLength(265),
-	m_BorderHeight(305)
+	m_BorderHeight(305),
+	m_LevelVertices(levelVertices)
 {
-	GameEngine::GetVerticesFromJsonFile(filename, m_LevelVertices);
-
+	
 	int offset = 0;
 	CreateBlocksCollection(m_LevelVertices, "DiamondBlock.tga", "diamond_block", offset, scene, BlocksTypes::Diamond);
 

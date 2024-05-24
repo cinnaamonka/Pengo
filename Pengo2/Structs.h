@@ -1,6 +1,11 @@
 #pragma once
 #include <unordered_map>
 #include <string>
+#include <Helpers.h>
+#include <vector>
+
+#include <glm/vec2.hpp>
+#include <glm/glm.hpp>
 
 enum class PengoSounds
 {

@@ -27,7 +27,7 @@ class EnvironmentObserver;
 class Environment final : public GameEngine::BaseComponent
 {
 public:
-	Environment(GameEngine::GameObject* pGameObject, const std::string& filename, GameEngine::Scene* scene);
+	Environment(GameEngine::GameObject* pGameObject, std::vector<GameEngine::Block>& levelVertices, GameEngine::Scene* scene);
 	~Environment() {};
 
 	Environment(const Environment& other) = delete;
