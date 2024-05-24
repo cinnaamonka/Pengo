@@ -105,11 +105,6 @@ void GameEngine::Engine::Run(const std::function<std::unique_ptr<BaseGame>()>& l
 		}
 		// Update
 		sceneManager.Update();
-	
-		// late update for camera 
-		
-		//render(lag / MS_PER_UPDATE); 
-		// i dont know if should be implemented
 		
 		// render
 		renderer.Render();

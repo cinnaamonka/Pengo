@@ -13,6 +13,7 @@ namespace GameEngine
 		friend class SceneManager;
 
 	public:
+		explicit Scene(const std::string& name);
 		void Add(std::unique_ptr<GameObject>&& object);
 		void RemoveAll();
 		void RemoveObject();
@@ -29,7 +30,7 @@ namespace GameEngine
 		void CleanUp();
 
 	private: 
-		explicit Scene(const std::string& name);
+		
 
 		std::string m_name;
 		std::vector < std::unique_ptr<GameObject>> m_pObjects{};
