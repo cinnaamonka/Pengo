@@ -4,6 +4,7 @@
 #include "EnemyDirectionObserver.h"
 #include "CollisionComponent.h"
 #include "BaseBlock.h"
+#include <HealthObserver.h>
 #include <TransformComponent.h>
 #include <ActorComponent.h>
 #include <AnimationComponent.h>
@@ -36,7 +37,7 @@ EnemyManager::EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions,
 		SpawnEnemy(positions[i],actor);
 		
 	}
-	
+	m_pActorComponent = actor->GetComponent<GameEngine::ActorComponent>(); 
 }
 
 void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& blocks, int& m_PushBlockIndex,
@@ -133,6 +134,11 @@ void EnemyManager::KillEnemy(int index)
 	m_EnemiesRef.erase(m_EnemiesRef.begin() + index);
 	ResetEnemiesIndexes();
 	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::SnowBeeSquashed), 20);
+
+	if(m_EnemiesRef.empty())
+	{
+		m_pActorComponent->Win(); 
+	}
 }
 
 void EnemyManager::ResetEnemiesIndexes()
@@ -244,7 +250,9 @@ void EnemyManager::CheckEnemiesCollectionSize(GameEngine::Subject<GameEngine::HU
 		if (GameEngine::TimeManager::GetInstance().IsTimerElapsed("StartTimer"))
 		{
 			hudSubject->CreateMessage(GameEngine::HUDEvent::IncreaseScore30);
+			
 		}
+		
 	}
 }
 

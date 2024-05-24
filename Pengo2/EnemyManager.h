@@ -12,6 +12,7 @@
 #include <AnimationComponent.h>
 #include "EnvironmentObserver.h"
 #include "ScoreObserver.h"
+#include <ActorComponent.h>
 #include <HUD.h>
 #include <Scene.h>
 
@@ -95,5 +96,7 @@ private:
 	const int m_Radius = 20;
 
 	GameEngine::Scene* m_pSceneRef;
+	GameEngine::ActorComponent* m_pActorComponent;
 };
+
 

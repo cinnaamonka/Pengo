@@ -20,6 +20,7 @@ namespace GameEngine
 		ActorComponent(ActorComponent&& other) = delete;
 
 		void Damage(int damage);
+		void Win();
 
 		int GetLives() const
 		{

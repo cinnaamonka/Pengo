@@ -25,4 +25,8 @@ namespace GameEngine
 
 		m_StateChanged.CreateMessage(GameEngine::State::PlayerDied);
 	}
+	void ActorComponent::Win()
+	{
+		m_StateChanged.CreateMessage(GameEngine::State::Victory);  
+	}
 }

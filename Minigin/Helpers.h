@@ -66,7 +66,8 @@ namespace GameEngine
 	
 	enum class State
 	{
-		PlayerDied
+		PlayerDied,
+		Victory
 	};
 
 	struct Sound

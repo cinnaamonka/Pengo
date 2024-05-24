@@ -31,7 +31,7 @@
 #include <SDL_mixer.h>
 
 //#include <vld.h>
-bool Game::m_IsLevelComplete = false; 
+bool Game::m_IsLevelComplete = false;
 
 void Game::Initialize(int levelIndex)
 {
@@ -110,20 +110,23 @@ void Game::Notify(const GameEngine::State& messageFromSubject)
 	case GameEngine::State::PlayerDied:
 		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::PlayerDeath), 20);
 
-	
-		Mix_ChannelFinished([](int)
-		{
-			m_IsLevelComplete = true;
-			Mix_ChannelFinished(nullptr);
-		});
 
-	while (GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().IsPlaying(static_cast<int>(PengoSounds::ActStarts)))
-	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	}
-		
+		Mix_ChannelFinished([](int)
+			{
+				m_IsLevelComplete = true;
+				Mix_ChannelFinished(nullptr);
+			});
+
+		while (GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().IsPlaying(static_cast<int>(PengoSounds::ActStarts)))
+		{
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		}
+
 		break;
-	default:
+	case GameEngine::State::Victory:
+		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Stop(static_cast<int>(PengoSounds::Background));
+
+		m_IsLevelComplete = true;
 		break;
 	}
 
