@@ -7,7 +7,7 @@
 #include <AnimationComponent.h>
 #include <memory>
 
-void ScoreScene::Initialize(int)
+void ScoreScene::Initialize(int score) 
 {
 	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene("ScoreScene");
 
@@ -36,6 +36,12 @@ void ScoreScene::Initialize(int)
 	pName->AddComponent<GameEngine::RenderComponent>();
 	scene.Add(std::move(pName));
 
+	std::unique_ptr<GameEngine::GameObject> pCurrentScore = std::make_unique<GameEngine::GameObject>();
+	pCurrentScore->AddComponent<GameEngine::TransformComponent>(glm::vec3{ 160,200,0 });
+	pCurrentScore->AddComponent<GameEngine::TextComponent>(std::to_string(score), middleFont);
+	pCurrentScore->AddComponent<GameEngine::AnimationComponent>();
+	pCurrentScore->AddComponent<GameEngine::RenderComponent>();
+	scene.Add(std::move(pCurrentScore));
 }
 
 void ScoreScene::InitializeInputSystem(GameEngine::GameObject*)
