@@ -42,6 +42,8 @@ void Game::Initialize(int levelIndex)
 	// Load level blocks
 	GameEngine::GetLevelInfo(levelName, levelInfo);
 
+	m_CurrentLevelIndex = levelIndex;
+
 	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene(levelName);
 
 	m_pPengoActor = std::make_unique<PengoActor>();
@@ -72,9 +74,11 @@ void Game::Initialize(int levelIndex)
 
 	InitializeInputSystem(m_pPengoActor->GetReferenceToActor());
 
+	m_pPengoActor->GetReferenceToActor()->GetComponent<GameEngine::ActorComponent>()->SetLives(levelInfo.lifesAmount);
+
 	//initialize HUD
 	m_pHUD = std::make_unique<GameEngine::HUD>();
-	m_pHUD->AddScoreBar(levelInfo.hudPositions["ScoreBar"], &scene);
+	m_pHUD->AddScoreBar(levelInfo.hudPositions["ScoreBar"], &scene,levelInfo.score);
 	m_pHUD->AddLifeBar(levelInfo.hudPositions["LifeBar"], &scene, levelInfo.lifesAmount);
 	m_pHUD->CreateGameMode(levelInfo.hudPositions["GameMode"], &scene, levelInfo.gameMode);
 	m_pHUD->CreateSnoBeesBar(levelInfo.hudPositions["SnoBeesBar"], 3, &scene);
@@ -105,6 +109,9 @@ bool Game::IsLevelComplete()
 
 void Game::Notify(const GameEngine::State& messageFromSubject)
 {
+	int lifes = m_pPengoActor->GetReferenceToActor()->GetComponent<GameEngine::ActorComponent>()->GetLives();
+	const std::string& levelName = "Level" + std::to_string(m_CurrentLevelIndex + 1) + ".json";
+
 	switch (messageFromSubject)
 	{
 	case GameEngine::State::PlayerDied:
@@ -122,8 +129,17 @@ void Game::Notify(const GameEngine::State& messageFromSubject)
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		}
 
+		
+		GameEngine::UpdateLevelFile("lifesAmount", std::to_string(lifes), levelName);
+
+		GameEngine::UpdateLevelFile("scoreAmount", std::to_string(m_pHUD->GetScore()), levelName);
+
 		break;
 	case GameEngine::State::Victory:
+
+		GameEngine::UpdateLevelFile("lifesAmount", std::to_string(lifes - 1),levelName);
+	
+		GameEngine::UpdateLevelFile("scoreAmount", std::to_string(m_pHUD->GetScore()),levelName);
 		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Stop(static_cast<int>(PengoSounds::Background));
 
 		m_IsLevelComplete = true;

@@ -71,6 +71,7 @@ namespace GameEngine
 
 			// Parse lifes amount
 			levelInfo.lifesAmount = jsonDoc["lifesAmount"];
+			levelInfo.score = jsonDoc["scoreAmount"];
 
 			const auto& gameModeStr = jsonDoc["game_modes"];
 			if (gameModeStr == "SinglePlayer") {
@@ -315,4 +316,52 @@ namespace GameEngine
 		return (point.x >= rect.left - threshold && point.x <= rect.left + rect.width + threshold &&
 			point.y >= rect.bottom - threshold && point.y <= rect.bottom + rect.height + threshold);
 	}
+
+	void UpdateLevelFile(const std::string& tag, const std::string& newInfo, const std::string& filename)
+	{
+		std::filesystem::path currentPath = std::filesystem::current_path();
+		std::filesystem::path parentPath = currentPath.parent_path();
+
+		std::filesystem::path dataPath = parentPath / "Data";
+
+		std::filesystem::path levelPath = dataPath / filename; 
+
+		std::ifstream inputFile(levelPath);
+
+		nlohmann::json jsonData;
+
+		if (inputFile.is_open())
+		{
+			inputFile >> jsonData;
+			inputFile.close();
+		}
+		else
+		{
+			std::cerr << "Could not open the file for reading" << std::endl;
+			return;
+		}
+
+		if (jsonData.contains(tag))
+		{
+			jsonData[tag] = std::stoi(newInfo); 
+		}
+		else
+		{
+			std::cerr << "The 'levelInfo' tag does not exist in the JSON file" << std::endl;
+			return;
+		}
+
+		std::ofstream outputFile(levelPath);
+
+		if (outputFile.is_open()) {
+			outputFile << jsonData.dump(4); // Pretty print with 4-space indentation
+			outputFile.close();
+			std::cout << "JSON data has been successfully updated in input.json" << std::endl;
+		}
+		else
+		{
+			std::cerr << "Could not open the file for writing" << std::endl;
+		}
+	}
+
 }

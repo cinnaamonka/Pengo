@@ -37,6 +37,7 @@ namespace GameEngine
 		std::vector<GameEngine::Block> levelBlocks;
 		std::vector<glm::vec3> enemiesPositions;
 		int lifesAmount;
+		int score;
 		std::unordered_map<std::string, glm::vec3> hudPositions;
 		GameModes gameMode;
 	};
@@ -103,6 +104,7 @@ namespace GameEngine
 	bool AreNear(const glm::vec3& pos1, const glm::vec3& pos2, float threshold);
 	bool AreThreePointsOnSameLine(const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& p3);
 	bool IsPointInsideRect(const glm::vec3& point, const Rect& rect, float threshold);
+	void UpdateLevelFile(const std::string& tag,const std::string& newInfo,const std::string& filename); 
 }
 
 #endif // HELPERS_H

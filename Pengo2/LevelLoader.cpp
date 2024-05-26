@@ -1,5 +1,5 @@
 #include "LevelLoader.h"
-
+#include <json.hpp>
 
 LevelLoader::LevelLoader(int totalLevels) :
 	m_TotalLevelsAmount(totalLevels),
@@ -20,8 +20,10 @@ bool LevelLoader::HasNextLevel() const
 
 std::function<std::unique_ptr<Game>()> LevelLoader::GetNextLevelLoader()
 {
-	return [this]() {
+	return [this]()
+		{
 		return this->LoadLevel(m_CurrentLevelIndex++);
 		};
 }
+
 

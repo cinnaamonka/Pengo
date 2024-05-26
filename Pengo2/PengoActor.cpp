@@ -7,6 +7,7 @@
 #include <ResourceManager.h>
 #include <ActorComponent.h>
 #include "HitObserver.h"
+
 #include <Helpers.h>
 #include <Texture2D.h>
 #include <FSM.h>

@@ -59,6 +59,8 @@ private:
 	static bool m_IsLevelComplete;
 
 	std::function<void(int)> CompleteLevelTest; 
+
+	int m_CurrentLevelIndex = 0;
 };
 
 

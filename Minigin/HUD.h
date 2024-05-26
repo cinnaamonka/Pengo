@@ -35,11 +35,14 @@ namespace GameEngine
 		HUD(HUD&& other) noexcept = delete;
 		HUD& operator=(HUD&& other) noexcept = delete;
 
-		void AddScoreBar(const glm::vec3& position,Scene* scene);
+		void AddScoreBar(const glm::vec3& position,Scene* scene,int currentScore);
 		void AddLifeBar(const glm::vec3& position, Scene* scene,int lifesAmount);
 		void CreateGameMode(const glm::vec3& position, Scene* scene, GameEngine::GameModes gameMode);
 		void CreateSnoBeesBar(const glm::vec3& position, int snoBeesAmount, Scene* scene = nullptr);
 		void Notify(const HUDEvent& messageFromSubject) override;
+
+		int GetScore() const { return m_Score; }
+		void SetScore(int score) { m_Score = score; }
 	private:
 		GameEngine::GameObject* m_pScoreBar;
 		std::vector<GameEngine::GameObject*> m_pLifes;

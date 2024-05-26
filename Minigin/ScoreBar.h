@@ -18,7 +18,7 @@ namespace GameEngine
 		ScoreBarFactory(ScoreBarFactory&& other) noexcept = delete;
 		ScoreBarFactory& operator=(ScoreBarFactory&& other) noexcept = delete;
 
-		static std::unique_ptr<GameEngine::GameObject> CreateScoreBar(const glm::vec3& position);
+		static std::unique_ptr<GameEngine::GameObject> CreateScoreBar(const glm::vec3& position,int currentScore);
 
 	private:
 

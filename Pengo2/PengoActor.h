@@ -32,6 +32,7 @@ public:
 
 	HitObserver* GetHitObserver() const;
 
+
 	std::unique_ptr<GameEngine::GameObject>& GetActorGameObject();
 private:
 

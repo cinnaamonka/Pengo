@@ -26,6 +26,11 @@ namespace GameEngine
 		{
 			return m_LifesAmount;
 		}
+
+		void SetLives(int lives)
+		{
+			m_LifesAmount = lives;
+		}
 		const float GetSpeed() const
 		{
 			return m_Speed;
@@ -62,6 +67,15 @@ namespace GameEngine
 			return m_DestTextureRect;
 		}
 
+		const int GetScore() const 
+		{
+			return m_Score;
+		}
+		
+		void SetScore(int score) 
+		{
+			m_Score = score;
+		}
 
 	private:
 		int m_LifesAmount;
@@ -69,6 +83,7 @@ namespace GameEngine
 		bool m_CanCollisionBeChecked;
 
 		float m_Speed;
+		int m_Score;
 	
 		Rect m_DestTextureRect;
 
