@@ -105,6 +105,40 @@ namespace GameEngine
 	bool AreThreePointsOnSameLine(const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& p3);
 	bool IsPointInsideRect(const glm::vec3& point, const Rect& rect, float threshold);
 	void UpdateLevelFile(const std::string& tag,const std::string& newInfo,const std::string& filename); 
+
+	template <typename T>
+	T GetFieldFromFile(const std::string& tag, const std::string& fileName)
+	{
+		std::filesystem::path currentPath = std::filesystem::current_path();
+		std::filesystem::path parentPath = currentPath.parent_path();
+
+		std::filesystem::path dataPath = parentPath / "Data";
+
+		std::filesystem::path levelPath = dataPath / fileName;
+
+		std::ifstream inputFile(levelPath);
+
+		nlohmann::json jsonData;
+
+		if (inputFile.is_open())
+		{
+			inputFile >> jsonData;
+			inputFile.close();
+		}
+		else
+		{
+			throw std::runtime_error("Could not open the file for reading");
+		}
+
+		if (jsonData.contains(tag))
+		{
+			return jsonData[tag].get<T>();
+		}
+		else
+		{
+			throw std::runtime_error("The '" + tag + "' tag does not exist in the JSON file");
+		}
+	}
 }
 
 #endif // HELPERS_H

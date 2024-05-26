@@ -88,6 +88,9 @@
     <ClCompile Include="LevelLoader.cpp">
       <Filter>GameFiles</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreScene.cpp">
+      <Filter>GameFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -160,6 +163,9 @@
       <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClInclude>
     <ClInclude Include="LevelLoader.h">
+      <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreScene.h">
       <Filter>GameFiles</Filter>
     </ClInclude>
   </ItemGroup>

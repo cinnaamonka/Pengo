@@ -111,6 +111,7 @@ void Game::Notify(const GameEngine::State& messageFromSubject)
 {
 	int lifes = m_pPengoActor->GetReferenceToActor()->GetComponent<GameEngine::ActorComponent>()->GetLives();
 	const std::string& levelName = "Level" + std::to_string(m_CurrentLevelIndex + 1) + ".json";
+	const std::string& scoreFileName = "Score.json";
 
 	switch (messageFromSubject)
 	{
@@ -131,15 +132,24 @@ void Game::Notify(const GameEngine::State& messageFromSubject)
 
 		
 		GameEngine::UpdateLevelFile("lifesAmount", std::to_string(lifes), levelName);
-
 		GameEngine::UpdateLevelFile("scoreAmount", std::to_string(m_pHUD->GetScore()), levelName);
+
+		if (m_CurrentLevelIndex == 2)
+		{
+			GameEngine::UpdateLevelFile("score", std::to_string(m_pHUD->GetScore()), scoreFileName);
+		}
 
 		break;
 	case GameEngine::State::Victory:
 
 		GameEngine::UpdateLevelFile("lifesAmount", std::to_string(lifes - 1),levelName);
-	
 		GameEngine::UpdateLevelFile("scoreAmount", std::to_string(m_pHUD->GetScore()),levelName);
+
+		if (m_CurrentLevelIndex == 2)
+		{
+			GameEngine::UpdateLevelFile("score", std::to_string(m_pHUD->GetScore()), scoreFileName);
+		}
+
 		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Stop(static_cast<int>(PengoSounds::Background));
 
 		m_IsLevelComplete = true;

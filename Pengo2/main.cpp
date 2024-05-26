@@ -22,14 +22,16 @@ int main(int, char* [])
 		soundSystem.Load(filePath, static_cast<GameEngine::sound_id>(static_cast<int>(soundType))); 
 	}
 
-
 	bool continueGame = true;
 
 	while (continueGame && levelLoader.HasNextLevel())
 	{
 		continueGame = engine.Run(levelLoader.GetNextLevelLoader());
 	}
-
-
+	if (!levelLoader.HasNextLevel())
+	{
+		continueGame = engine.Run(levelLoader.GetFinalScene());
+	}
+	
 	return 0;
 }
