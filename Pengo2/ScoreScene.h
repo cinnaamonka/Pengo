@@ -3,6 +3,7 @@
 #include <memory>
 #include "LetterStatesAndTransitions.h"
 #include <Scene.h>
+#include <Font.h>
 
 class GameEngine::GameObject;
 
@@ -23,6 +24,7 @@ public:
 	void ResetLevel() override {};
 private:
 	void AddLetter(const glm::vec3& position, GameEngine::Scene* scene);
+	void AddText(const glm::vec3& position, const std::string& text, GameEngine::Scene* scene,std::shared_ptr<GameEngine::Font> font);   
 private:
 	void InitializeInputSystem(GameEngine::GameObject* gameActor) override; 
 	std::unique_ptr<StaticLetterState> m_pStaticLetterState;
