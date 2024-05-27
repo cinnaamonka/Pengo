@@ -94,6 +94,9 @@
     <ClCompile Include="LetterStatesAndTransitions.cpp">
       <Filter>GameFiles\StatesAndTransitions</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreSceneCommands.cpp">
+      <Filter>GameFiles\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -173,6 +176,9 @@
     </ClInclude>
     <ClInclude Include="LetterStatesAndTransitions.h">
       <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreSceneCommands.h">
+      <Filter>GameFiles\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

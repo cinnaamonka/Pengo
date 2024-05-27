@@ -4,14 +4,12 @@ void StaticLetterState::OnEnter(GameEngine::AnimationComponent* pAnimationCompon
 {
 	pAnimationComponent->SetNumberOfFrames(1);
 	pAnimationComponent->SetFramesPerSec(1);
-	pAnimationComponent->SetHorizontalOffset(0);
-	pAnimationComponent->SetVerticalOffset(0);
 }
 
 
 bool ShouldStartFlyckering::Evaluate(GameEngine::AnimationComponent* ) const
 {
-	return true;
+	return false;
 }
 
 void FlyckeringLetterState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)

@@ -15,6 +15,7 @@ namespace GameEngine
         static void Update();
         static void StartTimer(const std::string& timerName);
         static void StopTimer(const std::string& timerName);
+        static void StopAllTimers();
         static void SetTimer(const std::string& timerName, float durationSeconds, std::function<void()> callback = nullptr);
         static bool IsTimerElapsed(const std::string& timerName);
         static double GetPassedTime(const std::string& timerName);

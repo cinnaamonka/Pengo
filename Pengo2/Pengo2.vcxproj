@@ -212,6 +212,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClCompile Include="AIStatesAndTransitions.cpp" />
     <ClCompile Include="ScoreObserver.cpp" />
     <ClCompile Include="ScoreScene.cpp" />
+    <ClCompile Include="ScoreSceneCommands.cpp" />
     <ClCompile Include="ScoreStatesAndTransitions.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -247,6 +248,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClInclude Include="AIStatesAndTransitions.h" />
     <ClInclude Include="ScoreObserver.h" />
     <ClInclude Include="ScoreScene.h" />
+    <ClInclude Include="ScoreSceneCommands.h" />
     <ClInclude Include="ScoreStatesAndTransitions.h" />
     <ClInclude Include="Structs.h" />
   </ItemGroup>

@@ -23,7 +23,7 @@ public:
 
 	void ResetLevel() override {};
 private:
-	void AddLetter(const glm::vec3& position, GameEngine::Scene* scene);
+	std::unique_ptr<GameEngine::GameObject> AddLetter(const glm::vec3& position); 
 	void AddText(const glm::vec3& position, const std::string& text, GameEngine::Scene* scene,std::shared_ptr<GameEngine::Font> font);   
 private:
 	void InitializeInputSystem(GameEngine::GameObject* gameActor) override; 

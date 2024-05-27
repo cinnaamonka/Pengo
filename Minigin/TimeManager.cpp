@@ -54,6 +54,14 @@ void GameEngine::TimeManager::StopTimer(const std::string& timerName)
     timer.running = false;
 }
 
+void GameEngine::TimeManager::StopAllTimers()
+{
+    for (auto& timer : m_Timers)
+    {
+        timer.second.running = false;
+    }
+}
+
 void GameEngine::TimeManager::SetTimer(const std::string& timerName, float durationSeconds, std::function<void()> callback)
 {
     Timer& timer = m_Timers[timerName];
