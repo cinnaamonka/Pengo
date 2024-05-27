@@ -33,8 +33,6 @@ void FlyckeringLetterState::OnEnter(GameEngine::AnimationComponent* pAnimationCo
 	int verticalOffset = pAnimationComponent->GetVerticalOffset(); 
 
 	pAnimationComponent->SetVerticalOffset(verticalOffset + 2);
-	
-	
 }
 
 void FlyckeringLetterState::OnExit(GameEngine::AnimationComponent* pAnimationComponent)

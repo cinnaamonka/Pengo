@@ -23,12 +23,10 @@ void ChangeLetterCommand::Execute()
     if (m_CurrentLetter < 'P')
     {
         GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->SetHorizontalOffset(m_CurrentLetter - 65 + 1);
-        GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->SetVerticalOffset(0);
     }
     else
     {
-        GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->SetHorizontalOffset(m_CurrentLetter - 80);
-        GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->SetVerticalOffset(1);
+        GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->SetHorizontalOffset(m_CurrentLetter - 80 + 1);
     }
 
 }
