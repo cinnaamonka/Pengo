@@ -1,6 +1,7 @@
 #include "ScoreSceneCommands.h"
 #include <iostream>
 #include <AnimationComponent.h>
+#include <FSM.h>
 
 ChangeLetterCommand::ChangeLetterCommand(GameEngine::GameObject* gameObject):
 	GameObjectCommand(gameObject)
@@ -39,5 +40,20 @@ SumbitNameCommand::SumbitNameCommand(GameEngine::GameObject* gameObject) :
 
 void SumbitNameCommand::Execute()
 {
-    GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->SetWasInputGiven(true); 
+    int currentVerticalOffset = GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->GetVerticalOffset(); 
+
+    switch (currentVerticalOffset)
+    {
+    case 0:
+    case 1:
+        GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->SetVerticalOffset(currentVerticalOffset);
+        break;
+	case 2:
+    case 3:
+            GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->SetVerticalOffset(currentVerticalOffset - 2);
+    default:
+        break;
+    }
+  
+    GetGameObject()->RemoveComponent<GameEngine::FSM>();
 }

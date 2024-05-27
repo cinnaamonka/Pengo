@@ -103,5 +103,9 @@ void ScoreScene::InitializeInputSystem(GameEngine::GameObject* gameActor)
 		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_RIGHT, GameEngine::InputState::Released },
 		std::make_unique<ChangeLetterCommand>(gameActor));
 
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_RSHIFT, GameEngine::InputState::Released },
+		std::make_unique<SumbitNameCommand>(gameActor)); 
+
 }
 
