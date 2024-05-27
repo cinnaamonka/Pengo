@@ -21,3 +21,17 @@ private:
 	char m_CurrentLetter = 'A';
 };
 
+class SumbitNameCommand : public GameEngine::GameObjectCommand
+{
+public:
+	SumbitNameCommand(GameEngine::GameObject* gameObject);
+	~SumbitNameCommand() = default;
+
+	SumbitNameCommand(const SumbitNameCommand& other) = default;
+	SumbitNameCommand& operator=(const SumbitNameCommand& other) = default;
+	SumbitNameCommand(SumbitNameCommand&& other) noexcept = default;
+	SumbitNameCommand& operator=(SumbitNameCommand&& other) noexcept = default;
+
+	void Execute() override;
+};
+

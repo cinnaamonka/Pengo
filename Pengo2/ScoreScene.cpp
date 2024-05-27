@@ -32,12 +32,27 @@ void ScoreScene::Initialize(int score)
 	m_pStaticLetterState = std::make_unique<StaticLetterState>();
 	m_pFlyckeringLetterState = std::make_unique<FlyckeringLetterState>();
 	m_pShouldStartFlyckering = std::make_unique<ShouldStartFlyckering>();
+	m_pShouldStopFlyckering = std::make_unique<ShouldStopFlyckering>();
 
 	auto firstLetterA = AddLetter(glm::vec3{ 400,200,0 });
+	firstLetterA->GetComponent<GameEngine::AnimationComponent>()->SetShouldFlyckering(true);
+
+	firstLetterA->GetComponent<GameEngine::FSM>()->AddTransition(m_pStaticLetterState.get(), m_pFlyckeringLetterState.get(), m_pShouldStartFlyckering.get());
+	firstLetterA->GetComponent<GameEngine::FSM>()->AddTransition(m_pFlyckeringLetterState.get(), m_pStaticLetterState.get(), m_pShouldStopFlyckering.get());
+
+	m_pFirstLetter = firstLetterA.get();
+
+	auto secondLetterA = AddLetter(glm::vec3{ 430,200,0 });
+	m_pSecondLetter = secondLetterA.get();
+
+	auto thirdLetterA = AddLetter(glm::vec3{ 460,200,0 });
+	m_pThirdLetter = thirdLetterA.get();
 
 	InitializeInputSystem(firstLetterA.get());
 
 	scene.Add(std::move(firstLetterA));
+	scene.Add(std::move(secondLetterA));
+	scene.Add(std::move(thirdLetterA));
 }
 	
 
@@ -55,7 +70,6 @@ std::unique_ptr<GameEngine::GameObject> ScoreScene::AddLetter(const glm::vec3& p
 	pFirstLetter->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
 
 	pFirstLetter->AddComponent<GameEngine::FSM>(m_pStaticLetterState.get(), pFirstLetter->GetComponent<GameEngine::AnimationComponent>());
-	pFirstLetter->GetComponent<GameEngine::FSM>()->AddTransition(m_pStaticLetterState.get(), m_pFlyckeringLetterState.get(), m_pShouldStartFlyckering.get());
 
 	pFirstLetter->GetComponent<GameEngine::AnimationComponent>()->SetHorizontalOffset(1);
 	pFirstLetter->GetComponent<GameEngine::AnimationComponent>()->SetVerticalOffset(0);
@@ -90,3 +104,4 @@ void ScoreScene::InitializeInputSystem(GameEngine::GameObject* gameActor)
 		std::make_unique<ChangeLetterCommand>(gameActor));
 
 }
+

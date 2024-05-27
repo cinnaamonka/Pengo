@@ -27,9 +27,14 @@ private:
 	void AddText(const glm::vec3& position, const std::string& text, GameEngine::Scene* scene,std::shared_ptr<GameEngine::Font> font);   
 private:
 	void InitializeInputSystem(GameEngine::GameObject* gameActor) override; 
+	
 	std::unique_ptr<StaticLetterState> m_pStaticLetterState;
 	std::unique_ptr<FlyckeringLetterState> m_pFlyckeringLetterState;
 	std::unique_ptr<ShouldStartFlyckering> m_pShouldStartFlyckering;
+	std::unique_ptr<ShouldStopFlyckering> m_pShouldStopFlyckering;
+	GameEngine::GameObject* m_pFirstLetter;
+	GameEngine::GameObject* m_pSecondLetter;
+	GameEngine::GameObject* m_pThirdLetter;
 };
 
 

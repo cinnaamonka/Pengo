@@ -74,6 +74,9 @@ namespace GameEngine
 		bool GetIsHorizontal() const { return m_IsHorizontal; }
 		void SetIsHorizontal(bool isHorizontal) { m_IsHorizontal = isHorizontal; }
 
+		bool GetShouldFlyckering() const { return m_ShouldFlyckering; }
+		void SetShouldFlyckering(bool shouldFlyckering) { m_ShouldFlyckering = shouldFlyckering; }
+
 		void Destroy(); 
 
 	private:
@@ -86,7 +89,7 @@ namespace GameEngine
 		glm::vec3 m_MovementDirection;
 		bool m_IsDestroyed;
 		float m_TimeOffset;
-		int m_AnimationTimes;
+		int m_AnimationTimes = 0;
 		bool m_WasInputGiven;
 		bool m_WasPushed;
 		glm::vec3 m_Pos;
@@ -94,7 +97,7 @@ namespace GameEngine
 		bool m_IsChasing;
 		bool m_IsVertical;
 		bool m_IsHorizontal;
-
+		bool m_ShouldFlyckering;
 	};
 }
 

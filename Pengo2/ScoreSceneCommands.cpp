@@ -32,3 +32,14 @@ void ChangeLetterCommand::Execute()
     }
 
 }
+
+SumbitNameCommand::SumbitNameCommand(GameEngine::GameObject* gameObject) :
+    GameObjectCommand(gameObject)
+
+{
+}
+
+void SumbitNameCommand::Execute()
+{
+    GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->SetWasInputGiven(true); 
+}
