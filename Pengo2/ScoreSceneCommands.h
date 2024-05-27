@@ -2,6 +2,7 @@
 #include <GameObjectCommand.h>
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
+#include <vector>
 
 class GameEngine::GameObject;
 
@@ -33,5 +34,21 @@ public:
 	SumbitNameCommand& operator=(SumbitNameCommand&& other) noexcept = default;
 
 	void Execute() override;
+};
+class SwitchToNextLetter : public GameEngine::GameObjectCommand
+{
+public:
+	SwitchToNextLetter(std::vector<GameEngine::GameObject*>& letters,int& currentLetterIndex);
+	~SwitchToNextLetter() = default;
+
+	SwitchToNextLetter(const SwitchToNextLetter& other) = default;
+	SwitchToNextLetter& operator=(const SwitchToNextLetter& other) = default;
+	SwitchToNextLetter(SwitchToNextLetter&& other) noexcept = default;
+	SwitchToNextLetter& operator=(SwitchToNextLetter&& other) noexcept = default;
+
+	void Execute() override;
+private:
+	int m_CurrentLetterIndex = 0;
+	std::vector<GameEngine::GameObject*> m_pLetters;
 };
 

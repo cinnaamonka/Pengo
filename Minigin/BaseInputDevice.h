@@ -35,6 +35,9 @@ namespace GameEngine
 		{
 			commandVector.push_back(std::make_pair(binding, std::move(command)));
 		}
+
+		template<typename BindingType>
+		void RemoveCommand(BindingType) {};
 	};
 
 }

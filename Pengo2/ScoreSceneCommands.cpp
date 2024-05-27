@@ -1,6 +1,8 @@
 #include "ScoreSceneCommands.h"
 #include <iostream>
 #include <AnimationComponent.h>
+#include "ScoreSceneCommands.h"
+#include "Letter.h"
 #include <FSM.h>
 
 ChangeLetterCommand::ChangeLetterCommand(GameEngine::GameObject* gameObject):
@@ -56,4 +58,24 @@ void SumbitNameCommand::Execute()
     }
   
     GetGameObject()->RemoveComponent<GameEngine::FSM>();
+}
+
+SwitchToNextLetter::SwitchToNextLetter(std::vector<GameEngine::GameObject*>& letters, int& currentLetterIndex) :
+    GameObjectCommand(letters[currentLetterIndex]),
+    m_CurrentLetterIndex(currentLetterIndex),
+    m_pLetters(letters)
+{
+   
+
+}
+
+void SwitchToNextLetter::Execute()
+{
+    if (m_CurrentLetterIndex == 2)
+    {
+        m_CurrentLetterIndex = -1;
+    }
+    m_CurrentLetterIndex++;
+    m_pLetters[m_CurrentLetterIndex]->GetComponent<Letter>()->AddAnimation(); 
+    m_pLetters[m_CurrentLetterIndex]->GetComponent<Letter>()->AddNewInput();
 }

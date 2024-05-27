@@ -37,7 +37,7 @@ namespace GameEngine
 
 		void HandleInput() override;
 		void AddCommand(InputKeyboardBinding keyboardBinding, std::unique_ptr<BaseCommand> baseCommand);
-		
+		void RemoveCommand(InputKeyboardBinding keyboardBinding);
 
 	private:
 		// More PIMPLE concept 

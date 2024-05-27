@@ -129,4 +129,12 @@ namespace GameEngine
 	{
 		m_ControllerCommands.push_back(std::pair<InputControllerBinding, std::unique_ptr<BaseCommand>>{ binding, std::move(command) });
 	}
+	void Controller::RemoveCommand(InputControllerBinding binding)
+	{
+		m_ControllerCommands.erase(std::remove_if(m_ControllerCommands.begin(), m_ControllerCommands.end(), [binding](const std::pair<InputControllerBinding, std::unique_ptr<BaseCommand>>& command)
+			{
+				return command.first.deviceButton == binding.deviceButton && command.first.inputState == binding.inputState;
+			}), m_ControllerCommands.end());
+
+	}
 }

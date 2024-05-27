@@ -97,6 +97,9 @@
     <ClCompile Include="ScoreSceneCommands.cpp">
       <Filter>GameFiles\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Letter.cpp">
+      <Filter>GameFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -179,6 +182,9 @@
     </ClInclude>
     <ClInclude Include="ScoreSceneCommands.h">
       <Filter>GameFiles\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Letter.h">
+      <Filter>GameFiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -56,6 +56,7 @@ namespace GameEngine
 		void HandleInput() override;
 
 		void AddCommand(InputControllerBinding binding, std::unique_ptr<BaseCommand> command);
+		void RemoveCommand(InputControllerBinding binding);
 
 	private:
 		// PIMPLE stuff

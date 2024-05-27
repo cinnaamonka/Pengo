@@ -7,105 +7,81 @@
 #include <AnimationComponent.h>
 #include <TextureComponent.h>
 #include <Texture2D.h>
-#include <InputManager.h>
 #include <TimeManager.h>
+#include <InputManager.h>
 #include "ScoreSceneCommands.h"
-
 #include <memory>
 
 void ScoreScene::Initialize(int score)
 {
-	GameEngine::TimeManager::StopAllTimers();
+    GameEngine::TimeManager::StopAllTimers();
 
-	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene("ScoreScene");
+    auto& scene = GameEngine::SceneManager::GetInstance().CreateScene("ScoreScene");
 
-	std::unique_ptr<GameEngine::GameObject> pEnterYourInitials = std::make_unique<GameEngine::GameObject>();
+    std::unique_ptr<GameEngine::GameObject> pEnterYourInitials = std::make_unique<GameEngine::GameObject>();
+   
 
-	auto bigFont = GameEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 28);
-	auto middleFont = GameEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 28);
+    auto bigFont = GameEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 28);
+    auto middleFont = GameEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 28);
 
-	AddText(glm::vec3{ 150,150,0 }, "SCORE", &scene, bigFont);
-	AddText(glm::vec3{ 170,100,0 }, "ENTER YOUR INITIALS", &scene, bigFont);
-	AddText(glm::vec3{ 400,150,0 }, "NAME", &scene, middleFont);
-	AddText(glm::vec3{ 160,200,0 }, std::to_string(score), &scene, middleFont);
+    AddText(glm::vec3{ 150,150,0 }, "SCORE", &scene, bigFont);
+    AddText(glm::vec3{ 170,100,0 }, "ENTER YOUR INITIALS", &scene, bigFont);
+    AddText(glm::vec3{ 400,150,0 }, "NAME", &scene, middleFont);
+    AddText(glm::vec3{ 160,200,0 }, std::to_string(score), &scene, middleFont);
 
-	m_pStaticLetterState = std::make_unique<StaticLetterState>();
-	m_pFlyckeringLetterState = std::make_unique<FlyckeringLetterState>();
-	m_pShouldStartFlyckering = std::make_unique<ShouldStartFlyckering>();
-	m_pShouldStopFlyckering = std::make_unique<ShouldStopFlyckering>();
+    for (int i = 0; i < 3; ++i)
+    {
+        auto letter = Letter::AddLetter(glm::vec3{ 400 + i * 30,200,0 });
+        m_pLetters.push_back(letter.get());
+        scene.Add(std::move(letter));
+    }
+    InitializeInputSystem(pEnterYourInitials.get());
 
-	auto firstLetterA = AddLetter(glm::vec3{ 400,200,0 });
-	firstLetterA->GetComponent<GameEngine::AnimationComponent>()->SetShouldFlyckering(true);
+    m_pLetters[0]->GetComponent<Letter>()->AddNewInput();
+    m_pLetters[0]->GetComponent<Letter>()->AddAnimation();
 
-	firstLetterA->GetComponent<GameEngine::FSM>()->AddTransition(m_pStaticLetterState.get(), m_pFlyckeringLetterState.get(), m_pShouldStartFlyckering.get());
-	firstLetterA->GetComponent<GameEngine::FSM>()->AddTransition(m_pFlyckeringLetterState.get(), m_pStaticLetterState.get(), m_pShouldStopFlyckering.get());
-
-	m_pFirstLetter = firstLetterA.get();
-
-	auto secondLetterA = AddLetter(glm::vec3{ 430,200,0 });
-	m_pSecondLetter = secondLetterA.get();
-
-	auto thirdLetterA = AddLetter(glm::vec3{ 460,200,0 });
-	m_pThirdLetter = thirdLetterA.get();
-
-	InitializeInputSystem(firstLetterA.get());
-
-	scene.Add(std::move(firstLetterA));
-	scene.Add(std::move(secondLetterA));
-	scene.Add(std::move(thirdLetterA));
+  
 }
-	
 
 std::unique_ptr<GameEngine::GameObject> ScoreScene::AddLetter(const glm::vec3& position)
 {
-	std::unique_ptr<GameEngine::GameObject> pFirstLetter = std::make_unique<GameEngine::GameObject>();
-	pFirstLetter->AddComponent<GameEngine::TransformComponent>(position);
-	pFirstLetter->AddComponent<GameEngine::TextureComponent>("Alphabet.tga");
-	pFirstLetter->AddComponent<GameEngine::AnimationComponent>();
-	pFirstLetter->AddComponent<GameEngine::RenderComponent>();
+    std::unique_ptr<GameEngine::GameObject> pFirstLetter = std::make_unique<GameEngine::GameObject>();
+    pFirstLetter->AddComponent<GameEngine::TransformComponent>(position);
+    pFirstLetter->AddComponent<GameEngine::TextureComponent>("Alphabet.tga");
+    pFirstLetter->AddComponent<GameEngine::AnimationComponent>();
+    pFirstLetter->AddComponent<GameEngine::RenderComponent>();
 
-	auto textureSizeX = pFirstLetter->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / 16;
-	auto textureSizeY = pFirstLetter->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y/ 4;
+    auto textureSizeX = pFirstLetter->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / 16;
+    auto textureSizeY = pFirstLetter->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / 4;
 
-	pFirstLetter->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
+    pFirstLetter->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
 
-	pFirstLetter->AddComponent<GameEngine::FSM>(m_pStaticLetterState.get(), pFirstLetter->GetComponent<GameEngine::AnimationComponent>());
+    pFirstLetter->GetComponent<GameEngine::AnimationComponent>()->SetHorizontalOffset(1);
+    pFirstLetter->GetComponent<GameEngine::AnimationComponent>()->SetVerticalOffset(0);
 
-	pFirstLetter->GetComponent<GameEngine::AnimationComponent>()->SetHorizontalOffset(1);
-	pFirstLetter->GetComponent<GameEngine::AnimationComponent>()->SetVerticalOffset(0);
-
-	return pFirstLetter;
+    return pFirstLetter;
 }
 
 void ScoreScene::AddText(const glm::vec3& position, const std::string& text, GameEngine::Scene* scene, std::shared_ptr<GameEngine::Font> font)
 {
-	std::unique_ptr<GameEngine::GameObject> pFinalScoreText = std::make_unique<GameEngine::GameObject>();
-	pFinalScoreText->AddComponent<GameEngine::TransformComponent>(position); 
-	pFinalScoreText->AddComponent<GameEngine::TextComponent>(text, font);
-	pFinalScoreText->AddComponent<GameEngine::AnimationComponent>();
-	pFinalScoreText->AddComponent<GameEngine::RenderComponent>();
-	scene->Add(std::move(pFinalScoreText));
+    std::unique_ptr<GameEngine::GameObject> pFinalScoreText = std::make_unique<GameEngine::GameObject>();
+    pFinalScoreText->AddComponent<GameEngine::TransformComponent>(position);
+    pFinalScoreText->AddComponent<GameEngine::TextComponent>(text, font);
+    pFinalScoreText->AddComponent<GameEngine::AnimationComponent>();
+    pFinalScoreText->AddComponent<GameEngine::RenderComponent>();
+    scene->Add(std::move(pFinalScoreText));
 }
-
-void ScoreScene::InitializeInputSystem(GameEngine::GameObject* gameActor)
+void ScoreScene::InitializeInputSystem(GameEngine::GameObject*)
 {
-	auto& input = GameEngine::InputManager::GetInstance();
+    auto& input = GameEngine::InputManager::GetInstance();
 
-	input.CleanUp();
+    auto m_Controller = std::make_unique<GameEngine::Controller>(0);
+    auto m_Keyboard = std::make_unique<GameEngine::Keyboard>();
+    input.AddDevice(std::move(m_Controller));
+    input.AddDevice(std::move(m_Keyboard));
 
-	auto m_Controller = std::make_unique<GameEngine::Controller>(0);
-	auto m_Keyboard = std::make_unique<GameEngine::Keyboard>();
-	input.AddDevice(std::move(m_Controller));
-	input.AddDevice(std::move(m_Keyboard));
-
-	//Keyboard Input
-	input.AddCommand<GameEngine::Keyboard>(
-		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_RIGHT, GameEngine::InputState::Released },
-		std::make_unique<ChangeLetterCommand>(gameActor));
-
-	input.AddCommand<GameEngine::Keyboard>(
-		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_RSHIFT, GameEngine::InputState::Released },
-		std::make_unique<SumbitNameCommand>(gameActor)); 
+    input.AddCommand<GameEngine::Keyboard>(
+        GameEngine::InputKeyboardBinding{ SDL_SCANCODE_RSHIFT, GameEngine::InputState::Released },
+        std::make_unique<SwitchToNextLetter>(m_pLetters, m_CurrentLetterIndex)); 
 
 }
-
