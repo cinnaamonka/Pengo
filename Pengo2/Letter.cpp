@@ -65,3 +65,10 @@ void Letter::AddNewInput()
 		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_RSHIFT, GameEngine::InputState::Pressed },
 		std::make_unique<SumbitNameCommand>(GetGameObject()));
 }
+
+void Letter::DeleteInput()
+{
+	auto& input = GameEngine::InputManager::GetInstance(); 
+
+	input.CleanUp(); 
+}

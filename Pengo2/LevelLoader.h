@@ -18,7 +18,7 @@ public:
 	LevelLoader& operator=(const LevelLoader& other) = delete;
 	LevelLoader& operator=(LevelLoader&& other) noexcept = delete;
 
-	std::unique_ptr<Game> LoadLevel(int levelIndex);
+	std::unique_ptr<Game> LoadLevel(int levelIndex,int maxLevels);
 	std::unique_ptr<ScoreScene> LoadFinalScene(int finalScore); 
 	bool HasNextLevel() const;
 

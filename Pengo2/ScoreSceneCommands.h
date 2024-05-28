@@ -38,7 +38,7 @@ public:
 class SwitchToNextLetter : public GameEngine::GameObjectCommand
 {
 public:
-	SwitchToNextLetter(std::vector<GameEngine::GameObject*>& letters,int& currentLetterIndex);
+	SwitchToNextLetter(std::vector<GameEngine::GameObject*>& letters,int& currentLetterIndex,int score);
 	~SwitchToNextLetter() = default;
 
 	SwitchToNextLetter(const SwitchToNextLetter& other) = default;
@@ -50,5 +50,6 @@ public:
 private:
 	int m_CurrentLetterIndex = 0;
 	std::vector<GameEngine::GameObject*> m_pLetters;
+	int m_Score;
 };
 

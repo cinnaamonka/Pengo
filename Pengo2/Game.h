@@ -31,7 +31,7 @@ public:
 	Game(Game&& other) noexcept = delete;
 	Game& operator=(Game&& other) noexcept = delete;
 
-	void Initialize(int levelIndex);
+	void Initialize(int levelIndex,int maxLevelsCount);
 	bool IsLevelComplete() override;
 
 	void ResetLevel() override
@@ -61,6 +61,7 @@ private:
 	std::function<void(int)> CompleteLevelTest; 
 
 	int m_CurrentLevelIndex = 0;
+	int m_MaxLevelsCount = 0;
 };
 
 

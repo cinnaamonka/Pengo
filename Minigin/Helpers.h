@@ -104,7 +104,51 @@ namespace GameEngine
 	bool AreNear(const glm::vec3& pos1, const glm::vec3& pos2, float threshold);
 	bool AreThreePointsOnSameLine(const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& p3);
 	bool IsPointInsideRect(const glm::vec3& point, const Rect& rect, float threshold);
-	void UpdateLevelFile(const std::string& tag,const std::string& newInfo,const std::string& filename); 
+	template<typename T>
+	void UpdateLevelFile(const std::string& tag, const T& newInfo, const std::string& filename)
+	{
+		std::filesystem::path currentPath = std::filesystem::current_path();
+		std::filesystem::path parentPath = currentPath.parent_path();
+		std::filesystem::path dataPath = parentPath / "Data";
+		std::filesystem::path levelPath = dataPath / filename;
+
+		std::ifstream inputFile(levelPath);
+
+		nlohmann::json jsonData;
+
+		if (inputFile.is_open())
+		{
+			inputFile >> jsonData;
+			inputFile.close();
+		}
+		else
+		{
+			std::cerr << "Could not open the file for reading" << std::endl;
+			return;
+		}
+
+		if (jsonData.contains(tag))
+		{
+			jsonData[tag] = newInfo;  // Directly assign the template parameter
+		}
+		else
+		{
+			std::cerr << "The '" << tag << "' tag does not exist in the JSON file" << std::endl;
+			return;
+		}
+
+		std::ofstream outputFile(levelPath);
+
+		if (outputFile.is_open()) {
+			outputFile << jsonData.dump(4); // Pretty print with 4-space indentation
+			outputFile.close();
+			std::cout << "JSON data has been successfully updated in " << filename << std::endl;
+		}
+		else
+		{
+			std::cerr << "Could not open the file for writing" << std::endl;
+		}
+	}
 
 	template <typename T>
 	T GetFieldFromFile(const std::string& tag, const std::string& fileName)
@@ -139,6 +183,13 @@ namespace GameEngine
 			throw std::runtime_error("The '" + tag + "' tag does not exist in the JSON file");
 		}
 	}
+
+	bool IsPointInsideRect(const glm::vec3& point, const Rect& rect, float threshold);
+
+	void AddScoreToFile(const std::string& filename, int score, const std::string& name);
+	
+	std::map<int,std::string> ReadScoresFromJson(const std::string& jsonFilePath);
+
 }
 
 #endif // HELPERS_H

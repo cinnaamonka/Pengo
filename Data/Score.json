@@ -1,3 +1,36 @@
 {
+    "AllScores": [
+        {
+            "name": "ECC",
+            "score": 1740
+        },
+        {
+            "name": "BBB",
+            "score": 1030
+        },
+        {
+            "name": "CAB",
+            "score": 60
+        },
+        {
+            "name": "ECB",
+            "score": 500
+        },
+        {
+            "name": "BNO",
+            "score": 60
+        },
+        {
+            "name": "BAA",
+            "score": 0
+        },
+        {
+            "name": "AAA",
+            "score": 30
+        }
+    ],
+    "Letter0": "A",
+    "Letter1": "A",
+    "Letter2": "A",
     "score": 0
 }

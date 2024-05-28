@@ -33,7 +33,7 @@
 //#include <vld.h>
 bool Game::m_IsLevelComplete = false;
 
-void Game::Initialize(int levelIndex)
+void Game::Initialize(int levelIndex,int maxLevelsAmount)
 {
 	const std::string levelName = "Level" + std::to_string(levelIndex) + ".json";
 
@@ -43,6 +43,7 @@ void Game::Initialize(int levelIndex)
 	GameEngine::GetLevelInfo(levelName, levelInfo);
 
 	m_CurrentLevelIndex = levelIndex;
+	m_MaxLevelsCount = maxLevelsAmount;
 
 	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene(levelName);
 
@@ -131,23 +132,23 @@ void Game::Notify(const GameEngine::State& messageFromSubject)
 		}
 
 		
-		GameEngine::UpdateLevelFile("lifesAmount", std::to_string(lifes), levelName);
-		GameEngine::UpdateLevelFile("scoreAmount", std::to_string(m_pHUD->GetScore()), levelName);
+		GameEngine::UpdateLevelFile("lifesAmount", lifes, levelName);
+		GameEngine::UpdateLevelFile("scoreAmount", m_pHUD->GetScore(), levelName);
 
-		if (m_CurrentLevelIndex == 2)
+		if (m_CurrentLevelIndex == m_MaxLevelsCount - 1)
 		{
-			GameEngine::UpdateLevelFile("score", std::to_string(m_pHUD->GetScore()), scoreFileName);
+			GameEngine::UpdateLevelFile("score", m_pHUD->GetScore(), scoreFileName);
 		}
 
 		break;
 	case GameEngine::State::Victory:
 
-		GameEngine::UpdateLevelFile("lifesAmount", std::to_string(lifes - 1),levelName);
-		GameEngine::UpdateLevelFile("scoreAmount", std::to_string(m_pHUD->GetScore()),levelName);
+		GameEngine::UpdateLevelFile("lifesAmount", lifes - 1,levelName);
+		GameEngine::UpdateLevelFile("scoreAmount", m_pHUD->GetScore(),levelName);
 
-		if (m_CurrentLevelIndex == 2)
+		if (m_CurrentLevelIndex == m_MaxLevelsCount - 1)
 		{
-			GameEngine::UpdateLevelFile("score", std::to_string(m_pHUD->GetScore()), scoreFileName);
+			GameEngine::UpdateLevelFile("score", m_pHUD->GetScore(), scoreFileName);
 		}
 
 		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Stop(static_cast<int>(PengoSounds::Background));

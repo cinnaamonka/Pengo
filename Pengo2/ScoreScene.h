@@ -25,12 +25,16 @@ public:
 private:
 	std::unique_ptr<GameEngine::GameObject> AddLetter(const glm::vec3& position); 
 	void AddText(const glm::vec3& position, const std::string& text, GameEngine::Scene* scene,std::shared_ptr<GameEngine::Font> font);   
+	void ShowLeaderBord(GameEngine::Scene* scene,std::shared_ptr<GameEngine::Font> font,const glm::vec3& pos);
 	
 private:
 	void InitializeInputSystem(GameEngine::GameObject*) override; 
 
+
+
 	std::vector<GameEngine::GameObject*> m_pLetters;
 	int m_CurrentLetterIndex = 0;
+	int m_Score;
 };
 
 

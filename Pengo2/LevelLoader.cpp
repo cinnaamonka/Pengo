@@ -7,10 +7,10 @@ LevelLoader::LevelLoader(int totalLevels) :
 	m_CurrentLevelIndex(0)
 {}
 
-std::unique_ptr<Game> LevelLoader::LoadLevel(int levelIndex)
+std::unique_ptr<Game> LevelLoader::LoadLevel(int levelIndex, int maxLevels)
 {
 	std::unique_ptr<Game> pGame = std::make_unique<Game>();
-	pGame->Initialize(levelIndex);
+	pGame->Initialize(levelIndex,maxLevels);
 	return pGame;
 }
 
@@ -30,7 +30,7 @@ std::function<std::unique_ptr<Game>()> LevelLoader::GetNextLevelLoader()
 {
 	return [this]()
 		{
-		return this->LoadLevel(m_CurrentLevelIndex++);
+		return this->LoadLevel(m_CurrentLevelIndex++, m_TotalLevelsAmount);
 		};
 }
 std::function<std::unique_ptr<ScoreScene>()> LevelLoader::GetFinalScene()

@@ -317,14 +317,12 @@ namespace GameEngine
 			point.y >= rect.bottom - threshold && point.y <= rect.bottom + rect.height + threshold);
 	}
 
-	void UpdateLevelFile(const std::string& tag, const std::string& newInfo, const std::string& filename)
+	void AddScoreToFile(const std::string& filename, int score, const std::string& name)
 	{
 		std::filesystem::path currentPath = std::filesystem::current_path();
 		std::filesystem::path parentPath = currentPath.parent_path();
-
 		std::filesystem::path dataPath = parentPath / "Data";
-
-		std::filesystem::path levelPath = dataPath / filename; 
+		std::filesystem::path levelPath = dataPath / filename;
 
 		std::ifstream inputFile(levelPath);
 
@@ -341,28 +339,66 @@ namespace GameEngine
 			return;
 		}
 
-		if (jsonData.contains(tag))
-		{
-			jsonData[tag] = std::stoi(newInfo); 
+		if (jsonData.contains("AllScores") && jsonData["AllScores"].is_array()) {
+			nlohmann::json newScore = {
+				{"score", score},
+				{"name", name}
+			};
+			jsonData["AllScores"].push_back(newScore);
 		}
-		else
-		{
-			std::cerr << "The 'levelInfo' tag does not exist in the JSON file" << std::endl;
+		else {
+			std::cerr << "The 'AllScores' tag does not exist or is not an array in the JSON file" << std::endl;
 			return;
 		}
 
 		std::ofstream outputFile(levelPath);
 
 		if (outputFile.is_open()) {
-			outputFile << jsonData.dump(4); // Pretty print with 4-space indentation
+			outputFile << jsonData.dump(4);
 			outputFile.close();
-			std::cout << "JSON data has been successfully updated in input.json" << std::endl;
+			std::cout << "JSON data has been successfully updated in " << filename << std::endl;
 		}
 		else
 		{
 			std::cerr << "Could not open the file for writing" << std::endl;
 		}
 	}
+
+	std::map<int, std::string> ReadScoresFromJson(const std::string& jsonFilePath)
+	{
+		std::map<int,std::string> scoresMap;
+
+		// Read the JSON file
+		std::filesystem::path currentPath = std::filesystem::current_path();
+		std::filesystem::path parentPath = currentPath.parent_path();
+		std::filesystem::path dataPath = parentPath / "Data";
+		std::filesystem::path levelPath = dataPath / jsonFilePath;
+
+		std::ifstream file(levelPath);
+		if (!file.is_open()) {
+			std::cerr << "Error: Could not open JSON file." << std::endl;
+			return scoresMap;
+		}
+
+		nlohmann::json jsonData;
+		file >> jsonData;
+
+		// Extract scores from "AllScores" array
+		for (const auto& score : jsonData["AllScores"]) {
+			std::string name = score["name"];
+			int scoreValue = score["score"];
+			scoresMap[scoreValue] = name;
+		}
+
+		return scoresMap;
+	}
+
+	bool SortByValue(const std::pair<int, int>& a, const std::pair<int, int>& b)
+	{
+		return a.second > b.second; 
+	}
+
+	
 
 	
 
