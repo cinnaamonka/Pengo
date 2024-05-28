@@ -211,6 +211,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClCompile Include="PengoInputCommands.cpp" />
     <ClCompile Include="PlayerStatesAndTransitions.cpp" />
     <ClCompile Include="AIStatesAndTransitions.cpp" />
+    <ClCompile Include="ScoreboardObserver.cpp" />
     <ClCompile Include="ScoreObserver.cpp" />
     <ClCompile Include="ScoreScene.cpp" />
     <ClCompile Include="ScoreSceneCommands.cpp" />
@@ -248,6 +249,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClInclude Include="PengoInputCommands.h" />
     <ClInclude Include="PlayerStatesAndTransitions.h" />
     <ClInclude Include="AIStatesAndTransitions.h" />
+    <ClInclude Include="ScoreboardObserver.h" />
     <ClInclude Include="ScoreObserver.h" />
     <ClInclude Include="ScoreScene.h" />
     <ClInclude Include="ScoreSceneCommands.h" />

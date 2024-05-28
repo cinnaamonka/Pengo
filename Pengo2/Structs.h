@@ -45,3 +45,8 @@ const std::unordered_map<PengoSounds, std::string> SOUND_PATH_MAPPING
 	{ PengoSounds::SnowBeeSquashed, "../Data/Sound/SnowBeeSquashed.mp3" }
 
 };
+struct ScoreBoardData
+{
+	glm::vec3 position;
+	std::string name;
+};

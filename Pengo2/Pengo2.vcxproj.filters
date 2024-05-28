@@ -100,6 +100,9 @@
     <ClCompile Include="Letter.cpp">
       <Filter>GameFiles</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreboardObserver.cpp">
+      <Filter>GameFiles\Observers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -185,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="Letter.h">
       <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreboardObserver.h">
+      <Filter>GameFiles\Observers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

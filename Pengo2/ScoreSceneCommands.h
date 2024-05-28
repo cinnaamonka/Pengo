@@ -3,6 +3,8 @@
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
 #include <vector>
+#include <Subject.h>
+#include "Structs.h"
 
 class GameEngine::GameObject;
 
@@ -38,7 +40,8 @@ public:
 class SwitchToNextLetter : public GameEngine::GameObjectCommand
 {
 public:
-	SwitchToNextLetter(std::vector<GameEngine::GameObject*>& letters,int& currentLetterIndex,int score);
+	SwitchToNextLetter(std::vector<GameEngine::GameObject*>& letters,int& currentLetterIndex,int score,const glm::vec3& position,
+		GameEngine::Subject<ScoreBoardData>* subject);
 	~SwitchToNextLetter() = default;
 
 	SwitchToNextLetter(const SwitchToNextLetter& other) = default;
@@ -51,5 +54,6 @@ private:
 	int m_CurrentLetterIndex = 0;
 	std::vector<GameEngine::GameObject*> m_pLetters;
 	int m_Score;
+	GameEngine::Subject<ScoreBoardData>* m_Subject;
+	glm::vec3 m_Position;
 };
-

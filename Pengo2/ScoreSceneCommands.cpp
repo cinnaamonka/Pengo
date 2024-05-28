@@ -5,6 +5,8 @@
 #include "Letter.h"
 #include <numeric>
 #include <FSM.h>
+#include <TransformComponent.h>
+#include <InputManager.h>
 
 ChangeLetterCommand::ChangeLetterCommand(GameEngine::GameObject* gameObject):
 	GameObjectCommand(gameObject)
@@ -74,7 +76,7 @@ SumbitNameCommand::SumbitNameCommand(GameEngine::GameObject* gameObject) :
 void SumbitNameCommand::Execute()
 {
     int currentVerticalOffset = GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->GetVerticalOffset(); 
-
+       
     switch (currentVerticalOffset)
     {
     case 0:
@@ -91,11 +93,14 @@ void SumbitNameCommand::Execute()
     GetGameObject()->RemoveComponent<GameEngine::FSM>();
 }
 
-SwitchToNextLetter::SwitchToNextLetter(std::vector<GameEngine::GameObject*>& letters, int& currentLetterIndex,int score) :
+SwitchToNextLetter::SwitchToNextLetter(std::vector<GameEngine::GameObject*>& letters, int& currentLetterIndex,int score, const glm::vec3& position,
+    GameEngine::Subject<ScoreBoardData>* subject) :
     GameObjectCommand(letters[currentLetterIndex]),
     m_CurrentLetterIndex(currentLetterIndex),
     m_pLetters(letters),
-    m_Score(score)
+    m_Score(score),
+    m_Position(position),
+    m_Subject(subject)
 {
 
 }
@@ -104,7 +109,6 @@ void SwitchToNextLetter::Execute()
 {
     auto currentLetter = m_pLetters[m_CurrentLetterIndex]->GetComponent<Letter>()->GetCurrentLetter(); 
     GameEngine::UpdateLevelFile("Letter" + std::to_string(m_CurrentLetterIndex), std::string(1, currentLetter), "Score.json"); 
-  
 
     if (m_CurrentLetterIndex == 2)
     {
@@ -117,8 +121,11 @@ void SwitchToNextLetter::Execute()
 
         GameEngine::AddScoreToFile("Score.json", m_Score, name);
 
+        m_Subject->CreateMessage(ScoreBoardData{ m_Position,name });
+
         m_pLetters[0]->GetComponent<Letter>()->DeleteInput();
-        return;
+
+         return;
         
     }
     else
@@ -131,3 +138,4 @@ void SwitchToNextLetter::Execute()
     }
    
 }
+

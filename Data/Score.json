@@ -1,36 +1,24 @@
 {
     "AllScores": [
         {
-            "name": "ECC",
-            "score": 1740
-        },
-        {
-            "name": "BBB",
-            "score": 1030
-        },
-        {
-            "name": "CAB",
-            "score": 60
-        },
-        {
-            "name": "ECB",
-            "score": 500
-        },
-        {
-            "name": "BNO",
-            "score": 60
-        },
-        {
-            "name": "BAA",
-            "score": 0
+            "name": "EBJ",
+            "score": 90
         },
         {
             "name": "AAA",
-            "score": 30
+            "score": 1060
+        },
+        {
+            "name": "ELL",
+            "score": 500
+        },
+        {
+            "name": "JKL",
+            "score": 2120
         }
     ],
-    "Letter0": "A",
-    "Letter1": "A",
-    "Letter2": "A",
-    "score": 0
+    "Letter0": "J",
+    "Letter1": "K",
+    "Letter2": "L",
+    "score": 2120
 }

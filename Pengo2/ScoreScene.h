@@ -4,6 +4,9 @@
 #include "Letter.h"
 #include <Scene.h>
 #include <Font.h>
+#include <Subject.h>
+#include "Structs.h"
+
 
 class GameEngine::GameObject;
 
@@ -30,7 +33,9 @@ private:
 private:
 	void InitializeInputSystem(GameEngine::GameObject*) override; 
 
+	GameEngine::Subject<ScoreBoardData> m_AddScoreToScoreboardEvent; 
 
+	std::unique_ptr<GameEngine::GameObject> m_pFinalPlayerScore;
 
 	std::vector<GameEngine::GameObject*> m_pLetters;
 	int m_CurrentLetterIndex = 0;
