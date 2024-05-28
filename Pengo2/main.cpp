@@ -9,7 +9,7 @@ int main(int, char* [])
 {
 
 	GameEngine::Engine engine("../Data/");
-	LevelLoader levelLoader(1);
+	LevelLoader levelLoader(3);
 
 
 	GameEngine::SoundServiceLocator::RegisterSoundSystem(std::make_unique<GameEngine::SoundLogSystem>

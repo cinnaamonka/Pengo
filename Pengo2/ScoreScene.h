@@ -29,7 +29,7 @@ private:
 	std::unique_ptr<GameEngine::GameObject> AddLetter(const glm::vec3& position); 
 	void AddText(const glm::vec3& position, const std::string& text, GameEngine::Scene* scene,std::shared_ptr<GameEngine::Font> font);   
 	void ShowLeaderBord(GameEngine::Scene* scene,std::shared_ptr<GameEngine::Font> font,const glm::vec3& pos);
-	
+	void AddLeadersList(GameEngine::Scene* scene, std::shared_ptr<GameEngine::Font> font);
 private:
 	void InitializeInputSystem(GameEngine::GameObject*) override; 
 
@@ -40,6 +40,21 @@ private:
 	std::vector<GameEngine::GameObject*> m_pLetters;
 	int m_CurrentLetterIndex = 0;
 	int m_Score;
+
+	const glm::vec3& m_ScoreLablePosition = glm::vec3(150, 150, 0);
+	const glm::vec3& m_InitialsLabelPosition = glm::vec3(170, 100, 0);
+	const glm::vec3& m_NameLabelPosition = glm::vec3(400, 150, 0);
+	const glm::vec3& m_CurrentScorePosition = glm::vec3(160, 180, 0);
+	const glm::vec3& m_LeaderBordPositionPosition = glm::vec3(160, 270, 0);
+	const glm::vec3& m_LeadersPosition = glm::vec3(100, 270, 0);
+	const glm::vec3& m_LettersPosition = glm::vec3(400, 180, 0);
+	const glm::vec3& m_SubNameLabelPosition = glm::vec3(150, 230, 0);
+	const glm::vec3& m_SubScoreLabelPosition = glm::vec3(400, 230, 0);
+
+	const int m_LettersAmount = 3;
+	const int m_LeadersAmount = 5;
+	const int m_LettersInTextureRow = 16;
+	const int m_LettersInTextureColumn = 4;
 };
 
 

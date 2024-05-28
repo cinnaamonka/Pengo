@@ -35,32 +35,32 @@ void ScoreScene::Initialize(int score)
 	auto middleFont = GameEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 16);
 	auto smallFont = GameEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
 
-	AddText(glm::vec3{ 150,150,0 }, "SCORE", &scene, middleFont);
-	AddText(glm::vec3{ 170,100,0 }, "ENTER YOUR INITIALS", &scene, bigFont);
-	AddText(glm::vec3{ 400,150,0 }, "NAME", &scene, middleFont);
-	AddText(glm::vec3{ 160,180,0 }, std::to_string(score), &scene, middleFont);
+	AddText(m_ScoreLablePosition, "SCORE", &scene, middleFont);
+	AddText(m_InitialsLabelPosition, "ENTER YOUR INITIALS", &scene, bigFont);
+	AddText(m_NameLabelPosition, "NAME", &scene, middleFont);
+	AddText(m_CurrentScorePosition, std::to_string(score), &scene, middleFont); 
 
-	for (int i = 0; i < 3; ++i)
+	const int incremenet = 30;
+
+	for (int i = 0; i < m_LettersAmount; ++i) 
 	{
-		auto letter = Letter::AddLetter(glm::vec3{ 400 + i * 30,180,0 });
+		auto letter = Letter::AddLetter(glm::vec3{ m_LettersPosition.x + i * incremenet,m_LettersPosition.y,0 }); 
 		letter->GetComponent<Letter>()->DeleteInput();
 		m_pLetters.push_back(letter.get());
 		scene.Add(std::move(letter));
 	}
-	ShowLeaderBord(&scene, smallFont, glm::vec3{ 160,270,0 });
+
+	ShowLeaderBord(&scene, smallFont, m_LeaderBordPositionPosition); 
 	InitializeInputSystem(m_pFinalPlayerScore.get());
 
 	m_pLetters[0]->GetComponent<Letter>()->AddNewInput();
 	m_pLetters[0]->GetComponent<Letter>()->AddAnimation();
 
-	AddText(glm::vec3{ 150,230,0 }, "SCORE", &scene, middleFont);
-	AddText(glm::vec3{ 400,230,0 }, "NAME", &scene, middleFont);
-	AddText(glm::vec3{ 100,270,0 }, "1st", &scene, smallFont);
-	AddText(glm::vec3{ 100,310,0 }, "2nd", &scene, smallFont);
-	AddText(glm::vec3{ 100,350,0 }, "3rd", &scene, smallFont);
-	AddText(glm::vec3{ 100,390,0 }, "4th", &scene, smallFont);
-	AddText(glm::vec3{ 100,430,0 }, "5th", &scene, smallFont);
+	AddText(m_SubNameLabelPosition, "SCORE", &scene, middleFont);
+	AddText(m_SubScoreLabelPosition, "NAME", &scene, middleFont);
 
+	AddLeadersList(&scene, smallFont);
+   
 }
 
 std::unique_ptr<GameEngine::GameObject> ScoreScene::AddLetter(const glm::vec3& position)
@@ -71,8 +71,8 @@ std::unique_ptr<GameEngine::GameObject> ScoreScene::AddLetter(const glm::vec3& p
 	pFirstLetter->AddComponent<GameEngine::AnimationComponent>();
 	pFirstLetter->AddComponent<GameEngine::RenderComponent>();
 
-	auto textureSizeX = pFirstLetter->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / 16;
-	auto textureSizeY = pFirstLetter->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / 4;
+	auto textureSizeX = pFirstLetter->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / m_LettersInTextureRow;
+	auto textureSizeY = pFirstLetter->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / m_LettersInTextureColumn;
 
 	pFirstLetter->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
 
@@ -98,19 +98,22 @@ void ScoreScene::ShowLeaderBord(GameEngine::Scene* scene, std::shared_ptr<GameEn
 	scoresMap.insert({ m_Score, "" });
 	std::map<int, std::string, std::greater<int>> sortedMap(scoresMap.begin(), scoresMap.end());
 
-	if (sortedMap.size() > 5)
+	if (sortedMap.size() > m_LeadersAmount)
 	{
 		auto it = sortedMap.begin(); 
-		std::advance(it, 5); 
+		std::advance(it, m_LeadersAmount);
 		sortedMap.erase(it, sortedMap.end()); 
 	}
+
+	const int incrementX = 250;
+	const int incrementY = 40;
 
 	int i = 0;
 	for (auto it = sortedMap.begin(); it != sortedMap.end(); ++it, ++i)
 	{
 		if (it->first == m_Score)
 		{
-			m_pFinalPlayerScore->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(glm::vec3{ pos.x + 250, pos.y + i * 40, 0 }); 
+			m_pFinalPlayerScore->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(glm::vec3{ pos.x + incrementX, pos.y + i * incrementY, 0 });
 		}
 		std::unique_ptr<GameEngine::GameObject> name = std::make_unique<GameEngine::GameObject>();
 		name->AddComponent<GameEngine::TransformComponent>(glm::vec3{ pos.x, pos.y + i * 40, 0 }); 
@@ -120,11 +123,33 @@ void ScoreScene::ShowLeaderBord(GameEngine::Scene* scene, std::shared_ptr<GameEn
 		scene->Add(std::move(name));
 
 		std::unique_ptr<GameEngine::GameObject> score = std::make_unique<GameEngine::GameObject>();
-		score->AddComponent<GameEngine::TransformComponent>(glm::vec3{ pos.x + 250, pos.y + i * 40, 0 });
+		score->AddComponent<GameEngine::TransformComponent>(glm::vec3{ pos.x + incrementX, pos.y + i * incrementY, 0 });
 		score->AddComponent<GameEngine::TextComponent>(it->second, font);
 		score->AddComponent<GameEngine::AnimationComponent>();
 		score->AddComponent<GameEngine::RenderComponent>();
 		scene->Add(std::move(score));
+	}
+}
+void ScoreScene::AddLeadersList(GameEngine::Scene* scene, std::shared_ptr<GameEngine::Font> font)
+{
+	const int increment = 40;
+	float yPos = m_LeadersPosition.y;
+
+	for (int i = 1; i <= m_LeadersAmount; ++i)
+	{
+		std::string suffix;
+		switch (i) {
+		case 1: suffix = "st"; break;
+		case 2: suffix = "nd"; break;
+		case 3: suffix = "rd"; break;
+		default: suffix = "th"; break;
+		}
+
+		std::string text = std::to_string(i) + suffix; 
+
+		AddText(glm::vec3{ m_LeadersPosition.x, yPos, 0 }, text, scene, font);
+
+		yPos += increment;
 	}
 }
 void ScoreScene::InitializeInputSystem(GameEngine::GameObject*)

@@ -15,10 +15,18 @@
         {
             "name": "JKL",
             "score": 2120
+        },
+        {
+            "name": "WOW",
+            "score": 1500
+        },
+        {
+            "name": "NPC",
+            "score": 9060
         }
     ],
-    "Letter0": "J",
-    "Letter1": "K",
-    "Letter2": "L",
-    "score": 2120
+    "Letter0": "N",
+    "Letter1": "P",
+    "Letter2": "C",
+    "score": 9060
 }
