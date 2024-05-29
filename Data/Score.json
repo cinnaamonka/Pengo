@@ -23,10 +23,14 @@
         {
             "name": "NPC",
             "score": 9060
+        },
+        {
+            "name": "XYZ",
+            "score": 9090
         }
     ],
-    "Letter0": "N",
-    "Letter1": "P",
-    "Letter2": "C",
-    "score": 9060
+    "Letter0": "X",
+    "Letter1": "Y",
+    "Letter2": "Z",
+    "score": 9090
 }

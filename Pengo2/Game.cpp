@@ -35,6 +35,8 @@ bool Game::m_IsLevelComplete = false;
 
 void Game::Initialize(int levelIndex,int maxLevelsAmount)
 {
+	GameEngine::TimeManager::StopAllTimers();
+
 	const std::string levelName = "Level" + std::to_string(levelIndex) + ".json";
 
 	GameEngine::LevelInfo levelInfo{};

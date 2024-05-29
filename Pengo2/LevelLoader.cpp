@@ -21,6 +21,13 @@ std::unique_ptr<ScoreScene> LevelLoader::LoadFinalScene(int finalScore)
 	return finalScene; 
 }
 
+std::unique_ptr<StartScreen> LevelLoader::LoadStartScene()
+{
+	std::unique_ptr<StartScreen> startScreen = std::make_unique<StartScreen>(); 
+	startScreen->Initialize();
+	return startScreen;
+}
+
 bool LevelLoader::HasNextLevel() const
 {
 	return m_CurrentLevelIndex < m_TotalLevelsAmount;
@@ -42,6 +49,14 @@ std::function<std::unique_ptr<ScoreScene>()> LevelLoader::GetFinalScene()
 	return [this,score]()
 		{
 			return this->LoadFinalScene(score); 
+		};
+}
+
+std::function<std::unique_ptr<StartScreen>()> LevelLoader::GetStartScreen()
+{
+	return [this]()
+		{
+			return this->LoadStartScene();
 		};
 }
 

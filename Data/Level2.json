@@ -19,9 +19,7 @@
             }
         }
     ],
-    "game_modes": [
-        "SinglePlayer"
-    ],
+    "game_mode": 0,
     "hud": [
         {
             "position": {
@@ -496,5 +494,5 @@
         }
     ],
     "lifesAmount": 0,
-    "scoreAmount": 6060
+    "scoreAmount": 6030
 }

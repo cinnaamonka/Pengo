@@ -23,6 +23,8 @@ GameEngine::GameObject::~GameObject()
 
 void GameEngine::GameObject::CleanUp()
 {
+	if (m_pComponents.empty())return;
+
     for (auto it = m_pComponents.begin(); it != m_pComponents.end(); ++it)
     {
 		(*it).release();

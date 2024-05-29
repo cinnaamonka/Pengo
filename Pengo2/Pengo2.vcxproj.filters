@@ -103,6 +103,12 @@
     <ClCompile Include="ScoreboardObserver.cpp">
       <Filter>GameFiles\Observers</Filter>
     </ClCompile>
+    <ClCompile Include="StartScreen.cpp">
+      <Filter>GameFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="StartSceneCommands.cpp">
+      <Filter>GameFiles\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -191,6 +197,12 @@
     </ClInclude>
     <ClInclude Include="ScoreboardObserver.h">
       <Filter>GameFiles\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="StartScreen.h">
+      <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="StartSceneCommands.h">
+      <Filter>GameFiles\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

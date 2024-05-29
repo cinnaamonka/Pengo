@@ -216,6 +216,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClCompile Include="ScoreScene.cpp" />
     <ClCompile Include="ScoreSceneCommands.cpp" />
     <ClCompile Include="ScoreStatesAndTransitions.cpp" />
+    <ClCompile Include="StartSceneCommands.cpp" />
+    <ClCompile Include="StartScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\imgui\imgui.vcxproj">
@@ -254,6 +256,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClInclude Include="ScoreScene.h" />
     <ClInclude Include="ScoreSceneCommands.h" />
     <ClInclude Include="ScoreStatesAndTransitions.h" />
+    <ClInclude Include="StartSceneCommands.h" />
+    <ClInclude Include="StartScreen.h" />
     <ClInclude Include="Structs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

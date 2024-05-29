@@ -2,6 +2,7 @@
 #include <memory>
 #include "Game.h"
 #include "ScoreScene.h"
+#include "StartScreen.h"
 #include <functional>
 #include "Structs.h"
 #include <Helpers.h>
@@ -20,10 +21,12 @@ public:
 
 	std::unique_ptr<Game> LoadLevel(int levelIndex,int maxLevels);
 	std::unique_ptr<ScoreScene> LoadFinalScene(int finalScore); 
+	std::unique_ptr<StartScreen> LoadStartScene();
 	bool HasNextLevel() const;
 
 	std::function<std::unique_ptr<Game>()> GetNextLevelLoader();
 	std::function<std::unique_ptr<ScoreScene>()> GetFinalScene();
+	std::function<std::unique_ptr<StartScreen>()> GetStartScreen();
 	
 private:
 	int m_TotalLevelsAmount;

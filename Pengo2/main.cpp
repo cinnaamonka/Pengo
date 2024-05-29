@@ -22,9 +22,16 @@ int main(int, char* [])
 		soundSystem.Load(filePath, static_cast<GameEngine::sound_id>(static_cast<int>(soundType))); 
 	}
 
-	bool continueGame = true;
+	bool startGame = true;
+	bool continueGame = false;
 
-	while (continueGame && levelLoader.HasNextLevel())
+	if (startGame)
+	{
+		startGame = engine.Run(levelLoader.GetStartScreen());  
+		continueGame = true;
+	}
+	
+	while (continueGame && levelLoader.HasNextLevel() && startGame)
 	{
 		continueGame = engine.Run(levelLoader.GetNextLevelLoader());
 	}
