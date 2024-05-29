@@ -73,14 +73,14 @@ namespace GameEngine
 			levelInfo.lifesAmount = jsonDoc["lifesAmount"];
 			levelInfo.score = jsonDoc["scoreAmount"];
 
-			const auto& gameModeStr = jsonDoc["game_modes"];
-			if (gameModeStr == "SinglePlayer") {
+			const auto& gameModeStr = jsonDoc["game_mode"];
+			if (gameModeStr == static_cast<int>(GameModes::SinglePlayer)) {
 				levelInfo.gameMode = GameModes::SinglePlayer;
 			}
-			else if (gameModeStr == "Co-op") {
+			else if (gameModeStr == static_cast<int>(GameModes::Co_op)) {
 				levelInfo.gameMode = GameModes::Co_op;
 			}
-			else if (gameModeStr == "Versus") {
+			else if (gameModeStr == static_cast<int>(GameModes::Versus)) {
 				levelInfo.gameMode = GameModes::Versus;
 			}
 		}

@@ -44,7 +44,7 @@ public:
 
 	void SetActor(GameEngine::GameObject* pActor)
 	{
-		m_pPlayer = pActor;
+		m_pPlayers.push_back(pActor);
 	}
 	void SetEnemyManager(EnemyManager* pEnemyManager)
 	{
@@ -98,7 +98,7 @@ private:
 
 	std::vector<GameEngine::Block> m_LevelVertices;
 
-	GameEngine::GameObject* m_pPlayer;
+	std::vector<GameEngine::GameObject*> m_pPlayers;
 	GameEngine::GameObject* m_pBorderBlock;
 	EnemyManager* m_pEnemyManager;
 

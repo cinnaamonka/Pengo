@@ -64,13 +64,13 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(const glm::vec3&
 	return gameObject;
 }
 
-void EnemyActor::KillPlayer()
+void EnemyActor::KillPlayer(int killedPlayerIndex)
 {
 	//TODO
 	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Stop(static_cast<int>(PengoSounds::Background));
 
 
-	m_pPlayer->GetComponent<GameEngine::ActorComponent>()->Damage(1);
+	m_pPlayers[killedPlayerIndex]->GetComponent<GameEngine::ActorComponent>()->Damage(1);
 
 }
 

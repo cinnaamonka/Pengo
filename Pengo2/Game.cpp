@@ -79,6 +79,26 @@ void Game::Initialize(int levelIndex,int maxLevelsAmount)
 
 	m_pPengoActor->GetReferenceToActor()->GetComponent<GameEngine::ActorComponent>()->SetLives(levelInfo.lifesAmount);
 
+	switch (levelInfo.gameMode)
+	{
+	case GameEngine::GameModes::Co_op:
+	{
+		m_pSecondPengoActor = std::make_unique<PengoActor>();
+
+		auto co_opPengoHitObserver = m_pSecondPengoActor->GetHitObserver();
+		m_pSecondPengoActor->GetActorGameObject()->GetComponent<GameEngine::ActorComponent>()->AttachObserver(this);
+		m_pEnvironmentReference->GetComponent<Environment>()->SetActor(m_pSecondPengoActor->GetReferenceToActor());
+		m_pEnemyManager->AddPlayer(m_pSecondPengoActor->GetReferenceToActor());
+		scene.Add(std::move(m_pSecondPengoActor->GetActorGameObject()));
+		InitializeInputSystem(m_pSecondPengoActor->GetReferenceToActor());
+		m_pSecondPengoActor->GetReferenceToActor()->GetComponent<GameEngine::ActorComponent>()->SetLives(levelInfo.lifesAmount);
+		m_pEnvironmentReference->GetComponent<Environment>()->AttachObserver(co_opPengoHitObserver);
+		break;
+	}
+	default:
+		break;
+	}
+
 	//initialize HUD
 	m_pHUD = std::make_unique<GameEngine::HUD>();
 	m_pHUD->AddScoreBar(levelInfo.hudPositions["ScoreBar"], &scene,levelInfo.score);

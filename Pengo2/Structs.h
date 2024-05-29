@@ -28,7 +28,8 @@ enum class BlocksTypes
 	VerBorder,
 	HorBorder,
 	BreaksOnSpot,
-	Breakable
+	Breakable,
+	None
 
 };
 const std::unordered_map<PengoSounds, std::string> SOUND_PATH_MAPPING

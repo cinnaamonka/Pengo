@@ -26,12 +26,11 @@ public:
 	void SetHasKilledActor(bool hasKilledActor) { m_HasKilledActor = hasKilledActor; }
 	bool GetHasKilledActor() const { return m_HasKilledActor; }
 
-	void SetActor(GameEngine::GameObject* pActor) { m_pPlayer = pActor; }
+	void SetActor(GameEngine::GameObject* pActor) { m_pPlayers.push_back(pActor); }
 
-	GameEngine::GameObject* GetPlayer() const { return m_pPlayer; }
+	std::vector<GameEngine::GameObject*> GetPlayer() const { return m_pPlayers; }
 
-
-	void KillPlayer();
+	void KillPlayer(int killedPlayerIndex);
 
 	void Update()override;
 	void HandleInput(IEnemyAnimationState* state); 
@@ -56,7 +55,7 @@ private:
 	static std::unique_ptr<ChaseState> m_ChaseState;
 	static std::unique_ptr<HasNoticedActor> m_HasNoticedActor;
 
-	GameEngine::GameObject* m_pPlayer;
+	std::vector<GameEngine::GameObject*> m_pPlayers;
 
 	IEnemyAnimationState* m_AnimationState;
 	bool m_IsKilled;

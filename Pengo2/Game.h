@@ -48,6 +48,7 @@ private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pEnvironment;
 	std::unique_ptr<PengoActor> m_pPengoActor;
+	std::unique_ptr<PengoActor> m_pSecondPengoActor;
 	std::unique_ptr<EnemyManager> m_pEnemyManager;
 	std::unique_ptr<EggObserver> m_pEggsObserver;
 	std::unique_ptr<ScoreObserver> m_pScoreObserver;
@@ -57,8 +58,6 @@ private:
 	GameEngine::GameObject* m_pEnvironmentReference;
 
 	static bool m_IsLevelComplete;
-
-	std::function<void(int)> CompleteLevelTest; 
 
 	int m_CurrentLevelIndex = 0;
 	int m_MaxLevelsCount = 0;

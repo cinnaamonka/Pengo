@@ -201,32 +201,38 @@ void EnemyManager::CheckCollisionWithPushedBlock(GameEngine::GameObject* block)
 	}
 }
 
-void EnemyManager::CheckCollisionWithPlayer(const glm::vec3& pos, GameEngine::Subject<GameEngine::HUDEvent>* hudSubject)
+void EnemyManager::CheckCollisionWithPlayer(std::vector<GameEngine::GameObject*> actors, GameEngine::Subject<GameEngine::HUDEvent>* hudSubject) 
 {
 	for (int i = 0; i < m_EnemiesRef.size(); ++i)
 	{
-		const auto currentEnemyPosition = m_EnemiesRef[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
-
-		if (GameEngine::AreNear(pos, currentEnemyPosition, 5.0f))
+		for (int j = 0; j < actors.size();++j)
 		{
-			m_EnemiesRef[i]->GetComponent<EnemyActor>()->KillPlayer();
-			m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection({ 0,0,0 });
-			m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.0f);
-			hudSubject->CreateMessage(GameEngine::HUDEvent::DecreaseLife);
-			KillEnemy(i);
-			return;
+			auto playerPosition = actors[j]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
+
+			const auto currentEnemyPosition = m_EnemiesRef[i]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
+
+			if (GameEngine::AreNear(playerPosition, currentEnemyPosition, 5.0f))
+			{
+				m_EnemiesRef[i]->GetComponent<EnemyActor>()->KillPlayer(j);
+				m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection({ 0,0,0 });
+				m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.0f);
+				hudSubject->CreateMessage(GameEngine::HUDEvent::DecreaseLife);
+				KillEnemy(i);
+				return;
+			}
+
+			const auto distance = glm::distance(playerPosition, currentEnemyPosition);
+
+			const auto newDirection = playerPosition - currentEnemyPosition;
+
+			if (distance < m_Radius && GameEngine::AreOnSameLine({ 0,0,0 }, playerPosition, currentEnemyPosition))
+			{
+				m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetIsChasing(true);
+				m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection(newDirection);
+
+			}
 		}
-
-		const auto distance = glm::distance(pos, currentEnemyPosition);
-
-		const auto newDirection = pos - currentEnemyPosition;
-
-		if (distance < m_Radius && GameEngine::AreOnSameLine({ 0,0,0 }, pos, currentEnemyPosition))
-		{
-			m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetIsChasing(true);
-			m_EnemiesRef[i]->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection(newDirection);
-
-		}
+		
 	}
 }
 
@@ -253,6 +259,14 @@ void EnemyManager::CheckEnemiesCollectionSize(GameEngine::Subject<GameEngine::HU
 			
 		}
 		
+	}
+}
+
+void EnemyManager::AddPlayer(GameEngine::GameObject* actor)
+{
+	for (int i = 0; i < m_EnemiesRef.size(); ++i)
+	{
+		m_EnemiesRef[i]->GetComponent<EnemyActor>()->SetActor(actor); 
 	}
 }
 

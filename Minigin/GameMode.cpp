@@ -15,6 +15,9 @@ std::unique_ptr<GameEngine::GameObject> GameEngine::GameMode::CreateGameMode(con
 		case GameModes::SinglePlayer:
 			gameObject->AddComponent<GameEngine::TextureComponent>("1.tga");
 			break;
+		case GameModes::Co_op:
+			gameObject->AddComponent<GameEngine::TextureComponent>("2.tga");
+			break;
 	}
 
 	gameObject->AddComponent<GameEngine::AnimationComponent>();

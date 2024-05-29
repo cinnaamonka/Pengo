@@ -27,10 +27,14 @@
         {
             "name": "XYZ",
             "score": 9090
+        },
+        {
+            "name": "DAE",
+            "score": 5060
         }
     ],
-    "Letter0": "X",
-    "Letter1": "Y",
-    "Letter2": "Z",
-    "score": 9090
+    "Letter0": "D",
+    "Letter1": "A",
+    "Letter2": "E",
+    "score": 5060
 }
