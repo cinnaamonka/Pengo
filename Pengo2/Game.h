@@ -65,6 +65,9 @@ private:
 
 	int m_CurrentLevelIndex = 0;
 	int m_MaxLevelsCount = 0;
+
+	const glm::vec3 m_FirstPlayerPosition = glm::vec3{ 250,320,0 };
+	const glm::vec3 m_SecondPlayerPosition = glm::vec3{ 200,100,0 };
 };
 
 

@@ -17,7 +17,7 @@ class HealthObserver;
 class PengoActor final
 {
 public:
-	PengoActor();
+	PengoActor(const glm::vec3& position);
 	~PengoActor(); 
 
 	PengoActor(const PengoActor& other) = delete;

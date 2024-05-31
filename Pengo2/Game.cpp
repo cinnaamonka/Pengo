@@ -49,7 +49,7 @@ void Game::Initialize(int levelIndex,int maxLevelsAmount)
 
 	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene(levelName);
 
-	m_pPengoActor = std::make_unique<PengoActor>();
+	m_pPengoActor = std::make_unique<PengoActor>(m_FirstPlayerPosition);
 	m_pEggsObserver = std::make_unique<EggObserver>(&scene);
 	m_pScoreObserver = std::make_unique<ScoreObserver>(&scene);
 
@@ -82,7 +82,7 @@ void Game::Initialize(int levelIndex,int maxLevelsAmount)
 	{
 	case GameEngine::GameModes::Co_op:
 	{
-		m_pSecondPengoActor = std::make_unique<PengoActor>();
+		m_pSecondPengoActor = std::make_unique<PengoActor>(m_SecondPlayerPosition);
 
 		auto co_opPengoHitObserver = m_pSecondPengoActor->GetHitObserver();
 		m_pSecondPengoActor->GetActorGameObject()->GetComponent<GameEngine::ActorComponent>()->AttachObserver(this);
@@ -104,9 +104,9 @@ void Game::Initialize(int levelIndex,int maxLevelsAmount)
 	//initialize HUD
 	m_pHUD = std::make_unique<GameEngine::HUD>();
 	m_pHUD->AddScoreBar(levelInfo.hudPositions["ScoreBar"], &scene,levelInfo.score);
-	m_pHUD->AddLifeBar(levelInfo.hudPositions["LifeBar"], &scene, levelInfo.lifesAmount);
 	m_pHUD->CreateGameMode(levelInfo.hudPositions["GameMode"], &scene, levelInfo.gameMode);
 	m_pHUD->CreateSnoBeesBar(levelInfo.hudPositions["SnoBeesBar"], 3, &scene);
+	m_pHUD->AddLifeBar(levelInfo.hudPositions["LifeBar"], &scene, levelInfo.lifesAmount);
 
 	m_pEnvironmentReference->GetComponent<Environment>()->AttachObserver<GameEngine::HUDEvent>(m_pHUD.get());
 
@@ -200,8 +200,8 @@ void Game::InitializeInputSystem(GameEngine::GameObject* gameActor, GameEngine::
     }
     case GameEngine::GameModes::Co_op:
     {
-		InitializeSinglePlayerInput(input, m_pPengoActor->GetReferenceToActor(), 0);
-		InitializeSinglePlayerInput(input, m_pSecondPengoActor->GetReferenceToActor(), 1);
+		InitializeSinglePlayerController(input, m_pPengoActor->GetReferenceToActor(), 0);
+		InitializeSinglePlayerController(input, m_pSecondPengoActor->GetReferenceToActor(), 1);
         break;
     }
     case GameEngine::GameModes::Versus:

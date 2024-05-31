@@ -257,7 +257,6 @@ void EnemyManager::CheckEnemiesCollectionSize(GameEngine::Subject<GameEngine::HU
 			hudSubject->CreateMessage(GameEngine::HUDEvent::IncreaseScore30);
 			
 		}
-		
 	}
 }
 

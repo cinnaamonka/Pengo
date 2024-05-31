@@ -13,12 +13,12 @@
 #include <FSM.h>
 #include <AnimationComponent.h>
 
-PengoActor::PengoActor()
+PengoActor::PengoActor(const glm::vec3& position)
 {
 
 	m_pActor = std::make_unique<GameEngine::GameObject>();
-	m_pActor->AddComponent<GameEngine::BoxCollider>(250, 320, 20, 20);
-	m_pActor->AddComponent<GameEngine::TransformComponent>(glm::vec3(250, 320, 0));
+	m_pActor->AddComponent<GameEngine::BoxCollider>(static_cast<int>(position.x),static_cast<int>( position.y), 20, 20);
+	m_pActor->AddComponent<GameEngine::TransformComponent>(glm::vec3(static_cast<int>(position.x), static_cast<int>(position.y), 0));
 	m_pActor->AddComponent<GameEngine::TextureComponent>("PengoCharacter.tga");
 	m_pActor->AddComponent<GameEngine::ActorComponent>();
 	m_pActor->AddComponent<GameEngine::AnimationComponent>();

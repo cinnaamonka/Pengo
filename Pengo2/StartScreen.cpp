@@ -43,6 +43,14 @@ void StartScreen::InitializeInputSystem(GameEngine::GameObject* gameObject, Game
 	input.AddCommand<GameEngine::Keyboard>(
 		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_F2, GameEngine::InputState::Released },
 		std::make_unique<ChooseCoOp>(gameObject, std::bind(&StartScreen::CompleteLevel, this)));
+
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_A, GameEngine::InputState::Released,deviceIndex },
+		std::make_unique<ChooseSinglePlayer>(gameObject, std::bind(&StartScreen::CompleteLevel, this)));
+
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_B, GameEngine::InputState::Released,deviceIndex },
+		std::make_unique<ChooseCoOp>(gameObject, std::bind(&StartScreen::CompleteLevel, this)));
 }
 
 void StartScreen::AddPicture(const std::string& texturePath, const glm::vec3& position, GameEngine::Scene* scene)
