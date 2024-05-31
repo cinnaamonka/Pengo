@@ -202,6 +202,7 @@ void Game::InitializeInputSystem(GameEngine::GameObject* gameActor, GameEngine::
     {
 		InitializeSinglePlayerController(input, m_pPengoActor->GetReferenceToActor(), 0);
 		InitializeSinglePlayerController(input, m_pSecondPengoActor->GetReferenceToActor(), 1);
+		InitializeSinglePlayerKeyboard(input, m_pSecondPengoActor->GetReferenceToActor());
         break;
     }
     case GameEngine::GameModes::Versus:
@@ -210,6 +211,13 @@ void Game::InitializeInputSystem(GameEngine::GameObject* gameActor, GameEngine::
         break;
     }
 	
+    input.AddCommand<GameEngine::Keyboard>(
+        GameEngine::InputKeyboardBinding{ SDL_SCANCODE_F1, GameEngine::InputState::Released,0 },
+        std::make_unique<SkipLevelCommand>(gameActor, std::bind(&Game::SkipLevel, this)));
+
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_F6, GameEngine::InputState::Released,0 },
+		std::make_unique<MuteSoundCommand>(gameActor));
 }
 
 void Game::LoadSounds()
@@ -335,5 +343,11 @@ void Game::InitializeSinglePlayerController(GameEngine::InputManager& input, Gam
 	input.AddCommand<GameEngine::Controller>(
 		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_A, GameEngine::InputState::Previous,deviceIndex },
 		std::make_unique<GameEngine::PushCommand>(gameActor));
+}
+
+void Game::SkipLevel()
+{
+	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Stop(static_cast<int>(PengoSounds::Background));
+	m_IsLevelComplete = true;
 }
 

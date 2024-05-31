@@ -39,10 +39,10 @@ private:
 	const glm::vec3& m_SinglePlayerPosition = glm::vec3{ 280,300,0 };
 	const glm::vec3& m_Co_OpPosition = glm::vec3{ 300,370,0 };
 	const glm::vec3& m_VSPosition = glm::vec3{ 300,440,0 };
-
 	const glm::vec3& m_AButton = glm::vec3{ 380,290,0 };
 	const glm::vec3& m_BButton = glm::vec3{ 350,360,0 };
 	const glm::vec3& m_XButton = glm::vec3{ 360,430,0 };
+	const glm::vec3& m_MuteButtonPosition = glm::vec3{ 20,20,0 };
 
 	std::unique_ptr<GameEngine::GameObject> m_pInputGameObject;
 };

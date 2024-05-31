@@ -48,6 +48,7 @@ private:
 	void InitializeSinglePlayerInput(GameEngine::InputManager& input,GameEngine::GameObject* gameActor, int deviceIndex);
 	void InitializeSinglePlayerKeyboard(GameEngine::InputManager& input, GameEngine::GameObject* gameActor);
 	void InitializeSinglePlayerController(GameEngine::InputManager& input, GameEngine::GameObject* gameActor, int deviceIndex);
+	void SkipLevel();
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pEnvironment;

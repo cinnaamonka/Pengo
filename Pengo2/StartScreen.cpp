@@ -20,6 +20,7 @@ void StartScreen::Initialize()
 	AddPicture("BButton.tga", m_BButton, &scene);
 	AddText("Versus", m_VSPosition, &scene, font);
 	AddPicture("XButton.tga", m_XButton, &scene);
+	AddText("Press F6 to mute sound", m_MuteButtonPosition, &scene, font);
 
 	m_pInputGameObject = std::make_unique<GameEngine::GameObject>();
 	scene.Add(std::move(m_pInputGameObject));
@@ -37,11 +38,11 @@ void StartScreen::InitializeInputSystem(GameEngine::GameObject* gameObject, Game
 	input.AddDevice(std::move(m_Keyboard));
 
 	input.AddCommand<GameEngine::Keyboard>(
-		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_F1, GameEngine::InputState::Released },
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_F2, GameEngine::InputState::Released },
 		std::make_unique<ChooseSinglePlayer>(gameObject, std::bind(&StartScreen::CompleteLevel, this)));
 
 	input.AddCommand<GameEngine::Keyboard>(
-		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_F2, GameEngine::InputState::Released },
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_F3, GameEngine::InputState::Released },
 		std::make_unique<ChooseCoOp>(gameObject, std::bind(&StartScreen::CompleteLevel, this)));
 
 	input.AddCommand<GameEngine::Controller>(
