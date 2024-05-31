@@ -63,6 +63,7 @@ void Game::Initialize(int levelIndex,int maxLevelsAmount)
 
 	m_pEnemyManager = std::make_unique<EnemyManager>(static_cast<int>(levelInfo.enemiesPositions.size()), levelInfo.enemiesPositions, &scene,
 		m_pPengoActor->GetReferenceToActor());
+	m_pEnemyManager->AddPlayer(m_pPengoActor->GetReferenceToActor());
 
 	m_pEnvironment->GetComponent<Environment>()->SetEnemyManager(m_pEnemyManager.get());
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::HitInfo>(hitObserverComponent);
@@ -192,130 +193,15 @@ void Game::InitializeInputSystem(GameEngine::GameObject* gameActor, GameEngine::
     {
     case GameEngine::GameModes::SinglePlayer:
     {
-        auto m_Controller = std::make_unique<GameEngine::Controller>(deviceIndex);
-        auto m_Keyboard = std::make_unique<GameEngine::Keyboard>();
-        input.AddDevice(std::move(m_Controller));
-        input.AddDevice(std::move(m_Keyboard));
-
-        input.AddCommand<GameEngine::Controller>(
-            GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_LEFT, GameEngine::InputState::Previous },
-            std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ -1, 0, 0 }));
-
-        input.AddCommand<GameEngine::Controller>(
-            GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_RIGHT, GameEngine::InputState::Previous },
-            std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 1, 0, 0 }));
-
-        input.AddCommand<GameEngine::Controller>(
-            GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_UP, GameEngine::InputState::Previous },
-            std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 0, -1, 0 }));
-
-        input.AddCommand<GameEngine::Controller>(
-            GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_DOWN, GameEngine::InputState::Previous },
-            std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 0, 1, 0 }));
-
-        input.AddCommand<GameEngine::Controller>(
-            GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_A, GameEngine::InputState::Previous },
-            std::make_unique<PushBlockCommand>(m_pEnvironmentReference));
-
-        //Keyboard Input
-        input.AddCommand<GameEngine::Keyboard>(
-            GameEngine::InputKeyboardBinding{ SDL_SCANCODE_A, GameEngine::InputState::Previous },
-            std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ -1,0, 0 }));
-
-        input.AddCommand<GameEngine::Keyboard>(
-            GameEngine::InputKeyboardBinding{ SDL_SCANCODE_D, GameEngine::InputState::Previous },
-            std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 1,0, 0 }));
-
-        input.AddCommand<GameEngine::Keyboard>(
-            GameEngine::InputKeyboardBinding{ SDL_SCANCODE_W, GameEngine::InputState::Previous },
-            std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 0,-1, 0 }));
-
-        input.AddCommand<GameEngine::Keyboard>(
-            GameEngine::InputKeyboardBinding{ SDL_SCANCODE_S, GameEngine::InputState::Previous },
-            std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 0,1, 0 }));
-
-        //Keyboard Input
-        input.AddCommand<GameEngine::Keyboard>(
-            GameEngine::InputKeyboardBinding{ SDL_SCANCODE_A, GameEngine::InputState::Released },
-            std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
-
-        input.AddCommand<GameEngine::Keyboard>(
-            GameEngine::InputKeyboardBinding{ SDL_SCANCODE_D, GameEngine::InputState::Released },
-            std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
-
-        input.AddCommand<GameEngine::Keyboard>(
-            GameEngine::InputKeyboardBinding{ SDL_SCANCODE_W, GameEngine::InputState::Released },
-            std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
-
-        input.AddCommand<GameEngine::Keyboard>(
-            GameEngine::InputKeyboardBinding{ SDL_SCANCODE_S, GameEngine::InputState::Released },
-            std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
-
-        input.AddCommand<GameEngine::Keyboard>(
-            GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Previous },
-            std::make_unique<PushBlockCommand>(m_pEnvironmentReference));
-
-        input.AddCommand<GameEngine::Keyboard>(
-            GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Released },
-            std::make_unique<StopPushCommand>(m_pEnvironmentReference));
-
-        input.AddCommand<GameEngine::Keyboard>(
-            GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Previous },
-            std::make_unique<GameEngine::PushCommand>(gameActor));
+		//ADD CONTROLLER AND KEYBOARD
+		InitializeSinglePlayerInput(input, gameActor, deviceIndex);
 
         break;
     }
     case GameEngine::GameModes::Co_op:
     {
-        auto m_Controller0 = std::make_unique<GameEngine::Controller>(0);
-        auto m_Controller1 = std::make_unique<GameEngine::Controller>(1);
-        auto m_Keyboard = std::make_unique<GameEngine::Keyboard>();
-
-        input.AddDevice(std::move(m_Controller0));
-        input.AddDevice(std::move(m_Controller1));
-        input.AddDevice(std::move(m_Keyboard));
-
-		input.AddCommand<GameEngine::Controller>( 
-			GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_LEFT, GameEngine::InputState::Previous,0 }, 
-			std::make_unique<GameEngine::MoveCommand>(m_pPengoActor->GetReferenceToActor(), glm::vec3{ -1, 0, 0 }));
-
-		input.AddCommand<GameEngine::Controller>( 
-			GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_RIGHT, GameEngine::InputState::Previous,0 }, 
-			std::make_unique<GameEngine::MoveCommand>(m_pPengoActor->GetReferenceToActor(), glm::vec3{ 1, 0, 0 }));
-
-		input.AddCommand<GameEngine::Controller>( 
-			GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_UP, GameEngine::InputState::Previous,0 }, 
-			std::make_unique<GameEngine::MoveCommand>(m_pPengoActor->GetReferenceToActor(), glm::vec3{ 0, -1, 0 }));
-
-		input.AddCommand<GameEngine::Controller>( 
-			GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_DOWN, GameEngine::InputState::Previous,0 }, 
-			std::make_unique<GameEngine::MoveCommand>(m_pPengoActor->GetReferenceToActor(), glm::vec3{ 0, 1, 0 }));
-
-		input.AddCommand<GameEngine::Controller>( 
-			GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_A, GameEngine::InputState::Previous,0 }, 
-			std::make_unique<PushBlockCommand>(m_pEnvironmentReference)); 
-
-
-		input.AddCommand<GameEngine::Controller>(
-			GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_LEFT, GameEngine::InputState::Previous,1 },
-			std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ -1, 0, 0 }));
-
-		input.AddCommand<GameEngine::Controller>(
-			GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_RIGHT, GameEngine::InputState::Previous,1 },
-			std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 1, 0, 0 }));
-
-		input.AddCommand<GameEngine::Controller>(
-			GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_UP, GameEngine::InputState::Previous,1 },
-			std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 0, -1, 0 }));
-
-		input.AddCommand<GameEngine::Controller>(
-			GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_DOWN, GameEngine::InputState::Previous,1 },
-			std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 0, 1, 0 }));
-
-		input.AddCommand<GameEngine::Controller>(
-			GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_A, GameEngine::InputState::Previous,1 },
-			std::make_unique<PushBlockCommand>(m_pEnvironmentReference));
-
+		InitializeSinglePlayerInput(input, m_pPengoActor->GetReferenceToActor(), 0);
+		InitializeSinglePlayerInput(input, m_pSecondPengoActor->GetReferenceToActor(), 1);
         break;
     }
     case GameEngine::GameModes::Versus:
@@ -334,5 +220,120 @@ void Game::LoadSounds()
 	{
 		soundSystem.Load(filePath, static_cast<GameEngine::sound_id>(static_cast<int>(soundType)));
 	}
+}
+
+void Game::InitializeSinglePlayerInput(GameEngine::InputManager& input,GameEngine::GameObject* gameActor, int deviceIndex)
+{
+	//ADD CONTROLLER AND KEYBOARD
+	
+	InitializeSinglePlayerKeyboard(input, gameActor); 
+	InitializeSinglePlayerController(input, gameActor, deviceIndex);
+}
+
+void Game::InitializeSinglePlayerKeyboard(GameEngine::InputManager& input, GameEngine::GameObject* gameActor)
+{
+	auto m_Keyboard = std::make_unique<GameEngine::Keyboard>();
+	input.AddDevice(std::move(m_Keyboard));
+
+	//Keyboard movement
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_A, GameEngine::InputState::Previous,0 },
+		std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ -1,0, 0 }));
+
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_D, GameEngine::InputState::Previous,0 },
+		std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 1,0, 0 }));
+
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_W, GameEngine::InputState::Previous,0 },
+		std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 0,-1, 0 }));
+
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_S, GameEngine::InputState::Previous,0 },
+		std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 0,1, 0 }));
+
+	//stop collision check
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_A, GameEngine::InputState::Released,0 },
+		std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
+
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_D, GameEngine::InputState::Released,0 },
+		std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
+
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_W, GameEngine::InputState::Released,0 },
+		std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
+
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_S, GameEngine::InputState::Released,0 },
+		std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
+
+
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Previous,0 },
+		std::make_unique<PushBlockCommand>(m_pEnvironmentReference));
+
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Released,0 },
+		std::make_unique<StopPushCommand>(m_pEnvironmentReference));
+
+	input.AddCommand<GameEngine::Keyboard>(
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Previous,0 },
+		std::make_unique<GameEngine::PushCommand>(gameActor));
+}
+
+void Game::InitializeSinglePlayerController(GameEngine::InputManager& input, GameEngine::GameObject* gameActor, int deviceIndex)
+{
+	auto m_Controller = std::make_unique<GameEngine::Controller>(deviceIndex);
+	input.AddDevice(std::move(m_Controller));
+
+	//Movement
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_LEFT, GameEngine::InputState::Previous,deviceIndex },
+		std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ -1, 0, 0 }));
+
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_RIGHT, GameEngine::InputState::Previous,deviceIndex },
+		std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 1, 0, 0 }));
+
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_UP, GameEngine::InputState::Previous,deviceIndex },
+		std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 0, -1, 0 }));
+
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_DOWN, GameEngine::InputState::Previous,deviceIndex },
+		std::make_unique<GameEngine::MoveCommand>(gameActor, glm::vec3{ 0, 1, 0 }));
+
+	//Stop collision check
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_LEFT, GameEngine::InputState::Released,deviceIndex },
+		std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
+
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_RIGHT, GameEngine::InputState::Released,deviceIndex },
+		std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
+
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_UP, GameEngine::InputState::Released,deviceIndex },
+		std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
+
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_GAMEPAD_DRAD_DOWN, GameEngine::InputState::Released,deviceIndex },
+		std::make_unique<GameEngine::StopCollisionCheck>(gameActor));
+
+
+	//push
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_A, GameEngine::InputState::Previous,deviceIndex },
+		std::make_unique<PushBlockCommand>(m_pEnvironmentReference));
+
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_A, GameEngine::InputState::Released,deviceIndex },
+		std::make_unique<StopPushCommand>(m_pEnvironmentReference));
+
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_A, GameEngine::InputState::Previous,deviceIndex },
+		std::make_unique<GameEngine::PushCommand>(gameActor));
 }
 

@@ -26,7 +26,10 @@ public:
 	void SetHasKilledActor(bool hasKilledActor) { m_HasKilledActor = hasKilledActor; }
 	bool GetHasKilledActor() const { return m_HasKilledActor; }
 
-	void SetActor(GameEngine::GameObject* pActor) { m_pPlayers.push_back(pActor); }
+	void SetActor(GameEngine::GameObject* pActor) 
+	{
+		m_pPlayers.push_back(pActor); 
+	}
 
 	std::vector<GameEngine::GameObject*> GetPlayer() const { return m_pPlayers; }
 

@@ -34,7 +34,7 @@ EnemyManager::EnemyManager(int enemiesAmount, std::vector<glm::vec3>& positions,
 
 	for (int i = 0; i < enemiesAmount; ++i)
 	{
-		SpawnEnemy(positions[i],actor);
+		SpawnEnemy(positions[i]);
 		
 	}
 	m_pActorComponent = actor->GetComponent<GameEngine::ActorComponent>(); 
@@ -236,14 +236,13 @@ void EnemyManager::CheckCollisionWithPlayer(std::vector<GameEngine::GameObject*>
 	}
 }
 
-void EnemyManager::SpawnEnemy(const glm::vec3& pos, GameEngine::GameObject* actor)
+void EnemyManager::SpawnEnemy(const glm::vec3& pos)
 {
 	int enemiesAmount = static_cast<int>(m_EnemiesRef.size());
 
 	auto enemyActor = EnemyActor::CreateEnemy(pos, enemiesAmount);
 	m_EnemiesCollisionHitInfoChanged.Attach(enemyActor->GetComponent<HitObserver>());
 	m_EnemyDirectionChanged.Attach(enemyActor->GetComponent<EnemyDirectionObserver>());
-	enemyActor->GetComponent<EnemyActor>()->SetActor(actor);
 	enemyActor->GetComponent<EnemyActor>()->HandleInput(&enemyPatrolState);
 	m_EnemiesRef.push_back(enemyActor.get());
 	m_pSceneRef->Add(std::move(enemyActor));

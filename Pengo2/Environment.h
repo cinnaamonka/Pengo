@@ -42,10 +42,8 @@ public:
 	void Update() override;
 	
 
-	void SetActor(GameEngine::GameObject* pActor)
-	{
-		m_pPlayers.push_back(pActor);
-	}
+	void SetActor(GameEngine::GameObject* pActor);
+	
 	void SetEnemyManager(EnemyManager* pEnemyManager)
 	{
 		m_pEnemyManager = pEnemyManager;

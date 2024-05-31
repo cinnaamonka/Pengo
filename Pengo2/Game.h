@@ -13,6 +13,7 @@
 #include "EnemyActor.h"
 #include "EggObserver.h"
 #include "EnemyManager.h"
+#include <InputManager.h>
 #include "EnvironmentObserver.h"
 #include "ScoreObserver.h"
 #include <IObserver.h>
@@ -44,6 +45,9 @@ public:
 private:
 	void InitializeInputSystem(GameEngine::GameObject* gameActor, GameEngine::GameModes gameMode,int deviceIndex) override;
 	void LoadSounds();
+	void InitializeSinglePlayerInput(GameEngine::InputManager& input,GameEngine::GameObject* gameActor, int deviceIndex);
+	void InitializeSinglePlayerKeyboard(GameEngine::InputManager& input, GameEngine::GameObject* gameActor);
+	void InitializeSinglePlayerController(GameEngine::InputManager& input, GameEngine::GameObject* gameActor, int deviceIndex);
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pEnvironment;

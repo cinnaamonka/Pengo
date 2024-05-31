@@ -68,7 +68,7 @@ public:
 	void CheckCollisionWithPushedBlock(GameEngine::GameObject* blocks);
 
 	void CheckCollisionWithPlayer(std::vector<GameEngine::GameObject*> actors, GameEngine::Subject<GameEngine::HUDEvent>* hudSubject);
-	void SpawnEnemy(const glm::vec3& pos, GameEngine::GameObject* actor);
+	void SpawnEnemy(const glm::vec3& pos);
 
 	void CheckEnemiesCollectionSize(GameEngine::Subject<GameEngine::HUDEvent>* hudSubject);
 

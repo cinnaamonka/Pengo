@@ -57,6 +57,8 @@ Environment::Environment(GameEngine::GameObject* pGameObject, std::vector<GameEn
 	}
 
 	GameEngine::TimeManager::GetInstance().SetTimer("StartTimer", 60.f, [this]() { m_pEnemyManager->CheckEnemiesCollectionSize(&m_AddingScoreInHUDEvent); });
+
+	
 }
 void Environment::CheckCollision()
 {
@@ -144,6 +146,11 @@ void Environment::Update()
 		}
 
 	}
+}
+
+void Environment::SetActor(GameEngine::GameObject* pActor)
+{
+	m_pPlayers.push_back(pActor);
 }
 
 void Environment::PushBlock()
@@ -355,19 +362,21 @@ void Environment::SpawnEnemyFromEggBlock()
 {
 	if (!m_EggBlocksIndexes.empty())
 	{
+		m_pBlocks[m_EggBlocksIndexes[0]]->GetComponent<GameEngine::AnimationComponent>()->SetIsDestroyed(true);
+		m_pEnemyManager->SpawnEnemy(m_pBlocks[m_EggBlocksIndexes[0]]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition());
+
+		m_BlockCollisionInfo.Detach(m_pBlocks[m_EggBlocksIndexes[0]]->GetComponent<BlockObserver>());
+		m_pBlocks.erase(m_pBlocks.begin() + m_EggBlocksIndexes[0]);
+		m_EggBlocksIndexes.erase(std::remove(m_EggBlocksIndexes.begin(), m_EggBlocksIndexes.end(), static_cast<int>(m_EggBlocksIndexes[0])), m_EggBlocksIndexes.end());
+		m_PushBlockIndex = -1;
+		m_EnvEvent.CreateMessage(Event::BlockIndexesChanged);
+		m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::AddSnoBeesLife);
+
 		for (auto player : m_pPlayers)
 		{
-			m_pBlocks[m_EggBlocksIndexes[0]]->GetComponent<GameEngine::AnimationComponent>()->SetIsDestroyed(true);
-			m_pEnemyManager->SpawnEnemy(m_pBlocks[m_EggBlocksIndexes[0]]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition(), player);
+			//TODO fix
 			m_pEnemyManager->AddPlayer(player);
-			m_BlockCollisionInfo.Detach(m_pBlocks[m_EggBlocksIndexes[0]]->GetComponent<BlockObserver>());
-			m_pBlocks.erase(m_pBlocks.begin() + m_EggBlocksIndexes[0]);
-			m_EggBlocksIndexes.erase(std::remove(m_EggBlocksIndexes.begin(), m_EggBlocksIndexes.end(), static_cast<int>(m_EggBlocksIndexes[0])), m_EggBlocksIndexes.end());
-			m_PushBlockIndex = -1;
-			m_EnvEvent.CreateMessage(Event::BlockIndexesChanged);
-			m_AddingScoreInHUDEvent.CreateMessage(GameEngine::HUDEvent::AddSnoBeesLife);
 		}
-		
 	}
 }
 
