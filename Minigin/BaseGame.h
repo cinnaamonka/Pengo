@@ -1,4 +1,5 @@
 #pragma once
+#include "Helpers.h"
 
 namespace GameEngine
 {
@@ -14,7 +15,7 @@ namespace GameEngine
 		BaseGame& operator=(BaseGame&& other) = delete;
 		virtual ~BaseGame() {};
 
-		virtual void InitializeInputSystem(GameEngine::GameObject* gameActor) = 0;
+		virtual void InitializeInputSystem(GameEngine::GameObject* gameActor,GameEngine::GameModes gameMode,int decviceIndex = 0) = 0;
 		virtual bool IsLevelComplete() = 0;
 		virtual void ResetLevel() = 0;
 	};

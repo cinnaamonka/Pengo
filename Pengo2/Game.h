@@ -42,7 +42,7 @@ public:
 	void Notify(const GameEngine::State& messageFromSubject) override;
 
 private:
-	void InitializeInputSystem(GameEngine::GameObject* gameActor) override;
+	void InitializeInputSystem(GameEngine::GameObject* gameActor, GameEngine::GameModes gameMode,int deviceIndex) override;
 	void LoadSounds();
 private:
 

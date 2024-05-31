@@ -51,7 +51,7 @@ void ScoreScene::Initialize(int score)
 	}
 
 	ShowLeaderBord(&scene, smallFont, m_LeaderBordPositionPosition); 
-	InitializeInputSystem(m_pFinalPlayerScore.get());
+	InitializeInputSystem(m_pFinalPlayerScore.get(),GameEngine::GameModes::SinglePlayer);
 
 	m_pLetters[0]->GetComponent<Letter>()->AddNewInput();
 	m_pLetters[0]->GetComponent<Letter>()->AddAnimation();
@@ -152,11 +152,11 @@ void ScoreScene::AddLeadersList(GameEngine::Scene* scene, std::shared_ptr<GameEn
 		yPos += increment;
 	}
 }
-void ScoreScene::InitializeInputSystem(GameEngine::GameObject*)
+void ScoreScene::InitializeInputSystem(GameEngine::GameObject*, GameEngine::GameModes,int deviceIndex)
 {
 	auto& input = GameEngine::InputManager::GetInstance();
 
-	auto m_Controller = std::make_unique<GameEngine::Controller>(0);
+	auto m_Controller = std::make_unique<GameEngine::Controller>(deviceIndex);
 	auto m_Keyboard = std::make_unique<GameEngine::Keyboard>();
 	input.AddDevice(std::move(m_Controller));
 	input.AddDevice(std::move(m_Keyboard));

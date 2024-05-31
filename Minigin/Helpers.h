@@ -64,7 +64,7 @@ namespace GameEngine
 		int width;
 		int height;
 	};
-	
+
 	enum class State
 	{
 		PlayerDied,

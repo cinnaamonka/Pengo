@@ -26,6 +26,7 @@ namespace GameEngine
 		virtual bool IsPressed(int button) = 0;
 		virtual bool IsReleased(int button) = 0;
 		virtual bool IsPrevious(int button) = 0;
+		virtual int GetIndex() const = 0;
 
 		virtual void HandleInput() = 0;
 

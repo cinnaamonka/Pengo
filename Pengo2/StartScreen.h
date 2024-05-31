@@ -30,7 +30,7 @@ public:
 	}
 	void Initialize();
 private:
-	void InitializeInputSystem(GameEngine::GameObject*) override;
+	void InitializeInputSystem(GameEngine::GameObject*, GameEngine::GameModes gameMode,int deviceIndex = 0) override;
 	void AddPicture(const std::string& texturePath, const glm::vec3& position,GameEngine::Scene* scene);
 	void AddText(const std::string& text, const glm::vec3& position, GameEngine::Scene* scene,std::shared_ptr<GameEngine::Font> font);
 private:

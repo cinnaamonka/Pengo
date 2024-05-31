@@ -58,6 +58,11 @@ namespace GameEngine
 		{
 			return m_PreviousButtonsThisFrame & button;
 		}
+
+		int GetControllerIndex() const
+		{
+			return m_ControllerIndex;
+		}
 	};
 	GameEngine::Controller::Controller(int m_ControllerIndex) :
 		m_pImplPtr(std::make_unique<ControllerImpl>(m_ControllerIndex))
@@ -89,6 +94,10 @@ namespace GameEngine
 	bool GameEngine::Controller::IsPrevious(int button)
 	{
 		return m_pImplPtr->IsActive(static_cast<unsigned int>(button));
+	}
+	int Controller::GetIndex() const
+	{
+		return m_pImplPtr->GetControllerIndex();
 	}
 	void Controller::HandleInput()
 	{

@@ -31,7 +31,7 @@ private:
 	void ShowLeaderBord(GameEngine::Scene* scene,std::shared_ptr<GameEngine::Font> font,const glm::vec3& pos);
 	void AddLeadersList(GameEngine::Scene* scene, std::shared_ptr<GameEngine::Font> font);
 private:
-	void InitializeInputSystem(GameEngine::GameObject*) override; 
+	void InitializeInputSystem(GameEngine::GameObject*, GameEngine::GameModes gameMode,int deviceIndex = 0) override;
 
 	GameEngine::Subject<ScoreBoardData> m_AddScoreToScoreboardEvent; 
 

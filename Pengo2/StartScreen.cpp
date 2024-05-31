@@ -24,14 +24,14 @@ void StartScreen::Initialize()
 	m_pInputGameObject = std::make_unique<GameEngine::GameObject>();
 	scene.Add(std::move(m_pInputGameObject));
 
-	InitializeInputSystem(m_pInputGameObject.get());
+	InitializeInputSystem(m_pInputGameObject.get(),GameEngine::GameModes::Co_op);
 }
 
-void StartScreen::InitializeInputSystem(GameEngine::GameObject* gameObject)
+void StartScreen::InitializeInputSystem(GameEngine::GameObject* gameObject, GameEngine::GameModes,int deviceIndex)
 {
 	auto& input = GameEngine::InputManager::GetInstance(); 
 
-	auto m_Controller = std::make_unique<GameEngine::Controller>(0);
+	auto m_Controller = std::make_unique<GameEngine::Controller>(deviceIndex);
 	auto m_Keyboard = std::make_unique<GameEngine::Keyboard>();
 	input.AddDevice(std::move(m_Controller));
 	input.AddDevice(std::move(m_Keyboard));

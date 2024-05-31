@@ -64,11 +64,13 @@ void Environment::CheckCollision()
 
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
+		
 		for (auto player : m_pPlayers)
 		{
 			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsColliding(player, hitInfo))
 			{
-				m_CollisionHitInfoChanged.CreateMessage(hitInfo);
+				//TODO fix
+				player->GetComponent<HitObserver>()->Notify(hitInfo);
 			}
 		}
 
@@ -80,7 +82,8 @@ void Environment::CheckCollision()
 	{
 		if (borderCollisionComponent->IsColliding(player, hitInfo))
 		{
-			m_CollisionHitInfoChanged.CreateMessage(hitInfo);
+			//TODO fix
+			player->GetComponent<HitObserver>()->Notify(hitInfo);
 		}
 	}
 
@@ -123,12 +126,12 @@ void Environment::Update()
 {
 	CheckEnemiesCollision();
 
-	for (auto player : m_pPlayers)
-	{
-		if (!player->GetComponent<GameEngine::ActorComponent>()->GetCollisionBeChecked())return;
-		
-	}
-
+	 if (!std::any_of(m_pPlayers.begin(), m_pPlayers.end(), [](const auto player) {
+            return player->GetComponent<GameEngine::ActorComponent>()->GetCollisionBeChecked();
+        })) {
+            return;
+        }
+	
 	CheckCollision();
 
 	if (m_PushBlockIndex != -1)

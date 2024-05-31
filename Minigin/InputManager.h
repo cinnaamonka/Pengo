@@ -61,14 +61,16 @@ namespace GameEngine
 		template<typename DeviceType, typename BindingType>
 		void AddCommand(BindingType binding, std::unique_ptr<BaseCommand> command)
 		{
-			auto it = std::find_if(m_DevicesPtr.begin(), m_DevicesPtr.end(), [](const auto& device)
+			auto it = std::find_if(m_DevicesPtr.begin(), m_DevicesPtr.end(), [&binding](const auto& device)
 				{
-					return dynamic_cast<DeviceType*>(device.get()) != nullptr;
+					auto* devicePtr = dynamic_cast<DeviceType*>(device.get());
+					return devicePtr != nullptr && device->GetIndex() == binding.index; 
 				});
 
 			if (it != m_DevicesPtr.end())
 			{
 				auto* devicePtr = dynamic_cast<DeviceType*>(it->get());
+				
 				if (devicePtr )
 				{
 					devicePtr->AddCommand(binding, std::move(command)); 

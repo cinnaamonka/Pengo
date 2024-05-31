@@ -31,10 +31,22 @@
         {
             "name": "DAE",
             "score": 5060
+        },
+        {
+            "name": "SOS",
+            "score": 5560
+        },
+        {
+            "name": "EBA",
+            "score": 2740
+        },
+        {
+            "name": "KFC",
+            "score": 2620
         }
     ],
-    "Letter0": "D",
-    "Letter1": "A",
-    "Letter2": "E",
-    "score": 5060
+    "Letter0": "K",
+    "Letter1": "F",
+    "Letter2": "C",
+    "score": 2620
 }
