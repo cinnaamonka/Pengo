@@ -77,7 +77,7 @@ public:
 		}
 	}
 
-	void PushBlock();
+	void PushBlock(GameEngine::GameObject* actor);
 
 	void CreateBlocksCollection(std::vector<GameEngine::Block> blocks, const std::string& name, const std::string& tag,
 		int& offset, GameEngine::Scene* scene,BlocksTypes types,int clipTextureAmount = 1);

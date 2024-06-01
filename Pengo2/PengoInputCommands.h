@@ -11,7 +11,7 @@ class PushBlockCommand :public GameEngine::GameObjectCommand
 public:
 
 public:
-	explicit PushBlockCommand(GameEngine::GameObject* gameObject);
+	explicit PushBlockCommand(GameEngine::GameObject* gameObject, GameEngine::GameObject* actor);
 	~PushBlockCommand() = default;
 
 	PushBlockCommand(const PushBlockCommand& other) = default;
@@ -21,6 +21,8 @@ public:
 
 
 	void Execute() override;
+private:
+	GameEngine::GameObject* m_pActor;
 };
 class BreakBlockCommand :public GameEngine::GameObjectCommand
 {

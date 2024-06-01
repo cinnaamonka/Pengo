@@ -58,7 +58,7 @@ Environment::Environment(GameEngine::GameObject* pGameObject, std::vector<GameEn
 
 	GameEngine::TimeManager::GetInstance().SetTimer("StartTimer", 60.f, [this]() { m_pEnemyManager->CheckEnemiesCollectionSize(&m_AddingScoreInHUDEvent); });
 
-	
+
 }
 void Environment::CheckCollision()
 {
@@ -66,7 +66,7 @@ void Environment::CheckCollision()
 
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
-		
+
 		for (auto player : m_pPlayers)
 		{
 			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsColliding(player, hitInfo))
@@ -78,10 +78,10 @@ void Environment::CheckCollision()
 
 		if (m_pPlayerEnemy && !m_pPlayerEnemy->IsDestroyed())
 		{
-			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsColliding(m_pPlayerEnemy, hitInfo)) 
+			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsColliding(m_pPlayerEnemy, hitInfo))
 			{
 				//TODO fix
-				m_pPlayerEnemy->GetComponent<HitObserver>()->Notify(hitInfo); 
+				m_pPlayerEnemy->GetComponent<HitObserver>()->Notify(hitInfo);
 			}
 		}
 
@@ -102,7 +102,7 @@ void Environment::CheckCollision()
 		if (borderCollisionComponent->IsColliding(m_pPlayerEnemy, hitInfo))
 		{
 			//TODO fix
-			m_pPlayerEnemy->GetComponent<HitObserver>()->Notify(hitInfo); 
+			m_pPlayerEnemy->GetComponent<HitObserver>()->Notify(hitInfo);
 		}
 	}
 
@@ -144,12 +144,23 @@ void Environment::Update()
 {
 	CheckEnemiesCollision();
 
-	if (!std::any_of(m_pPlayers.begin(), m_pPlayers.end(), [](const auto player) {
-		return player->GetComponent<GameEngine::ActorComponent>()->GetCollisionBeChecked();
-		}) && (!m_pPlayerEnemy && !m_pPlayerEnemy->IsDestroyed() && !m_pPlayerEnemy->GetComponent<GameEngine::ActorComponent>()->GetCollisionBeChecked())) {
-		return;
+	if (m_pPlayerEnemy)
+	{
+		if (!std::any_of(m_pPlayers.begin(), m_pPlayers.end(), [](const auto player) {
+			return player->GetComponent<GameEngine::ActorComponent>()->GetCollisionBeChecked();
+			}) && (!m_pPlayerEnemy && !m_pPlayerEnemy->IsDestroyed() && !m_pPlayerEnemy->GetComponent<GameEngine::ActorComponent>()->GetCollisionBeChecked())) {
+			return;
+		}
 	}
-	 
+	else
+	{
+		if (!std::any_of(m_pPlayers.begin(), m_pPlayers.end(), [](const auto& player) {
+			return player->GetComponent<GameEngine::ActorComponent>()->GetCollisionBeChecked();
+			})) {
+			return;
+		}
+	}
+
 	CheckCollision();
 
 	if (m_PushBlockIndex != -1)
@@ -169,55 +180,56 @@ void Environment::SetActor(GameEngine::GameObject* pActor)
 	m_pPlayers.push_back(pActor);
 }
 
-void Environment::PushBlock()
+void Environment::PushBlock(GameEngine::GameObject* actor)
 {
 	GameEngine::HitInfo hitInfo;
 
+
 	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
-		for (auto player : m_pPlayers)
+		if (m_PushBlockIndex != -1)return;
+
+		bool verticalCollision = m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(actor, hitInfo);
+		bool horizontalCollision = m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(actor, hitInfo);
+
+		if (verticalCollision || horizontalCollision)
 		{
-			bool verticalCollision = m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(player, hitInfo);
-			bool horizontalCollision = m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(player, hitInfo);
-
-			if (verticalCollision || horizontalCollision)
+			if ((verticalCollision && m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pBlocks[i], hitInfo)) ||
+				(horizontalCollision && m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pBlocks[i], hitInfo)))
 			{
-				if ((verticalCollision && m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pBlocks[i], hitInfo)) ||
-					(horizontalCollision && m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pBlocks[i], hitInfo)))
-				{
 
-					BreakBlock(i);
-					return;
-				}
-
-				bool canBlockBePushed = true;
-
-				for (int j = 0; j < static_cast<int>(m_pBlocks.size()); ++j)
-				{
-					if (i != j && ((verticalCollision && m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pBlocks[j], hitInfo)) ||
-						(horizontalCollision && m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pBlocks[j], hitInfo))))
-					{
-						BreakBlock(i);
-						canBlockBePushed = false;
-						break;
-					}
-				}
-
-				if (!canBlockBePushed) return;
-
-				const BlockCollisionInfo& info
-				{
-					i,
-					hitInfo,
-					true
-				};
-
-				m_BlockCollisionInfo.CreateMessage(info);
-				m_PushBlockIndex = i;
-
-				GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::BlockPushed), 20);
+				BreakBlock(i);
+				return;
 			}
+
+			bool canBlockBePushed = true;
+
+			for (int j = 0; j < static_cast<int>(m_pBlocks.size()); ++j)
+			{
+				if (i != j && ((verticalCollision && m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pBlocks[j], hitInfo)) ||
+					(horizontalCollision && m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pBlocks[j], hitInfo))))
+				{
+					BreakBlock(i);
+					canBlockBePushed = false;
+					break;
+				}
+			}
+
+			if (!canBlockBePushed) return;
+
+			const BlockCollisionInfo& info
+			{
+				i,
+				hitInfo,
+				true
+			};
+
+			m_BlockCollisionInfo.CreateMessage(info);
+			m_PushBlockIndex = i;
+
+			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::BlockPushed), 20);
 		}
+
 	}
 
 	for (auto player : m_pPlayers)

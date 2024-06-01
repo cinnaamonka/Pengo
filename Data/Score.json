@@ -43,10 +43,26 @@
         {
             "name": "KFC",
             "score": 2620
+        },
+        {
+            "name": "DAD",
+            "score": 3270
+        },
+        {
+            "name": "FBB",
+            "score": 1090
+        },
+        {
+            "name": "CBA",
+            "score": 1680
+        },
+        {
+            "name": "CBB",
+            "score": 1210
         }
     ],
-    "Letter0": "K",
-    "Letter1": "F",
-    "Letter2": "C",
-    "score": 3180
+    "Letter0": "C",
+    "Letter1": "B",
+    "Letter2": "B",
+    "score": 680
 }

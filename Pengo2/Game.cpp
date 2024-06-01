@@ -119,6 +119,7 @@ void Game::Initialize(int levelIndex,int maxLevelsAmount)
 		auto pengoActorEnemy = PengoActor::CreateControlledPengoEnemy(m_SecondPlayerPosition);
 
 		pengoActorEnemy->GetComponent<EnemyActor>()->HandleInput(&EnemyManager::enemyPatrolState); 
+		pengoActorEnemy->GetComponent<EnemyActor>()->SetActor(m_pPengoActor->GetReferenceToActor());
 
 		auto versusPengoHitObserver = pengoActorEnemy->GetComponent<HitObserver>();
 
@@ -309,7 +310,7 @@ void Game::InitializeSinglePlayerKeyboard(GameEngine::InputManager& input, GameE
 
 	input.AddCommand<GameEngine::Keyboard>(
 		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Previous,0 },
-		std::make_unique<PushBlockCommand>(m_pEnvironmentReference));
+		std::make_unique<PushBlockCommand>(m_pEnvironmentReference,gameActor));
 
 	input.AddCommand<GameEngine::Keyboard>(
 		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_SPACE, GameEngine::InputState::Released,0 },
@@ -363,7 +364,7 @@ void Game::InitializeSinglePlayerController(GameEngine::InputManager& input, Gam
 	//push
 	input.AddCommand<GameEngine::Controller>(
 		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_A, GameEngine::InputState::Previous,deviceIndex },
-		std::make_unique<PushBlockCommand>(m_pEnvironmentReference));
+		std::make_unique<PushBlockCommand>(m_pEnvironmentReference,gameActor));
 
 	input.AddCommand<GameEngine::Controller>(
 		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_A, GameEngine::InputState::Released,deviceIndex },

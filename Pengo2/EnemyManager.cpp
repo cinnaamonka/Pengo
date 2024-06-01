@@ -245,6 +245,27 @@ void EnemyManager::CheckCollisionWithPlayer(std::vector<GameEngine::GameObject*>
 		}
 		
 	}
+
+	if (!m_pPlayerEnemy)return;
+	//TODO clean it up
+	for (int j = 0; j < actors.size(); ++j)
+	{
+		auto playerPosition = actors[j]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
+
+		const auto currentEnemyPosition = m_pPlayerEnemy->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
+
+		if (GameEngine::AreNear(playerPosition, currentEnemyPosition, 5.0f)) 
+		{
+			auto position = m_pPlayerEnemy->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
+			m_pPlayerEnemy->SetIsDestroyed(true);
+			m_pPlayerEnemy = nullptr;
+
+			SpawnEnemy(position); 
+			ResetEnemiesIndexes(); 
+			AddPlayer(actors[j]);
+		}
+	}
+
 }
 
 void EnemyManager::SpawnEnemy(const glm::vec3& pos)

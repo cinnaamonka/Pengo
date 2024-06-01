@@ -6,15 +6,15 @@
 #include <SoundLogSystem.h>
 #include "Environment.h"
 
-PushBlockCommand::PushBlockCommand(GameEngine::GameObject* gameObject)
-	: GameObjectCommand(gameObject)
+PushBlockCommand::PushBlockCommand(GameEngine::GameObject* gameObject, GameEngine::GameObject* actor) :
+	GameObjectCommand(gameObject),
+	m_pActor(actor)
 {
-
 }
 
 void PushBlockCommand::Execute()
 {
-	GetGameObject()->GetComponent<Environment>()->PushBlock(); 
+	GetGameObject()->GetComponent<Environment>()->PushBlock(m_pActor);
 }
 
 StopPushCommand::StopPushCommand(GameEngine::GameObject* gameObject):
