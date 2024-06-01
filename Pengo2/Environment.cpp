@@ -76,7 +76,7 @@ void Environment::CheckCollision()
 			}
 		}
 
-		if (m_pPlayerEnemy)
+		if (m_pPlayerEnemy && !m_pPlayerEnemy->IsDestroyed())
 		{
 			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsColliding(m_pPlayerEnemy, hitInfo)) 
 			{
@@ -97,7 +97,14 @@ void Environment::CheckCollision()
 			player->GetComponent<HitObserver>()->Notify(hitInfo);
 		}
 	}
-
+	if (m_pPlayerEnemy && !m_pPlayerEnemy->IsDestroyed())
+	{
+		if (borderCollisionComponent->IsColliding(m_pPlayerEnemy, hitInfo))
+		{
+			//TODO fix
+			m_pPlayerEnemy->GetComponent<HitObserver>()->Notify(hitInfo); 
+		}
+	}
 
 }
 
@@ -139,7 +146,7 @@ void Environment::Update()
 
 	if (!std::any_of(m_pPlayers.begin(), m_pPlayers.end(), [](const auto player) {
 		return player->GetComponent<GameEngine::ActorComponent>()->GetCollisionBeChecked();
-		}) && (!m_pPlayerEnemy || !m_pPlayerEnemy->GetComponent<GameEngine::ActorComponent>()->GetCollisionBeChecked())) {
+		}) && (!m_pPlayerEnemy && !m_pPlayerEnemy->IsDestroyed() && !m_pPlayerEnemy->GetComponent<GameEngine::ActorComponent>()->GetCollisionBeChecked())) {
 		return;
 	}
 	 
@@ -175,8 +182,6 @@ void Environment::PushBlock()
 
 			if (verticalCollision || horizontalCollision)
 			{
-
-
 				if ((verticalCollision && m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pBlocks[i], hitInfo)) ||
 					(horizontalCollision && m_pBorderBlock->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pBlocks[i], hitInfo)))
 				{
@@ -211,18 +216,6 @@ void Environment::PushBlock()
 				m_PushBlockIndex = i;
 
 				GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::BlockPushed), 20);
-			}
-		}
-
-		if (m_pPlayerEnemy)
-		{
-			bool verticalCollision = m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pPlayerEnemy, hitInfo);
-			bool horizontalCollision = m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pPlayerEnemy, hitInfo);
-
-			if (verticalCollision || horizontalCollision)
-			{
-
-				DeleteBlockFromMap(i);
 			}
 		}
 	}
@@ -295,9 +288,10 @@ void Environment::BreakBlock(int index)
 {
 	if (m_pBlocks[index]->GetComponent<BaseBlock>()->GetIsBreakable())
 	{
-		/*m_pBlocks[index]->GetComponent<GameEngine::AnimationComponent>()->SetIsDestroyed(true);
 
-		m_BlockCollisionInfo.Detach(m_pBlocks[index]->GetComponent<BlockObserver>());*/
+		m_pBlocks[index]->GetComponent<GameEngine::AnimationComponent>()->SetIsDestroyed(true);
+
+		m_BlockCollisionInfo.Detach(m_pBlocks[index]->GetComponent<BlockObserver>());
 
 		if (m_pBlocks[index]->GetComponent<BaseBlock>()->GetContainsEggs())
 		{
@@ -314,24 +308,11 @@ void Environment::BreakBlock(int index)
 			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::IceBlockDestroyed), 20);
 		}
 
-		/*m_pBlocks.erase(m_pBlocks.begin() + index);
+		m_pBlocks.erase(m_pBlocks.begin() + index);
 		m_PushBlockIndex = -1;
-		m_EnvEvent.CreateMessage(Event::BlockIndexesChanged);*/
-
-		DeleteBlockFromMap(index);
+		m_EnvEvent.CreateMessage(Event::BlockIndexesChanged);
 
 	}
-}
-
-void Environment::DeleteBlockFromMap(int index)
-{
-	m_pBlocks[index]->GetComponent<GameEngine::AnimationComponent>()->SetIsDestroyed(true);
-
-	m_BlockCollisionInfo.Detach(m_pBlocks[index]->GetComponent<BlockObserver>()); 
-
-	m_pBlocks.erase(m_pBlocks.begin() + index);
-	m_PushBlockIndex = -1;
-	m_EnvEvent.CreateMessage(Event::BlockIndexesChanged);
 }
 
 void Environment::CreateBorder(GameEngine::Scene* scene, bool isVertical, BlocksTypes type)
@@ -440,6 +421,25 @@ void Environment::SetEnemyStunned(const int enemyIndex)
 
 		return;
 
+	}
+}
+
+void Environment::EnemyPlayerBreakBlock()
+{
+	GameEngine::HitInfo hitInfo;
+
+	for (int i = 0; i < m_pBlocks.size(); ++i)
+	{
+		if (m_pPlayerEnemy && !m_pPlayerEnemy->IsDestroyed())
+		{
+			bool verticalCollision = m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pPlayerEnemy, hitInfo);
+			bool horizontalCollision = m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pPlayerEnemy, hitInfo);
+
+			if (verticalCollision || horizontalCollision)
+			{
+				DeleteBlockFromGame(i);
+			}
+		}
 	}
 }
 

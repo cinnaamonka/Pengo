@@ -49,6 +49,8 @@ private:
 	void InitializeSinglePlayerInput(GameEngine::InputManager& input,GameEngine::GameObject* gameActor, int deviceIndex);
 	void InitializeSinglePlayerKeyboard(GameEngine::InputManager& input, GameEngine::GameObject* gameActor);
 	void InitializeSinglePlayerController(GameEngine::InputManager& input, GameEngine::GameObject* gameActor, int deviceIndex);
+	void InitializeVersusPlayerEnemyController(GameEngine::InputManager& input, GameEngine::GameObject* gameActor, int deviceIndex);
+	void InitializeVersusPlayerEnemyKeyboard(GameEngine::InputManager& input, GameEngine::GameObject* gameActor, int deviceIndex);
 	void SkipLevel();
 	static void SoundCallback(int);
 private:

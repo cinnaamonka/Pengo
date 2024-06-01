@@ -14,7 +14,7 @@ PushBlockCommand::PushBlockCommand(GameEngine::GameObject* gameObject)
 
 void PushBlockCommand::Execute()
 {
-	GetGameObject()->GetComponent<Environment>()->PushBlock();
+	GetGameObject()->GetComponent<Environment>()->PushBlock(); 
 }
 
 StopPushCommand::StopPushCommand(GameEngine::GameObject* gameObject):
@@ -58,4 +58,14 @@ void MuteSoundCommand::Execute()
 		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Resume();
 	}
 	
+}
+
+BreakBlockCommand::BreakBlockCommand(GameEngine::GameObject* gameObject) :
+	GameObjectCommand(gameObject)
+{
+}
+
+void BreakBlockCommand::Execute()
+{
+	GetGameObject()->GetComponent<Environment>()->EnemyPlayerBreakBlock(); 
 }

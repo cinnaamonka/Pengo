@@ -77,6 +77,9 @@ public:
 	static EnemyPatrolState enemyPatrolState;
 	static EnemyDyingState enemyDyingState;
 
+	void SetPlayerEnemy(GameEngine::GameObject* playerEnemy) { m_pPlayerEnemy = playerEnemy; }
+	GameEngine::GameObject* GetPlayerEnemy() const { return m_pPlayerEnemy; } 
+
 private:
 
 	void HandleMovement(GameEngine::HitInfo& hitInfo, std::vector<GameEngine::GameObject*> blocks,
@@ -90,6 +93,8 @@ private:
 	std::vector<GameEngine::GameObject*> m_EnemiesRef;
 	GameEngine::Subject<GameEngine::HitInfo> m_EnemiesCollisionHitInfoChanged;
 	GameEngine::Subject<GameEngine::EnemyInfo> m_EnemyDirectionChanged;
+
+	GameEngine::GameObject* m_pPlayerEnemy;
 
 	std::vector<glm::vec3> m_StartPositions;
 

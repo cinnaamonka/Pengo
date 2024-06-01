@@ -47,6 +47,11 @@ public:
 	{
 		m_IsKilled = isKilled;
 	}
+
+	static std::unique_ptr<PatrolState> m_MovingState;
+	static std::unique_ptr<ChaseState> m_ChaseState;
+	static std::unique_ptr<HasNoticedActor> m_HasNoticedActor;
+
 private:
 
 	int m_HorizontalAmountOfFrames = 8;
@@ -54,9 +59,7 @@ private:
 
 	bool m_HasKilledActor;
 
-	static std::unique_ptr<PatrolState> m_MovingState;
-	static std::unique_ptr<ChaseState> m_ChaseState;
-	static std::unique_ptr<HasNoticedActor> m_HasNoticedActor;
+	
 
 	std::vector<GameEngine::GameObject*> m_pPlayers;
 

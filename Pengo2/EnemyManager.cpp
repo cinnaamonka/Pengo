@@ -12,6 +12,7 @@
 #include <TimeManager.h>
 #include "Structs.h"
 #include <HUD.h>
+#include <AIFSM.h>
 #include <TimeManager.h>
 
 #include <Helpers.h>
@@ -102,7 +103,6 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& b
 					return;
 				}
 			}
-
 		}
 	}
 }
@@ -186,7 +186,6 @@ void EnemyManager::CheckCollisionWithPushedBlock(GameEngine::GameObject* block)
 
 	for (int i = 0; i < m_EnemiesRef.size(); ++i)
 	{
-
 		if (block->GetComponent<CollisionComponent>()->IsColliding(m_EnemiesRef[i], hitInfo))
 		{
 			glm::vec3 flyingBlockDirection = block->GetComponent<GameEngine::AnimationComponent>()->GetMovementDirection();
@@ -199,6 +198,18 @@ void EnemyManager::CheckCollisionWithPushedBlock(GameEngine::GameObject* block)
 
 		}
 	}
+
+	if (!m_pPlayerEnemy) return;
+
+	if (block->GetComponent<CollisionComponent>()->IsColliding(m_pPlayerEnemy, hitInfo))
+	{
+		auto position = m_pPlayerEnemy->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
+		m_pPlayerEnemy->SetIsDestroyed(true); 
+		m_pPlayerEnemy = nullptr;
+		
+		SpawnEnemy(position);
+	}
+
 }
 
 void EnemyManager::CheckCollisionWithPlayer(std::vector<GameEngine::GameObject*> actors, GameEngine::Subject<GameEngine::HUDEvent>* hudSubject) 

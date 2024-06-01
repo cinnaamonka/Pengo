@@ -22,6 +22,22 @@ public:
 
 	void Execute() override;
 };
+class BreakBlockCommand :public GameEngine::GameObjectCommand
+{
+public:
+
+public:
+	explicit BreakBlockCommand(GameEngine::GameObject* gameObject);
+	~BreakBlockCommand() = default;
+
+	BreakBlockCommand(const BreakBlockCommand& other) = default;
+	BreakBlockCommand& operator=(const BreakBlockCommand& other) = default;
+	BreakBlockCommand(BreakBlockCommand&& other) noexcept = default;
+	BreakBlockCommand& operator=(BreakBlockCommand&& other) noexcept = default;
+
+
+	void Execute() override;
+};
 class StopPushCommand :public GameEngine::GameObjectCommand 
 {
 public:

@@ -18,6 +18,8 @@ namespace GameEngine
 
 	void GameEngine::MoveCommand::Execute()
 	{
+		if (GetGameObject()->IsDestroyed()) return;
+
 		glm::vec3 currentLocalPosition = GetGameObject()->GetComponent<TransformComponent>()->GetLocalPosition();
 		currentLocalPosition += m_Direction * GetGameObject()->GetComponent<ActorComponent>()->GetSpeed() * TimeManager::GetElapsed();
 		GetGameObject()->GetComponent<TransformComponent>()->SetLocalPosition(currentLocalPosition);
@@ -32,6 +34,8 @@ namespace GameEngine
 	}
 	void GameEngine::StopCollisionCheck::Execute()
 	{
+		if (GetGameObject()->IsDestroyed()) return;
+
 		GetGameObject()->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(false);
 
 	}
@@ -43,6 +47,7 @@ namespace GameEngine
 	}
 	void PushCommand::Execute()
 	{
+		if (GetGameObject()->IsDestroyed()) return;
 		GetGameObject()->GetComponent<AnimationComponent>()->SetWasPushed(true);
 		GetGameObject()->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(true);
 
