@@ -19,7 +19,7 @@
             }
         }
     ],
-    "game_mode": 0,
+    "game_mode": 1,
     "hud": [
         {
             "position": {
@@ -452,5 +452,5 @@
         }
     ],
     "lifesAmount": 1,
-    "scoreAmount": 1500
+    "scoreAmount": 30
 }

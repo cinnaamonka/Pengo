@@ -24,6 +24,7 @@
 
 #include <HUD.h>
 #include <thread>
+
 #include "Structs.h"
 
 #include <glm/vec3.hpp>
@@ -32,10 +33,12 @@
 
 //#include <vld.h>
 bool Game::m_IsLevelComplete = false;
+std::mutex Game::m_CallbackMutex;
 
 void Game::Initialize(int levelIndex,int maxLevelsAmount)
 {
 	GameEngine::TimeManager::StopAllTimers();
+
 
 	const std::string levelName = "Level" + std::to_string(levelIndex) + ".json";
 
@@ -97,6 +100,7 @@ void Game::Initialize(int levelIndex,int maxLevelsAmount)
 	case GameEngine::GameModes::SinglePlayer:
 		InitializeInputSystem(m_pPengoActor->GetReferenceToActor(), GameEngine::GameModes::SinglePlayer,0);
 		break;
+		
 	default:
 		break;
 	}
@@ -113,17 +117,7 @@ void Game::Initialize(int levelIndex,int maxLevelsAmount)
 	//Sounds start one after another
 	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::ActStarts), 20);
 
-	Mix_ChannelFinished([](int)
-		{
-			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::Background), 20);
-			Mix_ChannelFinished(nullptr);
-		});
-
-	while (GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().IsPlaying(static_cast<int>(PengoSounds::ActStarts)))
-	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	}
-
+	Mix_ChannelFinished(SoundCallback);
 
 }
 
@@ -349,5 +343,12 @@ void Game::SkipLevel()
 {
 	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Stop(static_cast<int>(PengoSounds::Background));
 	m_IsLevelComplete = true;
+}
+
+void Game::SoundCallback(int)
+{
+	std::lock_guard<std::mutex> lock(m_CallbackMutex);
+	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::Background), 20);
+	Mix_ChannelFinished(nullptr);
 }
 

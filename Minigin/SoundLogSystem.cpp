@@ -57,3 +57,4 @@ bool GameEngine::SoundLogSystem::IsPlaying(const sound_id id) const
 	return pSoundSystem->IsPlaying(id);
 }
 
+

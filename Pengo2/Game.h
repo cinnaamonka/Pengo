@@ -20,6 +20,7 @@
 #include <Helpers.h>
 #include <HUD.h>
 #include <SDL_mixer.h>
+#include <mutex>
 
 class Game final :public GameEngine::BaseGame, public GameEngine::IObserver<GameEngine::State>
 {
@@ -49,6 +50,7 @@ private:
 	void InitializeSinglePlayerKeyboard(GameEngine::InputManager& input, GameEngine::GameObject* gameActor);
 	void InitializeSinglePlayerController(GameEngine::InputManager& input, GameEngine::GameObject* gameActor, int deviceIndex);
 	void SkipLevel();
+	static void SoundCallback(int);
 private:
 
 	std::unique_ptr<GameEngine::GameObject> m_pEnvironment;
@@ -69,6 +71,8 @@ private:
 
 	const glm::vec3 m_FirstPlayerPosition = glm::vec3{ 250,320,0 };
 	const glm::vec3 m_SecondPlayerPosition = glm::vec3{ 200,100,0 };
+
+	static std::mutex m_CallbackMutex;
 };
 
 

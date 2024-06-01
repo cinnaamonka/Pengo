@@ -20,7 +20,6 @@ namespace GameEngine
 			virtual void Load(const std::string& filePath,const sound_id id) = 0;
 			virtual bool Contains(const sound_id id) const = 0;
 			virtual bool IsPlaying(const sound_id) const = 0;
-			
 
 	protected:
 		BaseSoundSystem() = default;

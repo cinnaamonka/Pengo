@@ -11,6 +11,8 @@
 #include <InputManager.h>
 #include "ScoreSceneCommands.h"
 #include "ScoreboardObserver.h"
+#include <SoundServiceLocator.h>
+#include <SoundSystem.h>
 #include <memory>
 #include <algorithm>
 #include <iterator> 
@@ -21,6 +23,7 @@ void ScoreScene::Initialize(int score)
 	m_Score = score;
 
 	GameEngine::TimeManager::StopAllTimers();
+	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Pause();
 
 	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene("ScoreScene");
 
