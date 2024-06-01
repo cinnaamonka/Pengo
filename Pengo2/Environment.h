@@ -92,6 +92,7 @@ private:
 
 	void StopBlock(GameEngine::GameObject* block, GameEngine::HitInfo hitInfo);
 	void BreakBlock(int index);  
+	void DeleteBlockFromMap(int index);
 	void CreateBorder(GameEngine::Scene* scene, bool isVertical, BlocksTypes type);
 	void CheckBorderCollision(const GameEngine::HitInfo& hitInfo);
 	

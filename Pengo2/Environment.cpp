@@ -213,6 +213,18 @@ void Environment::PushBlock()
 				GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::BlockPushed), 20);
 			}
 		}
+
+		if (m_pPlayerEnemy)
+		{
+			bool verticalCollision = m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyVertically(m_pPlayerEnemy, hitInfo);
+			bool horizontalCollision = m_pBlocks[i]->GetComponent<CollisionComponent>()->IsBlockNearbyHorizontally(m_pPlayerEnemy, hitInfo);
+
+			if (verticalCollision || horizontalCollision)
+			{
+
+				DeleteBlockFromMap(i);
+			}
+		}
 	}
 
 	for (auto player : m_pPlayers)
@@ -283,9 +295,9 @@ void Environment::BreakBlock(int index)
 {
 	if (m_pBlocks[index]->GetComponent<BaseBlock>()->GetIsBreakable())
 	{
-		m_pBlocks[index]->GetComponent<GameEngine::AnimationComponent>()->SetIsDestroyed(true);
+		/*m_pBlocks[index]->GetComponent<GameEngine::AnimationComponent>()->SetIsDestroyed(true);
 
-		m_BlockCollisionInfo.Detach(m_pBlocks[index]->GetComponent<BlockObserver>());
+		m_BlockCollisionInfo.Detach(m_pBlocks[index]->GetComponent<BlockObserver>());*/
 
 		if (m_pBlocks[index]->GetComponent<BaseBlock>()->GetContainsEggs())
 		{
@@ -302,11 +314,24 @@ void Environment::BreakBlock(int index)
 			GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Play(static_cast<int>(PengoSounds::IceBlockDestroyed), 20);
 		}
 
-		m_pBlocks.erase(m_pBlocks.begin() + index);
+		/*m_pBlocks.erase(m_pBlocks.begin() + index);
 		m_PushBlockIndex = -1;
-		m_EnvEvent.CreateMessage(Event::BlockIndexesChanged);
+		m_EnvEvent.CreateMessage(Event::BlockIndexesChanged);*/
+
+		DeleteBlockFromMap(index);
 
 	}
+}
+
+void Environment::DeleteBlockFromMap(int index)
+{
+	m_pBlocks[index]->GetComponent<GameEngine::AnimationComponent>()->SetIsDestroyed(true);
+
+	m_BlockCollisionInfo.Detach(m_pBlocks[index]->GetComponent<BlockObserver>()); 
+
+	m_pBlocks.erase(m_pBlocks.begin() + index);
+	m_PushBlockIndex = -1;
+	m_EnvEvent.CreateMessage(Event::BlockIndexesChanged);
 }
 
 void Environment::CreateBorder(GameEngine::Scene* scene, bool isVertical, BlocksTypes type)
