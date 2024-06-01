@@ -34,6 +34,7 @@ public:
 
 
 	std::unique_ptr<GameEngine::GameObject>& GetActorGameObject();
+	static std::unique_ptr<GameEngine::GameObject> CreateControlledPengoEnemy(const glm::vec3& position);
 private:
 
 	std::unique_ptr<IdleState> m_IdleState;

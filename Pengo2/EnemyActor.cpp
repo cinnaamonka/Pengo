@@ -64,6 +64,7 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(const glm::vec3&
 	return gameObject;
 }
 
+
 void EnemyActor::KillPlayer(int killedPlayerIndex)
 {
 	//TODO

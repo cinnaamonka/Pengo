@@ -35,3 +35,20 @@ public:
 private:
 	std::function<void()> m_pFunction; 
 };
+
+class ChooseVersus : public GameEngine::GameObjectCommand
+{
+public:
+	ChooseVersus(GameEngine::GameObject* gameObject, std::function<void()> func);
+	~ChooseVersus() = default;
+
+	ChooseVersus(const ChooseVersus& other) = default;
+	ChooseVersus& operator=(const  ChooseVersus& other) = default;
+	ChooseVersus(ChooseVersus&& other) noexcept = default;
+	ChooseVersus& operator=(ChooseVersus&& other) noexcept = default;
+
+	void Execute() override;
+
+private:
+	std::function<void()> m_pFunction;
+};

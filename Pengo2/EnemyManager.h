@@ -74,6 +74,9 @@ public:
 
 	void AddPlayer(GameEngine::GameObject* actor);
 
+	static EnemyPatrolState enemyPatrolState;
+	static EnemyDyingState enemyDyingState;
+
 private:
 
 	void HandleMovement(GameEngine::HitInfo& hitInfo, std::vector<GameEngine::GameObject*> blocks,
@@ -92,8 +95,7 @@ private:
 
 	int m_KilledEnemyIndex;
 
-	static EnemyPatrolState enemyPatrolState;
-	static EnemyDyingState enemyDyingState;
+	
 
 	const int m_Radius = 20;
 

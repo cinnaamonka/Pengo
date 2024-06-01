@@ -64,9 +64,21 @@ void Game::Initialize(int levelIndex,int maxLevelsAmount)
 	m_pEnvironment->AddComponent<EnvironmentObserver>();
 	m_pEnvironment->GetComponent<Environment>()->SetActor(m_pPengoActor->GetReferenceToActor());
 
-	m_pEnemyManager = std::make_unique<EnemyManager>(static_cast<int>(levelInfo.enemiesPositions.size()), levelInfo.enemiesPositions, &scene,
-		m_pPengoActor->GetReferenceToActor());
-	m_pEnemyManager->AddPlayer(m_pPengoActor->GetReferenceToActor());
+	if (levelInfo.gameMode == GameEngine::GameModes::Versus)
+	{
+		m_SecondPlayerPosition = levelInfo.enemiesPositions.back();
+		levelInfo.enemiesPositions.erase(levelInfo.enemiesPositions.end() - 1);
+
+		m_pEnemyManager = std::make_unique<EnemyManager>(static_cast<int>(levelInfo.enemiesPositions.size()), levelInfo.enemiesPositions, &scene,
+			m_pPengoActor->GetReferenceToActor());
+	}
+	else
+	{
+		m_pEnemyManager = std::make_unique<EnemyManager>(static_cast<int>(levelInfo.enemiesPositions.size()), levelInfo.enemiesPositions, &scene,
+			m_pPengoActor->GetReferenceToActor());
+		m_pEnemyManager->AddPlayer(m_pPengoActor->GetReferenceToActor());
+	}
+	
 
 	m_pEnvironment->GetComponent<Environment>()->SetEnemyManager(m_pEnemyManager.get());
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::HitInfo>(hitObserverComponent);
@@ -100,7 +112,26 @@ void Game::Initialize(int levelIndex,int maxLevelsAmount)
 	case GameEngine::GameModes::SinglePlayer:
 		InitializeInputSystem(m_pPengoActor->GetReferenceToActor(), GameEngine::GameModes::SinglePlayer,0);
 		break;
-		
+	case GameEngine::GameModes::Versus:
+	{
+		m_SecondPlayerPosition.y -= 20;
+
+		auto pengoActorEnemy = PengoActor::CreateControlledPengoEnemy(m_SecondPlayerPosition);
+
+		pengoActorEnemy->GetComponent<EnemyActor>()->HandleInput(&EnemyManager::enemyPatrolState); 
+
+		auto versusPengoHitObserver = pengoActorEnemy->GetComponent<HitObserver>();
+
+		InitializeInputSystem(pengoActorEnemy.get(), GameEngine::GameModes::Versus, 1);
+
+		m_pEnvironmentReference->GetComponent<Environment>()->AttachObserver(versusPengoHitObserver); 
+		m_pEnvironmentReference->GetComponent<Environment>()->SetPlayerEnemy(pengoActorEnemy.get()); 
+
+		m_pEnemyManager->AddPlayer(m_pPengoActor->GetReferenceToActor());  
+
+		scene.Add(std::move(pengoActorEnemy));
+		break;
+	}
 	default:
 		break;
 	}
@@ -200,6 +231,8 @@ void Game::InitializeInputSystem(GameEngine::GameObject* gameActor, GameEngine::
         break;
     }
     case GameEngine::GameModes::Versus:
+		InitializeSinglePlayerController(input, m_pPengoActor->GetReferenceToActor(), 0);
+		InitializeSinglePlayerInput(input, gameActor, deviceIndex);
         break;
     default:
         break;
@@ -338,6 +371,7 @@ void Game::InitializeSinglePlayerController(GameEngine::InputManager& input, Gam
 		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_A, GameEngine::InputState::Previous,deviceIndex },
 		std::make_unique<GameEngine::PushCommand>(gameActor));
 }
+
 
 void Game::SkipLevel()
 {

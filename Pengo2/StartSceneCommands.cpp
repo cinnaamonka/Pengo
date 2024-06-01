@@ -29,3 +29,19 @@ void ChooseCoOp::Execute()
 
 	m_pFunction();
 }
+
+ChooseVersus::ChooseVersus(GameEngine::GameObject* gameObject, std::function<void()> func):
+	GameEngine::GameObjectCommand(gameObject),
+	m_pFunction(func)
+{
+
+}
+
+void ChooseVersus::Execute()
+{
+	GameEngine::UpdateLevelFile("game_mode", GameEngine::GameModes::Versus, "Level0.json");
+	GameEngine::UpdateLevelFile("game_mode", GameEngine::GameModes::Versus, "Level1.json");
+	GameEngine::UpdateLevelFile("game_mode", GameEngine::GameModes::Versus, "Level2.json");
+
+	m_pFunction();
+}

@@ -7,6 +7,7 @@
 #include <ResourceManager.h>
 #include <ActorComponent.h>
 #include "HitObserver.h"
+#include "EnemyActor.h"
 
 #include <Helpers.h>
 #include <Texture2D.h>
@@ -70,6 +71,29 @@ HitObserver* PengoActor::GetHitObserver() const
 std::unique_ptr<GameEngine::GameObject>& PengoActor::GetActorGameObject()
 {
 	return m_pActor;
+}
+
+std::unique_ptr<GameEngine::GameObject> PengoActor::CreateControlledPengoEnemy(const glm::vec3& position)
+{
+	std::unique_ptr<GameEngine::GameObject> gameObject = std::make_unique<GameEngine::GameObject>(); 
+
+	gameObject->AddComponent<GameEngine::BoxCollider>(static_cast<int>(position.x), static_cast<int>(position.y), 20, 20);
+	gameObject->AddComponent<GameEngine::TransformComponent>(glm::vec3(static_cast<int>(position.x), static_cast<int>(position.y), 0));
+	gameObject->AddComponent<GameEngine::TextureComponent>("Enemy.tga");
+	gameObject->AddComponent<GameEngine::AnimationComponent>(); 
+	gameObject->AddComponent<GameEngine::ActorComponent>(); 
+	gameObject->AddComponent<EnemyActor>(); 
+	
+	auto textureSizeX = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / 8;
+	auto textureSizeY = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / 5;
+
+	gameObject->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
+	
+	gameObject->AddComponent<HitObserver>();
+	gameObject->AddComponent<GameEngine::RenderComponent>();
+
+
+	return gameObject;
 }
 
 

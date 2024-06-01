@@ -81,7 +81,6 @@ bool GameEngine::TimeManager::IsTimerElapsed(const std::string& timerName)
 
     auto currentTime = std::chrono::high_resolution_clock::now();
     auto elapsedTime = std::chrono::duration_cast<std::chrono::duration<float>>(currentTime - timer.startTime);
-    std::cout << elapsedTime << std::endl;
     return elapsedTime >= timer.duration;
 }
 

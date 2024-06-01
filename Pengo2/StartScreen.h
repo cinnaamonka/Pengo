@@ -19,7 +19,6 @@ public:
 
 	bool IsLevelComplete() override 
 	{
-		std::cout << m_IsLevelComplete << std::endl;
 		return m_IsLevelComplete; 
 	};
 
