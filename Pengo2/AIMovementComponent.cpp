@@ -5,20 +5,20 @@
 AIMovementComponent::AIMovementComponent(GameEngine::GameObject* pGameObject) :
 	BaseComponent(pGameObject)
 {
-
+	m_pAnimationComponent = GetGameObject()->GetComponent<GameEngine::AnimationComponent>();
+	m_pTranformComponent = GetGameObject()->GetComponent<GameEngine::TransformComponent>();
 }
 
 void AIMovementComponent::Update()
 {
-	if (GetGameObject()->HasComponent<GameEngine::FSM>())
-	{
-		glm::vec3 pos = GetGameObject()->GetComponent<GameEngine::AnimationComponent>()->GetPos(); 
-		
-		ChangePosition(pos);
-	};
+
+	glm::vec3 pos = m_pAnimationComponent->GetPos();
+
+	ChangePosition(pos);
+
 }
 
 void AIMovementComponent::ChangePosition(const glm::vec3& pos)
 {
-	GetGameObject()->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(pos);
+	m_pTranformComponent->SetLocalPosition(pos);
 }

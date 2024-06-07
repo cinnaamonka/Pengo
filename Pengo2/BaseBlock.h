@@ -11,6 +11,8 @@
 #include "HitObserver.h"
 #include "CollisionComponent.h"
 
+
+
 class BoxCollider;
 class HitObserver;
 
@@ -143,5 +145,7 @@ private:
 	bool m_ShouldBreakOnSpot;
 	bool m_IsHorBorder;
 	bool m_IsVerBorder;
+
+	
 };
 

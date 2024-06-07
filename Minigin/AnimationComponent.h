@@ -4,6 +4,7 @@
 
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
+#include "TransformComponent.h"
 
 
 namespace GameEngine
@@ -98,6 +99,8 @@ namespace GameEngine
 		bool m_IsVertical;
 		bool m_IsHorizontal;
 		bool m_ShouldFlyckering;
+
+		GameEngine::TransformComponent* m_pTransformComponent;
 	};
 }
 

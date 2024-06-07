@@ -111,8 +111,8 @@ std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& 
 	}
 
 	gameObject->AddComponent<GameEngine::BoxCollider>(static_cast<int>(colliderPosition.x), static_cast<int>(colliderPosition.y), blockSizeX, blockSizeY);
-	gameObject->AddComponent<GameEngine::AnimationComponent>();
 	gameObject->AddComponent<GameEngine::TransformComponent>(position);
+	gameObject->AddComponent<GameEngine::AnimationComponent>();
 	gameObject->AddComponent<GameEngine::TextureComponent>(filename, clipAmount);
 	gameObject->AddComponent<GameEngine::RenderComponent>();
 	gameObject->AddComponent<CollisionComponent>();

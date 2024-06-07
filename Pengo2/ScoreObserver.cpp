@@ -15,6 +15,7 @@ ScoreObserver::ScoreObserver(GameEngine::Scene* scenePtr)
 void ScoreObserver::Notify(const Score& message_from_subject)
 {
 	auto gameObject = std::make_unique<GameEngine::GameObject>();
+	gameObject->AddComponent<GameEngine::TransformComponent>(message_from_subject.pos);
 
 	switch (message_from_subject.type)
 	{
@@ -41,8 +42,6 @@ void ScoreObserver::Notify(const Score& message_from_subject)
 
 	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_pScoreWaiting.get(), m_pScoreAppearing.get(),
 		m_pIsScoreWaiting.get());
-
-	gameObject->AddComponent<GameEngine::TransformComponent>(message_from_subject.pos);
 
 	auto textureSizeX = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / m_HorizontalAmountOfFrames;
 	auto textureSizeY = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y;

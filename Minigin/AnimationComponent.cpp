@@ -1,13 +1,13 @@
 #include "AnimationComponent.h"
 #include "FSM.h"
-#include "TransformComponent.h"
+
 
 namespace GameEngine
 {
 	AnimationComponent::AnimationComponent(GameEngine::GameObject* pGameObject) :
 		BaseComponent(pGameObject)
 	{
-
+		m_pTransformComponent = GetGameObject()->GetComponent<GameEngine::TransformComponent>();
 	}
 
 	void AnimationComponent::Update()
@@ -19,7 +19,7 @@ namespace GameEngine
 
 	void AnimationComponent::ChangeTexture()
 	{
-		GameEngine::Rect previousDimensions = GetGameObject()->GetComponent<GameEngine::TransformComponent>()->GetDimensions();
+		GameEngine::Rect previousDimensions = m_pTransformComponent->GetDimensions();
 
 		GameEngine::Rect currentDimensions =
 		{
@@ -35,7 +35,7 @@ namespace GameEngine
 			currentDimensions.bottom = m_VerticalOffset * m_AnimationFrame * previousDimensions.height;
 		}
 		
-		GetGameObject()->GetComponent<GameEngine::TransformComponent>()->SetDimensions(currentDimensions);
+		m_pTransformComponent->SetDimensions(currentDimensions);
 	}
 
 	void AnimationComponent::Destroy()

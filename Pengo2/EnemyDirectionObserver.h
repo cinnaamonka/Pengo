@@ -2,6 +2,8 @@
 #include <BaseComponent.h>
 #include <IObserver.h>
 #include <Helpers.h>
+#include <AnimationComponent.h>
+
 
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
@@ -29,6 +31,7 @@ public:
 
 private:
 	int m_Index;
+	GameEngine::AnimationComponent* m_pAnimationComponent;
 
 };
 

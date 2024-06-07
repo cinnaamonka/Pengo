@@ -1,5 +1,8 @@
 #pragma once
 #include "GameObjectCommand.h"
+#include "TransformComponent.h"
+#include "ActorComponent.h"
+#include "AnimationComponent.h"
 
 #include <glm/vec2.hpp>
 #include <glm/glm.hpp>
@@ -24,6 +27,9 @@ namespace GameEngine
     private:
         glm::vec3 m_Direction;
         float m_Speed;        
+        GameEngine::TransformComponent* m_pTransformComponent;
+        GameEngine::ActorComponent* m_pActorComponent;
+        GameEngine::AnimationComponent* m_pAnimationComponent;
     };
 
     class PushCommand final : public GameObjectCommand
@@ -39,6 +45,9 @@ namespace GameEngine
 
 
         void Execute() override;
+    private:
+        GameEngine::ActorComponent* m_pActorComponent;
+        GameEngine::AnimationComponent* m_pAnimationComponent;
     };
 
 	class StopCollisionCheck final : public GameObjectCommand
@@ -54,7 +63,9 @@ namespace GameEngine
 		StopCollisionCheck& operator=(StopCollisionCheck&& other) noexcept = delete;
 
 		void Execute() override;
+    private:
 
+        GameEngine::ActorComponent* m_pActorComponent;
 	};
 
 

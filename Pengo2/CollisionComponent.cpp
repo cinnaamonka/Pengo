@@ -7,6 +7,7 @@
 CollisionComponent::CollisionComponent(GameEngine::GameObject* pGameObject) :
 	BaseComponent(pGameObject)
 {
+
 }
 
 bool CollisionComponent::IsColliding(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo)

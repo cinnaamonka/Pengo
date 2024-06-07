@@ -1,6 +1,9 @@
 #pragma once
 #include <BaseComponent.h>
 #include <Helpers.h>
+#include "BaseBlock.h"
+
+class BaseBlock;
 
 class CollisionComponent final : public GameEngine::BaseComponent
 {
@@ -17,6 +20,5 @@ public:
 	bool IsColliding(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo);
 	bool IsBlockNearbyHorizontally(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo);
 	bool IsBlockNearbyVertically(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo);
-
 };
 

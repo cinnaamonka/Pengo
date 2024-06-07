@@ -40,7 +40,7 @@ public:
 
 	bool GetIsKilled() const
 	{
-		return m_IsKilled;
+ 	return m_IsKilled;
 	}
 
 	void SetIsKilled(bool isKilled)

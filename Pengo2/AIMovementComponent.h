@@ -1,6 +1,8 @@
 #pragma once
 #include <BaseComponent.h>
 #include <Helpers.h>
+#include <AnimationComponent.h>
+#include <TransformComponent.h>
 
 class AIMovementComponent final : public GameEngine::BaseComponent
 {
@@ -15,5 +17,8 @@ public:
 
 	void Update() override;
 	void ChangePosition(const glm::vec3& pos);
+private:
+	GameEngine::AnimationComponent* m_pAnimationComponent;
+	GameEngine::TransformComponent* m_pTranformComponent;
 };
 
