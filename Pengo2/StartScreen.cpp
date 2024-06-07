@@ -7,11 +7,17 @@
 #include <ResourceManager.h>
 #include <InputManager.h>
 #include "StartSceneCommands.h"
+#include <FontManager.h> 
 
 void StartScreen::Initialize()
 {
 	auto& scene = GameEngine::SceneManager::GetInstance().CreateScene("StartScene");
-	auto font = GameEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 16);
+
+	GameEngine::FontManager::GetInstance().LoadFont(GameEngine::FontTypes::Small, "Lingua.otf", 12); 
+	GameEngine::FontManager::GetInstance().LoadFont(GameEngine::FontTypes::Middle, "Lingua.otf", 16);
+	GameEngine::FontManager::GetInstance().LoadFont(GameEngine::FontTypes::Big, "Lingua.otf", 28);
+
+	auto font = GameEngine::FontManager::GetInstance().GetFont(GameEngine::FontTypes::Middle); 
 
 	AddPicture("PengoLogo.tga", m_LabelPosition, &scene);
 	AddText("SinglePlayer", m_SinglePlayerPosition, &scene, font);

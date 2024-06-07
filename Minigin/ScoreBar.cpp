@@ -5,6 +5,7 @@
 #include "ResourceManager.h"
 #include "AnimationComponent.h"
 #include "TextComponent.h"
+#include "FontManager.h"
 #include "Texture2D.h"
 
 
@@ -12,7 +13,8 @@ std::unique_ptr<GameEngine::GameObject> GameEngine::ScoreBarFactory::CreateScore
 {
 	std::unique_ptr<GameEngine::GameObject> gameObject = std::make_unique<GameEngine::GameObject>();
 
-	auto font = GameEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 16);
+
+	auto font = GameEngine::FontManager::GetInstance().GetFont(GameEngine::FontTypes::Middle); 
 
 	std::string scoreStrBefore = std::to_string(currentScore);
 	int digitsBefore = static_cast<int>(scoreStrBefore.length());

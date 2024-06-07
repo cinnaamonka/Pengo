@@ -162,6 +162,9 @@
     <ClInclude Include="SnoBeeShower.h">
       <Filter>Engine\HUD</Filter>
     </ClInclude>
+    <ClInclude Include="FontManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -263,6 +266,9 @@
     </ClCompile>
     <ClCompile Include="SnoBeeShower.cpp">
       <Filter>Engine\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="FontManager.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
