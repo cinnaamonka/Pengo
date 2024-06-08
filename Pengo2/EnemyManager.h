@@ -25,11 +25,7 @@ public:
 	template<typename T>
 	void AttachObserver(GameEngine::IObserver<T>* pObserver)
 	{
-		if constexpr (std::is_same_v<T, GameEngine::HitInfo>)
-		{
-			m_EnemiesCollisionHitInfoChanged.Attach(pObserver);
-		}
-		else if constexpr (std::is_same_v<T, GameEngine::EnemyInfo>)
+		 if constexpr (std::is_same_v<T, GameEngine::EnemyInfo>)
 		{
 			m_EnemyDirectionChanged.Attach(pObserver);
 		}
@@ -38,11 +34,8 @@ public:
 	template<typename T>
 	void CreateMessage(T info)
 	{
-		if constexpr (std::is_same_v<T, GameEngine::HitInfo>)
-		{
-			m_EnemiesCollisionHitInfoChanged.CreateMessage(info);
-		}
-		else if constexpr (std::is_same_v<T, GameEngine::EnemyInfo>)
+		
+		 if constexpr (std::is_same_v<T, GameEngine::EnemyInfo>)
 		{
 			m_EnemyDirectionChanged.CreateMessage(info);
 		}
@@ -86,7 +79,6 @@ private:
 
 private:
 	std::vector<GameEngine::GameObject*> m_EnemiesRef;
-	GameEngine::Subject<GameEngine::HitInfo> m_EnemiesCollisionHitInfoChanged;
 	GameEngine::Subject<GameEngine::EnemyInfo> m_EnemyDirectionChanged;
 
 	GameEngine::GameObject* m_pPlayerEnemy;

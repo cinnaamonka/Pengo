@@ -1,5 +1,4 @@
 #include "EnemyManager.h"
-#include "HitObserver.h"
 #include <random> 
 #include "EnemyDirectionObserver.h"
 #include "CollisionComponent.h"
@@ -273,7 +272,6 @@ void EnemyManager::SpawnEnemy(const glm::vec3& pos)
 	int enemiesAmount = static_cast<int>(m_EnemiesRef.size());
 
 	auto enemyActor = EnemyActor::CreateEnemy(pos, enemiesAmount);
-	m_EnemiesCollisionHitInfoChanged.Attach(enemyActor->GetComponent<HitObserver>());
 	m_EnemyDirectionChanged.Attach(enemyActor->GetComponent<EnemyDirectionObserver>());
 	enemyActor->GetComponent<EnemyActor>()->HandleInput(&enemyPatrolState);
 	m_EnemiesRef.push_back(enemyActor.get());
