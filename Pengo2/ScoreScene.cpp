@@ -14,7 +14,7 @@
 #include <SoundSystem.h>
 #include <algorithm>
 #include <iterator> 
-#include <FontManager.h>
+#include <ResourceManager.h>
 
 
 void ScoreScene::Initialize(int score)
@@ -33,9 +33,9 @@ void ScoreScene::Initialize(int score)
 	auto scoreBoardObserver = m_pFinalPlayerScore->GetComponent<ScoreboardObserver>();
     m_AddScoreToScoreboardEvent.Attach(scoreBoardObserver); 
 
-	auto bigFont = GameEngine::FontManager::GetInstance().GetFont(GameEngine::FontTypes::Big);
-	auto middleFont = GameEngine::FontManager::GetInstance().GetFont(GameEngine::FontTypes::Middle);
-	auto smallFont = GameEngine::FontManager::GetInstance().GetFont(GameEngine::FontTypes::Small);
+	auto bigFont = GameEngine::ResourceManager::GetInstance().GetFont(GameEngine::FontTypes::Big);
+	auto middleFont = GameEngine::ResourceManager::GetInstance().GetFont(GameEngine::FontTypes::Middle);
+	auto smallFont = GameEngine::ResourceManager::GetInstance().GetFont(GameEngine::FontTypes::Small);
 
 	AddText(m_ScoreLablePosition, "SCORE", &scene, middleFont);
 	AddText(m_InitialsLabelPosition, "ENTER YOUR INITIALS", &scene, bigFont);

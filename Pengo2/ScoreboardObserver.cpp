@@ -4,7 +4,7 @@
 #include <RenderComponent.h>
 #include <AnimationComponent.h>
 #include <ResourceManager.h>
-#include <FontManager.h>
+
 
 ScoreboardObserver::ScoreboardObserver(GameEngine::GameObject* gameObject, GameEngine::Scene* pScene):
 	BaseComponent(gameObject),
@@ -14,7 +14,7 @@ ScoreboardObserver::ScoreboardObserver(GameEngine::GameObject* gameObject, GameE
 
 void ScoreboardObserver::Notify(const ScoreBoardData& message_from_subject)
 {
-	auto smallFont = GameEngine::FontManager::GetInstance().GetFont(GameEngine::FontTypes::Small); 
+	auto smallFont = GameEngine::ResourceManager::GetInstance().GetFont(GameEngine::FontTypes::Small); 
 
 	auto gameObject = std::make_unique<GameEngine::GameObject>();
 

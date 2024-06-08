@@ -3,14 +3,14 @@
 #include "RenderComponent.h"
 #include "AnimationComponent.h"
 #include "TextComponent.h"
-#include "FontManager.h"
+#include "ResourceManager.h"
 
 std::unique_ptr<GameEngine::GameObject> GameEngine::ScoreBarFactory::CreateScoreBar(const glm::vec3& position, int currentScore)
 {
 	std::unique_ptr<GameEngine::GameObject> gameObject = std::make_unique<GameEngine::GameObject>();
 
 
-	auto font = GameEngine::FontManager::GetInstance().GetFont(GameEngine::FontTypes::Middle); 
+	auto font = GameEngine::ResourceManager::GetInstance().GetFont(GameEngine::FontTypes::Middle); 
 
 	std::string scoreStrBefore = std::to_string(currentScore);
 	int digitsBefore = static_cast<int>(scoreStrBefore.length());
