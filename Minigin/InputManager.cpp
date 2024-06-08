@@ -29,7 +29,7 @@ namespace GameEngine
 			ImGui_ImplSDL2_ProcessEvent(&e);
 		}
 
-		for (int i = 0; i < m_pDevices.size(); ++i)
+		for (int i = 0; i < static_cast<int>(m_pDevices.size()); ++i)
 		{
 			m_pDevices[i]->Update();
 			m_pDevices[i]->HandleInput();

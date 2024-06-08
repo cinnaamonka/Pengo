@@ -45,9 +45,9 @@ void EnemyManager::CheckEnemiesCollision(std::vector<GameEngine::GameObject*>& b
 {
 	GameEngine::HitInfo hitInfo;
 
-	for (int i = 0; i < m_EnemiesRef.size(); ++i)
+	for (int i = 0; i < static_cast<int>(m_EnemiesRef.size()); ++i)
 	{
-		for (int j = 0; j < blocks.size(); ++j)
+		for (int j = 0; j < static_cast<int>(blocks.size()); ++j)
 		{
 			if (blocks[j]->GetComponent<CollisionComponent>()->IsColliding(m_EnemiesRef[i], hitInfo))
 			{
@@ -142,7 +142,7 @@ void EnemyManager::KillEnemy(int index)
 
 void EnemyManager::ResetEnemiesIndexes()
 {
-	for (int i = 0; i < m_EnemiesRef.size(); ++i)
+	for (int i = 0; i < static_cast<int>(m_EnemiesRef.size()); ++i)
 	{
 		m_EnemiesRef[i]->GetComponent<EnemyDirectionObserver>()->SetIndex(i);
 	}
@@ -154,7 +154,7 @@ void EnemyManager::HandleBorderCollision(GameEngine::GameObject* border,GameEngi
 	GameEngine::HitInfo hitInfo;
 	const auto borderCollisionComponent = border->GetComponent<CollisionComponent>();
 
-	for (int i = 0; i < m_EnemiesRef.size(); ++i)
+	for (int i = 0; i < static_cast<int>(m_EnemiesRef.size()); ++i)
 	{
 		if (!borderCollisionComponent->IsColliding(m_EnemiesRef[i], hitInfo)) continue;
 
@@ -183,7 +183,7 @@ void EnemyManager::CheckCollisionWithPushedBlock(GameEngine::GameObject* block)
 {
 	GameEngine::HitInfo hitInfo;
 
-	for (int i = 0; i < m_EnemiesRef.size(); ++i)
+	for (int i = 0; i < static_cast<int>(m_EnemiesRef.size()); ++i)
 	{
 		if (block->GetComponent<CollisionComponent>()->IsColliding(m_EnemiesRef[i], hitInfo))
 		{
@@ -213,9 +213,9 @@ void EnemyManager::CheckCollisionWithPushedBlock(GameEngine::GameObject* block)
 
 void EnemyManager::CheckCollisionWithPlayer(std::vector<GameEngine::GameObject*> actors, GameEngine::Subject<GameEngine::HUDEvent>* hudSubject) 
 {
-	for (int i = 0; i < m_EnemiesRef.size(); ++i)
+	for (int i = 0; i < static_cast<int>(m_EnemiesRef.size()); ++i)
 	{
-		for (int j = 0; j < actors.size();++j)
+		for (int j = 0; j < static_cast<int>(actors.size());++j)
 		{
 			auto playerPosition = actors[j]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
 
@@ -247,7 +247,7 @@ void EnemyManager::CheckCollisionWithPlayer(std::vector<GameEngine::GameObject*>
 
 	if (!m_pPlayerEnemy)return;
 
-	for (int j = 0; j < actors.size(); ++j)
+	for (int j = 0; j < static_cast<int>(actors.size()); ++j)
 	{
 		auto playerPosition = actors[j]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
 
@@ -292,7 +292,7 @@ void EnemyManager::CheckEnemiesCollectionSize(GameEngine::Subject<GameEngine::HU
 
 void EnemyManager::AddPlayer(GameEngine::GameObject* actor)
 {
-	for (int i = 0; i < m_EnemiesRef.size(); ++i)
+	for (int i = 0; i < static_cast<int>(m_EnemiesRef.size()); ++i)
 	{
 		m_EnemiesRef[i]->GetComponent<EnemyActor>()->SetActor(actor); 
 	}

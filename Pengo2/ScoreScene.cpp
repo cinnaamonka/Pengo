@@ -107,7 +107,7 @@ void ScoreScene::ShowLeaderBord(GameEngine::Scene* scene, std::shared_ptr<GameEn
 	scoresMap.insert({ m_Score, "" });
 	std::map<int, std::string, std::greater<int>> sortedMap(scoresMap.begin(), scoresMap.end());
 
-	if (sortedMap.size() > m_LeadersAmount)
+	if (static_cast<int>(sortedMap.size()) > m_LeadersAmount)
 	{
 		auto it = sortedMap.begin(); 
 		std::advance(it, m_LeadersAmount);
