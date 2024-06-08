@@ -10,7 +10,7 @@ namespace GameEngine
 	public:
 		virtual void Update() {};
 
-		virtual void Render(){};
+		virtual void Render()const {} ;
 		virtual ~BaseComponent() {};
 
 		BaseComponent(const BaseComponent& other) = delete;

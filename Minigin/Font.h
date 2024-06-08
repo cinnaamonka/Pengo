@@ -20,6 +20,6 @@ namespace GameEngine
 		Font & operator= (const Font &&) = delete;
 
 	private:
-		_TTF_Font* m_font;
+		_TTF_Font* m_Font;
 	};
 }

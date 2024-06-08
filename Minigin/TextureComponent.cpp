@@ -17,10 +17,6 @@ GameEngine::TextureComponent::TextureComponent(GameObject* GOptr)
 	
 }
 
-std::shared_ptr<GameEngine::Texture2D> GameEngine::TextureComponent::GetTexture() const
-{
-	return m_Texture;
-}
 
 void GameEngine::TextureComponent::SetTexture(const std::string& filename)
 {

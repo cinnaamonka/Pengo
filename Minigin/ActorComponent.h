@@ -61,7 +61,7 @@ namespace GameEngine
 			return m_CanCollisionBeChecked;
 		}
 
-		const Rect& GetDestTextureRect()
+		const Rect& GetDestTextureRect() const
 		{
 			return m_DestTextureRect;
 		}

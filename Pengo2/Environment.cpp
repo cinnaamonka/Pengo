@@ -399,7 +399,6 @@ void Environment::SpawnEnemyFromEggBlock()
 
 		for (auto player : m_pPlayers)
 		{
-			//TODO fix
 			m_pEnemyManager->AddPlayer(player);
 		}
 	}

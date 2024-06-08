@@ -79,7 +79,7 @@ namespace GameEngine
 		ImGuiComponent& operator=(ImGuiComponent&& other) noexcept = delete;
 
 
-		virtual void Render() override;
+		virtual void Render() const ;
 
 	private:
 		std::unique_ptr<ChartInfo> m_ChartUpdateInfoPtr = std::make_unique<ChartInfo>();

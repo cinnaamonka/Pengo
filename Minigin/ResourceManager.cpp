@@ -9,7 +9,7 @@
 
 void GameEngine::ResourceManager::Init(const std::string& dataPath)
 {
-	m_dataPath = dataPath;
+	m_DataPath = dataPath;
 
 	if (TTF_Init() != 0)
 	{
@@ -19,7 +19,7 @@ void GameEngine::ResourceManager::Init(const std::string& dataPath)
 
 std::shared_ptr<GameEngine::Texture2D> GameEngine::ResourceManager::LoadTexture(const std::string& file) const
 {
-	const auto fullPath = m_dataPath + file;
+	const auto fullPath = m_DataPath + file;
 	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
 	if (texture == nullptr)
 	{
@@ -30,5 +30,5 @@ std::shared_ptr<GameEngine::Texture2D> GameEngine::ResourceManager::LoadTexture(
 
 std::shared_ptr<GameEngine::Font> GameEngine::ResourceManager::LoadFont(const std::string& file, unsigned int size) const
 {
-	return std::make_shared<Font>(m_dataPath + file, size);
+	return std::make_shared<Font>(m_DataPath + file, size);
 }

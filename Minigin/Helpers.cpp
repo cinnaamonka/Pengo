@@ -308,8 +308,13 @@ namespace GameEngine
 	bool AreThreePointsOnSameLine(const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& p3)
 	{
 		int determinant = static_cast<int>(p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y));
+		bool onSameLine = determinant == 0; 
+		float dist1 = sqrtf(powf(p2.x - p1.x, 2) + powf(p2.y - p1.y, 2) + powf(p2.z - p1.z, 2));
+		float dist2 = sqrtf(powf(p3.x - p2.x, 2) + powf(p3.y - p2.y, 2) + powf(p3.z - p2.z, 2));
 
-		return determinant == 0;
+		
+		bool withinDistance = dist1 <= 60 && dist2 <= 60;
+		return onSameLine && withinDistance;
 	}
 	bool IsPointInsideRect(const glm::vec3& point, const Rect& rect, float threshold)
 	{

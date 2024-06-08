@@ -24,7 +24,7 @@ namespace GameEngine
 		RenderComponent& operator=(const RenderComponent& other) = delete;
 		RenderComponent& operator=(RenderComponent&& other) noexcept = delete;
 
-		void Render() override;
+		void Render() const override;
 
 		void SetTexture(std::shared_ptr<Texture2D> texture)
 		{
@@ -36,7 +36,7 @@ namespace GameEngine
 			m_Position = pos;
 		}
 
-		glm::vec3 GetPosition() const
+		const glm::vec3& GetPosition() const
 		{
 			return m_Position;
 		}

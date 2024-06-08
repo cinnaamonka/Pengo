@@ -493,6 +493,6 @@
             "type": "verBorder"
         }
     ],
-    "lifesAmount": 0,
-    "scoreAmount": 4560
+    "lifesAmount": -1,
+    "scoreAmount": 590
 }

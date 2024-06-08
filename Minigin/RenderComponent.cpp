@@ -24,7 +24,7 @@ GameEngine::RenderComponent::RenderComponent(GameObject* GOptr) :
 	m_pAnimationComponent = GetGameObject()->GetComponent<GameEngine::AnimationComponent>();
 };
 
-void GameEngine::RenderComponent::Render()
+void GameEngine::RenderComponent::Render() const
 {
 	
 	const auto& newTexture = m_TextureComponent->GetTexture();

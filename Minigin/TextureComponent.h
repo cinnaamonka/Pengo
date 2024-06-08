@@ -21,12 +21,10 @@ namespace GameEngine
 
 		TextureComponent(GameObject* GOptr);
 
-		std::shared_ptr<GameEngine::Texture2D> GetTexture() const;
-
 		void SetTexture(const std::string& filename);
 		void SetTexture(std::shared_ptr<GameEngine::Texture2D>& texture); 
 
-		std::shared_ptr<GameEngine::Texture2D>& GetTexture()
+		const std::shared_ptr<GameEngine::Texture2D>& GetTexture() const
 		{
 			return m_Texture;
 		}

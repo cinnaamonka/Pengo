@@ -33,7 +33,7 @@ namespace GameEngine
 
 		void SetText(const std::string& text);
 
-		std::string GetText()const
+		const std::string& GetText()const
 		{
 			return m_Text;
 		};

@@ -45,7 +45,7 @@ namespace GameEngine
 		
 		void UpdateWorldPosition();
 
-		const Rect& GetDimensions()
+		const Rect& GetDimensions() const
 		{
 			return m_DestDimensions;
 		}

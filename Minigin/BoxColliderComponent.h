@@ -20,7 +20,7 @@ namespace GameEngine
 		BoxCollider& operator=(const BoxCollider& other) = delete;
 		BoxCollider& operator=(BoxCollider&& other) = delete;
 
-		Rect& GetBoxCollider()
+		const Rect& GetBoxCollider() const
 		{
 			return m_RectCollider;
 		}
