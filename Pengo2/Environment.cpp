@@ -55,7 +55,9 @@ Environment::Environment(GameEngine::GameObject* pGameObject, std::vector<GameEn
 		}
 	}
 
-	GameEngine::TimeManager::GetInstance().SetTimer("StartTimer", 60.f, [this]() { m_pEnemyManager->CheckEnemiesCollectionSize(&m_AddingScoreInHUDEvent); });
+	const float timerTime = 60.f;
+
+	GameEngine::TimeManager::GetInstance().SetTimer("StartTimer", timerTime, [this]() { m_pEnemyManager->CheckEnemiesCollectionSize(&m_AddingScoreInHUDEvent); });
 
 
 }
@@ -417,6 +419,8 @@ void Environment::SetEnemyStunned(const int enemyIndex)
 		if (!block->GetComponent<GameEngine::AnimationComponent>()->GetWasPushed())continue;
 
 		GameEngine::HitInfo hitInfo{};
+
+		if (!block->GetComponent<CollisionComponent>()->IsColliding(m_pEnemyManager->GetEnemies()[enemyIndex], hitInfo)) continue;
 
 		m_pEnemyManager->GetEnemies()[enemyIndex]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.f);
 		std::string timerName = "StunTimer" + std::to_string(enemyIndex);

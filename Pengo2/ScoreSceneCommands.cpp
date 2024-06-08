@@ -110,12 +110,12 @@ void SwitchToNextLetter::Execute()
     auto currentLetter = m_pLetters[m_CurrentLetterIndex]->GetComponent<Letter>()->GetCurrentLetter(); 
     GameEngine::UpdateLevelFile("Letter" + std::to_string(m_CurrentLetterIndex), std::string(1, currentLetter), "Score.json"); 
 
-    if (m_CurrentLetterIndex == 2)
+    if (m_CurrentLetterIndex == m_LastLetterIndex)
     {
         m_CurrentLetterIndex = -1;
 
         std::string name{};
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < m_MaxLetters; ++i) {
             name += m_pLetters[i]->GetComponent<Letter>()->GetCurrentLetter();
         }
 
@@ -126,11 +126,9 @@ void SwitchToNextLetter::Execute()
         m_pLetters[0]->GetComponent<Letter>()->DeleteInput();
 
          return;
-        
     }
     else
     {
-
         m_CurrentLetterIndex++;
         m_pLetters[m_CurrentLetterIndex]->GetComponent<Letter>()->AddAnimation();
         m_pLetters[m_CurrentLetterIndex]->GetComponent<Letter>()->AddNewInput();
