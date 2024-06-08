@@ -41,8 +41,16 @@ namespace GameEngine
 		void Play(const sound_id id, const float volume)
 		{
 			std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
-			m_SoundQueue.PushBack({ id, volume });
 
+			if (m_Volume)
+			{
+				m_SoundQueue.PushBack({ id, volume });
+			}
+			else
+			{
+				m_SoundQueue.PushBack({ id, 0 });
+			}
+	
 			// Notify the condition variable after adding to the queue
 			m_ConditionalVariable.notify_one();
 
@@ -76,12 +84,16 @@ namespace GameEngine
 
 		void Pause()
 		{
-			Mix_Pause(-1);
+			Mix_Pause(-1); 
+
+			m_Volume = 0;
 		}
 
 		void Resume()
 		{
 			Mix_Resume(-1);
+
+			m_Volume = 20;
 		}
 
 		void Stop(const sound_id id)
@@ -170,6 +182,7 @@ namespace GameEngine
 		std::jthread m_Thread;
 		std::condition_variable m_ConditionalVariable;
 		std::atomic<bool> m_QuitEvent{ false };
+		int m_Volume = 20;
 	};
 
 	SoundSystem::SoundSystem() :
