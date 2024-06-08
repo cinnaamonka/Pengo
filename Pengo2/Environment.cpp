@@ -55,7 +55,9 @@ Environment::Environment(GameEngine::GameObject* pGameObject, std::vector<GameEn
 		}
 	}
 
-	GameEngine::TimeManager::GetInstance().SetTimer("StartTimer", 60.f, [this]() { m_pEnemyManager->CheckEnemiesCollectionSize(&m_AddingScoreInHUDEvent); });
+	const float timerTime = 60.f;
+
+	GameEngine::TimeManager::GetInstance().SetTimer("StartTimer", timerTime, [this]() { m_pEnemyManager->CheckEnemiesCollectionSize(&m_AddingScoreInHUDEvent); });
 
 
 }
@@ -418,10 +420,14 @@ void Environment::SetEnemyStunned(const int enemyIndex)
 
 		GameEngine::HitInfo hitInfo{};
 
+		if (!block->GetComponent<CollisionComponent>()->IsColliding(m_pEnemyManager->GetEnemies()[enemyIndex], hitInfo)) continue;
+
 		m_pEnemyManager->GetEnemies()[enemyIndex]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.f);
 		std::string timerName = "StunTimer" + std::to_string(enemyIndex);
 
-		GameEngine::TimeManager::GetInstance().SetTimer(timerName, 10.f, [this, enemyIndex]() {
+		const float timerValue = 10.0f;
+
+		GameEngine::TimeManager::GetInstance().SetTimer(timerName, timerValue, [this, enemyIndex]() {
 			m_pEnemyManager->GetEnemies()[enemyIndex]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.3f);
 			});
 
@@ -434,7 +440,7 @@ void Environment::EnemyPlayerBreakBlock()
 {
 	GameEngine::HitInfo hitInfo;
 
-	for (int i = 0; i < m_pBlocks.size(); ++i)
+	for (int i = 0; i < static_cast<int>(m_pBlocks.size()); ++i)
 	{
 		if (m_pPlayerEnemy && !m_pPlayerEnemy->IsDestroyed())
 		{

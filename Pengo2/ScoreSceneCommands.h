@@ -55,4 +55,6 @@ private:
 	int m_Score;
 	GameEngine::Subject<ScoreBoardData>* m_Subject;
 	glm::vec3 m_Position;
+	const int m_MaxLetters = 3;
+	const int m_LastLetterIndex = 2;
 };

@@ -42,6 +42,11 @@ private:
 	const glm::vec3& m_BButton = glm::vec3{ 350,360,0 };
 	const glm::vec3& m_XButton = glm::vec3{ 360,430,0 };
 	const glm::vec3& m_MuteButtonPosition = glm::vec3{ 20,20,0 };
+	const glm::vec3& m_SkipLevelPosition = glm::vec3{ 20,60,0 };
+	const glm::vec3& m_KeyboardMovementInstructionPosition = glm::vec3{ 20,40,0 };
+	const glm::vec3& m_SinglePlayerPositionLabel = glm::vec3{ 420,300,0 };
+	const glm::vec3& m_CoOpPositionLabel = glm::vec3{ 390,370,0 };
+	const glm::vec3& m_VsPositionLabel = glm::vec3{ 400,440,0 };
 
 	std::unique_ptr<GameEngine::GameObject> m_pInputGameObject;
 };

@@ -67,6 +67,21 @@ void Letter::AddNewInput()
 	input.AddCommand<GameEngine::Keyboard>(
 		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_RSHIFT, GameEngine::InputState::Pressed },
 		std::make_unique<SumbitNameCommand>(GetGameObject()));
+
+    input.RemoveCommand<GameEngine::Controller>(
+        GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_A, GameEngine::InputState::Released });
+
+	input.RemoveCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_X, GameEngine::InputState::Pressed });
+
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_A, GameEngine::InputState::Released,0 },
+		std::make_unique<ChangeLetterCommand>(GetGameObject()));
+
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_X, GameEngine::InputState::Pressed,0 },
+		std::make_unique<SumbitNameCommand>(GetGameObject()));
+
 }
 
 void Letter::DeleteInput()

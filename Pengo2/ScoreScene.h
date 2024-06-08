@@ -38,6 +38,7 @@ private:
 	std::unique_ptr<GameEngine::GameObject> m_pFinalPlayerScore;
 
 	std::vector<GameEngine::GameObject*> m_pLetters;
+
 	int m_CurrentLetterIndex = 0;
 	int m_Score;
 
@@ -50,6 +51,8 @@ private:
 	const glm::vec3& m_LettersPosition = glm::vec3(400, 180, 0);
 	const glm::vec3& m_SubNameLabelPosition = glm::vec3(150, 230, 0);
 	const glm::vec3& m_SubScoreLabelPosition = glm::vec3(400, 230, 0);
+	const glm::vec3& m_ArrowsInstructionPosition = glm::vec3(20, 20, 0);
+	const glm::vec3& m_SumbitInstructionPosition = glm::vec3(20, 40, 0);
 
 	const int m_LettersAmount = 3;
 	const int m_LeadersAmount = 5;

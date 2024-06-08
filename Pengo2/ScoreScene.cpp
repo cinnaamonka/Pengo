@@ -41,6 +41,8 @@ void ScoreScene::Initialize(int score)
 	AddText(m_InitialsLabelPosition, "ENTER YOUR INITIALS", &scene, bigFont);
 	AddText(m_NameLabelPosition, "NAME", &scene, middleFont);
 	AddText(m_CurrentScorePosition, std::to_string(score), &scene, middleFont); 
+	AddText(m_ArrowsInstructionPosition, "Right arrow on keyboard/A on controller to change letters", &scene, smallFont);
+	AddText(m_SumbitInstructionPosition, "Press Shift/X to enter letter and submit", &scene, smallFont);
 
 	const int incremenet = 30;
 
@@ -97,18 +99,23 @@ void ScoreScene::ShowLeaderBord(GameEngine::Scene* scene, std::shared_ptr<GameEn
 {
 	std::map<int,std::string> scoresMap = GameEngine::ReadScoresFromJson("Score.json");
 
+	if (scoresMap.find(m_Score) != scoresMap.end())
+	{
+		scoresMap.erase(m_Score); 
+	}
+
 	scoresMap.insert({ m_Score, "" });
 	std::map<int, std::string, std::greater<int>> sortedMap(scoresMap.begin(), scoresMap.end());
 
-	if (sortedMap.size() > m_LeadersAmount)
+	if (static_cast<int>(sortedMap.size()) > m_LeadersAmount)
 	{
 		auto it = sortedMap.begin(); 
 		std::advance(it, m_LeadersAmount);
 		sortedMap.erase(it, sortedMap.end()); 
 	}
+	const int incrementY = 40;
 
 	const int incrementX = 250;
-	const int incrementY = 40;
 
 	int i = 0;
 	for (auto it = sortedMap.begin(); it != sortedMap.end(); ++it, ++i)
@@ -169,6 +176,8 @@ void ScoreScene::InitializeInputSystem(GameEngine::GameObject*, GameEngine::Game
 		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_RSHIFT, GameEngine::InputState::Released },
 		std::make_unique<SwitchToNextLetter>(m_pLetters, m_CurrentLetterIndex,m_Score, position ,&m_AddScoreToScoreboardEvent));
 
-
+	input.AddCommand<GameEngine::Controller>(
+		GameEngine::InputControllerBinding{ GameEngine::DeviceButton::XINPUT_CONTROLLER_X, GameEngine::InputState::Released,0 },
+		std::make_unique<SwitchToNextLetter>(m_pLetters, m_CurrentLetterIndex, m_Score, position, &m_AddScoreToScoreboardEvent));
 
 }

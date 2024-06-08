@@ -108,8 +108,8 @@ namespace GameEngine
 	void UpdateLevelFile(const std::string& tag, const T& newInfo, const std::string& filename)
 	{
 		std::filesystem::path currentPath = std::filesystem::current_path();
-		std::filesystem::path parentPath = currentPath.parent_path();
-		std::filesystem::path dataPath = parentPath / "Data";
+	
+		std::filesystem::path dataPath = currentPath / "Data";
 		std::filesystem::path levelPath = dataPath / filename;
 
 		std::ifstream inputFile(levelPath);
@@ -123,7 +123,7 @@ namespace GameEngine
 		}
 		else
 		{
-			std::cerr << "Could not open the file for reading" << std::endl;
+			throw std::runtime_error("Could not open the file for reading");
 			return;
 		}
 
@@ -154,9 +154,8 @@ namespace GameEngine
 	T GetFieldFromFile(const std::string& tag, const std::string& fileName)
 	{
 		std::filesystem::path currentPath = std::filesystem::current_path();
-		std::filesystem::path parentPath = currentPath.parent_path();
 
-		std::filesystem::path dataPath = parentPath / "Data";
+		std::filesystem::path dataPath = currentPath / "Data";
 
 		std::filesystem::path levelPath = dataPath / fileName;
 
