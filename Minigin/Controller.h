@@ -31,6 +31,7 @@ namespace GameEngine
 	public:
 		DeviceButton deviceButton;
 		InputState inputState;
+		int index = 0;
 	};
 
 	class Controller final : public BaseInputDevice
@@ -45,17 +46,17 @@ namespace GameEngine
 		Controller(Controller&& other) noexcept = delete;
 		Controller& operator=(Controller&& other) noexcept = delete;
 
-		
-
 		void Update() override;
 
 		bool IsPressed(int button) override;
 		bool IsReleased(int button) override;
 		bool IsPrevious(int button) override;
+		int GetIndex() const override;
 		 
 		void HandleInput() override;
 
 		void AddCommand(InputControllerBinding binding, std::unique_ptr<BaseCommand> command);
+		void RemoveCommand(InputControllerBinding binding);
 
 	private:
 		// PIMPLE stuff

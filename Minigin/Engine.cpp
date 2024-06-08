@@ -10,7 +10,9 @@
 #include "ResourceManager.h"
 #include "TimeManager.h"
 #include "General.h" 
-#include "SoundServiceLocator.h" 
+#include "SoundSystem.h"
+#include "SoundServiceLocator.h"
+#include "SoundLogSystem.h"
 
 
 SDL_Window* g_window{};
@@ -78,15 +80,14 @@ GameEngine::Engine::~Engine()
 	SDL_Quit();
 }
 
-void GameEngine::Engine::Run(const std::function<std::unique_ptr<BaseGame>()>& load)
+bool GameEngine::Engine::Run(const std::function<std::unique_ptr<BaseGame>()>& load)
 {
 	auto game = load();
 
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
-	auto& soundSystem = SoundServiceLocator::GetSoundSystemInstance();
-
+	
 	bool doContinue = true;
 	auto lastTime = std::chrono::high_resolution_clock::now();
 
@@ -105,13 +106,7 @@ void GameEngine::Engine::Run(const std::function<std::unique_ptr<BaseGame>()>& l
 			m_Lag -= GameEngine::General::FIXED_TIME_STEP;
 		}
 		// Update
-		soundSystem.Update();
 		sceneManager.Update();
-	
-		// late update for camera 
-		
-		//render(lag / MS_PER_UPDATE); 
-		// i dont know if should be implemented
 		
 		// render
 		renderer.Render();
@@ -124,6 +119,15 @@ void GameEngine::Engine::Run(const std::function<std::unique_ptr<BaseGame>()>& l
 		const auto sleepTime = TimeManager::GetCurrent() + std::chrono::milliseconds(ms_per_frame) - std::chrono::high_resolution_clock::now();
 
 		std::this_thread::sleep_for(sleepTime); 
-	}
 
+		if (game->IsLevelComplete())
+		{
+			sceneManager.Destroy();
+			sceneManager.Cleanup();
+			sceneManager.DeleteCurrentScene(); 
+			game->ResetLevel(); 
+			return true;
+		}
+	}
+	return false;
 }

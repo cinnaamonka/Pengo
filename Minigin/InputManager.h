@@ -61,17 +61,20 @@ namespace GameEngine
 		template<typename DeviceType, typename BindingType>
 		void AddCommand(BindingType binding, std::unique_ptr<BaseCommand> command)
 		{
-			auto it = std::find_if(m_DevicesPtr.begin(), m_DevicesPtr.end(), [](const auto& device)
+			auto it = std::find_if(m_DevicesPtr.begin(), m_DevicesPtr.end(), [&binding](const auto& device)
 				{
-					return dynamic_cast<DeviceType*>(device.get()) != nullptr;
+					auto* devicePtr = dynamic_cast<DeviceType*>(device.get());
+					return devicePtr != nullptr && device->GetIndex() == binding.index; 
 				});
 
 			if (it != m_DevicesPtr.end())
 			{
 				auto* devicePtr = dynamic_cast<DeviceType*>(it->get());
-				if (devicePtr)
+				
+				if (devicePtr )
 				{
 					devicePtr->AddCommand(binding, std::move(command)); 
+
 				}
 				else
 				{
@@ -84,8 +87,40 @@ namespace GameEngine
 				std::cerr << "Error: Device not found!" << std::endl;
 			}
 		}
+	
+		template<typename DeviceType, typename BindingType>
+		void RemoveCommand(BindingType binding)
+		{
+			auto it = std::find_if(m_DevicesPtr.begin(), m_DevicesPtr.end(), [](const auto& device)
+				{
+					return dynamic_cast<DeviceType*>(device.get()) != nullptr;
+				});
 
+			if (it != m_DevicesPtr.end())
+			{
+				auto* devicePtr = dynamic_cast<DeviceType*>(it->get());
+				if (devicePtr)
+				{
+					devicePtr->RemoveCommand(binding);
+
+				}
+				else
+				{
+					std::
+						cerr << "Error: Device type mismatch!" << std::endl;
+				}
+			}
+			else
+			{
+				std::cerr << "Error: Device not found!" << std::endl;
+			}
+		}
 		bool ProcessInput();
+
+		void CleanUp()
+		{
+			m_DevicesPtr.clear();
+		}
 	private:
 
 		InputManager() = default;

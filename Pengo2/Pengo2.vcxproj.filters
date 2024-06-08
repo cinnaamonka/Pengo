@@ -11,6 +11,9 @@
     <Filter Include="GameFiles\Input">
       <UniqueIdentifier>{22883ee6-95b2-4f52-a43e-bf3ebb3b555f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameFiles\StatesAndTransitions">
+      <UniqueIdentifier>{15e94872-f61e-4cbb-a43b-33164bb463b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -25,9 +28,6 @@
     <ClCompile Include="Environment.cpp">
       <Filter>GameFiles</Filter>
     </ClCompile>
-    <ClCompile Include="HitObserver.cpp">
-      <Filter>GameFiles\Observers</Filter>
-    </ClCompile>
     <ClCompile Include="PengoActor.cpp">
       <Filter>GameFiles</Filter>
     </ClCompile>
@@ -40,14 +40,71 @@
     <ClCompile Include="CollisionComponent.cpp">
       <Filter>GameFiles</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationComponent.cpp">
-      <Filter>GameFiles</Filter>
-    </ClCompile>
     <ClCompile Include="BlockObserver.cpp">
       <Filter>GameFiles\Observers</Filter>
     </ClCompile>
     <ClCompile Include="EggObserver.cpp">
       <Filter>GameFiles\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="AIStatesAndTransitions.cpp">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClCompile>
+    <ClCompile Include="AIMovementComponent.cpp">
+      <Filter>GameFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>GameFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyDirectionObserver.cpp">
+      <Filter>GameFiles\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStatesAndTransitions.cpp">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClCompile>
+    <ClCompile Include="BlocksStatesAndTransitions.cpp">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClCompile>
+    <ClCompile Include="EggsStatesAndTransitions.cpp">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAnimationStates.cpp">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClCompile>
+    <ClCompile Include="EnvironmentObserver.cpp">
+      <Filter>GameFiles\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreObserver.cpp">
+      <Filter>GameFiles\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreStatesAndTransitions.cpp">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClCompile>
+    <ClCompile Include="BorderStatesAndTransirions.cpp">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelLoader.cpp">
+      <Filter>GameFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreScene.cpp">
+      <Filter>GameFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="LetterStatesAndTransitions.cpp">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreSceneCommands.cpp">
+      <Filter>GameFiles\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Letter.cpp">
+      <Filter>GameFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreboardObserver.cpp">
+      <Filter>GameFiles\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="StartScreen.cpp">
+      <Filter>GameFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="StartSceneCommands.cpp">
+      <Filter>GameFiles\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -66,16 +123,10 @@
     <ClInclude Include="PengoInputCommands.h">
       <Filter>GameFiles\Input</Filter>
     </ClInclude>
-    <ClInclude Include="HitObserver.h">
-      <Filter>GameFiles\Observers</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyActor.h">
       <Filter>GameFiles</Filter>
     </ClInclude>
     <ClInclude Include="CollisionComponent.h">
-      <Filter>GameFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationComponent.h">
       <Filter>GameFiles</Filter>
     </ClInclude>
     <ClInclude Include="BlockObserver.h">
@@ -83,6 +134,69 @@
     </ClInclude>
     <ClInclude Include="EggObserver.h">
       <Filter>GameFiles\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="AIStatesAndTransitions.h">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClInclude>
+    <ClInclude Include="AIMovementComponent.h">
+      <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDirectionObserver.h">
+      <Filter>GameFiles\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStatesAndTransitions.h">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClInclude>
+    <ClInclude Include="BlocksStatesAndTransitions.h">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClInclude>
+    <ClInclude Include="EggsStatesAndTransitions.h">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAnimationStates.h">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClInclude>
+    <ClInclude Include="EnvironmentObserver.h">
+      <Filter>GameFiles\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreObserver.h">
+      <Filter>GameFiles\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreStatesAndTransitions.h">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs.h">
+      <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="BorderStatesAndTransirions.h">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelLoader.h">
+      <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreScene.h">
+      <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="LetterStatesAndTransitions.h">
+      <Filter>GameFiles\StatesAndTransitions</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreSceneCommands.h">
+      <Filter>GameFiles\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Letter.h">
+      <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreboardObserver.h">
+      <Filter>GameFiles\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="StartScreen.h">
+      <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="StartSceneCommands.h">
+      <Filter>GameFiles\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

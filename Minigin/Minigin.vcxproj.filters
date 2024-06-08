@@ -4,14 +4,17 @@
     <Filter Include="Components">
       <UniqueIdentifier>{d4b15414-1b60-4e36-96d5-a4436ee984fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine">
-      <UniqueIdentifier>{cf990e42-b100-434f-820c-f5e54e491794}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Main">
       <UniqueIdentifier>{3499405e-8db5-4e9d-b4b0-9a8bf543abe5}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameObjects">
       <UniqueIdentifier>{87d57146-d6ab-4140-9291-9e66f43b14c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{043357dd-09c5-4ab1-8901-949a888f639c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{cf990e42-b100-434f-820c-f5e54e491794}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Input">
       <UniqueIdentifier>{529a49d8-65d9-401e-8b5c-afa1e2ef06e0}</UniqueIdentifier>
@@ -19,8 +22,8 @@
     <Filter Include="Engine\Event">
       <UniqueIdentifier>{ced40782-a4eb-497c-840f-559806b71953}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sound">
-      <UniqueIdentifier>{043357dd-09c5-4ab1-8901-949a888f639c}</UniqueIdentifier>
+    <Filter Include="Engine\HUD">
+      <UniqueIdentifier>{612ee45f-f28a-4884-a727-47b74ace8542}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -69,9 +72,6 @@
     <ClInclude Include="Renderer.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="RotationComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="ImGuiComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -96,9 +96,6 @@
     <ClInclude Include="BaseInputDevice.h">
       <Filter>Engine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreObserver.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Engine\Event</Filter>
     </ClInclude>
@@ -112,7 +109,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="General.h" />
-    <ClInclude Include="json.hpp" />
     <ClInclude Include="BaseGame.h">
       <Filter>Main</Filter>
     </ClInclude>
@@ -124,9 +120,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="FSM.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="StatesAndTransitions.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="SoundServiceLocator.h">
@@ -147,11 +140,26 @@
     <ClInclude Include="RingBuffer.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="BlackboardComponent.h">
+    <ClInclude Include="AIFSM.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="LifetimeObserver.h">
+    <ClInclude Include="AnimationComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>Engine\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeBar.h">
+      <Filter>Engine\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreBar.h">
+      <Filter>Engine\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMode.h">
+      <Filter>Engine\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="SnoBeeShower.h">
+      <Filter>Engine\HUD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -197,9 +205,6 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="RotationComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="ImGuiComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -215,9 +220,6 @@
     <ClCompile Include="Keyboard.cpp">
       <Filter>Engine\Input</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreObserver.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="ActorComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -231,9 +233,6 @@
     <ClCompile Include="FSM.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="StatesAndTransitions.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="SoundServiceLocator.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
@@ -243,11 +242,26 @@
     <ClCompile Include="SoundLogSystem.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
-    <ClCompile Include="BlackboardComponent.cpp">
+    <ClCompile Include="AIFSM.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="LifetimeObserver.cpp">
+    <ClCompile Include="AnimationComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Engine\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeBar.cpp">
+      <Filter>Engine\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreBar.cpp">
+      <Filter>Engine\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMode.cpp">
+      <Filter>Engine\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="SnoBeeShower.cpp">
+      <Filter>Engine\HUD</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

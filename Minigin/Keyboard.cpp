@@ -127,4 +127,13 @@ namespace GameEngine
 		}
 	}
 
+	void Keyboard::RemoveCommand(InputKeyboardBinding keyboardBinding)
+	{
+		m_KeyboardCommands.erase(std::remove_if(m_KeyboardCommands.begin(), m_KeyboardCommands.end(), [keyboardBinding](const std::pair<InputKeyboardBinding, std::unique_ptr<BaseCommand>>& command)
+			{
+				return command.first.key == keyboardBinding.key && command.first.inputState == keyboardBinding.inputState; 
+			}), m_KeyboardCommands.end()); 
+
+	}
+
 }

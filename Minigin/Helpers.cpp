@@ -1,12 +1,14 @@
 #include "Helpers.h"
+#include "TimeManager.h"
+#include "AnimationComponent.h"
 
 namespace GameEngine
 {
-	void GetVerticesFromJsonFile(std::string fileName, std::vector<Block>& m_BlockCollection)
+	void GetLevelInfo(std::string fileName, LevelInfo& levelInfo)
 	{
 		std::filesystem::path currentPath = std::filesystem::current_path();
 		std::filesystem::path parentPath = currentPath.parent_path();
-
+		 
 		std::filesystem::path dataPath = parentPath / "Data";
 
 		std::filesystem::path filePath = dataPath / fileName;
@@ -45,7 +47,41 @@ namespace GameEngine
 
 				block.tag = type;
 
-				m_BlockCollection.push_back(block);
+				levelInfo.levelBlocks.push_back(block);
+			}
+			for (const auto& enemyData : jsonDoc["enemies"])
+			{
+				glm::vec3 position;
+				position.x = enemyData["position"]["left"];
+				position.y = enemyData["position"]["top"];
+				position.z = 0;
+
+				levelInfo.enemiesPositions.push_back(position);
+			}
+			for (const auto& hudData : jsonDoc["hud"])
+			{
+				glm::vec3 position;
+				position.x = hudData["position"]["left"];
+				position.y = hudData["position"]["top"];
+				std::string type = hudData["type"];
+
+				// Store position in hudPositions map
+				levelInfo.hudPositions[type] = position; 
+			}
+
+			// Parse lifes amount
+			levelInfo.lifesAmount = jsonDoc["lifesAmount"];
+			levelInfo.score = jsonDoc["scoreAmount"];
+
+			const auto& gameModeStr = jsonDoc["game_mode"];
+			if (gameModeStr == static_cast<int>(GameModes::SinglePlayer)) {
+				levelInfo.gameMode = GameModes::SinglePlayer;
+			}
+			else if (gameModeStr == static_cast<int>(GameModes::Co_op)) {
+				levelInfo.gameMode = GameModes::Co_op;
+			}
+			else if (gameModeStr == static_cast<int>(GameModes::Versus)) {
+				levelInfo.gameMode = GameModes::Versus;
 			}
 		}
 		catch (const nlohmann::json::parse_error& e)
@@ -229,4 +265,146 @@ namespace GameEngine
 	{
 		return Raycast(vertices.data(), vertices.size(), rayP1, rayP2, hitInfo);
 	}
+	
+	void AnimationUpdate(GameEngine::AnimationComponent* animationComponent)
+	{
+		float animTime = animationComponent->GetAnimationTime();
+		int nrFramesPerSec = animationComponent->GetFramesPerSec();
+		int animFrame = animationComponent->GetAnimationFrame();
+		int nrOfFrames = animationComponent->GetNumberOfFrames();
+
+		animTime += GameEngine::TimeManager::GetElapsed();
+
+		if (animTime >= 1.f / nrFramesPerSec)
+		{
+			++animFrame %= nrOfFrames;
+
+			animTime = 0;
+		}
+
+		animationComponent->SetAnimationFrame(animFrame);
+		animationComponent->SetAnimationTime(animTime);
+	}
+
+	bool AreVectorsCollinear(const glm::vec3& v1, const glm::vec3& v2, float tolerance) 
+	{
+		auto length = glm::length(glm::normalize(glm::cross(v1, v2)));
+		return length < tolerance;
+	}
+
+	bool AreOnSameLine(const glm::vec3& referencePoint, const glm::vec3& pos1, const glm::vec3& pos2) 
+	{
+		glm::vec3 dirVector1 = pos1 - referencePoint;
+		glm::vec3 dirVector2 = pos2 - referencePoint;
+
+		return AreVectorsCollinear(dirVector1, dirVector2, 1.0f);
+
+	}
+	bool AreNear(const glm::vec3& pos1, const glm::vec3& pos2, float threshold)
+	{
+		float distance = glm::distance(pos1, pos2);
+		return distance <= threshold;
+	}
+	bool AreThreePointsOnSameLine(const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& p3)
+	{
+		int determinant = static_cast<int>(p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y));
+		bool onSameLine = determinant == 0; 
+		float dist1 = sqrtf(powf(p2.x - p1.x, 2) + powf(p2.y - p1.y, 2) + powf(p2.z - p1.z, 2));
+		float dist2 = sqrtf(powf(p3.x - p2.x, 2) + powf(p3.y - p2.y, 2) + powf(p3.z - p2.z, 2));
+
+		
+		bool withinDistance = dist1 <= 60 && dist2 <= 60;
+		return onSameLine && withinDistance;
+	}
+	bool IsPointInsideRect(const glm::vec3& point, const Rect& rect, float threshold)
+	{
+		return (point.x >= rect.left - threshold && point.x <= rect.left + rect.width + threshold &&
+			point.y >= rect.bottom - threshold && point.y <= rect.bottom + rect.height + threshold);
+	}
+
+	void AddScoreToFile(const std::string& filename, int score, const std::string& name)
+	{
+		std::filesystem::path currentPath = std::filesystem::current_path();
+		std::filesystem::path parentPath = currentPath.parent_path();
+		std::filesystem::path dataPath = parentPath / "Data";
+		std::filesystem::path levelPath = dataPath / filename;
+
+		std::ifstream inputFile(levelPath);
+
+		nlohmann::json jsonData;
+
+		if (inputFile.is_open())
+		{
+			inputFile >> jsonData;
+			inputFile.close();
+		}
+		else
+		{
+			std::cerr << "Could not open the file for reading" << std::endl;
+			return;
+		}
+
+		if (jsonData.contains("AllScores") && jsonData["AllScores"].is_array()) {
+			nlohmann::json newScore = {
+				{"score", score},
+				{"name", name}
+			};
+			jsonData["AllScores"].push_back(newScore);
+		}
+		else {
+			std::cerr << "The 'AllScores' tag does not exist or is not an array in the JSON file" << std::endl;
+			return;
+		}
+
+		std::ofstream outputFile(levelPath);
+
+		if (outputFile.is_open()) {
+			outputFile << jsonData.dump(4);
+			outputFile.close();
+			std::cout << "JSON data has been successfully updated in " << filename << std::endl;
+		}
+		else
+		{
+			std::cerr << "Could not open the file for writing" << std::endl;
+		}
+	}
+
+	std::map<int, std::string> ReadScoresFromJson(const std::string& jsonFilePath)
+	{
+		std::map<int,std::string> scoresMap;
+
+		// Read the JSON file
+		std::filesystem::path currentPath = std::filesystem::current_path();
+		std::filesystem::path parentPath = currentPath.parent_path();
+		std::filesystem::path dataPath = parentPath / "Data";
+		std::filesystem::path levelPath = dataPath / jsonFilePath;
+
+		std::ifstream file(levelPath);
+		if (!file.is_open()) {
+			std::cerr << "Error: Could not open JSON file." << std::endl;
+			return scoresMap;
+		}
+
+		nlohmann::json jsonData;
+		file >> jsonData;
+
+		// Extract scores from "AllScores" array
+		for (const auto& score : jsonData["AllScores"]) {
+			std::string name = score["name"];
+			int scoreValue = score["score"];
+			scoresMap[scoreValue] = name;
+		}
+
+		return scoresMap;
+	}
+
+	bool SortByValue(const std::pair<int, int>& a, const std::pair<int, int>& b)
+	{
+		return a.second > b.second; 
+	}
+
+	
+
+	
+
 }

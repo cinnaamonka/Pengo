@@ -63,6 +63,10 @@ namespace GameEngine
             return Capacity;
         }
 
+        void CleanUp()
+        {
+            std::memset(m_Array.data(), 0, m_Array.size() * sizeof(T));
+        }
     private:
 
         std::array<T, Capacity> m_Array{};

@@ -7,14 +7,8 @@ namespace GameEngine
 {
 	class GameObject;
 	class ScoreObserver;
-	class HealthObserver;
 
-	enum class State
-	{
-		PlayerDied
-	};
-
-	class ActorComponent : public BaseComponent
+	class ActorComponent final: public BaseComponent
 	{
 	public:
 
@@ -24,21 +18,18 @@ namespace GameEngine
 		ActorComponent& operator=(const ActorComponent& other) = delete;
 		ActorComponent(ActorComponent&& other) = delete;
 
-		void AddScore(int score);
-		void RemoveScore(int score);
-
 		void Damage(int damage);
+		void Win();
 
 		int GetLives() const
 		{
 			return m_LifesAmount;
 		}
 
-		int GetScore() const
+		void SetLives(int lives)
 		{
-			return m_Score;
+			m_LifesAmount = lives;
 		}
-
 		const float GetSpeed() const
 		{
 			return m_Speed;
@@ -53,14 +44,11 @@ namespace GameEngine
 		{
 			if constexpr (std::is_same_v<T, State>)
 			{
-				// Attach to m_StateChanged when T is State
 				m_StateChanged.Attach(pObserver);
 			}
 			else if constexpr (std::is_same_v<T, int>)
 			{
-
 				m_LifesAmountChanged.Attach(pObserver);
-				m_ScoreChanged.Attach(pObserver);
 			}
 		}
 		void SetCollisionCanBeChecked(bool canBeChecked)
@@ -73,26 +61,35 @@ namespace GameEngine
 			return m_CanCollisionBeChecked;
 		}
 
-		const Rect& GetDestTextureRect()
+		const Rect& GetDestTextureRect() const
 		{
 			return m_DestTextureRect;
 		}
 
+		const int GetScore() const 
+		{
+			return m_Score;
+		}
+		
+		void SetScore(int score) 
+		{
+			m_Score = score;
+		}
 
 	private:
-
-		int m_Score;
 		int m_LifesAmount;
+		int m_Score;
 
 		bool m_CanCollisionBeChecked;
 
 		float m_Speed;
-	
+		
 		Rect m_DestTextureRect;
 
-		Subject<int> m_ScoreChanged;
 		Subject<int> m_LifesAmountChanged;
-		Subject<State> m_StateChanged;
+		Subject<GameEngine::State> m_StateChanged;
+
+
 
 	};
 }

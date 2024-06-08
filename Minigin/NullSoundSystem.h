@@ -17,9 +17,8 @@ namespace GameEngine
 		virtual void Play(const sound_id, const float) override {};
 		virtual void Pause() override {};
 		virtual void Resume() override {};
-		virtual void Stop() override {};
+		virtual void Stop(const sound_id) override {};
 		virtual void Load(const std::string&, const sound_id) override {};
-		virtual void Update() {};
 		virtual bool Contains(const sound_id) const override { return false; };
 		virtual bool IsPlaying(const sound_id) const override { return false; };
 

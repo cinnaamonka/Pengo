@@ -27,9 +27,9 @@ namespace GameEngine
 		{
 			if (GetComponent<ComponentType>() == nullptr)
 			{
-				std::unique_ptr<ComponentType> newComponent = std::make_unique<ComponentType>(this, std::forward<Args>(args)...);
+			std::unique_ptr<ComponentType> newComponent = std::make_unique<ComponentType>(this, std::forward<Args>(args)...);
 
-				m_pComponents.push_back(std::move(newComponent));
+			m_pComponents.push_back(std::move(newComponent));
 			}
 		}
 
@@ -78,6 +78,7 @@ namespace GameEngine
 			return false;
 		}
 
+
 		void CleanUp();
 		void SetParent(GameObject* newParent, bool keepWorldPosition = true);
 
@@ -93,7 +94,6 @@ namespace GameEngine
 
 		bool IsDestroyed() const
 		{
-			if (!this) return false;
 			return m_IsDestroyed;
 		}
 

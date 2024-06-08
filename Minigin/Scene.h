@@ -13,6 +13,7 @@ namespace GameEngine
 		friend class SceneManager;
 
 	public:
+		explicit Scene(const std::string& name);
 		void Add(std::unique_ptr<GameObject>&& object);
 		void RemoveAll();
 		void RemoveObject();
@@ -20,19 +21,19 @@ namespace GameEngine
 		void Update();
 		void Render() const;
 
-		~Scene();
+		~Scene() = default;
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
 		void CleanUp();
+		void Destroy();
 
 	private: 
-		explicit Scene(const std::string& name);
-
-		std::string m_name;
-		std::vector < std::unique_ptr<GameObject>> m_pObjects{};
+		
+		std::string m_Name;
+		std::vector<std::unique_ptr<GameObject>> m_pObjects{};
 
 		static unsigned int m_idCounter; 
 	};

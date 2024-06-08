@@ -83,6 +83,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\glm;$(SolutionDir)\3rdParty\imgui;$(SolutionDir)imgui;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)Minigin;$(SolutionDir)3rdParty\SDL2_mixer\include;$(SolutionDir)\3rdParty\steamworks_sdk_158a\sdk\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,6 +110,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x86\*.dll" "$(OutputPath)" /R /Y</C
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\glm;$(SolutionDir)\3rdParty\imgui;$(SolutionDir)imgui;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)Minigin;$(SolutionDir)3rdParty\SDL2_mixer\include;$(SolutionDir)\3rdParty\steamworks_sdk_158a\sdk\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,6 +137,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x86\*.dll" "$(OutputPath)" /R /Y</C
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_mixer\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)\3rdParty\imgui;$(SolutionDir)imgui;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)Minigin;$(SolutionDir)\3rdParty\steamworks_sdk_158a\sdk\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -163,6 +166,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_mixer\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)\3rdParty\imgui;$(SolutionDir)imgui;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)Minigin;$(SolutionDir)\3rdParty\steamworks_sdk_158a\sdk\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -183,18 +187,36 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AnimationComponent.cpp" />
+    <ClCompile Include="AIMovementComponent.cpp" />
     <ClCompile Include="BaseBlock.cpp" />
+    <ClCompile Include="BlocksStatesAndTransitions.cpp" />
+    <ClCompile Include="BorderStatesAndTransirions.cpp" />
     <ClCompile Include="CollisionComponent.cpp" />
     <ClCompile Include="EggObserver.cpp" />
+    <ClCompile Include="EggsStatesAndTransitions.cpp" />
     <ClCompile Include="EnemyActor.cpp" />
+    <ClCompile Include="EnemyAnimationStates.cpp" />
+    <ClCompile Include="EnemyDirectionObserver.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Environment.cpp" />
+    <ClCompile Include="EnvironmentObserver.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="HitObserver.cpp" />
     <ClCompile Include="BlockObserver.cpp" />
+    <ClCompile Include="Letter.cpp" />
+    <ClCompile Include="LetterStatesAndTransitions.cpp" />
+    <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PengoActor.cpp" />
     <ClCompile Include="PengoInputCommands.cpp" />
+    <ClCompile Include="PlayerStatesAndTransitions.cpp" />
+    <ClCompile Include="AIStatesAndTransitions.cpp" />
+    <ClCompile Include="ScoreboardObserver.cpp" />
+    <ClCompile Include="ScoreObserver.cpp" />
+    <ClCompile Include="ScoreScene.cpp" />
+    <ClCompile Include="ScoreSceneCommands.cpp" />
+    <ClCompile Include="ScoreStatesAndTransitions.cpp" />
+    <ClCompile Include="StartSceneCommands.cpp" />
+    <ClCompile Include="StartScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\imgui\imgui.vcxproj">
@@ -205,17 +227,36 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AnimationComponent.h" />
+    <ClInclude Include="AIMovementComponent.h" />
     <ClInclude Include="BaseBlock.h" />
+    <ClInclude Include="BlocksStatesAndTransitions.h" />
+    <ClInclude Include="BorderStatesAndTransirions.h" />
     <ClInclude Include="CollisionComponent.h" />
     <ClInclude Include="EggObserver.h" />
+    <ClInclude Include="EggsStatesAndTransitions.h" />
     <ClInclude Include="EnemyActor.h" />
+    <ClInclude Include="EnemyAnimationStates.h" />
+    <ClInclude Include="EnemyDirectionObserver.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="Environment.h" />
+    <ClInclude Include="EnvironmentObserver.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="HitObserver.h" />
     <ClInclude Include="BlockObserver.h" />
+    <ClInclude Include="Letter.h" />
+    <ClInclude Include="LetterStatesAndTransitions.h" />
+    <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="PengoActor.h" />
     <ClInclude Include="PengoInputCommands.h" />
+    <ClInclude Include="PlayerStatesAndTransitions.h" />
+    <ClInclude Include="AIStatesAndTransitions.h" />
+    <ClInclude Include="ScoreboardObserver.h" />
+    <ClInclude Include="ScoreObserver.h" />
+    <ClInclude Include="ScoreScene.h" />
+    <ClInclude Include="ScoreSceneCommands.h" />
+    <ClInclude Include="ScoreStatesAndTransitions.h" />
+    <ClInclude Include="StartSceneCommands.h" />
+    <ClInclude Include="StartScreen.h" />
+    <ClInclude Include="Structs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

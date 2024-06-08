@@ -1,39 +1,60 @@
 #pragma once
 #include "BaseComponent.h"
 #include <map>
-#include <string>
-#include <unordered_map>
-#include "Helpers.h"
-#include "BlackboardComponent.h"
+#include "AnimationComponent.h"
 
 namespace GameEngine
 {
 	class Gameobject;
 
+	class FSMState
+	{
+	public:
+		FSMState() = default;
+		virtual ~FSMState() = default;
+		
+
+		virtual void OnEnter(AnimationComponent* pBlackboard) = 0;
+		virtual void OnExit(AnimationComponent* pBlackboard) = 0;
+		virtual void Update(AnimationComponent* pBlackboard) = 0;
+	};
+
+	class FSMCondition
+	{
+	public:
+		FSMCondition()
+		{
+
+		}
+		virtual ~FSMCondition() = default;
+		virtual bool Evaluate(AnimationComponent* pBlackboard) const = 0;
+	};
+
 	class FSM : public BaseComponent
 	{
 	public:
-		FSM(GameObject* pGameObject, FSMState* startState, BlackboardComponent* pBlackboard);
+		FSM(GameObject* pGameObject, FSMState* startState, AnimationComponent* pBlackboard);
 		virtual ~FSM() = default;
 
-		void AddTransition(FSMState* startState, FSMState* toState, FSMCondition* transition);
+		void AddTransition(FSMState* startState, FSMState* toState, FSMCondition* transition); 
 		virtual void Update() override;
-		BlackboardComponent* GetBlackboard() const;
 
 		FSM(const FSM& other) = delete;
 		FSM& operator=(const FSM& other) = delete;
 		FSM(FSM&& other) noexcept = delete;
 		FSM& operator=(FSM&& other) noexcept = delete;
 
-	private:
+	protected:
 		void ChangeState(FSMState* newState);
-	private:
+	protected:
 		typedef std::pair<FSMCondition*, FSMState*> TransitionStatePair;
 		typedef std::vector<TransitionStatePair> Transitions;
 
-		std::map<FSMState*, Transitions> m_Transitions;
-		FSMState* m_pCurrentState;
-		BlackboardComponent* m_pBlackboard = nullptr;
+		using TransitionsMap = std::map<FSMState*, Transitions>;
+
+		TransitionsMap m_Transitions;
+		FSMState* m_pCurrentState = nullptr;
+		AnimationComponent* m_pAnimationComponent = nullptr;
 	};
 
 }

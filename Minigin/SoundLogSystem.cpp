@@ -30,10 +30,10 @@ void GameEngine::SoundLogSystem::Resume()
 	pSoundSystem->Resume();
 }
 
-void GameEngine::SoundLogSystem::Stop()
+void GameEngine::SoundLogSystem::Stop(const sound_id id)
 {
 	std::cout << "Stopping sound" << std::endl;
-	pSoundSystem->Stop();
+	pSoundSystem->Stop(id);
 }
 
 void GameEngine::SoundLogSystem::Load(const std::string& filePath, const sound_id id)
@@ -47,11 +47,6 @@ void GameEngine::SoundLogSystem::Load(const std::string& filePath, const sound_i
 	pSoundSystem->Load(filePath, id);
 }
 
-void GameEngine::SoundLogSystem::Update()
-{
-	pSoundSystem->Update();
-}
-
 bool GameEngine::SoundLogSystem::Contains(const sound_id id) const
 {
 	return pSoundSystem->Contains(id);
@@ -61,4 +56,5 @@ bool GameEngine::SoundLogSystem::IsPlaying(const sound_id id) const
 {
 	return pSoundSystem->IsPlaying(id);
 }
+
 

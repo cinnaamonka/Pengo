@@ -8,9 +8,7 @@ namespace GameEngine
 	class Font;
 	class Texture2D;
 	class TextureComponent;
-	class FPS;
 	class GameObject;
-	class RenderComponent;
 
 	class TextComponent final: public BaseComponent
 	{
@@ -23,26 +21,27 @@ namespace GameEngine
 			m_pTextureComponent(nullptr) {};
 
 		TextComponent(GameObject* GOptr, std::string text, std::shared_ptr<Font> font);
+		TextComponent(GameObject* GOptr, std::shared_ptr<Font> font); 
+	
+		~TextComponent() = default;
+		TextComponent(const TextComponent& other) = delete;
+		TextComponent(TextComponent&& other) = delete;
+		TextComponent& operator=(const TextComponent& other) = delete;
+		TextComponent& operator=(TextComponent&& other) = delete;
 
 		void Update() override;
 
 		void SetText(const std::string& text);
 
-		std::string GetText()const
+		const std::string& GetText()const
 		{
 			return m_Text;
 		};
-
-		std::shared_ptr<Texture2D> GetTexturePtr() const
-		{
-			return m_pTextTexture;
-		}
 
 		void AddAdditionalText(std::string text)
 		{
 			m_AdditionalText = text;
 		}
-			
 
 	private:
 		std::string m_Text;

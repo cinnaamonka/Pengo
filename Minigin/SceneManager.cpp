@@ -4,31 +4,31 @@
 
 void GameEngine::SceneManager::Update()
 {
-	for(auto& scene : m_Scenes)
-	{
-		scene->Update();
-	}
+	m_pCurrentScene->Update();
 }
 
 void GameEngine::SceneManager::Render()
 {
-	for (const auto& scene : m_Scenes)
-	{
-		scene->Render();
-	}
+	m_pCurrentScene->Render();
 }
 
 void GameEngine::SceneManager::Cleanup()
 {
-	for (const auto& scene : m_Scenes)
-	{
-		scene->CleanUp();
-	}
+	m_pCurrentScene->CleanUp();
+}
+
+void GameEngine::SceneManager::Destroy()
+{
+	m_pCurrentScene->Destroy();
+}
+
+void GameEngine::SceneManager::DeleteCurrentScene()
+{
+	m_pCurrentScene.reset();
 }
 
 GameEngine::Scene& GameEngine::SceneManager::CreateScene(const std::string& name)
 {
-	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
-	m_Scenes.push_back(scene);
-	return *scene;
+	m_pCurrentScene = std::unique_ptr<Scene>(new Scene(name));
+	return *m_pCurrentScene;
 }

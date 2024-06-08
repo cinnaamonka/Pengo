@@ -58,6 +58,11 @@ namespace GameEngine
 		{
 			return m_PreviousButtonsThisFrame & button;
 		}
+
+		int GetControllerIndex() const
+		{
+			return m_ControllerIndex;
+		}
 	};
 	GameEngine::Controller::Controller(int m_ControllerIndex) :
 		m_pImplPtr(std::make_unique<ControllerImpl>(m_ControllerIndex))
@@ -89,6 +94,10 @@ namespace GameEngine
 	bool GameEngine::Controller::IsPrevious(int button)
 	{
 		return m_pImplPtr->IsActive(static_cast<unsigned int>(button));
+	}
+	int Controller::GetIndex() const
+	{
+		return m_pImplPtr->GetControllerIndex();
 	}
 	void Controller::HandleInput()
 	{
@@ -128,5 +137,13 @@ namespace GameEngine
 	void Controller::AddCommand(InputControllerBinding binding, std::unique_ptr<BaseCommand> command)
 	{
 		m_ControllerCommands.push_back(std::pair<InputControllerBinding, std::unique_ptr<BaseCommand>>{ binding, std::move(command) });
+	}
+	void Controller::RemoveCommand(InputControllerBinding binding)
+	{
+		m_ControllerCommands.erase(std::remove_if(m_ControllerCommands.begin(), m_ControllerCommands.end(), [binding](const std::pair<InputControllerBinding, std::unique_ptr<BaseCommand>>& command)
+			{
+				return command.first.deviceButton == binding.deviceButton && command.first.inputState == binding.inputState;
+			}), m_ControllerCommands.end());
+
 	}
 }

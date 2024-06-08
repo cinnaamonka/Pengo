@@ -21,7 +21,9 @@ namespace GameEngine
 			m_SoundQueue{},
 			m_pSoundEffects{},
 			m_ActiveAudio{ static_cast<size_t>(MIX_CHANNELS), nullptr }
-		{};
+		{
+			m_Thread = std::jthread([this] { LoopFunction(); });
+		};
 		void Load(const std::string& filePath, sound_id id)
 		{
 			Mix_Chunk* soundEffect = Mix_LoadWAV(filePath.c_str());
@@ -36,37 +38,19 @@ namespace GameEngine
 			m_pSoundEffects.insert({ id, std::shared_ptr<Mix_Chunk>(soundEffect, Mix_FreeChunk) });
 		}
 
-		void Update()
-		{
-			{
-				std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
-
-				if (m_SoundQueue.GetPending() == 0)
-					return;
-			}
-
-			if (m_AsyncResult.valid())
-			{
-				std::cout << "Waiting for previous task to complete..." << std::endl;
-
-				// not necessary to call get() here because of launch policy
-				// , but before program ends makes the behavior clearer and can throw exceptions
-				m_AsyncResult.get();
-				std::cout << "Previous task completed." << std::endl;
-
-			}
-			std::cout << "Launching new task..." << std::endl;
-
-			m_AsyncResult = std::async(std::launch::async, [this] { AsyncUpdate(); });
-
-			std::cout << "New task launched." << std::endl;
-
-
-		}
 		void Play(const sound_id id, const float volume)
 		{
+			std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
+
+
 			m_SoundQueue.PushBack({ id, volume });
+
+
+			// Notify the condition variable after adding to the queue
+			m_ConditionalVariable.notify_one();
+
 		}
+
 		bool Contains(const sound_id id) const
 		{
 			if (m_pSoundEffects.find(id) != m_pSoundEffects.end()) return true;
@@ -96,38 +80,44 @@ namespace GameEngine
 		void Pause()
 		{
 			Mix_Pause(-1);
+
+			m_Volume = 0;
 		}
 
 		void Resume()
 		{
 			Mix_Resume(-1);
+
+			m_Volume = 20;
 		}
 
-		void Stop()
+		void Stop(const sound_id id)
 		{
-			Mix_HaltChannel(-1);
+
+			Mix_HaltChannel(id);
 		}
 
 		void CleanUp()
 		{
-			for (auto pSound : m_pSoundEffects)
-			{
-				Mix_FreeChunk(pSound.second.get());
-			}
+			// THE first thing: we need to stop the thread that plays sounds
+			m_QuitEvent = true;
+			m_ConditionalVariable.notify_one();
+			m_Thread.join();
 
 			Mix_CloseAudio();
 			Mix_Quit();
 			SDL_Quit();
 		}
+
 		~SoundSystemImpl() = default;
 	private:
 		void AsyncUpdate()
 		{
 			std::cout << "Task started." << std::endl;
-			std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
 
 			Sound sound = m_SoundQueue.GetFront();
 			std::shared_ptr<Mix_Chunk> pChunk = nullptr;
+
 
 			if (sound.id != UINT_MAX)
 			{
@@ -157,12 +147,37 @@ namespace GameEngine
 		}
 	private:
 
+		void LoopFunction()
+		{
+			while (true)
+			{
+				if (m_QuitEvent) //optimalization
+					break;
+
+				if (m_SoundQueue.GetPending() == 0)
+				{
+					std::unique_lock<std::mutex> lock(m_SoundEffectsMutex);
+					m_ConditionalVariable.wait(lock, [this] {
+						return (m_SoundQueue.GetPending() != 0 || m_QuitEvent == true);
+						});
+				}
+
+				if (m_QuitEvent)
+					break;
+
+				AsyncUpdate();
+			}
+		}
+
 		// use shared ptr because the sounds should finish playing before being destroyed
 		RingBuffer<Sound, 16> m_SoundQueue;
 		std::unordered_map<sound_id, std::shared_ptr<Mix_Chunk>> m_pSoundEffects;
 		std::vector<std::shared_ptr<Mix_Chunk>> m_ActiveAudio;
 		std::mutex m_SoundEffectsMutex;
-		std::future<void> m_AsyncResult;
+		std::jthread m_Thread;
+		std::condition_variable m_ConditionalVariable;
+		std::atomic<bool> m_QuitEvent{ false };
+		int m_Volume = 20;
 	};
 
 	SoundSystem::SoundSystem() :
@@ -203,18 +218,14 @@ namespace GameEngine
 		m_pImpl->Resume();
 	}
 
-	void SoundSystem::Stop()
+	void SoundSystem::Stop(const sound_id id)
 	{
-		m_pImpl->Stop();
+		m_pImpl->Stop(id);
 	}
 
 	void SoundSystem::Load(const std::string& filePath, const sound_id id)
 	{
 		m_pImpl->Load(filePath, id);
-	}
-	void SoundSystem::Update()
-	{
-		m_pImpl->Update();
 	}
 
 	bool SoundSystem::Contains(const sound_id id) const
@@ -226,6 +237,5 @@ namespace GameEngine
 	{
 		return m_pImpl->IsPlaying(id);
 	}
-
 
 }

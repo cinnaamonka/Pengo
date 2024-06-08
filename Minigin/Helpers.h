@@ -12,17 +12,37 @@
 
 #include "BaseComponent.h"
 
+
 namespace GameEngine
 {
+	class BlackboardComponent;
+	class AnimationComponent;
+
 	using sound_id = unsigned short;
+
+	enum class GameModes
+	{
+		SinglePlayer,
+		Co_op,
+		Versus
+	};
 
 	struct Block
 	{
 		std::vector<glm::vec3> block;
 		std::string tag;
 	};
+	struct LevelInfo
+	{
+		std::vector<GameEngine::Block> levelBlocks;
+		std::vector<glm::vec3> enemiesPositions;
+		int lifesAmount;
+		int score;
+		std::unordered_map<std::string, glm::vec3> hudPositions;
+		GameModes gameMode;
+	};
 
-	void GetVerticesFromJsonFile(std::string fileName, std::vector<Block>& m_BlockCollection);
+	void GetLevelInfo(std::string fileName, LevelInfo& levelInfo);
 	std::vector<GameEngine::Block> GetBlocksWithTag(const std::vector<GameEngine::Block>& blocks, const std::string& tag);
 	
 	struct HitInfo
@@ -32,10 +52,10 @@ namespace GameEngine
 		glm::vec2 normal;
 	};
 
-	enum class CollisionEvent
+	struct EnemyInfo
 	{
-		CollidedHorizontally,
-		CollidedVertically
+		int index;
+		glm::vec3 position;
 	};
 	struct Rect
 	{
@@ -44,7 +64,12 @@ namespace GameEngine
 		int width;
 		int height;
 	};
-	
+
+	enum class State
+	{
+		PlayerDied,
+		Victory
+	};
 
 	struct Sound
 	{
@@ -72,67 +97,98 @@ namespace GameEngine
 
 	bool Raycast(const std::vector<glm::vec3>& vertices, const glm::vec2& rayP1, const glm::vec2& rayP2, HitInfo& hitInfo);
 
-	
-	/*class Blackboard final
+	void AnimationUpdate(GameEngine::AnimationComponent* animationComponent);
+
+	bool AreVectorsCollinear(const glm::vec3& v1, const glm::vec3& v2, float tolerance = 0.0f);
+	bool AreOnSameLine(const glm::vec3& referencePoint, const glm::vec3& pos1, const glm::vec3& pos2);
+	bool AreNear(const glm::vec3& pos1, const glm::vec3& pos2, float threshold);
+	bool AreThreePointsOnSameLine(const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& p3);
+	bool IsPointInsideRect(const glm::vec3& point, const Rect& rect, float threshold);
+	template<typename T>
+	void UpdateLevelFile(const std::string& tag, const T& newInfo, const std::string& filename)
 	{
-	public:
-		Blackboard() = default;
-		~Blackboard()
-		{
-			for (auto el : m_BlackboardData)
-				delete el.second;
-			m_BlackboardData.clear();
+		std::filesystem::path currentPath = std::filesystem::current_path();
+		std::filesystem::path parentPath = currentPath.parent_path();
+		std::filesystem::path dataPath = parentPath / "Data";
+		std::filesystem::path levelPath = dataPath / filename;
 
+		std::ifstream inputFile(levelPath);
+
+		nlohmann::json jsonData;
+
+		if (inputFile.is_open())
+		{
+			inputFile >> jsonData;
+			inputFile.close();
+		}
+		else
+		{
+			std::cerr << "Could not open the file for reading" << std::endl;
+			return;
 		}
 
-		Blackboard(const Blackboard& other) = delete;
-		Blackboard& operator=(const Blackboard& other) = delete;
-		Blackboard(Blackboard&& other) = delete;
-		Blackboard& operator=(Blackboard&& other) = delete;
-
-		template<typename T> bool AddData(const std::string& name, T data)
+		if (jsonData.contains(tag))
 		{
-			auto it = m_BlackboardData.find(name);
-			if (it == m_BlackboardData.end())
-			{
-				m_BlackboardData[name] = new BlackboardField<T>(data);
-				return true;
-			}
-			printf("WARNING: Data '%s' of type '%s' already in Blackboard \n", name.c_str(), typeid(T).name());
-			return false;
+			jsonData[tag] = newInfo;  // Directly assign the template parameter
+		}
+		else
+		{
+			std::cerr << "The '" << tag << "' tag does not exist in the JSON file" << std::endl;
+			return;
 		}
 
-		template<typename T> bool ChangeData(const std::string& name, T data)
+		std::ofstream outputFile(levelPath);
+
+		if (outputFile.is_open()) {
+			outputFile << jsonData.dump(4); // Pretty print with 4-space indentation
+			outputFile.close();
+			std::cout << "JSON data has been successfully updated in " << filename << std::endl;
+		}
+		else
 		{
-			auto it = m_BlackboardData.find(name);
-			if (it != m_BlackboardData.end())
-			{
-				BlackboardField<T>* p = dynamic_cast<BlackboardField<T>*>(m_BlackboardData[name]);
-				if (p)
-				{
-					p->SetData(data);
-					return true;
-				}
-			}
-			printf("WARNING: Data '%s' of type '%s' not found in Blackboard \n", name.c_str(), typeid(T).name());
-			return false;
+			std::cerr << "Could not open the file for writing" << std::endl;
+		}
+	}
+
+	template <typename T>
+	T GetFieldFromFile(const std::string& tag, const std::string& fileName)
+	{
+		std::filesystem::path currentPath = std::filesystem::current_path();
+		std::filesystem::path parentPath = currentPath.parent_path();
+
+		std::filesystem::path dataPath = parentPath / "Data";
+
+		std::filesystem::path levelPath = dataPath / fileName;
+
+		std::ifstream inputFile(levelPath);
+
+		nlohmann::json jsonData;
+
+		if (inputFile.is_open())
+		{
+			inputFile >> jsonData;
+			inputFile.close();
+		}
+		else
+		{
+			throw std::runtime_error("Could not open the file for reading");
 		}
 
-		template<typename T> bool GetData(const std::string& name, T& data)
+		if (jsonData.contains(tag))
 		{
-			BlackboardField<T>* p = dynamic_cast<BlackboardField<T>*>(m_BlackboardData[name]);
-			if (p != nullptr)
-			{
-				data = p->GetData();
-				return true;
-			}
-			printf("WARNING: Data '%s' of type '%s' not found in Blackboard \n", name.c_str(), typeid(T).name());
-			return false;
+			return jsonData[tag].get<T>();
 		}
+		else
+		{
+			throw std::runtime_error("The '" + tag + "' tag does not exist in the JSON file");
+		}
+	}
 
-	private:
-		std::unordered_map<std::string, IBlackBoardField*> m_BlackboardData;
-	};*/
+	bool IsPointInsideRect(const glm::vec3& point, const Rect& rect, float threshold);
+
+	void AddScoreToFile(const std::string& filename, int score, const std::string& name);
+	
+	std::map<int,std::string> ReadScoresFromJson(const std::string& jsonFilePath);
 
 }
 

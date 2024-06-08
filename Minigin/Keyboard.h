@@ -14,6 +14,7 @@ namespace GameEngine
 	{
 		SDL_Scancode key;
 		InputState inputState;
+		int index = 0;
 	};
 	
 
@@ -34,10 +35,11 @@ namespace GameEngine
 		bool IsPressed(int button) override;
 		bool IsReleased(int button) override;
 		bool IsPrevious(int button) override;
+		int GetIndex() const override { return 0; };
 
 		void HandleInput() override;
 		void AddCommand(InputKeyboardBinding keyboardBinding, std::unique_ptr<BaseCommand> baseCommand);
-		
+		void RemoveCommand(InputKeyboardBinding keyboardBinding);
 
 	private:
 		// More PIMPLE concept 

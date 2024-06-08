@@ -72,8 +72,14 @@ namespace GameEngine
 	public:
 		explicit ImGuiComponent(GameObject* gameObject);
 		~ImGuiComponent() {};
+		
+		ImGuiComponent(const ImGuiComponent& other) = delete;
+		ImGuiComponent(ImGuiComponent&& other) noexcept = delete;
+		ImGuiComponent& operator=(const ImGuiComponent& other) = delete;
+		ImGuiComponent& operator=(ImGuiComponent&& other) noexcept = delete;
 
-		virtual void Render() override;
+
+		virtual void Render() const ;
 
 	private:
 		std::unique_ptr<ChartInfo> m_ChartUpdateInfoPtr = std::make_unique<ChartInfo>();

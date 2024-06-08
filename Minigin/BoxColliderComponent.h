@@ -1,23 +1,18 @@
 #pragma once
 #include "BaseComponent.h"
 #include "Helpers.h"
-#include "Texture2D.h"
 
-#include <SDL.h>           
-#include <SDL_image.h>  
 #include <memory>
 
 namespace GameEngine
 {
 	class GameObject;
-	class Texture2D;
-	class TextureComponent;
 
 	class BoxCollider final :public BaseComponent
 	{
 	public:
 		BoxCollider(GameObject* pGameObject,int left, int bottom, int width, int height); 
-		BoxCollider(GameObject* pGameObject, Rect shape); 
+		BoxCollider(GameObject* pGameObject,const Rect& shape); 
 		~BoxCollider() = default;
 
 		BoxCollider(const BoxCollider& other) = delete;
@@ -25,7 +20,7 @@ namespace GameEngine
 		BoxCollider& operator=(const BoxCollider& other) = delete;
 		BoxCollider& operator=(BoxCollider&& other) = delete;
 
-		Rect& GetBoxCollider()
+		const Rect& GetBoxCollider() const
 		{
 			return m_RectCollider;
 		}

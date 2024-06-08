@@ -1,15 +1,12 @@
 #pragma once
 #include "FSM.h"
-#include "Helpers.h"
-#include "TransformComponent.h"
-
 
 namespace GameEngine
 {
-	GameEngine::FSM::FSM(GameObject* pGameObject, FSMState* startState, BlackboardComponent* pBlackboard):
+	GameEngine::FSM::FSM(GameObject* pGameObject, FSMState* startState, AnimationComponent* pAnimationComponent) :
 		BaseComponent(pGameObject),
 		m_pCurrentState(nullptr),
-		m_pBlackboard(pBlackboard)
+		m_pAnimationComponent(pAnimationComponent)
 	{
 		ChangeState(startState);
 	}
@@ -17,6 +14,7 @@ namespace GameEngine
 	void GameEngine::FSM::AddTransition(FSMState* startState, FSMState* toState, FSMCondition* condition)
 	{
 		auto it = m_Transitions.find(startState);
+		
 		if (it == m_Transitions.end())
 		{
 			m_Transitions[startState] = Transitions();
@@ -27,44 +25,41 @@ namespace GameEngine
 
 	void GameEngine::FSM::Update()
 	{
-		const auto& transitionItr = m_Transitions.find(m_pCurrentState);
+		TransitionsMap::const_iterator it = m_Transitions.find(m_pCurrentState);
 
-		if (transitionItr != m_Transitions.end())
+		if (it != m_Transitions.cend())
 		{
-			for (const auto& transitionState : transitionItr->second)
-			{
-				if (!transitionState.first || !transitionState.second) return;
+			const Transitions& transitions = it->second;
 
-				if (transitionState.first->Evaluate(m_pBlackboard))
+			for (const TransitionStatePair& transitionState : transitions)
+			{
+				FSMCondition* pCondition = transitionState.first;
+				FSMState *pState = transitionState.second;
+
+				if (pCondition->Evaluate(m_pAnimationComponent))
 				{
-					
-					ChangeState(transitionState.second);
+					ChangeState(pState);
 				}
 			}
 		}
 
-
-		m_pCurrentState->Update(m_pBlackboard);
-	}
-
-	BlackboardComponent* GameEngine::FSM::GetBlackboard() const
-	{
-		return m_pBlackboard;
+		m_pCurrentState->Update(m_pAnimationComponent);
+		
 	}
 
 	void GameEngine::FSM::ChangeState(FSMState* newState)
 	{
-		
+
 		if (m_pCurrentState != nullptr)
 		{
-			m_pCurrentState->OnExit(m_pBlackboard);
+			m_pCurrentState->OnExit(m_pAnimationComponent);
 		}
 
 		m_pCurrentState = newState;
 
 		if (m_pCurrentState != nullptr)
 		{
-			m_pCurrentState->OnEnter(m_pBlackboard);
+			m_pCurrentState->OnEnter(m_pAnimationComponent);
 		}
 	}
 }

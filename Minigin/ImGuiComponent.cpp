@@ -1,5 +1,4 @@
 #include "ImGuiComponent.h"
-#include "BaseComponent.h"
 
 #include <functional>
 
@@ -15,11 +14,11 @@ GameEngine::ImGuiComponent::ImGuiComponent(GameObject* gameObject) :BaseComponen
 	m_AltGameObjectChartUpdateInfoPtr->color = ImColor(255, 0, 0);
 }
 
-void GameEngine::ImGuiComponent::Render()
+void GameEngine::ImGuiComponent::Render() const
 {
-	RenderExercise1();
+	/*RenderExercise1();
 
-	RenderExercise2();
+	RenderExercise2();*/
 }
 
 void GameEngine::ImGuiComponent::RenderExercise1()

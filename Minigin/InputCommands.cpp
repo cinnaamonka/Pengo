@@ -13,38 +13,47 @@ namespace GameEngine
 		: GameObjectCommand(gameObject),
 		m_Direction(glm::normalize(direction))
 	{
-		
+		m_pTransformComponent = GetGameObject()->GetComponent<GameEngine::TransformComponent>();
+		m_pActorComponent = GetGameObject()->GetComponent<GameEngine::ActorComponent>();
+		m_pAnimationComponent = GetGameObject()->GetComponent<GameEngine::AnimationComponent>();
 	}
 
 	void GameEngine::MoveCommand::Execute()
 	{
-		glm::vec3 currentLocalPosition = GetGameObject()->GetComponent<TransformComponent>()->GetLocalPosition();
-		currentLocalPosition += m_Direction * GetGameObject()->GetComponent<ActorComponent>()->GetSpeed() * TimeManager::GetElapsed();
-		GetGameObject()->GetComponent<TransformComponent>()->SetLocalPosition(currentLocalPosition);
-		GetGameObject()->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(true);
-		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("WasInputGiven", true);
-		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("MovementDirection", m_Direction);
+		if (GetGameObject()->IsDestroyed()) return;
+
+		glm::vec3 currentLocalPosition = m_pTransformComponent->GetLocalPosition();
+		currentLocalPosition += m_Direction * m_pActorComponent->GetSpeed() * TimeManager::GetElapsed();
+		m_pTransformComponent->SetLocalPosition(currentLocalPosition);
+		m_pActorComponent->SetCollisionCanBeChecked(true);
+		m_pAnimationComponent->SetWasInputGiven(true);
+		m_pAnimationComponent->SetMovementDirection(m_Direction);
 	}
 
 	StopCollisionCheck::StopCollisionCheck(GameObject* pGameObject)
 		: GameObjectCommand(pGameObject)
 	{
+		m_pActorComponent = GetGameObject()->GetComponent<ActorComponent>();
 	}
 	void GameEngine::StopCollisionCheck::Execute()
 	{
-		GetGameObject()->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(false);
+		if (GetGameObject()->IsDestroyed()) return;
+
+		m_pActorComponent->SetCollisionCanBeChecked(false);
 
 	}
 
 	PushCommand::PushCommand(GameObject* gameObject):
 		GameObjectCommand(gameObject)
 	{
-
+		m_pActorComponent = GetGameObject()->GetComponent<ActorComponent>();
+		m_pAnimationComponent = GetGameObject()->GetComponent<AnimationComponent>();
 	}
 	void PushCommand::Execute()
 	{
-		GetGameObject()->GetComponent<FSM>()->GetBlackboard()->ChangeData("WasBlockPushed", true);
-		GetGameObject()->GetComponent<ActorComponent>()->SetCollisionCanBeChecked(true);
+		if (GetGameObject()->IsDestroyed()) return;
+		m_pAnimationComponent->SetWasPushed(true);
+		m_pActorComponent->SetCollisionCanBeChecked(true);
 
 	}
 }

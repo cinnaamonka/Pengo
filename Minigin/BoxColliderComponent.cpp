@@ -1,7 +1,4 @@
 #include "BoxColliderComponent.h"
-#include "Renderer.h"
-#include "Texture2D.h"
-#include "TextureComponent.h"
 
 GameEngine::BoxCollider::BoxCollider(GameObject* pGameObject, int left, int bottom, int width, int height) :
 	m_RectCollider({ left,bottom,width - 2,height - 2 }), BaseComponent(pGameObject)
@@ -9,7 +6,7 @@ GameEngine::BoxCollider::BoxCollider(GameObject* pGameObject, int left, int bott
 
 }
 
-GameEngine::BoxCollider::BoxCollider(GameObject* pGameObject, Rect shape) :
+GameEngine::BoxCollider::BoxCollider(GameObject* pGameObject,const Rect& shape) :
 	BaseComponent(pGameObject), m_RectCollider(shape)
 {
 
@@ -22,7 +19,7 @@ bool GameEngine::BoxCollider::IsCollidingHorizontally(const Rect& rectShape, Hit
 
 	const std::vector<glm::vec3> RectPoints = CreatePointsFromRect(m_RectCollider);
 
-	return Raycast(RectPoints, ray1, ray2, hitInfo);;
+	return Raycast(RectPoints, ray1, ray2, hitInfo);
 }
 
 bool GameEngine::BoxCollider::IsCollidingVertically(const Rect& rectShape, HitInfo& hitInfo) const

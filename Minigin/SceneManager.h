@@ -3,7 +3,8 @@
 
 #include <string>
 #include <memory>
-#include <vector>
+
+#include "Scene.h"
 
 namespace GameEngine
 {
@@ -18,10 +19,11 @@ namespace GameEngine
 		void Render();
 
 		void Cleanup();
+		void Destroy();
+		void DeleteCurrentScene();
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
-		// one scene needed 
-		std::vector<std::shared_ptr<Scene>> m_Scenes;
+		std::unique_ptr<Scene> m_pCurrentScene;
 	};
 }

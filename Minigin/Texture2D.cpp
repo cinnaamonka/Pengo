@@ -1,11 +1,9 @@
 #include <SDL.h>
 #include "Texture2D.h"
-#include "Renderer.h"
-
 
 GameEngine::Texture2D::~Texture2D()
 {
-	SDL_DestroyTexture(m_texture);
+	SDL_DestroyTexture(m_Texture);
 }
 
 glm::ivec2 GameEngine::Texture2D::GetSize() const
@@ -17,10 +15,10 @@ glm::ivec2 GameEngine::Texture2D::GetSize() const
 
 SDL_Texture* GameEngine::Texture2D::GetSDLTexture() const
 {
-	return m_texture;
+	return m_Texture;
 }
 
 GameEngine::Texture2D::Texture2D(SDL_Texture* texture)
 {
-	m_texture = texture;
+	m_Texture = texture;
 }

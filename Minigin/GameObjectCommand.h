@@ -8,7 +8,7 @@ namespace GameEngine
 	class GameObjectCommand : public BaseCommand
 	{
 	public:
-		explicit GameObjectCommand(GameObject* pGameObject) :m_pGameObject{ pGameObject } {}
+		explicit GameObjectCommand([[maybe_unused]] GameObject* pGameObject) :m_pGameObject{ pGameObject } {}
 		virtual ~GameObjectCommand() = default;
 
 		GameObjectCommand(const GameObjectCommand& other) = delete;

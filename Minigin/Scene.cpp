@@ -5,40 +5,48 @@ using namespace GameEngine;
 
 unsigned int Scene::m_idCounter = 0;
 
+Scene::Scene(const std::string& name) : m_Name(name) {}
+
 void GameEngine::Scene::CleanUp()
 {
 	// remove components from game objects
 	for (const std::unique_ptr<GameObject>& gameObject : m_pObjects)
 	{
-		gameObject->CleanUp();
+		if (!gameObject) continue;
 
 		if (gameObject->IsDestroyed())
 		{
+			gameObject->CleanUp();
 			RemoveObject();
 		}
 	}
 	
 	// destroy objects 
-	for (auto it = m_pObjects.begin(); it != m_pObjects.end();)
+	for (auto it = m_pObjects.begin(); it != m_pObjects.end(); )
 	{
-		if ((*it)->IsDestroyed())
-		{
+		if ((*it) == nullptr) {
+			++it;
+			continue;
+		}
+
+		if ((*it)->IsDestroyed()) {
 			it = m_pObjects.erase(it);
 		}
-			
-		else
-		{
-			it++;
+		else {
+			++it;
 		}
 	}
 }
 
-Scene::Scene(const std::string& name) : m_name(name) {}
-
-Scene::~Scene() 
+void GameEngine::Scene::Destroy()
 {
-	
-};
+	for (auto& object : m_pObjects)
+	{
+		if (object == nullptr)continue;
+
+		object->SetIsDestroyed(true);
+	}
+}
 
 void Scene::Add(std::unique_ptr<GameObject>&& object)
 {
@@ -54,6 +62,12 @@ void GameEngine::Scene::RemoveObject()
 {
 	for (auto it = m_pObjects.begin(); it != m_pObjects.end();)
 	{
+        if (*it == nullptr)
+        {
+            it = m_pObjects.erase(it);
+            continue;
+        }
+
 		if ((*it)->IsDestroyed())
 		{
 			it = m_pObjects.erase(it);
@@ -69,7 +83,11 @@ void Scene::Update()
 {
 	for(auto& object : m_pObjects)
 	{
-		object->IsDestroyed() ? object.reset() : object->Update();
+		if (object != nullptr)
+		{
+			object->IsDestroyed() ? object.reset() : object->Update();
+		}
+		
 	}
 }
 
@@ -77,7 +95,11 @@ void Scene::Render() const
 {
 	for (const auto& object : m_pObjects)
 	{
-		object->Render();
+		if (object != nullptr)
+		{
+			object->Render();
+		}
+		
 	}
 }
 

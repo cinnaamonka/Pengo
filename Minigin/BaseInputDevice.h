@@ -3,8 +3,6 @@
 #include <SDL.h>
 
 #include <memory>
-
-
 #include "BaseCommand.h"
 
 namespace GameEngine
@@ -26,6 +24,7 @@ namespace GameEngine
 		virtual bool IsPressed(int button) = 0;
 		virtual bool IsReleased(int button) = 0;
 		virtual bool IsPrevious(int button) = 0;
+		virtual int GetIndex() const = 0;
 
 		virtual void HandleInput() = 0;
 
@@ -35,6 +34,9 @@ namespace GameEngine
 		{
 			commandVector.push_back(std::make_pair(binding, std::move(command)));
 		}
+
+		template<typename BindingType>
+		void RemoveCommand(BindingType) {};
 	};
 
 }

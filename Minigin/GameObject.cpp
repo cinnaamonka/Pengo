@@ -23,13 +23,13 @@ GameEngine::GameObject::~GameObject()
 
 void GameEngine::GameObject::CleanUp()
 {
-	if (!this) return;
-	if (!m_IsDestroyed) return;
+	if (m_pComponents.empty())return;
 
-	for (auto it = m_pComponents.begin(); it != m_pComponents.end(); ++it)
-	{
+    for (auto it = m_pComponents.begin(); it != m_pComponents.end(); ++it)
+    {
 		(*it).release();
-	}
+    }
+    m_pComponents.clear();
 }
 void GameEngine::GameObject::SetParent(GameObject* newParent, bool keepWorldPosition)
 {
@@ -86,6 +86,7 @@ void GameEngine::GameObject::AddChild(GameObject* newChild)
 }
 void GameEngine::GameObject::Update()
 {
+	if(m_pComponents.empty()) return;
 	for (const auto& component : m_pComponents)
 	{
 		if (auto* updatableComponent = dynamic_cast<BaseComponent*>(component.get()))
@@ -101,7 +102,6 @@ void GameEngine::GameObject::Update()
 
 void GameEngine::GameObject::Render() const
 {
-	if (!this) return;
 	for (const auto& component : m_pComponents)
 	{
 		if (!component->IsDestroyed())

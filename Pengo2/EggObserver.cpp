@@ -3,68 +3,69 @@
 #include <TextureComponent.h>
 #include <RenderComponent.h>
 #include <GameObject.h>
-#include <BoxColliderComponent.h>
 #include <FSM.h>
-#include "AnimationComponent.h"
+#include <AnimationComponent.h>
+#include <Texture2D.h>
 
 
-EggObserver::EggObserver(GameEngine::Scene* scenePtr)
+EggObserver::EggObserver(GameEngine::Scene* pScene)
 {
-	m_ScenePtr = scenePtr;
+	m_pScene = pScene;
 }
 
 
 void EggObserver::Notify(const glm::vec3& message_from_subject)
 {
-	if (m_BreakingEggState)
+	if (m_pBreakingEggState)
 	{
-		m_BreakingEggState.release();
+		m_pBreakingEggState.release();
 	}
-	if (m_IsEggBroken)
+	if (m_pIsEggBroken)
 	{
-		m_IsEggBroken.release();
+		m_pIsEggBroken.release();
 	}
 	if (m_pBrokenEggState)
 	{
 		m_pBrokenEggState.release();
 	}
-	if (m_WaitingEggState)
+	if (m_pWaitingEggState)
 	{
-		m_WaitingEggState.release();
+		m_pWaitingEggState.release();
 	}
-	if (m_IsEggAnimationWaiting)
+	if (m_pIsEggAnimationWaiting)
 	{
-		m_IsEggAnimationWaiting.release();
+		m_pIsEggAnimationWaiting.release();
 	}
 
 	auto gameObject = std::make_unique<GameEngine::GameObject>();
 
 	gameObject->AddComponent<GameEngine::TransformComponent>(message_from_subject);
 	gameObject->AddComponent<GameEngine::TextureComponent>("Egg.tga", m_HorizontalAmountOfFrames);
+	gameObject->AddComponent<GameEngine::AnimationComponent>();
 	gameObject->AddComponent<GameEngine::RenderComponent>();
-	gameObject->AddComponent<GameEngine::BlackboardComponent>();
-	gameObject->AddComponent<AnimationComponent>();
-
+	
 	auto textureSizeX = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / m_HorizontalAmountOfFrames;
 	auto textureSizeY = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y;
 
 	gameObject->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
 
-	m_BreakingEggState = std::make_unique<GameEngine::BreakingEggState>();
-	m_IsEggBroken = std::make_unique<GameEngine::IsEggBroken>();
-	m_pBrokenEggState = std::make_unique<GameEngine::BrokenEggState>();
-	m_WaitingEggState = std::make_unique<GameEngine::WaitingState>();
-	m_IsEggAnimationWaiting = std::make_unique<GameEngine::IsWaiting>();
+	if (!m_pBreakingEggState)
+	{
+		m_pBreakingEggState = std::make_unique<BreakingEggState>();
+		m_pIsEggBroken = std::make_unique<IsEggBroken>();
+		m_pBrokenEggState = std::make_unique<BrokenEggState>();
+		m_pWaitingEggState = std::make_unique<WaitingState>();
+		m_pIsEggAnimationWaiting = std::make_unique<IsWaiting>();
+	}
+	
 
-	gameObject->AddComponent<GameEngine::FSM>(m_WaitingEggState.get(),
-		gameObject->GetComponent<GameEngine::BlackboardComponent>());
+	gameObject->AddComponent<GameEngine::FSM>(m_pWaitingEggState.get(),
+		gameObject->GetComponent<GameEngine::AnimationComponent>());
 
-	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_WaitingEggState.get(), m_BreakingEggState.get(),
-		m_IsEggAnimationWaiting.get());
-	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_BreakingEggState.get(), m_pBrokenEggState.get(),
-		m_IsEggBroken.get());
+	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_pWaitingEggState.get(), m_pBreakingEggState.get(),
+		m_pIsEggAnimationWaiting.get());
+	gameObject->GetComponent<GameEngine::FSM>()->AddTransition(m_pBreakingEggState.get(), m_pBrokenEggState.get(),
+		m_pIsEggBroken.get());
 
-	gameObject->GetComponent<GameEngine::BlackboardComponent>()->AddData("TimeOffset", float());
-
-	m_ScenePtr->Add(std::move(gameObject));
+	m_pScene->Add(std::move(gameObject));
 }

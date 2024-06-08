@@ -3,6 +3,7 @@
 #include "TransformComponent.h"
 #include "FSM.h"
 #include "Renderer.h"
+#include "AnimationComponent.h"
 
 GameEngine::RenderComponent::RenderComponent(GameObject* GOptr) :
 	BaseComponent(GOptr),
@@ -20,30 +21,24 @@ GameEngine::RenderComponent::RenderComponent(GameObject* GOptr) :
 	{
 		m_TransformComponent = GetGameObject()->GetComponent<TransformComponent>();
 	}
-
-	if (GetGameObject()->HasComponent<FSM>())
-	{
-		m_pBlackboard = GetGameObject()->GetComponent<FSM>()->GetBlackboard();
-		
-	}
+	m_pAnimationComponent = GetGameObject()->GetComponent<GameEngine::AnimationComponent>();
 };
 
-void GameEngine::RenderComponent::Render()
+void GameEngine::RenderComponent::Render() const
 {
+	
 	const auto& newTexture = m_TextureComponent->GetTexture();
 	const auto& position = m_TransformComponent->GetWorldPosition();
 	const auto& dimensions = m_TransformComponent->GetDimensions();
+	
+	if (!m_pAnimationComponent) return;
 
-	glm::vec3 movementDirection;
+	glm::vec3 movementDirection = m_pAnimationComponent->GetMovementDirection();
+
 	bool IsMovingLeft = false;
 
-	if (m_pBlackboard)
-	{
-		m_pBlackboard->GetData("MovementDirection", movementDirection);
+	IsMovingLeft = movementDirection.x <= 0;
 
-		IsMovingLeft = movementDirection.x < 0;
-	}
-	 
 	// only width can be checked
 	if (newTexture != nullptr && dimensions.width == 0)
 	{
@@ -51,6 +46,8 @@ void GameEngine::RenderComponent::Render()
 	}
 	else if (newTexture != nullptr)
 	{
-		Renderer::GetInstance().RenderTexture(*newTexture, position.x, position.y, { dimensions.left, dimensions.bottom,dimensions.width,dimensions.height }, IsMovingLeft);
+
+		Renderer::GetInstance().RenderTexture(*newTexture, position.x, position.y, { dimensions.left, dimensions.bottom,
+			  dimensions.width,dimensions.height }, IsMovingLeft);
 	}
 }
