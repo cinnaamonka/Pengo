@@ -19,9 +19,13 @@
         {
             "name": "DCB",
             "score": 1210
+        },
+        {
+            "name": "BBB",
+            "score": 1210
         }
     ],
-    "Letter0": "D",
+    "Letter0": "B",
     "Letter1": "B",
     "Letter2": "B",
     "score": 1210
