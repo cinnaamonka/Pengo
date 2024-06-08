@@ -26,6 +26,12 @@ void StartScreen::Initialize()
 	AddText("Versus", m_VSPosition, &scene, font);
 	AddPicture("XButton.tga", m_XButton, &scene);
 	AddText("Press F6 to mute sound", m_MuteButtonPosition, &scene, font);
+	AddText("WASD on keyboard to move,space to push", m_KeyboardMovementInstructionPosition, &scene, font);
+	AddText("F1 to skip", m_SkipLevelPosition, &scene, font);
+
+	AddText("F2", m_SinglePlayerPositionLabel, &scene, font);
+	AddText("F3", m_CoOpPositionLabel, &scene, font);
+	AddText("F4", m_VsPositionLabel, &scene, font);
 
 	m_pInputGameObject = std::make_unique<GameEngine::GameObject>();
 	scene.Add(std::move(m_pInputGameObject));
@@ -51,7 +57,7 @@ void StartScreen::InitializeInputSystem(GameEngine::GameObject* gameObject, Game
 		std::make_unique<ChooseCoOp>(gameObject, std::bind(&StartScreen::CompleteLevel, this)));
 
 	input.AddCommand<GameEngine::Keyboard>(
-		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_F5, GameEngine::InputState::Released }, 
+		GameEngine::InputKeyboardBinding{ SDL_SCANCODE_F4, GameEngine::InputState::Released }, 
 		std::make_unique<ChooseVersus>(gameObject, std::bind(&StartScreen::CompleteLevel, this)));
 
 	input.AddCommand<GameEngine::Controller>(

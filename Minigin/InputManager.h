@@ -34,7 +34,7 @@ namespace GameEngine
 		template<typename T>
 		void HandleInput()
 		{
-			for (const auto& device : m_DevicesPtr)
+			for (const auto& device : m_pDevices)
 			{
 				if (dynamic_cast<T*>(device.get()) != nullptr)
 				{
@@ -46,28 +46,28 @@ namespace GameEngine
 		template<typename T>
 		void AddDevice(std::unique_ptr<T> device)
 		{
-			m_DevicesPtr.push_back(std::move(device));
+			m_pDevices.push_back(std::move(device));
 		}
 
 		template<typename T>
 		void RemoveDevice()
 		{
-			m_DevicesPtr.erase(std::remove_if(m_DevicesPtr.begin(), m_DevicesPtr.end(), [](const auto& device)
+			m_pDevices.erase(std::remove_if(m_pDevices.begin(), m_pDevices.end(), [](const auto& device)
 				{
 					return dynamic_cast<T*>(device.get()) != nullptr;
-				}), m_DevicesPtr.end());
+				}), m_pDevices.end());
 		}
 
 		template<typename DeviceType, typename BindingType>
 		void AddCommand(BindingType binding, std::unique_ptr<BaseCommand> command)
 		{
-			auto it = std::find_if(m_DevicesPtr.begin(), m_DevicesPtr.end(), [&binding](const auto& device)
+			auto it = std::find_if(m_pDevices.begin(), m_pDevices.end(), [&binding](const auto& device)
 				{
 					auto* devicePtr = dynamic_cast<DeviceType*>(device.get());
 					return devicePtr != nullptr && device->GetIndex() == binding.index; 
 				});
 
-			if (it != m_DevicesPtr.end())
+			if (it != m_pDevices.end())
 			{
 				auto* devicePtr = dynamic_cast<DeviceType*>(it->get());
 				
@@ -91,12 +91,12 @@ namespace GameEngine
 		template<typename DeviceType, typename BindingType>
 		void RemoveCommand(BindingType binding)
 		{
-			auto it = std::find_if(m_DevicesPtr.begin(), m_DevicesPtr.end(), [](const auto& device)
+			auto it = std::find_if(m_pDevices.begin(), m_pDevices.end(), [](const auto& device)
 				{
 					return dynamic_cast<DeviceType*>(device.get()) != nullptr;
 				});
 
-			if (it != m_DevicesPtr.end())
+			if (it != m_pDevices.end())
 			{
 				auto* devicePtr = dynamic_cast<DeviceType*>(it->get());
 				if (devicePtr)
@@ -119,13 +119,13 @@ namespace GameEngine
 
 		void CleanUp()
 		{
-			m_DevicesPtr.clear();
+			m_pDevices.clear();
 		}
 	private:
 
 		InputManager() = default;
 		friend class Singleton<InputManager>;
 
-		std::vector<std::unique_ptr<BaseInputDevice>> m_DevicesPtr;
+		std::vector<std::unique_ptr<BaseInputDevice>> m_pDevices;
 	};
 }

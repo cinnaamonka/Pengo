@@ -29,10 +29,10 @@ namespace GameEngine
 			ImGui_ImplSDL2_ProcessEvent(&e);
 		}
 
-		for (const auto& devicePtr : m_DevicesPtr)
+		for (int i = 0; i < m_pDevices.size(); ++i)
 		{
-			devicePtr->Update();
-			devicePtr->HandleInput();
+			m_pDevices[i]->Update();
+			m_pDevices[i]->HandleInput();
 		}
 
 		return true;
