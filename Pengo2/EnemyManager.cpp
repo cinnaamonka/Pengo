@@ -247,7 +247,7 @@ void EnemyManager::CheckCollisionWithPlayer(std::vector<GameEngine::GameObject*>
 	}
 
 	if (!m_pPlayerEnemy)return;
-	//TODO clean it up
+
 	for (int j = 0; j < actors.size(); ++j)
 	{
 		auto playerPosition = actors[j]->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();

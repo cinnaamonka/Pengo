@@ -12,6 +12,11 @@ public:
 	virtual void OnExit(GameEngine::AnimationComponent*) override {};
 	virtual void Update(GameEngine::AnimationComponent* pBlackboard) override;
 
+private:
+	const int m_NumberOfEnterStateFrames = 2;
+	const int m_FramesPerSec = 10;
+	const int m_HorizontalOffset = 0;
+	const int m_VerticalOffset = 1;
 };
 class StopVibrating : public GameEngine::FSMState
 {
@@ -23,6 +28,11 @@ public:
 	virtual void OnExit(GameEngine::AnimationComponent*) override {};
 	virtual void Update(GameEngine::AnimationComponent*) override {};
 
+private:
+	const int m_NumberOfEnterStateFrames = 1;
+	const int m_FramesPerSec = 10;
+	const int m_HorizontalOffset = 0;
+	const int m_VerticalOffset = 0;
 };
 
 class HasFinishedVibrating : public GameEngine::FSMCondition

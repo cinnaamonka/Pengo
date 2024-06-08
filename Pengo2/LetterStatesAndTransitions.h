@@ -12,6 +12,12 @@ public:
 	virtual void OnEnter(GameEngine::AnimationComponent* pAnimationComponent) override;
 	virtual void OnExit(GameEngine::AnimationComponent*) override {};
 	virtual void Update(GameEngine::AnimationComponent*) override;
+private:
+	const int m_NumberOfEnterStateFrames = 1;
+	const int m_HorizontalOffset = 0;
+	const int m_VerticalOffset = 1;
+	const int m_FramesPerSec = 1;
+	const int m_MaxAnimationTimesAmount = 50;
 };
 class FlyckeringLetterState : public GameEngine::FSMState
 {
@@ -22,6 +28,13 @@ public:
 	virtual void OnEnter(GameEngine::AnimationComponent* pAnimationComponent) override;
 	virtual void OnExit(GameEngine::AnimationComponent*) override;
 	virtual void Update(GameEngine::AnimationComponent* pAnimationComponent) override;
+
+private:
+	const int m_NumberOfEnterStateFrames = 1;
+	const int m_HorizontalOffset = 0;
+	const int m_VerticalOffset = 1;
+	const int m_FramesPerSec = 1;
+	const int m_MaxAnimationTimesAmount = 50;
 };
 
 class ShouldStartFlyckering : public GameEngine::FSMCondition

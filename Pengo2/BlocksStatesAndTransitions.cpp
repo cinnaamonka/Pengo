@@ -3,9 +3,9 @@
 
 void StaticBlockState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pAnimationComponent->SetNumberOfFrames(1);
-	pAnimationComponent->SetHorizontalOffset(0);
-	pAnimationComponent->SetVerticalOffset(0);
+	pAnimationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
+	pAnimationComponent->SetHorizontalOffset(m_HorizontalOffset);
+	pAnimationComponent->SetVerticalOffset(m_VerticalOffset);
 }
 void StaticBlockState::OnExit(GameEngine::AnimationComponent*)
 {}
@@ -17,18 +17,10 @@ void StaticBlockState::Update(GameEngine::AnimationComponent* pAnimationComponen
 
 void BreakingBlockState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pAnimationComponent->SetNumberOfFrames(9);
-	pAnimationComponent->SetFramesPerSec(10);
-	pAnimationComponent->SetHorizontalOffset(7);
-	pAnimationComponent->SetVerticalOffset(0);
-}
-
-void BreakingBlockState::OnExit(GameEngine::AnimationComponent* pAnimationComponent)
-{
-	pAnimationComponent->SetNumberOfFrames(2);
-	pAnimationComponent->SetFramesPerSec(1);
-	pAnimationComponent->SetHorizontalOffset(1);
-	pAnimationComponent->SetVerticalOffset(0);
+	pAnimationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
+	pAnimationComponent->SetFramesPerSec(m_FramesPerSec);
+	pAnimationComponent->SetHorizontalOffset(m_HorizontalOffset);
+	pAnimationComponent->SetVerticalOffset(m_VerticalOffset);
 }
 
 void BreakingBlockState::Update(GameEngine::AnimationComponent* pAnimationComponent)
@@ -48,10 +40,10 @@ void BreakingBlockState::Update(GameEngine::AnimationComponent* pAnimationCompon
 
 void FlickeringBlockState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pAnimationComponent->SetNumberOfFrames(6);
-	pAnimationComponent->SetFramesPerSec(2);
-	pAnimationComponent->SetHorizontalOffset(0);
-	pAnimationComponent->SetVerticalOffset(0);
+	pAnimationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
+	pAnimationComponent->SetFramesPerSec(m_FramesPerSec);
+	pAnimationComponent->SetHorizontalOffset(m_HorizontalOffset);
+	pAnimationComponent->SetVerticalOffset(m_VerticalOffset);
 }
 
 void FlickeringBlockState::Update(GameEngine::AnimationComponent* pAnimationComponent)
@@ -83,5 +75,5 @@ bool IsBlockFinishedFlickering::Evaluate(GameEngine::AnimationComponent* pAnimat
 {
 	int animTimes = pAnimationComponent->GetAnimationTimes(); 
 
-	return animTimes >= 150.f;
+	return animTimes >= m_MaxAnimationTimes;
 }

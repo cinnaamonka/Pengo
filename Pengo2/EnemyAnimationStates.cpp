@@ -6,10 +6,10 @@ void EnemyPatrolState::HandleInput(GameEngine::GameObject* object)
 {
 	GameEngine::AnimationComponent* animationComponent = object->GetComponent<GameEngine::AnimationComponent>();
 
-	animationComponent->SetHorizontalOffset(0);
+	animationComponent->SetHorizontalOffset(m_HorizontalOffset);
 
-	animationComponent->SetNumberOfFrames(2);
-	animationComponent->SetVerticalOffset(1);
+	animationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
+	animationComponent->SetVerticalOffset(m_VerticalOffset);
 
 }
 
@@ -28,24 +28,24 @@ void EnemyDyingState::HandleInput(GameEngine::GameObject* object)
 
 	if (movementDirection.x > 0)
 	{
-		animationComponent->SetHorizontalOffset(2);
+		animationComponent->SetHorizontalOffset(m_HorizontalDeathOffset);
 	}
 	if (movementDirection.x < 0)
 	{
-		animationComponent->SetHorizontalOffset(2);
+		animationComponent->SetHorizontalOffset(m_HorizontalDeathOffset);
 	}
 	if (movementDirection.y > 0)
 	{
-		animationComponent->SetHorizontalOffset(0);
+		animationComponent->SetHorizontalOffset(m_VerticalTopDeathOffset);
 	}
 	if (movementDirection.y < 0)
 	{
-		animationComponent->SetHorizontalOffset(4);
+		animationComponent->SetHorizontalOffset(m_VerticalBottomDeathOffset);
 	}
 
-	animationComponent->SetNumberOfFrames(2);
-	animationComponent->SetVerticalOffset(4);
-	animationComponent->SetFramesPerSec(1);
+	animationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
+	animationComponent->SetVerticalOffset(m_VerticalOffset);
+	animationComponent->SetFramesPerSec(m_FramesPerSec);
 	animationComponent->SetAnimationTime(0.0f);
 	animationComponent->SetAnimationFrame(0);
 }

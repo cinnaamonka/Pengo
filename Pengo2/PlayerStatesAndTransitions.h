@@ -11,6 +11,11 @@ public:
 	virtual void OnEnter(GameEngine::AnimationComponent* pBlackboard) override;
 	virtual void OnExit(GameEngine::AnimationComponent* pBlackboard) override;
 	virtual void Update(GameEngine::AnimationComponent* pBlackboard) override;
+
+private:
+	const int m_NumberOfEnterStateFrames = 1;
+	const int m_HorizontalOffset = 0;
+	const int m_VerticalOffset = 0;
 };
 class RunningState : public GameEngine::FSMState
 {
@@ -21,6 +26,13 @@ public:
 	virtual void OnEnter(GameEngine::AnimationComponent* pBlackboard) override;
 	virtual void OnExit(GameEngine::AnimationComponent* pBlackboard) override;
 	virtual void Update(GameEngine::AnimationComponent* pBlackboard) override;
+
+private:
+	const int m_NumberOfEnterStateFrames = 2;
+	const int m_HorizontalOffsetHorizontalMovement = 2;
+	const int m_HorizontalOffsetTopMovenment = 0;
+	const int m_HorizontalOffsetBottomMovenment = 4;
+	const int m_VerticalOffset = 0;
 
 };
 class PushingState : public GameEngine::FSMState
@@ -33,6 +45,13 @@ public:
 	virtual void OnExit(GameEngine::AnimationComponent* pBlackboard) override;
 	virtual void Update(GameEngine::AnimationComponent* pBlackboard) override;
 
+
+private:
+	const int m_NumberOfEnterStateFrames = 2;
+	const int m_HorizontalOffsetHorizontalMovement = 2;
+	const int m_HorizontalOffsetVerticalMovenment = 4;
+	const int m_VerticalOffset = 1;
+
 };
 
 class PlayerDyingState : public GameEngine::FSMState
@@ -44,6 +63,11 @@ public:
 	virtual void OnEnter(GameEngine::AnimationComponent* pBlackboard) override;
 	virtual void OnExit(GameEngine::AnimationComponent*) override {};
 	virtual void Update(GameEngine::AnimationComponent* pBlackboard) override;
+
+private:
+	const int m_NumberOfEnterStateFrames = 2;
+	const int m_HorizontalOffset = 0;
+	const int m_VerticalOffset = 2;
 
 };
 

@@ -19,11 +19,11 @@ void HitObserver::ResetHorizontalPosition(const GameEngine::Rect& actorShape, co
 
 	if (intersectX < left + actorShape.width / 2)
 	{
-		tempRect.left = static_cast<int>(intersectX + 0.1f);
+		tempRect.left = static_cast<int>(intersectX + m_BottomOffset);
 	}
 	else if (intersectX > left + actorShape.width / 2)
 	{
-		tempRect.left = static_cast<int>(intersectX - actorShape.width - 0.1f) ;
+		tempRect.left = static_cast<int>(intersectX - actorShape.width - m_BottomOffset) ;
 	}
 
 	GetGameObject()->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(glm::vec3{ tempRect.left,tempRect.bottom,0 });
@@ -39,18 +39,18 @@ void HitObserver::ResetVerticalPosition(const GameEngine::Rect& actorShape, cons
 
 	if (intersectY < bottom + actorShape.height / 2)
 	{
-		tempRect.bottom = static_cast<int>(intersectY + 0.1f);
+		tempRect.bottom = static_cast<int>(intersectY + m_BottomOffset);
 	}
 	else if (intersectY > bottom + actorShape.height / 2)
 	{
-		tempRect.bottom = static_cast<int>(intersectY - actorShape.height - 0.1f);
+		tempRect.bottom = static_cast<int>(intersectY - actorShape.height - m_BottomOffset);
 	}
 	GetGameObject()->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(glm::vec3{ tempRect.left,tempRect.bottom,0 });
 }
 void HitObserver::Notify(const GameEngine::HitInfo& message_from_subject)
 {
 	//vertical 
-	if (glm::abs(message_from_subject.normal.y) > 0.9f && glm::abs(message_from_subject.normal.x) < 0.1f)
+	if (glm::abs(message_from_subject.normal.y) > m_TopOffset && glm::abs(message_from_subject.normal.x) < m_BottomOffset)
 	{
 		const auto& shape = GetGameObject()->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
 
@@ -65,7 +65,7 @@ void HitObserver::Notify(const GameEngine::HitInfo& message_from_subject)
 		ResetVerticalPosition(shapeCopy, message_from_subject);
 	}
 	//horizontal
-	else if (glm::abs(message_from_subject.normal.x) > 0.9f && glm::abs(message_from_subject.normal.y) < 0.1f)
+	else if (glm::abs(message_from_subject.normal.x) > m_TopOffset && glm::abs(message_from_subject.normal.y) < m_BottomOffset)
 	{
 		const auto& shape = GetGameObject()->GetComponent<GameEngine::BoxCollider>()->GetBoxCollider();
 

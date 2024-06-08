@@ -3,9 +3,9 @@
 
 void IdleState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pAnimationComponent->SetNumberOfFrames(1);
-	pAnimationComponent->SetHorizontalOffset(0);
-	pAnimationComponent->SetVerticalOffset(0);
+	pAnimationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
+	pAnimationComponent->SetHorizontalOffset(m_HorizontalOffset);
+	pAnimationComponent->SetVerticalOffset(m_VerticalOffset);
 }
 
 void IdleState::OnExit(GameEngine::AnimationComponent* pAnimationComponent)
@@ -24,18 +24,18 @@ void RunningState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 
 	if (movementDirection.x != 0)
 	{
-		pAnimationComponent->SetHorizontalOffset(2);
+		pAnimationComponent->SetHorizontalOffset(m_HorizontalOffsetHorizontalMovement);
 	}
 	else if (movementDirection.y < 0)
 	{
-		pAnimationComponent->SetHorizontalOffset(4);
+		pAnimationComponent->SetHorizontalOffset(m_HorizontalOffsetBottomMovenment);
 	}
 	else if (movementDirection.y > 0)
 	{
-		pAnimationComponent->SetHorizontalOffset(0);
+		pAnimationComponent->SetHorizontalOffset(m_HorizontalOffsetTopMovenment);
 	}
-	pAnimationComponent->SetNumberOfFrames(2);
-	pAnimationComponent->SetVerticalOffset(0);
+	pAnimationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
+	pAnimationComponent->SetVerticalOffset(m_VerticalOffset);
 }
 
 void RunningState::OnExit(GameEngine::AnimationComponent* pAnimationComponent)
@@ -54,20 +54,16 @@ void PushingState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
 	glm::vec3 movementDirection = pAnimationComponent->GetMovementDirection();
 
-	if (movementDirection.x > 0 || movementDirection.x < 0)
+	if (movementDirection.x != 0)
 	{
-		pAnimationComponent->SetHorizontalOffset(2);
+		pAnimationComponent->SetHorizontalOffset(m_HorizontalOffsetHorizontalMovement);
 	}
-	else if (movementDirection.y < 0)
+	else if (movementDirection.y != 0)
 	{
-		pAnimationComponent->SetHorizontalOffset(4);
+		pAnimationComponent->SetHorizontalOffset(m_HorizontalOffsetVerticalMovenment);
 	}
-	else if (movementDirection.y > 0)
-	{
-		pAnimationComponent->SetHorizontalOffset(4);
-	}
-	pAnimationComponent->SetNumberOfFrames(2); 
-	pAnimationComponent->SetVerticalOffset(1); 
+	pAnimationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames); 
+	pAnimationComponent->SetVerticalOffset(m_VerticalOffset); 
 }
 void PushingState::OnExit(GameEngine::AnimationComponent* pAnimationComponent)
 {
@@ -82,9 +78,9 @@ void PushingState::Update(GameEngine::AnimationComponent* pAnimationComponent)
 
 void PlayerDyingState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pAnimationComponent->SetHorizontalOffset(0);
-	pAnimationComponent->SetVerticalOffset(2);
-	pAnimationComponent->SetNumberOfFrames(2);
+	pAnimationComponent->SetHorizontalOffset(m_HorizontalOffset);
+	pAnimationComponent->SetVerticalOffset(m_VerticalOffset);
+	pAnimationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
 }
 
 

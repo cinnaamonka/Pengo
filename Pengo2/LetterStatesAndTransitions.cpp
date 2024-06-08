@@ -2,15 +2,15 @@
 #include <Helpers.h>
 void StaticLetterState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pAnimationComponent->SetNumberOfFrames(1);
-	pAnimationComponent->SetFramesPerSec(1);
+	pAnimationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
+	pAnimationComponent->SetFramesPerSec(m_FramesPerSec);
 }
 
 void StaticLetterState::Update(GameEngine::AnimationComponent* pAnimationComponent)
 {
 	GameEngine::AnimationUpdate(pAnimationComponent);
 
-	if (pAnimationComponent->GetAnimationTimes() >= 50)
+	if (pAnimationComponent->GetAnimationTimes() >= m_MaxAnimationTimesAmount)
 	{
 		pAnimationComponent->SetShouldFlyckering(true);
 		pAnimationComponent->SetAnimationTimes(0);
@@ -27,8 +27,8 @@ bool ShouldStartFlyckering::Evaluate(GameEngine::AnimationComponent* pAnimationC
 
 void FlyckeringLetterState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pAnimationComponent->SetNumberOfFrames(1);
-	pAnimationComponent->SetFramesPerSec(1);
+	pAnimationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
+	pAnimationComponent->SetFramesPerSec(m_FramesPerSec);
 
 	int verticalOffset = pAnimationComponent->GetVerticalOffset(); 
 
@@ -47,7 +47,7 @@ void FlyckeringLetterState::Update(GameEngine::AnimationComponent* pAnimationCom
 {
 	GameEngine::AnimationUpdate(pAnimationComponent);
 	
-	if (pAnimationComponent->GetAnimationTimes() >= 50)
+	if (pAnimationComponent->GetAnimationTimes() >= m_MaxAnimationTimesAmount)
 	{
 		pAnimationComponent->SetShouldFlyckering(false);
 		pAnimationComponent->SetAnimationTimes(0);

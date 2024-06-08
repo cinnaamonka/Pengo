@@ -28,8 +28,11 @@ std::unique_ptr<GameEngine::GameObject> Letter::AddLetter(const glm::vec3& posit
 	gameObject->AddComponent<GameEngine::RenderComponent>();
 	gameObject->AddComponent<Letter>();
 
-	auto textureSizeX = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / 16;
-	auto textureSizeY = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / 4;
+	const int horizontalClipAmount = 16;
+	const int verticalClipAmount = 4;
+
+	auto textureSizeX = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / horizontalClipAmount;
+	auto textureSizeY = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / verticalClipAmount;
 
 	gameObject->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
 

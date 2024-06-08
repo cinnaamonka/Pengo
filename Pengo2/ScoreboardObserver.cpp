@@ -4,16 +4,17 @@
 #include <RenderComponent.h>
 #include <AnimationComponent.h>
 #include <ResourceManager.h>
+#include <FontManager.h>
 
 ScoreboardObserver::ScoreboardObserver(GameEngine::GameObject* gameObject, GameEngine::Scene* scenePtr):
 	BaseComponent(gameObject),
-	m_ScenePtr(scenePtr)
+	m_pScene(scenePtr)
 {
 }
 
 void ScoreboardObserver::Notify(const ScoreBoardData& message_from_subject)
 {
-	auto smallFont = GameEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
+	auto smallFont = GameEngine::FontManager::GetInstance().GetFont(GameEngine::FontTypes::Small); 
 
 	auto gameObject = std::make_unique<GameEngine::GameObject>();
 
@@ -22,5 +23,5 @@ void ScoreboardObserver::Notify(const ScoreBoardData& message_from_subject)
 	gameObject->AddComponent<GameEngine::AnimationComponent>();
 	gameObject->AddComponent<GameEngine::RenderComponent>();
 
-	m_ScenePtr->Add(std::move(gameObject));
+	m_pScene->Add(std::move(gameObject));
 }

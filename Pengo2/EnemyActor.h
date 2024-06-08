@@ -54,12 +54,10 @@ public:
 
 private:
 
-	int m_HorizontalAmountOfFrames = 8;
-	int m_VerticalAmountOfFrames = 5;
+	const int m_HorizontalAmountOfFrames = 8;
+	const int m_VerticalAmountOfFrames = 5;
 
 	bool m_HasKilledActor;
-
-	
 
 	std::vector<GameEngine::GameObject*> m_pPlayers;
 

@@ -48,8 +48,11 @@ private:
 	std::unique_ptr<IsBlockNotPushed> m_IsBlockNotPushed;
 	std::unique_ptr<IsKilled> m_IsKilled;
 
-	int m_HorizontalAmountOfFrames = 8;
-	int m_VerticalAmountOfFrames = 3;
+	const int m_HorizontalAmountOfFrames = 8;
+	const int m_VerticalAmountOfFrames = 3;
+	const int m_HorAmountOfFramesControllerActor = 5;
+
+	const int m_PengoActorSize = 20;
 
 	GameEngine::GameObject* m_ReferenceToCharacterPengo;
 

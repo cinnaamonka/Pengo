@@ -37,12 +37,12 @@ public:
 		return m_Position;
 	}
 
-	void SetPushSpeed(float speed)
+	void SetPushSpeed(int speed)
 	{
 		m_PushSpeed = speed;
 	}
 
-	const float GetPushSpeed() const
+	const int GetPushSpeed() const
 	{
 		return m_PushSpeed;
 	}
@@ -133,7 +133,7 @@ private:
 	
 	glm::vec3 m_Position;
 	glm::vec3 m_ColliderPosition;
-	float m_PushSpeed;
+	int m_PushSpeed;
 
 	glm::vec3 m_Direction;
 

@@ -19,7 +19,7 @@
             }
         }
     ],
-    "game_mode": 2,
+    "game_mode": 1,
     "hud": [
         {
             "position": {
@@ -451,6 +451,6 @@
             "type": "verBorder"
         }
     ],
-    "lifesAmount": 1,
-    "scoreAmount": 0
+    "lifesAmount": 2,
+    "scoreAmount": 530
 }

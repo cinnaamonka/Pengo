@@ -6,16 +6,16 @@ void VibratingState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent
 
 	if (isBorderHorizontal)
 	{
-		pAnimationComponent->SetHorizontalOffset(0);
-		pAnimationComponent->SetVerticalOffset(1);
+		pAnimationComponent->SetHorizontalOffset(m_HorizontalOffset);
+		pAnimationComponent->SetVerticalOffset(m_VerticalOffset);
 	}
 	else
 	{
-		pAnimationComponent->SetHorizontalOffset(1);
-		pAnimationComponent->SetVerticalOffset(0);
+		pAnimationComponent->SetHorizontalOffset(m_VerticalOffset);
+		pAnimationComponent->SetVerticalOffset(m_HorizontalOffset);
 	}
-	pAnimationComponent->SetNumberOfFrames(2);
-	pAnimationComponent->SetFramesPerSec(10);
+	pAnimationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
+	pAnimationComponent->SetFramesPerSec(m_FramesPerSec);
 
 }
 
@@ -27,10 +27,10 @@ void VibratingState::Update(GameEngine::AnimationComponent* pAnimationComponent)
 
 void StopVibrating::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pAnimationComponent->SetHorizontalOffset(0);
-	pAnimationComponent->SetVerticalOffset(0);
-	pAnimationComponent->SetNumberOfFrames(1);
-	pAnimationComponent->SetFramesPerSec(10);
+	pAnimationComponent->SetHorizontalOffset(m_HorizontalOffset);
+	pAnimationComponent->SetVerticalOffset(m_VerticalOffset);
+	pAnimationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
+	pAnimationComponent->SetFramesPerSec(m_FramesPerSec);
 }
 
 

@@ -36,7 +36,9 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(const glm::vec3&
 {
 	std::unique_ptr<GameEngine::GameObject> gameObject = std::make_unique<GameEngine::GameObject>();
 
-	gameObject->AddComponent<GameEngine::BoxCollider>(static_cast<int>(pos.x), static_cast<int>(pos.y), 20, 20);
+	const int enemySize = 20;
+
+	gameObject->AddComponent<GameEngine::BoxCollider>(static_cast<int>(pos.x), static_cast<int>(pos.y), enemySize, enemySize);
 	gameObject->AddComponent<GameEngine::TransformComponent>(glm::vec3(static_cast<int>(pos.x), static_cast<int>(pos.y), 0));
 	gameObject->AddComponent<GameEngine::TextureComponent>("Enemy.tga");
 
@@ -67,12 +69,8 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(const glm::vec3&
 
 void EnemyActor::KillPlayer(int killedPlayerIndex)
 {
-	//TODO
 	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Stop(static_cast<int>(PengoSounds::Background));
-
-
 	m_pPlayers[killedPlayerIndex]->GetComponent<GameEngine::ActorComponent>()->Damage(1);
-
 }
 
 void EnemyActor::Update()

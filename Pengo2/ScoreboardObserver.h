@@ -21,5 +21,5 @@ public:
 
 	void Notify(const ScoreBoardData& message_from_subject) override;
 private:
-	GameEngine::Scene* m_ScenePtr;
+	GameEngine::Scene* m_pScene;
 };

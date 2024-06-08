@@ -13,6 +13,12 @@ public:
 	virtual void OnExit(GameEngine::AnimationComponent*) override {};
 	virtual void Update(GameEngine::AnimationComponent* pBlackboard) override;
 
+private:
+	const int m_NumberOfEnterStateFrames = 3;
+	const int m_HorizontalOffset = 1;
+	const int m_FramesPerSec = 1;
+	const int m_VerticalOffset = 0;
+
 };
 
 class ScoreWaitingState : public GameEngine::FSMState
@@ -25,6 +31,12 @@ public:
 	virtual void OnExit(GameEngine::AnimationComponent*) override {};
 	virtual void Update(GameEngine::AnimationComponent* pBlackboard) override;
 
+private:
+	const int m_NumberOfEnterStateFrames = 1;
+	const int m_HorizontalOffset = 0;
+	const int m_FramesPerSec = 1;
+	const int m_VerticalOffset = 0;
+
 };
 class IsScoreWaiting : public GameEngine::FSMCondition
 {
@@ -33,5 +45,8 @@ public:
 	~IsScoreWaiting() = default;
 
 	virtual bool Evaluate(GameEngine::AnimationComponent* pBlackboard) const override;
+
+private:
+	const float m_MaxWaitingTime = 2.5f;
 };
 

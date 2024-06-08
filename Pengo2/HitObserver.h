@@ -20,6 +20,8 @@ public:
 private:
 	void ResetHorizontalPosition(const GameEngine::Rect& actorShape, const GameEngine::HitInfo& hitInfo);
 	void ResetVerticalPosition(const GameEngine::Rect& actorShape, const GameEngine::HitInfo& hitInfo);
+	const float m_TopOffset = 0.9f;
+	const float m_BottomOffset = 0.1f;
 
 };
 

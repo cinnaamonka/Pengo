@@ -24,7 +24,7 @@ std::unique_ptr<IsVibrating>               BaseBlock::m_pIsVibrating = std::make
 
 BaseBlock::BaseBlock(GameEngine::GameObject* GOptr, int index, BlocksTypes type) :
 	GameEngine::BaseComponent(GOptr),
-	m_PushSpeed(10.0f),
+	m_PushSpeed(10),
 	m_Position{ 0,0,0 },
 	m_ColliderPosition{ 0,0,0 },
 	m_BlockIndex(index),
@@ -193,7 +193,7 @@ void BaseBlock::Update()
 	{
 		auto currentPosition = GetGameObject()->GetComponent<GameEngine::TransformComponent>()->GetLocalPosition();
 
-		currentPosition += m_PushSpeed * m_Direction;
+		currentPosition += static_cast<float>(m_PushSpeed) * m_Direction;
 
 		GetGameObject()->GetComponent<GameEngine::TransformComponent>()->SetLocalPosition(currentPosition);
 		GetGameObject()->GetComponent<GameEngine::BoxCollider>()->SetBoxCollider(currentPosition);

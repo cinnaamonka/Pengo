@@ -3,10 +3,10 @@
 
 void BreakingEggState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pAnimationComponent->SetNumberOfFrames(3);
-	pAnimationComponent->SetFramesPerSec(1);
-	pAnimationComponent->SetHorizontalOffset(1);
-	pAnimationComponent->SetVerticalOffset(0);
+	pAnimationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
+	pAnimationComponent->SetFramesPerSec(m_FramesPerSec);
+	pAnimationComponent->SetHorizontalOffset(m_HorizontalOffset);
+	pAnimationComponent->SetVerticalOffset(m_VerticalOffset);
 }
 
 void BreakingEggState::Update(GameEngine::AnimationComponent* pAnimationComponent)
@@ -25,10 +25,10 @@ void BreakingEggState::Update(GameEngine::AnimationComponent* pAnimationComponen
 
 void WaitingState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pAnimationComponent->SetNumberOfFrames(1);
-	pAnimationComponent->SetFramesPerSec(1);
-	pAnimationComponent->SetHorizontalOffset(0);
-	pAnimationComponent->SetVerticalOffset(0);
+	pAnimationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
+	pAnimationComponent->SetFramesPerSec(m_FramesPerSec);
+	pAnimationComponent->SetHorizontalOffset(m_HorizontalOffset);
+	pAnimationComponent->SetVerticalOffset(m_VerticalOffset);
 }
 
 void WaitingState::Update(GameEngine::AnimationComponent* pAnimationComponent)

@@ -13,6 +13,11 @@ public:
 	virtual void OnExit(GameEngine::AnimationComponent*) override;
 	virtual void Update(GameEngine::AnimationComponent* pBlackboard) override;
 
+private:
+	const int m_NumberOfEnterStateFrames = 1;
+	const int m_HorizontalOffset = 0;
+	const int m_VerticalOffset = 0;
+
 };
 class FlickeringBlockState : public GameEngine::FSMState
 {
@@ -23,7 +28,11 @@ public:
 	virtual void OnEnter(GameEngine::AnimationComponent* pBlackboard) override;
 	virtual void OnExit(GameEngine::AnimationComponent*) override {};
 	virtual void Update(GameEngine::AnimationComponent* pBlackboard) override;
-
+private:
+	const int m_NumberOfEnterStateFrames = 6;
+	const int m_FramesPerSec = 2;
+	const int m_HorizontalOffset = 0;
+	const int m_VerticalOffset = 0;
 };
 
 class BreakingBlockState : public GameEngine::FSMState
@@ -33,8 +42,14 @@ public:
 	~BreakingBlockState() = default;
 
 	virtual void OnEnter(GameEngine::AnimationComponent* pBlackboard) override;
-	virtual void OnExit(GameEngine::AnimationComponent* pBlackboard) override;
+	virtual void OnExit(GameEngine::AnimationComponent*) override {};
 	virtual void Update(GameEngine::AnimationComponent* pBlackboard) override;
+
+private:
+	const int m_NumberOfEnterStateFrames = 9;
+	const int m_FramesPerSec = 10;
+	const int m_HorizontalOffset = 7;
+	const int m_VerticalOffset = 0;
 
 };
 
@@ -62,5 +77,8 @@ public:
 	~IsBlockFinishedFlickering() = default;
 
 	virtual bool Evaluate(GameEngine::AnimationComponent* pBlackboard) const override;
+
+private:
+	const float m_MaxAnimationTimes = 150.0f;
 };
 

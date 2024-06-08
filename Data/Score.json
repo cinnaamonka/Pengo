@@ -67,10 +67,18 @@
         {
             "name": "BAB",
             "score": 3540
+        },
+        {
+            "name": "CBB",
+            "score": 620
+        },
+        {
+            "name": "BBB",
+            "score": 2590
         }
     ],
     "Letter0": "B",
-    "Letter1": "A",
+    "Letter1": "B",
     "Letter2": "B",
-    "score": 2530
+    "score": 1150
 }

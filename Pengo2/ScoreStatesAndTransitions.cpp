@@ -3,10 +3,10 @@
 
 void ScoreAppearingState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pAnimationComponent->SetNumberOfFrames(3);
-	pAnimationComponent->SetFramesPerSec(1);
-	pAnimationComponent->SetHorizontalOffset(1);
-	pAnimationComponent->SetVerticalOffset(0);
+	pAnimationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
+	pAnimationComponent->SetFramesPerSec(m_FramesPerSec);
+	pAnimationComponent->SetHorizontalOffset(m_HorizontalOffset);
+	pAnimationComponent->SetVerticalOffset(m_VerticalOffset);
 }
 
 void ScoreAppearingState::Update(GameEngine::AnimationComponent* pAnimationComponent)
@@ -25,10 +25,10 @@ void ScoreAppearingState::Update(GameEngine::AnimationComponent* pAnimationCompo
 
 void ScoreWaitingState::OnEnter(GameEngine::AnimationComponent* pAnimationComponent)
 {
-	pAnimationComponent->SetNumberOfFrames(1);
-	pAnimationComponent->SetFramesPerSec(1);
-	pAnimationComponent->SetHorizontalOffset(0);
-	pAnimationComponent->SetVerticalOffset(0);
+	pAnimationComponent->SetNumberOfFrames(m_NumberOfEnterStateFrames);
+	pAnimationComponent->SetFramesPerSec(m_FramesPerSec);
+	pAnimationComponent->SetHorizontalOffset(m_HorizontalOffset);
+	pAnimationComponent->SetVerticalOffset(m_VerticalOffset);
 }
 
 void ScoreWaitingState::Update(GameEngine::AnimationComponent* pAnimationComponent)
@@ -44,5 +44,5 @@ bool IsScoreWaiting::Evaluate(GameEngine::AnimationComponent* pAnimationComponen
 {
 	float timeOffset = pAnimationComponent->GetTimeOffset();
 
-	return (timeOffset >= 2.5f);
+	return (timeOffset >= m_MaxWaitingTime);
 }
