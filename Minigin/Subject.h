@@ -7,7 +7,7 @@
 namespace GameEngine
 {
 	template<typename T>
-	class Subject
+	class Subject final
 	{
 	public:
 		Subject() : m_Message(T()) {}
