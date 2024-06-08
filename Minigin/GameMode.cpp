@@ -4,6 +4,7 @@
 #include "RenderComponent.h"
 #include "AnimationComponent.h"
 
+
 std::unique_ptr<GameEngine::GameObject> GameEngine::GameMode::CreateGameMode(const glm::vec3& position, GameModes gameMode)
 {
 	std::unique_ptr<GameEngine::GameObject> gameObject = std::make_unique<GameEngine::GameObject>();
@@ -16,10 +17,8 @@ std::unique_ptr<GameEngine::GameObject> GameEngine::GameMode::CreateGameMode(con
 			gameObject->AddComponent<GameEngine::TextureComponent>("1.tga");
 			break;
 		case GameModes::Co_op:
-			gameObject->AddComponent<GameEngine::TextureComponent>("2.tga");
-			break;
 		case GameModes::Versus:
-			gameObject->AddComponent<GameEngine::TextureComponent>("2.tga"); 
+			gameObject->AddComponent<GameEngine::TextureComponent>("2.tga");
 			break;
 	}
 

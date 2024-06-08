@@ -1,5 +1,4 @@
 #include "EnemyAnimationStates.h"
-#include <Helpers.h>
 #include <AnimationComponent.h>
 
 void EnemyPatrolState::HandleInput(GameEngine::GameObject* object)

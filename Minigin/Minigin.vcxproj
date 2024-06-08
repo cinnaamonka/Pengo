@@ -252,7 +252,6 @@ xcopy "$(SolutionDir)3rdParty\steamworks\steam_appid.txt" "$(OutputPath)" /Y</Co
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="IObserver.h" />
-    <ClInclude Include="json.hpp" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="HealthObserver.h" />
     <ClInclude Include="InputCommands.h" />

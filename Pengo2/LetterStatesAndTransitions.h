@@ -3,7 +3,7 @@
 #include <AnimationComponent.h>
 #include <FSM.h>
 
-class StaticLetterState : public GameEngine::FSMState 
+class StaticLetterState final : public GameEngine::FSMState
 {
 public:
 	StaticLetterState() = default;
@@ -19,7 +19,7 @@ private:
 	const int m_FramesPerSec = 1;
 	const int m_MaxAnimationTimesAmount = 50;
 };
-class FlyckeringLetterState : public GameEngine::FSMState
+class FlyckeringLetterState final : public GameEngine::FSMState
 {
 public:
 	FlyckeringLetterState() = default;
@@ -37,7 +37,7 @@ private:
 	const int m_MaxAnimationTimesAmount = 50;
 };
 
-class ShouldStartFlyckering : public GameEngine::FSMCondition
+class ShouldStartFlyckering final : public GameEngine::FSMCondition
 {
 public:
 	ShouldStartFlyckering() = default;
@@ -45,7 +45,7 @@ public:
 
 	virtual bool Evaluate(GameEngine::AnimationComponent* pAnimationComponent) const override;
 };
-class ShouldStopFlyckering : public GameEngine::FSMCondition
+class ShouldStopFlyckering final : public GameEngine::FSMCondition
 {
 public:
 	ShouldStopFlyckering() = default;

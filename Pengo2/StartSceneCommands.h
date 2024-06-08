@@ -2,7 +2,7 @@
 #include <GameObjectCommand.h>
 #include <functional>
 
-class ChooseSinglePlayer : public GameEngine::GameObjectCommand
+class ChooseSinglePlayer final: public GameEngine::GameObjectCommand
 {
 public:
 	ChooseSinglePlayer(GameEngine::GameObject* gameObject, std::function<void()> func); 
@@ -19,7 +19,7 @@ private:
 	std::function<void()> m_pFunction;
 };
 
-class ChooseCoOp : public GameEngine::GameObjectCommand
+class ChooseCoOp final : public GameEngine::GameObjectCommand
 {
 public:
 	ChooseCoOp(GameEngine::GameObject* gameObject, std::function<void()> func); 
@@ -36,7 +36,7 @@ private:
 	std::function<void()> m_pFunction; 
 };
 
-class ChooseVersus : public GameEngine::GameObjectCommand
+class ChooseVersus final: public GameEngine::GameObjectCommand
 {
 public:
 	ChooseVersus(GameEngine::GameObject* gameObject, std::function<void()> func);

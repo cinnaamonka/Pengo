@@ -1,15 +1,12 @@
 #pragma once
 #include <GameObjectCommand.h>
-#include <glm/vec2.hpp>
 #include <glm/glm.hpp>
 #include <functional>
 
 class GameEngine::GameObject;
 
-class PushBlockCommand :public GameEngine::GameObjectCommand
+class PushBlockCommand final:public GameEngine::GameObjectCommand
 {
-public:
-
 public:
 	explicit PushBlockCommand(GameEngine::GameObject* gameObject, GameEngine::GameObject* actor);
 	~PushBlockCommand() = default;
@@ -24,10 +21,8 @@ public:
 private:
 	GameEngine::GameObject* m_pActor;
 };
-class BreakBlockCommand :public GameEngine::GameObjectCommand
+class BreakBlockCommand final:public GameEngine::GameObjectCommand
 {
-public:
-
 public:
 	explicit BreakBlockCommand(GameEngine::GameObject* gameObject);
 	~BreakBlockCommand() = default;
@@ -40,9 +35,8 @@ public:
 
 	void Execute() override;
 };
-class StopPushCommand :public GameEngine::GameObjectCommand 
+class StopPushCommand final:public GameEngine::GameObjectCommand 
 {
-public:
 
 public:
 	explicit StopPushCommand(GameEngine::GameObject* gameObject);
@@ -56,7 +50,7 @@ public:
 
 	void Execute() override;
 };
-class SkipLevelCommand : public GameEngine::GameObjectCommand
+class SkipLevelCommand final: public GameEngine::GameObjectCommand
 {
 public:
 	SkipLevelCommand(GameEngine::GameObject* gameObject, std::function<void()> func);
@@ -72,7 +66,7 @@ public:
 private:
 	std::function<void()> m_pFunction;
 };
-class MuteSoundCommand : public GameEngine::GameObjectCommand
+class MuteSoundCommand final: public GameEngine::GameObjectCommand
 {
 public:
 	MuteSoundCommand(GameEngine::GameObject* gameObject);

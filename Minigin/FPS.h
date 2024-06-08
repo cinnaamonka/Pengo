@@ -8,10 +8,16 @@ namespace GameEngine
 {
 	class TextComponent;
 
-	class FPS : public BaseComponent
+	class FPS final: public BaseComponent
 	{
 	public:
 		FPS(GameObject* GOptr);
+	
+		~FPS() = default;
+		FPS(const FPS& other) = delete;
+		FPS(FPS&& other) noexcept = delete;
+		FPS& operator=(const FPS& other) = delete;
+		FPS& operator=(FPS&& other) noexcept = delete;
 
 		void Update() override;
 

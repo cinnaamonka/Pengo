@@ -4,9 +4,6 @@
 #include "ScoreScene.h"
 #include "StartScreen.h"
 #include <functional>
-#include "Structs.h"
-#include <Helpers.h>
-
 
 class LevelLoader final
 {

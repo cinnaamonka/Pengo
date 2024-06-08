@@ -1,12 +1,8 @@
 #pragma once
-
 #include "BaseComponent.h" 
-
 #include "Helpers.h"
-
 #include <memory>
 
-#include <glm/vec2.hpp>
 #include <glm/glm.hpp>
 
 namespace GameEngine
@@ -17,12 +13,18 @@ namespace GameEngine
 
 	class Texture2D;
 
-	class RenderComponent : public BaseComponent
+	class RenderComponent final: public BaseComponent
 	{
 	public:
 		RenderComponent(GameObject* GOptr);
+	
+		~RenderComponent() = default;
+		RenderComponent(const RenderComponent& other) = delete;
+		RenderComponent(RenderComponent&& other) noexcept = delete;
+		RenderComponent& operator=(const RenderComponent& other) = delete;
+		RenderComponent& operator=(RenderComponent&& other) noexcept = delete;
 
-		virtual void Render() override;
+		void Render() override;
 
 		void SetTexture(std::shared_ptr<Texture2D> texture)
 		{

@@ -2,11 +2,8 @@
 
 #include <memory>
 
-#include <Helpers.h>
 #include <BaseComponent.h>
 #include <GameObject.h>
-#include <Subject.h>
-#include <IObserver.h>
 #include "AIStatesAndTransitions.h"
 #include "EnemyAnimationStates.h"
 

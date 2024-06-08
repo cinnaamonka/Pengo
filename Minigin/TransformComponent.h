@@ -2,7 +2,6 @@
 
 #include "BaseComponent.h"
 
-#include <glm/vec2.hpp>
 #include <glm/glm.hpp>
 
 #include "Helpers.h"
@@ -15,8 +14,13 @@ namespace GameEngine
 	{
 	public:
 		TransformComponent(GameObject* GOptr);
-
 		TransformComponent(GameObject* GOptr, glm::vec3 pos);
+
+		TransformComponent(const TransformComponent& other) = delete;
+		TransformComponent(TransformComponent&& other) noexcept = delete;
+		TransformComponent& operator=(const TransformComponent& other) = delete;
+		TransformComponent& operator=(TransformComponent&& other) noexcept = delete;
+		~TransformComponent() = default;
 
 		void SetLocalPosition(float x, float y, float z);
 		void SetLocalPosition(const glm::vec3& position);
@@ -29,7 +33,6 @@ namespace GameEngine
 
 		glm::vec3 GetLocalPosition() const
 		{
-
 			return m_LocalPosition;
 		}
 

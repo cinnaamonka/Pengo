@@ -4,11 +4,9 @@
 #include <Helpers.h>
 #include <AnimationComponent.h>
 
-
-#include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 
-class EnemyDirectionObserver : public GameEngine::IObserver<GameEngine::EnemyInfo>, public GameEngine::BaseComponent
+class EnemyDirectionObserver final: public GameEngine::IObserver<GameEngine::EnemyInfo>, public GameEngine::BaseComponent
 {
 public:
 	EnemyDirectionObserver(GameEngine::GameObject* pGameObject, int index);

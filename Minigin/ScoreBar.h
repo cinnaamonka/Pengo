@@ -1,13 +1,11 @@
 #pragma once
 #include "BaseComponent.h"
 
-#include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 
-
 namespace GameEngine
-{
-	class ScoreBarFactory
+{ 
+	class ScoreBarFactory final
 	{
 	public:
 		ScoreBarFactory() = default;
@@ -19,8 +17,6 @@ namespace GameEngine
 		ScoreBarFactory& operator=(ScoreBarFactory&& other) noexcept = delete;
 
 		static std::unique_ptr<GameEngine::GameObject> CreateScoreBar(const glm::vec3& position,int currentScore);
-
-	private:
 
 	};
 

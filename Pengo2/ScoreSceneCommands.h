@@ -1,6 +1,5 @@
 #pragma once
 #include <GameObjectCommand.h>
-#include <glm/vec2.hpp>
 #include <glm/glm.hpp>
 #include <vector>
 #include <Subject.h>
@@ -8,7 +7,7 @@
 
 class GameEngine::GameObject;
 
-class ChangeLetterCommand : public GameEngine::GameObjectCommand
+class ChangeLetterCommand final: public GameEngine::GameObjectCommand
 {
 public:
 	ChangeLetterCommand(GameEngine::GameObject* gameObject);
@@ -24,7 +23,7 @@ private:
 	char m_CurrentLetter = 'A';
 };
 
-class SumbitNameCommand : public GameEngine::GameObjectCommand
+class SumbitNameCommand final: public GameEngine::GameObjectCommand
 {
 public:
 	SumbitNameCommand(GameEngine::GameObject* gameObject);
@@ -37,7 +36,7 @@ public:
 
 	void Execute() override;
 };
-class SwitchToNextLetter : public GameEngine::GameObjectCommand
+class SwitchToNextLetter final: public GameEngine::GameObjectCommand
 {
 public:
 	SwitchToNextLetter(std::vector<GameEngine::GameObject*>& letters,int& currentLetterIndex,int score,const glm::vec3& position,

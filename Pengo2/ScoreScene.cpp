@@ -2,7 +2,6 @@
 #include <SceneManager.h>
 #include <TransformComponent.h>
 #include <TextComponent.h>
-#include <ResourceManager.h>
 #include <RenderComponent.h>
 #include <AnimationComponent.h>
 #include <TextureComponent.h>
@@ -13,7 +12,6 @@
 #include "ScoreboardObserver.h"
 #include <SoundServiceLocator.h>
 #include <SoundSystem.h>
-#include <memory>
 #include <algorithm>
 #include <iterator> 
 #include <FontManager.h>

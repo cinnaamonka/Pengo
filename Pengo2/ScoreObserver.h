@@ -2,7 +2,6 @@
 #include "memory"
 #include <GameObject.h>
 
-#include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 #include <IObserver.h>
 #include <Scene.h>
@@ -19,7 +18,7 @@ struct Score
 	ScoreType type;
 	glm::vec3 pos;
 };
-class ScoreObserver : public GameEngine::IObserver<Score>
+class ScoreObserver final: public GameEngine::IObserver<Score>
 {
 public:
 
@@ -33,7 +32,7 @@ public:
 	void Notify(const Score& message_from_subject) override;
 
 private:
-	GameEngine::Scene* m_ScenePtr;
+	GameEngine::Scene* m_pScene;
 
 	int m_HorizontalAmountOfFrames = 2;
 

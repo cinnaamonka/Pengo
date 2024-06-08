@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-class IEnemyAnimationState
+class IEnemyAnimationState 
 {
 public:
     virtual void HandleInput(GameEngine::GameObject* bossObj) = 0;
@@ -9,7 +9,7 @@ public:
     virtual ~IEnemyAnimationState() = default; 
 };
 
-class EnemyPatrolState : public IEnemyAnimationState
+class EnemyPatrolState final: public IEnemyAnimationState
 {
 public:
     virtual void HandleInput(GameEngine::GameObject* bossObj) override;
@@ -22,7 +22,7 @@ private:
     const int m_VerticalOffset = 1;
 };
 
-class EnemyDyingState : public IEnemyAnimationState
+class EnemyDyingState final: public IEnemyAnimationState
 {
 public:
     virtual void HandleInput(GameEngine::GameObject* bossObj) override;

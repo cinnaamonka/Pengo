@@ -3,13 +3,13 @@
 #include <TextureComponent.h>
 #include <RenderComponent.h>
 #include <GameObject.h>
-#include <BoxColliderComponent.h>
 #include <FSM.h>
+#include <Texture2D.h>
 #include <AnimationComponent.h>
 
-ScoreObserver::ScoreObserver(GameEngine::Scene* scenePtr)
+ScoreObserver::ScoreObserver(GameEngine::Scene* pScene)
 {
-	m_ScenePtr = scenePtr;
+	m_pScene = pScene;
 }
 
 void ScoreObserver::Notify(const Score& message_from_subject)
@@ -50,5 +50,5 @@ void ScoreObserver::Notify(const Score& message_from_subject)
 
 	gameObject->AddComponent<GameEngine::RenderComponent>();
 	
-	m_ScenePtr->Add(std::move(gameObject)); 
+	m_pScene->Add(std::move(gameObject)); 
 }

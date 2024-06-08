@@ -1,25 +1,17 @@
 #pragma once
 #include <BaseGame.h>
-#include <Engine.h>
 #include <memory>
-#include <functional>
-
-#include <Scene.h>
 #include <SceneManager.h>
 #include <GameObject.h>
-
 #include "Environment.h"
 #include "PengoActor.h"
-#include "EnemyActor.h"
 #include "EggObserver.h"
 #include "EnemyManager.h"
 #include <InputManager.h>
 #include "EnvironmentObserver.h"
 #include "ScoreObserver.h"
 #include <IObserver.h>
-#include <Helpers.h>
 #include <HUD.h>
-#include <SDL_mixer.h>
 #include <mutex>
 
 class Game final :public GameEngine::BaseGame, public GameEngine::IObserver<GameEngine::State>

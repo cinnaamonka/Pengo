@@ -1,5 +1,4 @@
 #include "ImGuiComponent.h"
-#include "BaseComponent.h"
 
 #include <functional>
 

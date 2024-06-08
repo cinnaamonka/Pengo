@@ -2,14 +2,13 @@
 #include "BaseComponent.h"
 #include "Subject.h"
 #include "Helpers.h"
-#include "HealthObserver.h"
 
 namespace GameEngine
 {
 	class GameObject;
 	class ScoreObserver;
 
-	class ActorComponent : public BaseComponent
+	class ActorComponent final: public BaseComponent
 	{
 	public:
 
@@ -79,12 +78,12 @@ namespace GameEngine
 
 	private:
 		int m_LifesAmount;
+		int m_Score;
 
 		bool m_CanCollisionBeChecked;
 
 		float m_Speed;
-		int m_Score;
-	
+		
 		Rect m_DestTextureRect;
 
 		Subject<int> m_LifesAmountChanged;

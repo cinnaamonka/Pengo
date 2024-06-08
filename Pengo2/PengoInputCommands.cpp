@@ -1,9 +1,5 @@
 #include "PengoInputCommands.h"
-#include <iostream>
-#include <ActorComponent.h>
-#include <SoundSystem.h>
 #include <SoundServiceLocator.h>
-#include <SoundLogSystem.h>
 #include "Environment.h"
 
 PushBlockCommand::PushBlockCommand(GameEngine::GameObject* gameObject, GameEngine::GameObject* actor) :

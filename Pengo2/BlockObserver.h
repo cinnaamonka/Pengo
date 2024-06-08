@@ -2,7 +2,6 @@
 #include <BaseComponent.h>
 #include <IObserver.h>
 #include <Helpers.h>
-#include <AnimationComponent.h>
 
 class GameObject;
 
@@ -13,7 +12,7 @@ struct BlockCollisionInfo
 	bool isPushed;
 };
 
-class BlockObserver: public GameEngine::BaseComponent, public GameEngine::IObserver<BlockCollisionInfo>
+class BlockObserver final: public GameEngine::BaseComponent, public GameEngine::IObserver<BlockCollisionInfo>
 {
 public:
 	BlockObserver(GameEngine::GameObject* pGameObject);

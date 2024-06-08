@@ -1,8 +1,6 @@
 #include "CollisionComponent.h"
 #include "BaseBlock.h"
 #include <GameObject.h>
-#include <FSM.h>
-#include "ActorComponent.h"
 
 CollisionComponent::CollisionComponent(GameEngine::GameObject* pGameObject) :
 	BaseComponent(pGameObject)

@@ -1,6 +1,4 @@
 #include "HealthObserver.h"
-#include "TextComponent.h"
-#include "ActorComponent.h"
 #include "AnimationComponent.h"
 
 namespace GameEngine

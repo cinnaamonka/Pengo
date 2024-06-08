@@ -1,9 +1,8 @@
 #pragma once
-#include <Helpers.h>
 #include <AnimationComponent.h>
 #include <FSM.h>
 
-class BreakingEggState : public GameEngine::FSMState
+class BreakingEggState final : public GameEngine::FSMState
 {
 public:
 	BreakingEggState() = default;
@@ -18,7 +17,7 @@ private:
 	const int m_HorizontalOffset = 1;
 	const int m_VerticalOffset = 0;
 };
-class BrokenEggState : public GameEngine::FSMState
+class BrokenEggState final : public GameEngine::FSMState
 {
 public:
 	BrokenEggState() = default;
@@ -29,7 +28,7 @@ public:
 	virtual void Update(GameEngine::AnimationComponent*) override {};
 
 };
-class WaitingState : public GameEngine::FSMState
+class WaitingState final : public GameEngine::FSMState
 {
 public:
 	WaitingState() = default;
@@ -45,7 +44,7 @@ private:
 	const int m_HorizontalOffset = 0;
 	const int m_VerticalOffset = 0;
 };
-class IsEggBroken : public GameEngine::FSMCondition
+class IsEggBroken final : public GameEngine::FSMCondition
 {
 public:
 	IsEggBroken() = default;
@@ -53,7 +52,7 @@ public:
 
 	virtual bool Evaluate(GameEngine::AnimationComponent* pBlackboard) const override;
 };
-class IsWaiting : public GameEngine::FSMCondition
+class IsWaiting final : public GameEngine::FSMCondition
 {
 public:
 	IsWaiting() = default;

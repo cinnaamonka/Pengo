@@ -2,17 +2,16 @@
 #include "memory"
 #include <GameObject.h>
 
-#include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 #include <IObserver.h>
 #include <Scene.h>
 
 #include "EggsStatesAndTransitions.h"
 
-class EggObserver : public GameEngine::IObserver<glm::vec3>
+class EggObserver final : public GameEngine::IObserver<glm::vec3>
 {
 public:
-	//rule of 5
+
 	EggObserver(GameEngine::Scene* scenePtr);
 	~EggObserver() = default;
 	EggObserver(const EggObserver& other) = delete;
@@ -23,12 +22,14 @@ public:
 	void Notify(const glm::vec3& message_from_subject) override;
 
 private:
-	GameEngine::Scene* m_ScenePtr;
-	std::unique_ptr<BreakingEggState> m_BreakingEggState;
-	std::unique_ptr<WaitingState> m_WaitingEggState;
+	GameEngine::Scene* m_pScene;
+
+	std::unique_ptr<BreakingEggState> m_pBreakingEggState;
+	std::unique_ptr<WaitingState> m_pWaitingEggState;
 	std::unique_ptr<BrokenEggState> m_pBrokenEggState;
-	std::unique_ptr<IsEggBroken> m_IsEggBroken;
-	std::unique_ptr<IsWaiting> m_IsEggAnimationWaiting;
+	std::unique_ptr<IsEggBroken> m_pIsEggBroken;
+	std::unique_ptr<IsWaiting> m_pIsEggAnimationWaiting;
+
 	int m_HorizontalAmountOfFrames = 4;
 
 };

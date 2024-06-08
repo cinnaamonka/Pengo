@@ -2,18 +2,15 @@
 #include "ScoreBar.h"
 #include "Scene.h"
 #include "GameObject.h"
-#include "ResourceManager.h"
 #include "TransformComponent.h"
 #include "TextureComponent.h"
 #include "RenderComponent.h"
-#include "ResourceManager.h"
 #include "AnimationComponent.h"
 #include "TextComponent.h"
 #include "SnoBeeShower.h"
 #include "LifeBar.h"
-#include <memory>
 #include "GameObject.h"
-#include "Texture2D.h"
+
 
 void GameEngine::HUD::AddScoreBar(const glm::vec3& position, Scene* scene, int currentScore)
 {

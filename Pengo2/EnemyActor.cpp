@@ -8,12 +8,10 @@
 #include <AnimationComponent.h>
 #include "AIMovementComponent.h"
 #include "EnemyDirectionObserver.h"
-#include "CollisionComponent.h"
 #include <ActorComponent.h>
 #include <SoundServiceLocator.h>
 #include "Structs.h"
-#include <SDL_mixer.h>
-
+#include <Texture2D.h>
 #include <FSM.h>
 #include <AIFSM.h>
 
@@ -26,8 +24,9 @@ std::unique_ptr<HasNoticedActor> EnemyActor::m_HasNoticedActor   = std::make_uni
 
 EnemyActor::EnemyActor(GameEngine::GameObject* pGameObject) :
 	BaseComponent(pGameObject),
-	m_HasKilledActor(false)
-
+	m_HasKilledActor(false),
+	m_AnimationState{nullptr},
+	m_IsKilled(false)
 {
 
 }
@@ -49,8 +48,11 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(const glm::vec3&
 	gameObject->AddComponent<EnemyDirectionObserver>(index);
 	gameObject->AddComponent<EnemyActor>();
 
-	auto textureSizeX = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / 8;
-	auto textureSizeY = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / 5;
+	const int textureHorizontalFrames = 8;
+	const int textureVerticalFrames = 5;
+
+	auto textureSizeX = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / textureHorizontalFrames;
+	auto textureSizeY = gameObject->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / textureVerticalFrames;
 
 	gameObject->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
 
@@ -58,7 +60,10 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(const glm::vec3&
 	gameObject->GetComponent<GameEngine::AIFSM>()->AddTransition(m_MovingState.get(), m_ChaseState.get(), m_HasNoticedActor.get());
 
 	gameObject->GetComponent<GameEngine::AnimationComponent>()->SetPos(glm::vec3(pos.x, pos.y, 0));
-	gameObject->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.3f);
+
+	const float speed = 0.3f;
+
+	gameObject->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(speed);
 
 	gameObject->GetComponent<GameEngine::AnimationComponent>()->SetMovementDirection(glm::vec3(1, 0, 0));
 	

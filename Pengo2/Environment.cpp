@@ -7,12 +7,10 @@
 #include <TextureComponent.h>
 #include <SoundServiceLocator.h>
 #include <FSM.h>
-#include <Helpers.h>
 #include "AnimationComponent.h"
 #include "EnemyManager.h"
 #include <TimeManager.h>
-#include "EggObserver.h"
-#include "Structs.h"
+#include <Texture2D.h>
 
 Environment::Environment(GameEngine::GameObject* pGameObject, std::vector<GameEngine::Block>& levelVertices, GameEngine::Scene* scene) :
 	BaseComponent(pGameObject),
@@ -26,10 +24,10 @@ Environment::Environment(GameEngine::GameObject* pGameObject, std::vector<GameEn
 	int offset = 0;
 	CreateBlocksCollection(m_LevelVertices, "DiamondBlock.tga", "diamond_block", offset, scene, BlocksTypes::Diamond);
 
-	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "egg_block", offset, scene, BlocksTypes::Eggs, 16);
+	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "egg_block", offset, scene, BlocksTypes::Eggs, m_ClipAmount);
 
-	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "ice_block", offset, scene, BlocksTypes::Breakable, 16);
-	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "enemy_block", offset, scene, BlocksTypes::BreaksOnSpot, 16);
+	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "ice_block", offset, scene, BlocksTypes::Breakable, m_ClipAmount);
+	CreateBlocksCollection(m_LevelVertices, "EggsBlocks.tga", "enemy_block", offset, scene, BlocksTypes::BreaksOnSpot, m_ClipAmount);
 	CreateBorder(scene, false, BlocksTypes::HorBorder);
 	CreateBorder(scene, true, BlocksTypes::VerBorder);
 

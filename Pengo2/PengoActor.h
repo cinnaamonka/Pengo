@@ -2,7 +2,6 @@
 #include <memory>
 #include <GameObject.h>
 #include "PlayerStatesAndTransitions.h"
-#include <HealthObserver.h>
 
 class GameEngine::BlackboardComponent; 
 class IdleState;
@@ -12,7 +11,6 @@ class IsInputNotGiven;
 
 class HitObserver;
 class CollisionObserver;
-class HealthObserver;
 
 class PengoActor final
 {

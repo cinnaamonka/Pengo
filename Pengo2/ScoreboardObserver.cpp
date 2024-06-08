@@ -6,9 +6,9 @@
 #include <ResourceManager.h>
 #include <FontManager.h>
 
-ScoreboardObserver::ScoreboardObserver(GameEngine::GameObject* gameObject, GameEngine::Scene* scenePtr):
+ScoreboardObserver::ScoreboardObserver(GameEngine::GameObject* gameObject, GameEngine::Scene* pScene):
 	BaseComponent(gameObject),
-	m_pScene(scenePtr)
+	m_pScene(pScene)
 {
 }
 

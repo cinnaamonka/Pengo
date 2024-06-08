@@ -9,9 +9,7 @@
 struct SDL_Texture;
 namespace GameEngine
 {
-	/**
-	 * Simple RAII wrapper for an SDL_Texture
-	 */
+
 	class Texture2D final
 	{
 	public:
@@ -23,9 +21,9 @@ namespace GameEngine
 		glm::ivec2 GetSize() const;
 		// Move constructor
 		Texture2D(Texture2D&& other) noexcept
-			: m_texture(other.m_texture)
+			: m_Texture(other.m_Texture)
 		{
-			other.m_texture = nullptr;
+			other.m_Texture = nullptr;
 		}
 
 	
@@ -36,15 +34,15 @@ namespace GameEngine
 			if (this != &other) // Check for self-assignment
 			{
 				
-				this->m_texture = other.m_texture;
+				this->m_Texture = other.m_Texture;
 				// Reset the source object (optional, but often a good practice)
-				other.m_texture = nullptr;
+				other.m_Texture = nullptr;
 			}
 
 			return *this;
 		}
 
 	private:
-		SDL_Texture* m_texture;
+		SDL_Texture* m_Texture;
 	};
 }

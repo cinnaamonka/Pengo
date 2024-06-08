@@ -1,8 +1,5 @@
 #include "TransformComponent.h"
 #include "BoxColliderComponent.h"
-#include "TextureComponent.h"
-
-#include "iostream"
 
 GameEngine::TransformComponent::TransformComponent(GameObject* GOptr) :
 	BaseComponent(GOptr),

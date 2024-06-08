@@ -1,28 +1,15 @@
 #pragma once
 #include <vector>
-#include <memory>
-#include <string>
-#include <Helpers.h>
 #include <Subject.h>
-
 #include <BaseComponent.h>
-
 #include "BaseBlock.h"
 #include <IObserver.h>
 #include "BlockObserver.h"
-#include "EggObserver.h"
-#include "ScoreObserver.h"
-#include "EnvironmentObserver.h"
 #include "EnemyManager.h"
-
 #include <Scene.h>
-
-#include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 
 class GameObject;
-class EggObserver;
-class EnvironmentObserver;
 
 class Environment final : public GameEngine::BaseComponent
 {
@@ -119,6 +106,7 @@ private:
 	const int m_BorderWidth;
 	const int m_BorderLength;
 	const int m_BorderHeight;
+	const int m_ClipAmount = 16;
 
 	std::unordered_map<int,glm::vec3> m_DiamondBlocksPositions;
 	std::vector<int> m_EggBlocksIndexes;

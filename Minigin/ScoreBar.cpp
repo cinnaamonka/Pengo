@@ -1,13 +1,9 @@
 #include "ScoreBar.h"
 #include "TransformComponent.h"
-#include "TextureComponent.h"
 #include "RenderComponent.h"
-#include "ResourceManager.h"
 #include "AnimationComponent.h"
 #include "TextComponent.h"
 #include "FontManager.h"
-#include "Texture2D.h"
-
 
 std::unique_ptr<GameEngine::GameObject> GameEngine::ScoreBarFactory::CreateScoreBar(const glm::vec3& position, int currentScore)
 {

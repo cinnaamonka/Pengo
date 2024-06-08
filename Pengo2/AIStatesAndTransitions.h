@@ -2,7 +2,7 @@
 #include <Helpers.h>
 #include <FSM.h>
 
-class PatrolState : public GameEngine::FSMState
+class PatrolState final: public GameEngine::FSMState
 {
 public:
 	PatrolState() = default;
@@ -13,7 +13,7 @@ public:
 	virtual void Update(GameEngine::AnimationComponent* pBlackboard) override;
 };
 
-class ChaseState : public GameEngine::FSMState
+class ChaseState final: public GameEngine::FSMState
 {
 public:
 	ChaseState() = default;
@@ -24,7 +24,7 @@ public:
 	virtual void Update(GameEngine::AnimationComponent* pBlackboard) override;
 };
 
-class HasNoticedActor : public GameEngine::FSMCondition
+class HasNoticedActor final: public GameEngine::FSMCondition
 {
 public:
 	HasNoticedActor() = default;

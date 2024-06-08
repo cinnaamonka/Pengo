@@ -1,7 +1,6 @@
 #pragma once
 
 #include "BaseComponent.h"
-
 #include <string>
 
 namespace GameEngine
@@ -9,9 +8,15 @@ namespace GameEngine
 	class Texture2D;
 	class GameObject;
 
-	class TextureComponent : public BaseComponent
+	class TextureComponent final: public BaseComponent
 	{
 	public:
+
+		TextureComponent(const TextureComponent& other) = delete;
+		TextureComponent(TextureComponent&& other) noexcept = delete;
+		TextureComponent& operator=(const TextureComponent& other) = delete;
+		TextureComponent& operator=(TextureComponent&& other) noexcept = delete;
+
 		TextureComponent(GameObject* GOptr, const std::string& filename, int textureClipAmount = 1);
 
 		TextureComponent(GameObject* GOptr);

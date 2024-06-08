@@ -1,13 +1,11 @@
 #pragma once
 #include "BaseComponent.h"
 
-#include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 
 #include <memory>
 #include <vector>
 #include "IObserver.h"
-#include "Helpers.h"
 #include "GameMode.h"
 
 namespace GameEngine

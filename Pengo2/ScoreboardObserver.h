@@ -3,13 +3,12 @@
 #include <GameObject.h>
 #include <BaseComponent.h>
 
-#include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 #include <IObserver.h>
 #include <Scene.h>
 #include "Structs.h"
 
-class ScoreboardObserver : public GameEngine::IObserver<ScoreBoardData>, public GameEngine::BaseComponent
+class ScoreboardObserver final: public GameEngine::IObserver<ScoreBoardData>, public GameEngine::BaseComponent
 {
 public:
 	ScoreboardObserver(GameEngine::GameObject* gameObject,GameEngine::Scene* scenePtr);

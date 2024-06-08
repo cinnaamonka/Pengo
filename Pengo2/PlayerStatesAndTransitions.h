@@ -2,7 +2,7 @@
 #include <Helpers.h>
 #include <FSM.h>
 
-class IdleState : public GameEngine::FSMState
+class IdleState final: public GameEngine::FSMState
 {
 public:
 	IdleState() = default;
@@ -17,7 +17,7 @@ private:
 	const int m_HorizontalOffset = 0;
 	const int m_VerticalOffset = 0;
 };
-class RunningState : public GameEngine::FSMState
+class RunningState final : public GameEngine::FSMState
 {
 public:
 	RunningState() = default;
@@ -35,7 +35,7 @@ private:
 	const int m_VerticalOffset = 0;
 
 };
-class PushingState : public GameEngine::FSMState
+class PushingState final : public GameEngine::FSMState
 {
 public:
 	PushingState() = default;
@@ -54,7 +54,7 @@ private:
 
 };
 
-class PlayerDyingState : public GameEngine::FSMState
+class PlayerDyingState final : public GameEngine::FSMState
 {
 public:
 	PlayerDyingState() = default;
@@ -71,7 +71,7 @@ private:
 
 };
 
-class IsInputGiven : public GameEngine::FSMCondition
+class IsInputGiven final : public GameEngine::FSMCondition
 {
 public:
 	IsInputGiven() = default;
@@ -79,7 +79,7 @@ public:
 
 	virtual bool Evaluate(GameEngine::AnimationComponent* pBlackboard) const override;
 };
-class IsInputNotGiven : public GameEngine::FSMCondition
+class IsInputNotGiven final : public GameEngine::FSMCondition
 {
 public:
 	IsInputNotGiven() = default;
@@ -88,7 +88,7 @@ public:
 	virtual bool Evaluate(GameEngine::AnimationComponent* pBlackboard) const override;
 };
 
-class IsBlockPushed : public GameEngine::FSMCondition
+class IsBlockPushed final : public GameEngine::FSMCondition
 {
 public:
 	IsBlockPushed() = default;
@@ -96,7 +96,7 @@ public:
 
 	virtual bool Evaluate(GameEngine::AnimationComponent* pBlackboard) const override;
 };
-class IsBlockNotPushed : public GameEngine::FSMCondition
+class IsBlockNotPushed final : public GameEngine::FSMCondition
 {
 public:
 	IsBlockNotPushed() = default;
@@ -104,7 +104,7 @@ public:
 
 	virtual bool Evaluate(GameEngine::AnimationComponent* pBlackboard) const override;
 };
-class IsKilled : public GameEngine::FSMCondition
+class IsKilled final : public GameEngine::FSMCondition
 {
 public:
 	IsKilled() = default;

@@ -1,14 +1,13 @@
 #pragma once
 #include "BaseComponent.h"
 #include "Helpers.h"
-
-#include <glm/vec3.hpp>
-#include <glm/glm.hpp>
 #include "TransformComponent.h"
+#include <glm/glm.hpp>
 
 
 namespace GameEngine
 {
+
 	class AnimationComponent final : public GameEngine::BaseComponent
 	{
 

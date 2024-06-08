@@ -1,19 +1,33 @@
 #include "AnimationComponent.h"
-#include "FSM.h"
-
 
 namespace GameEngine
 {
 	AnimationComponent::AnimationComponent(GameEngine::GameObject* pGameObject) :
-		BaseComponent(pGameObject)
+		BaseComponent(pGameObject),
+		m_AnimationFrame(0),
+		m_HorizontalOffset(0),
+		m_VerticalOffset(0),
+		m_IsHorizontal(false),
+		m_pTransformComponent(nullptr),
+		m_IsDestroyed(false),
+		m_NumberOfFrames(0),
+		m_FramesPerSec(10),
+		m_AnimationTime(0),
+		m_MovementDirection{},
+		m_TimeOffset(0),
+		m_WasInputGiven(false),
+		m_WasPushed(false),
+		m_Pos{},
+		m_Speed(0),
+		m_IsChasing(false),
+		m_IsVertical(false),
+		m_ShouldFlyckering(false)
 	{
 		m_pTransformComponent = GetGameObject()->GetComponent<GameEngine::TransformComponent>();
 	}
 
 	void AnimationComponent::Update()
 	{
-		if (GetGameObject()->IsDestroyed() || GetGameObject() == NULL) return;
-
 		ChangeTexture();
 	}
 

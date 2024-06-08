@@ -2,12 +2,10 @@
 #include <BaseComponent.h>
 #include <memory>
 #include "LetterStatesAndTransitions.h"
-#include <Scene.h>
 
 class GameEngine::GameObject;
-class GameEngine::Scene;
 
-class Letter: public GameEngine::BaseComponent
+class Letter final: public GameEngine::BaseComponent
 {
 public:
 	Letter(GameEngine::GameObject* gameObject);

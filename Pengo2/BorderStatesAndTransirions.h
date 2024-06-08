@@ -2,7 +2,7 @@
 #include <Helpers.h>
 #include <FSM.h>
 
-class VibratingState : public GameEngine::FSMState
+class VibratingState final : public GameEngine::FSMState
 {
 public:
 	VibratingState() = default;
@@ -18,7 +18,7 @@ private:
 	const int m_HorizontalOffset = 0;
 	const int m_VerticalOffset = 1;
 };
-class StopVibrating : public GameEngine::FSMState
+class StopVibrating final : public GameEngine::FSMState
 {
 public:
 	StopVibrating() = default;
@@ -35,7 +35,7 @@ private:
 	const int m_VerticalOffset = 0;
 };
 
-class HasFinishedVibrating : public GameEngine::FSMCondition
+class HasFinishedVibrating final : public GameEngine::FSMCondition
 {
 public:
 	HasFinishedVibrating() = default;
@@ -43,7 +43,7 @@ public:
 
 	virtual bool Evaluate(GameEngine::AnimationComponent* pBlackboard) const override;
 };
-class IsVibrating : public GameEngine::FSMCondition
+class IsVibrating final : public GameEngine::FSMCondition
 {
 public:
 	IsVibrating() = default;

@@ -1,9 +1,7 @@
 #pragma once
 #include <BaseComponent.h>
 #include <Helpers.h>
-#include "BaseBlock.h"
 
-class BaseBlock;
 
 class CollisionComponent final : public GameEngine::BaseComponent
 {

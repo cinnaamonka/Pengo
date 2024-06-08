@@ -8,6 +8,7 @@
 #include <ActorComponent.h>
 #include "HitObserver.h"
 #include "EnemyActor.h"
+#include "HealthObserver.h"
 
 #include <Helpers.h>
 #include <Texture2D.h>

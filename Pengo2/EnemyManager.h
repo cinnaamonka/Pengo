@@ -1,14 +1,9 @@
 #pragma once
 #include <vector>
-#include <memory>
 #include "EnemyActor.h"
 #include <Subject.h>
-#include <Helpers.h>
 #include <Scene.h>
 #include <IObserver.h>
-#include <Subject.h>
-#include "BlockObserver.h"
-#include "EnemyAnimationStates.h"
 #include <AnimationComponent.h>
 #include "EnvironmentObserver.h"
 #include "ScoreObserver.h"
@@ -16,7 +11,7 @@
 #include <HUD.h>
 #include <Scene.h>
 
-class EnemyManager
+class EnemyManager final
 {
 
 public:
@@ -99,8 +94,6 @@ private:
 	std::vector<glm::vec3> m_StartPositions;
 
 	int m_KilledEnemyIndex;
-
-	
 
 	const int m_Radius = 20;
 

@@ -2,12 +2,11 @@
 #include <memory>
 #include "GameObject.h"
 
-#include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 
 namespace GameEngine
 {
-	class LifeBarFactory
+	class LifeBarFactory final
 	{
 	public:
 		LifeBarFactory() = default;
@@ -19,9 +18,6 @@ namespace GameEngine
 		LifeBarFactory& operator=(LifeBarFactory&& other) noexcept = delete;
 
 		static std::unique_ptr<GameEngine::GameObject> CreateLifeIcon(const glm::vec3& position);
-
-	private:
-
 	};
 
 }

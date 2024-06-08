@@ -5,6 +5,8 @@ using namespace GameEngine;
 
 unsigned int Scene::m_idCounter = 0;
 
+Scene::Scene(const std::string& name) : m_Name(name) {}
+
 void GameEngine::Scene::CleanUp()
 {
 	// remove components from game objects
@@ -45,8 +47,6 @@ void GameEngine::Scene::Destroy()
 		object->SetIsDestroyed(true);
 	}
 }
-
-Scene::Scene(const std::string& name) : m_name(name) {}
 
 void Scene::Add(std::unique_ptr<GameObject>&& object)
 {

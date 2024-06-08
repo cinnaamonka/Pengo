@@ -109,7 +109,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="General.h" />
-    <ClInclude Include="json.hpp" />
     <ClInclude Include="BaseGame.h">
       <Filter>Main</Filter>
     </ClInclude>

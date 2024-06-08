@@ -1,14 +1,12 @@
 #pragma once
 #include <memory>
 #include "GameObject.h"
-
-#include <glm/vec3.hpp>
-#include <glm/glm.hpp>
 #include "Helpers.h"
+#include <glm/glm.hpp>
 
 namespace GameEngine
 {
-	class GameMode
+	class GameMode final
 	{
 	public:
 		GameMode() = default;

@@ -3,8 +3,6 @@
 #include <SDL.h>
 
 #include <memory>
-
-
 #include "BaseCommand.h"
 
 namespace GameEngine

@@ -1,8 +1,6 @@
 #pragma once
 
-#include <iostream>
 #include <list>
-#include <string>
 #include <memory>
 #include "IObserver.h"
 

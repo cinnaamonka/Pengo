@@ -3,7 +3,7 @@
 #include <AnimationComponent.h>
 #include <FSM.h>
 
-class ScoreAppearingState : public GameEngine::FSMState
+class ScoreAppearingState final: public GameEngine::FSMState
 {
 public:
 	ScoreAppearingState() = default;
@@ -21,7 +21,7 @@ private:
 
 };
 
-class ScoreWaitingState : public GameEngine::FSMState
+class ScoreWaitingState final : public GameEngine::FSMState
 {
 public:
 	ScoreWaitingState() = default;
@@ -38,7 +38,7 @@ private:
 	const int m_VerticalOffset = 0;
 
 };
-class IsScoreWaiting : public GameEngine::FSMCondition
+class IsScoreWaiting final : public GameEngine::FSMCondition
 {
 public:
 	IsScoreWaiting() = default;

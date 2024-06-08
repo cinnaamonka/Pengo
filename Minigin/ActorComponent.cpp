@@ -1,9 +1,5 @@
 #pragma once
 #include "ActorComponent.h"
-#include "TextureComponent.h"
-#include "TransformComponent.h"
-#include "Texture2D.h"
-#include "FSM.h"
 
 namespace GameEngine
 {
@@ -12,10 +8,9 @@ namespace GameEngine
 		m_LifesAmount(3),
 		m_Speed(30.0f),
 		m_DestTextureRect{},
-		m_CanCollisionBeChecked(false)
-	{
-
-	}
+		m_CanCollisionBeChecked(false),
+		m_Score(0)
+	{}
 
 	void ActorComponent::Damage(int damage)
 	{

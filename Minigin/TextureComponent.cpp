@@ -1,7 +1,6 @@
 #include "TextureComponent.h"
 #include "Texture2D.h"
 #include "ResourceManager.h"
-#include <iostream>
 
 GameEngine::TextureComponent::TextureComponent(GameObject* GOptr, const std::string& filename,int textureClipAmount)  
 	: BaseComponent(GOptr), fileName(filename),

@@ -5,7 +5,7 @@
 
 class GameObject;
 
-class HitObserver : public GameEngine::BaseComponent, public GameEngine::IObserver<GameEngine::HitInfo>
+class HitObserver final : public GameEngine::BaseComponent, public GameEngine::IObserver<GameEngine::HitInfo>
 {
 public:
 
@@ -20,6 +20,7 @@ public:
 private:
 	void ResetHorizontalPosition(const GameEngine::Rect& actorShape, const GameEngine::HitInfo& hitInfo);
 	void ResetVerticalPosition(const GameEngine::Rect& actorShape, const GameEngine::HitInfo& hitInfo);
+private:
 	const float m_TopOffset = 0.9f;
 	const float m_BottomOffset = 0.1f;
 

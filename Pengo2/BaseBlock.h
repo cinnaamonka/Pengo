@@ -12,10 +12,6 @@
 #include "CollisionComponent.h"
 
 
-
-class BoxCollider;
-class HitObserver;
-
 class BaseBlock final : public GameEngine::BaseComponent
 {
 public:

@@ -1,13 +1,12 @@
 #pragma once
 #include "BaseComponent.h"
 
-#include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 
 
 namespace GameEngine
 {
-	class SnoBeeShower
+	class SnoBeeShower final
 	{
 	public:
 		SnoBeeShower() = default;
@@ -19,8 +18,6 @@ namespace GameEngine
 		SnoBeeShower& operator=(SnoBeeShower&& other) noexcept = delete;
 		
 		static std::unique_ptr<GameEngine::GameObject> CreateSnoBeesBar(const glm::vec3& position);
-
-	private:
 
 	};
 

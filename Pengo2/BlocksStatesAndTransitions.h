@@ -3,7 +3,7 @@
 #include <FSM.h>
 
 
-class StaticBlockState : public GameEngine::FSMState
+class StaticBlockState final : public GameEngine::FSMState
 {
 public:
 	StaticBlockState() = default;
@@ -19,7 +19,7 @@ private:
 	const int m_VerticalOffset = 0;
 
 };
-class FlickeringBlockState : public GameEngine::FSMState
+class FlickeringBlockState final : public GameEngine::FSMState
 {
 public:
 	FlickeringBlockState() = default;
@@ -35,7 +35,7 @@ private:
 	const int m_VerticalOffset = 0;
 };
 
-class BreakingBlockState : public GameEngine::FSMState
+class BreakingBlockState final : public GameEngine::FSMState
 {
 public:
 	BreakingBlockState() = default;
@@ -53,7 +53,7 @@ private:
 
 };
 
-class IsBlockBreaking : public GameEngine::FSMCondition
+class IsBlockBreaking final : public GameEngine::FSMCondition
 {
 public:
 	IsBlockBreaking() = default;
@@ -61,7 +61,7 @@ public:
 
 	virtual bool Evaluate(GameEngine::AnimationComponent* pBlackboard) const override;
 };
-class IsBlockNotBreaking : public GameEngine::FSMCondition
+class IsBlockNotBreaking final : public GameEngine::FSMCondition
 {
 public:
 	IsBlockNotBreaking() = default;
@@ -70,7 +70,7 @@ public:
 	virtual bool Evaluate(GameEngine::AnimationComponent* pBlackboard) const override;
 };
 
-class IsBlockFinishedFlickering : public GameEngine::FSMCondition
+class IsBlockFinishedFlickering final : public GameEngine::FSMCondition
 {
 public:
 	IsBlockFinishedFlickering() = default;
