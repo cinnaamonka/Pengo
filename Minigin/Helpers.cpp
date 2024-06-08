@@ -7,9 +7,8 @@ namespace GameEngine
 	void GetLevelInfo(std::string fileName, LevelInfo& levelInfo)
 	{
 		std::filesystem::path currentPath = std::filesystem::current_path();
-		std::filesystem::path parentPath = currentPath.parent_path();
 		 
-		std::filesystem::path dataPath = parentPath / "Data";
+		std::filesystem::path dataPath = currentPath / "Data";
 
 		std::filesystem::path filePath = dataPath / fileName;
 
@@ -375,8 +374,8 @@ namespace GameEngine
 
 		// Read the JSON file
 		std::filesystem::path currentPath = std::filesystem::current_path();
-		std::filesystem::path parentPath = currentPath.parent_path();
-		std::filesystem::path dataPath = parentPath / "Data";
+		
+		std::filesystem::path dataPath = currentPath / "Data";
 		std::filesystem::path levelPath = dataPath / jsonFilePath;
 
 		std::ifstream file(levelPath);

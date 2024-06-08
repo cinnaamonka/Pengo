@@ -8,7 +8,7 @@
 int main(int, char* [])
 {
 
-	GameEngine::Engine engine("../Data/");
+	GameEngine::Engine engine("./Data/");
 	LevelLoader levelLoader(3);
 
 

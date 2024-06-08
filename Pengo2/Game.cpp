@@ -480,6 +480,18 @@ void Game::SkipLevel()
 {
 	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Stop(static_cast<int>(PengoSounds::Background));
 	m_IsLevelComplete = true;
+
+	//int lifes = m_pPengoActor->GetReferenceToActor()->GetComponent<GameEngine::ActorComponent>()->GetLives();
+	//const std::string& levelName = "Level" + std::to_string(m_CurrentLevelIndex + 1) + ".json";
+	//const std::string& scoreFileName = "Score.json";
+
+	/*GameEngine::UpdateLevelFile("lifesAmount", lifes, levelName);
+	GameEngine::UpdateLevelFile("scoreAmount", m_pHUD->GetScore(), levelName);
+
+	if (m_CurrentLevelIndex == m_MaxLevelsCount - 1)
+	{
+		GameEngine::UpdateLevelFile("score", m_pHUD->GetScore(), scoreFileName);
+	}*/
 }
 
 void Game::SoundCallback(int)
