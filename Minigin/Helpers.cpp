@@ -324,8 +324,7 @@ namespace GameEngine
 	void AddScoreToFile(const std::string& filename, int score, const std::string& name)
 	{
 		std::filesystem::path currentPath = std::filesystem::current_path();
-		std::filesystem::path parentPath = currentPath.parent_path();
-		std::filesystem::path dataPath = parentPath / "Data";
+		std::filesystem::path dataPath = currentPath / "Data";
 		std::filesystem::path levelPath = dataPath / filename;
 
 		std::ifstream inputFile(levelPath);

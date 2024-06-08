@@ -99,6 +99,11 @@ void ScoreScene::ShowLeaderBord(GameEngine::Scene* scene, std::shared_ptr<GameEn
 {
 	std::map<int,std::string> scoresMap = GameEngine::ReadScoresFromJson("Score.json");
 
+	if (scoresMap.find(m_Score) != scoresMap.end())
+	{
+		scoresMap.erase(m_Score); 
+	}
+
 	scoresMap.insert({ m_Score, "" });
 	std::map<int, std::string, std::greater<int>> sortedMap(scoresMap.begin(), scoresMap.end());
 
@@ -108,9 +113,9 @@ void ScoreScene::ShowLeaderBord(GameEngine::Scene* scene, std::shared_ptr<GameEn
 		std::advance(it, m_LeadersAmount);
 		sortedMap.erase(it, sortedMap.end()); 
 	}
+	const int incrementY = 40;
 
 	const int incrementX = 250;
-	const int incrementY = 40;
 
 	int i = 0;
 	for (auto it = sortedMap.begin(); it != sortedMap.end(); ++it, ++i)

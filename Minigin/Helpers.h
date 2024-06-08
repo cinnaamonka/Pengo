@@ -123,7 +123,7 @@ namespace GameEngine
 		}
 		else
 		{
-			std::cerr << "Could not open the file for reading" << std::endl;
+			throw std::runtime_error("Could not open the file for reading");
 			return;
 		}
 

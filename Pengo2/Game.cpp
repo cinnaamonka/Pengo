@@ -157,6 +157,9 @@ void Game::Notify(const GameEngine::State& messageFromSubject)
 	const std::string& levelName = "Level" + std::to_string(m_CurrentLevelIndex + 1) + ".json";
 	const std::string& scoreFileName = "Score.json";
 
+
+	
+
 	switch (messageFromSubject)
 	{
 	case GameEngine::State::PlayerDied:
@@ -174,24 +177,31 @@ void Game::Notify(const GameEngine::State& messageFromSubject)
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		}
 
-		
-		GameEngine::UpdateLevelFile("lifesAmount", lifes, levelName);
-		GameEngine::UpdateLevelFile("scoreAmount", m_pHUD->GetScore(), levelName);
+	
 
 		if (m_CurrentLevelIndex == m_MaxLevelsCount - 1)
 		{
 			GameEngine::UpdateLevelFile("score", m_pHUD->GetScore(), scoreFileName);
 		}
+		else
+		{
+			GameEngine::UpdateLevelFile("lifesAmount", lifes, levelName);
+			GameEngine::UpdateLevelFile("scoreAmount", m_pHUD->GetScore(), levelName);
+		}
 
 		break;
 	case GameEngine::State::Victory:
 
-		GameEngine::UpdateLevelFile("lifesAmount", lifes - 1,levelName);
-		GameEngine::UpdateLevelFile("scoreAmount", m_pHUD->GetScore(),levelName);
 
 		if (m_CurrentLevelIndex == m_MaxLevelsCount - 1)
 		{
 			GameEngine::UpdateLevelFile("score", m_pHUD->GetScore(), scoreFileName);
+		}
+		else
+		{
+
+			GameEngine::UpdateLevelFile("lifesAmount", lifes - 1, levelName);
+			GameEngine::UpdateLevelFile("scoreAmount", m_pHUD->GetScore(), levelName);
 		}
 
 		GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Stop(static_cast<int>(PengoSounds::Background));
@@ -481,17 +491,21 @@ void Game::SkipLevel()
 	GameEngine::SoundServiceLocator::GetInstance().GetSoundSystemInstance().Stop(static_cast<int>(PengoSounds::Background));
 	m_IsLevelComplete = true;
 
-	//int lifes = m_pPengoActor->GetReferenceToActor()->GetComponent<GameEngine::ActorComponent>()->GetLives();
-	//const std::string& levelName = "Level" + std::to_string(m_CurrentLevelIndex + 1) + ".json";
-	//const std::string& scoreFileName = "Score.json";
+	int lifes = m_pPengoActor->GetReferenceToActor()->GetComponent<GameEngine::ActorComponent>()->GetLives();
+	const std::string& levelName = "Level" + std::to_string(m_CurrentLevelIndex + 1) + ".json";
+	const std::string& scoreFileName = "Score.json";
 
-	/*GameEngine::UpdateLevelFile("lifesAmount", lifes, levelName);
-	GameEngine::UpdateLevelFile("scoreAmount", m_pHUD->GetScore(), levelName);
 
 	if (m_CurrentLevelIndex == m_MaxLevelsCount - 1)
 	{
 		GameEngine::UpdateLevelFile("score", m_pHUD->GetScore(), scoreFileName);
-	}*/
+	}
+	else
+	{
+
+		GameEngine::UpdateLevelFile("lifesAmount", lifes, levelName);
+		GameEngine::UpdateLevelFile("scoreAmount", m_pHUD->GetScore(), levelName);
+	}
 }
 
 void Game::SoundCallback(int)
