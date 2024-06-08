@@ -425,7 +425,9 @@ void Environment::SetEnemyStunned(const int enemyIndex)
 		m_pEnemyManager->GetEnemies()[enemyIndex]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.f);
 		std::string timerName = "StunTimer" + std::to_string(enemyIndex);
 
-		GameEngine::TimeManager::GetInstance().SetTimer(timerName, 10.f, [this, enemyIndex]() {
+		const float timerValue = 10.0f;
+
+		GameEngine::TimeManager::GetInstance().SetTimer(timerName, timerValue, [this, enemyIndex]() {
 			m_pEnemyManager->GetEnemies()[enemyIndex]->GetComponent<GameEngine::AnimationComponent>()->SetSpeed(0.3f);
 			});
 
