@@ -18,5 +18,14 @@ public:
 	bool IsColliding(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo) const;
 	bool IsBlockNearbyHorizontally(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo) const;
 	bool IsBlockNearbyVertically(GameEngine::GameObject* actor, GameEngine::HitInfo& hitInfo)const;
+
+	void HandleHitEvent(const GameEngine::HitInfo& hitInfo); 
+
+private:
+	void ResetHorizontalPosition(const GameEngine::Rect& actorShape, const GameEngine::HitInfo& hitInfo);
+	void ResetVerticalPosition(const GameEngine::Rect& actorShape, const GameEngine::HitInfo& hitInfo);
+private:
+	const float m_TopOffset = 0.9f;
+	const float m_BottomOffset = 0.1f;
 };
 

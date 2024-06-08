@@ -6,10 +6,9 @@
 #include <BoxColliderComponent.h>
 #include <ResourceManager.h>
 #include <ActorComponent.h>
-#include "HitObserver.h"
 #include "EnemyActor.h"
 #include "HealthObserver.h"
-
+#include "CollisionComponent.h"
 #include <Helpers.h>
 #include <Texture2D.h>
 #include <FSM.h>
@@ -26,6 +25,7 @@ PengoActor::PengoActor(const glm::vec3& position)
 	m_pActor->AddComponent<GameEngine::ActorComponent>();
 	m_pActor->AddComponent<GameEngine::AnimationComponent>();
 	m_pActor->AddComponent<GameEngine::HealthObserver>(); 
+	m_pActor->AddComponent<CollisionComponent>(); 
 
 	auto textureSizeX = m_pActor->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().x / m_HorizontalAmountOfFrames;
 	auto textureSizeY = m_pActor->GetComponent<GameEngine::TextureComponent>()->GetTexture()->GetSize().y / m_VerticalAmountOfFrames;
@@ -54,7 +54,6 @@ PengoActor::PengoActor(const glm::vec3& position)
 	m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_PushingState.get(), m_IdleState.get(), m_IsBlockNotPushed.get());
 	m_pActor->GetComponent<GameEngine::FSM>()->AddTransition(m_IdleState.get(), m_DyingState.get(), m_IsKilled.get());
 
-	m_pActor->AddComponent<HitObserver>();
 	m_pActor->AddComponent<GameEngine::RenderComponent>();
 
 	m_ReferenceToCharacterPengo = m_pActor.get();
@@ -63,12 +62,6 @@ PengoActor::PengoActor(const glm::vec3& position)
 PengoActor::~PengoActor()
 {
 }
-
-HitObserver* PengoActor::GetHitObserver() const
-{
-	return m_pActor->GetComponent<HitObserver>();
-}
-
 
 std::unique_ptr<GameEngine::GameObject>& PengoActor::GetActorGameObject()
 {
@@ -91,8 +84,8 @@ std::unique_ptr<GameEngine::GameObject> PengoActor::CreateControlledPengoEnemy(c
 
 	gameObject->GetComponent<GameEngine::TransformComponent>()->SetDimensions({ 0, 0,textureSizeX,textureSizeY });
 	
-	gameObject->AddComponent<HitObserver>();
-	gameObject->AddComponent<GameEngine::RenderComponent>();
+	gameObject->AddComponent<CollisionComponent>();
+	gameObject->AddComponent<GameEngine::RenderComponent>(); 
 
 
 	return gameObject;

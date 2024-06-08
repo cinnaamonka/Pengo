@@ -201,7 +201,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="EnvironmentObserver.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="HitObserver.cpp" />
     <ClCompile Include="BlockObserver.cpp" />
     <ClCompile Include="Letter.cpp" />
     <ClCompile Include="LetterStatesAndTransitions.cpp" />
@@ -242,7 +241,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y
     <ClInclude Include="Environment.h" />
     <ClInclude Include="EnvironmentObserver.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="HitObserver.h" />
     <ClInclude Include="BlockObserver.h" />
     <ClInclude Include="Letter.h" />
     <ClInclude Include="LetterStatesAndTransitions.h" />

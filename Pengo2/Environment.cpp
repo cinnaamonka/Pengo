@@ -5,6 +5,7 @@
 #include <TransformComponent.h> 
 #include <ActorComponent.h>
 #include <TextureComponent.h>
+#include "CollisionComponent.h"
 #include <SoundServiceLocator.h>
 #include <FSM.h>
 #include "AnimationComponent.h"
@@ -69,8 +70,7 @@ void Environment::CheckCollision()
 		{
 			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsColliding(player, hitInfo))
 			{
-				//TODO fix
-				player->GetComponent<HitObserver>()->Notify(hitInfo);
+				player->GetComponent<CollisionComponent>()->HandleHitEvent(hitInfo);
 			}
 		}
 
@@ -78,8 +78,7 @@ void Environment::CheckCollision()
 		{
 			if (m_pBlocks[i]->GetComponent<CollisionComponent>()->IsColliding(m_pPlayerEnemy, hitInfo))
 			{
-				//TODO fix
-				m_pPlayerEnemy->GetComponent<HitObserver>()->Notify(hitInfo);
+				m_pPlayerEnemy->GetComponent<CollisionComponent>()->HandleHitEvent(hitInfo);
 			}
 		}
 
@@ -91,16 +90,14 @@ void Environment::CheckCollision()
 	{
 		if (borderCollisionComponent->IsColliding(player, hitInfo))
 		{
-			//TODO fix
-			player->GetComponent<HitObserver>()->Notify(hitInfo);
+			player->GetComponent<CollisionComponent>()->HandleHitEvent(hitInfo);
 		}
 	}
 	if (m_pPlayerEnemy && !m_pPlayerEnemy->IsDestroyed())
 	{
 		if (borderCollisionComponent->IsColliding(m_pPlayerEnemy, hitInfo))
 		{
-			//TODO fix
-			m_pPlayerEnemy->GetComponent<HitObserver>()->Notify(hitInfo);
+			m_pPlayerEnemy->GetComponent<CollisionComponent>()->HandleHitEvent(hitInfo);
 		}
 	}
 
@@ -285,7 +282,7 @@ void Environment::StopBlock(GameEngine::GameObject* block, GameEngine::HitInfo h
 	};
 
 	m_BlockCollisionInfo.CreateMessage(info);
-	block->GetComponent<HitObserver>()->Notify(info.hitInfo);
+	block->GetComponent<CollisionComponent>()->HandleHitEvent(info.hitInfo);
 
 	m_PushBlockIndex = -1;
 

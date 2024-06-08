@@ -28,9 +28,6 @@
     <ClCompile Include="Environment.cpp">
       <Filter>GameFiles</Filter>
     </ClCompile>
-    <ClCompile Include="HitObserver.cpp">
-      <Filter>GameFiles\Observers</Filter>
-    </ClCompile>
     <ClCompile Include="PengoActor.cpp">
       <Filter>GameFiles</Filter>
     </ClCompile>
@@ -125,9 +122,6 @@
     </ClInclude>
     <ClInclude Include="PengoInputCommands.h">
       <Filter>GameFiles\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="HitObserver.h">
-      <Filter>GameFiles\Observers</Filter>
     </ClInclude>
     <ClInclude Include="EnemyActor.h">
       <Filter>GameFiles</Filter>

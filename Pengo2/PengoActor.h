@@ -28,8 +28,6 @@ public:
 		return m_ReferenceToCharacterPengo;
 	}
 
-	HitObserver* GetHitObserver() const;
-
 
 	std::unique_ptr<GameEngine::GameObject>& GetActorGameObject();
 	static std::unique_ptr<GameEngine::GameObject> CreateControlledPengoEnemy(const glm::vec3& position);

@@ -113,7 +113,6 @@ std::unique_ptr<GameEngine::GameObject> BaseBlock::CreateBlock(const glm::vec3& 
 	gameObject->AddComponent<GameEngine::RenderComponent>();
 	gameObject->AddComponent<CollisionComponent>();
 	gameObject->AddComponent<BaseBlock>(index, type);
-	gameObject->AddComponent<HitObserver>();
 	gameObject->AddComponent<BlockObserver>();
 
 	bool isBreakable = gameObject->GetComponent<BaseBlock>()->GetIsBreakable();

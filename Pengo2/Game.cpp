@@ -4,7 +4,6 @@
 #include <ResourceManager.h>
 #include <InputCommands.h>
 
-#include "HitObserver.h"
 #include "EggObserver.h"
 
 #include "EnvironmentObserver.h"
@@ -56,7 +55,6 @@ void Game::Initialize(int levelIndex,int maxLevelsAmount)
 	m_pEggsObserver = std::make_unique<EggObserver>(&scene);
 	m_pScoreObserver = std::make_unique<ScoreObserver>(&scene);
 
-	auto hitObserverComponent = m_pPengoActor->GetHitObserver();
 	m_pPengoActor->GetActorGameObject()->GetComponent<GameEngine::ActorComponent>()->AttachObserver(this);
 
 	m_pEnvironment = std::make_unique<GameEngine::GameObject>();
@@ -81,7 +79,6 @@ void Game::Initialize(int levelIndex,int maxLevelsAmount)
 	
 
 	m_pEnvironment->GetComponent<Environment>()->SetEnemyManager(m_pEnemyManager.get());
-	m_pEnvironment->GetComponent<Environment>()->AttachObserver<GameEngine::HitInfo>(hitObserverComponent);
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<glm::vec3>(m_pEggsObserver.get());
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<EventInfo>(m_pEnvironment->GetComponent<EnvironmentObserver>());
 	m_pEnvironment->GetComponent<Environment>()->AttachObserver<Score>(m_pScoreObserver.get());
@@ -99,14 +96,13 @@ void Game::Initialize(int levelIndex,int maxLevelsAmount)
 	{
 		m_pSecondPengoActor = std::make_unique<PengoActor>(m_SecondPlayerPosition);
 
-		auto co_opPengoHitObserver = m_pSecondPengoActor->GetHitObserver();
 		m_pSecondPengoActor->GetActorGameObject()->GetComponent<GameEngine::ActorComponent>()->AttachObserver(this);
 		m_pEnvironmentReference->GetComponent<Environment>()->SetActor(m_pSecondPengoActor->GetReferenceToActor());
 		m_pEnemyManager->AddPlayer(m_pSecondPengoActor->GetReferenceToActor());
 		scene.Add(std::move(m_pSecondPengoActor->GetActorGameObject()));
 		InitializeInputSystem(m_pSecondPengoActor->GetReferenceToActor(),GameEngine::GameModes::Co_op,1);
 		m_pSecondPengoActor->GetReferenceToActor()->GetComponent<GameEngine::ActorComponent>()->SetLives(levelInfo.lifesAmount);
-		m_pEnvironmentReference->GetComponent<Environment>()->AttachObserver(co_opPengoHitObserver);
+	
 		break;
 	}
 	case GameEngine::GameModes::SinglePlayer:
@@ -121,11 +117,8 @@ void Game::Initialize(int levelIndex,int maxLevelsAmount)
 		pengoActorEnemy->GetComponent<EnemyActor>()->HandleInput(&EnemyManager::enemyPatrolState); 
 		pengoActorEnemy->GetComponent<EnemyActor>()->SetActor(m_pPengoActor->GetReferenceToActor());
 
-		auto versusPengoHitObserver = pengoActorEnemy->GetComponent<HitObserver>();
-
 		InitializeInputSystem(pengoActorEnemy.get(), GameEngine::GameModes::Versus, 1);
 
-		m_pEnvironmentReference->GetComponent<Environment>()->AttachObserver(versusPengoHitObserver); 
 		m_pEnvironmentReference->GetComponent<Environment>()->SetPlayerEnemy(pengoActorEnemy.get()); 
 
 		m_pEnemyManager->AddPlayer(m_pPengoActor->GetReferenceToActor());  

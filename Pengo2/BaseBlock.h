@@ -8,7 +8,6 @@
 #include "BorderStatesAndTransirions.h"
 #include <Scene.h>
 #include "Structs.h"
-#include "HitObserver.h"
 #include "CollisionComponent.h"
 
 

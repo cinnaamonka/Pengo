@@ -42,11 +42,7 @@ public:
 	template<typename T>
 	void AttachObserver(GameEngine::IObserver<T>* pObserver)
 	{
-		if constexpr (std::is_same_v<T, GameEngine::HitInfo>)
-		{
-			m_CollisionHitInfoChanged.Attach(pObserver);
-		}
-		else if constexpr (std::is_same_v<T, glm::vec3>)
+		if constexpr (std::is_same_v<T, glm::vec3>)
 		{
 			m_EggSpawnEvent.Attach(pObserver);
 		}
@@ -94,7 +90,6 @@ private:
 	GameEngine::GameObject* m_pBorderBlock;
 	EnemyManager* m_pEnemyManager;
 
-	GameEngine::Subject<GameEngine::HitInfo> m_CollisionHitInfoChanged;
 	GameEngine::Subject<BlockCollisionInfo> m_BlockCollisionInfo;
 	GameEngine::Subject<glm::vec3> m_EggSpawnEvent;
 	GameEngine::Subject<EventInfo> m_EnvEvent; 

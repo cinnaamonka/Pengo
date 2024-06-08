@@ -4,7 +4,6 @@
 #include <TextureComponent.h>
 #include <RenderComponent.h>
 #include <BoxColliderComponent.h>
-#include "HitObserver.h"
 #include <AnimationComponent.h>
 #include "AIMovementComponent.h"
 #include "EnemyDirectionObserver.h"
@@ -41,7 +40,6 @@ std::unique_ptr<GameEngine::GameObject> EnemyActor::CreateEnemy(const glm::vec3&
 	gameObject->AddComponent<GameEngine::TransformComponent>(glm::vec3(static_cast<int>(pos.x), static_cast<int>(pos.y), 0));
 	gameObject->AddComponent<GameEngine::TextureComponent>("Enemy.tga");
 
-	gameObject->AddComponent<HitObserver>();
 	gameObject->AddComponent<GameEngine::AnimationComponent>();
 	gameObject->AddComponent<GameEngine::RenderComponent>();
 	gameObject->AddComponent<AIMovementComponent>();
