@@ -42,20 +42,15 @@ namespace GameEngine
 		{
 			std::lock_guard<std::mutex> lock(m_SoundEffectsMutex);
 
-			if (m_Volume)
-			{
-				m_SoundQueue.PushBack({ id, volume });
-			}
-			else
-			{
-				m_SoundQueue.PushBack({ id, 0 });
-			}
-	
+
+			m_SoundQueue.PushBack({ id, volume });
+
+
 			// Notify the condition variable after adding to the queue
 			m_ConditionalVariable.notify_one();
 
 		}
-		
+
 		bool Contains(const sound_id id) const
 		{
 			if (m_pSoundEffects.find(id) != m_pSoundEffects.end()) return true;
@@ -84,7 +79,7 @@ namespace GameEngine
 
 		void Pause()
 		{
-			Mix_Pause(-1); 
+			Mix_Pause(-1);
 
 			m_Volume = 0;
 		}
@@ -98,10 +93,10 @@ namespace GameEngine
 
 		void Stop(const sound_id id)
 		{
-			
+
 			Mix_HaltChannel(id);
 		}
-		
+
 		void CleanUp()
 		{
 			// THE first thing: we need to stop the thread that plays sounds
@@ -113,7 +108,7 @@ namespace GameEngine
 			Mix_Quit();
 			SDL_Quit();
 		}
-		
+
 		~SoundSystemImpl() = default;
 	private:
 		void AsyncUpdate()
@@ -122,7 +117,7 @@ namespace GameEngine
 
 			Sound sound = m_SoundQueue.GetFront();
 			std::shared_ptr<Mix_Chunk> pChunk = nullptr;
-			
+
 
 			if (sound.id != UINT_MAX)
 			{
@@ -159,7 +154,7 @@ namespace GameEngine
 				if (m_QuitEvent) //optimalization
 					break;
 
-				if(m_SoundQueue.GetPending() == 0) 
+				if (m_SoundQueue.GetPending() == 0)
 				{
 					std::unique_lock<std::mutex> lock(m_SoundEffectsMutex);
 					m_ConditionalVariable.wait(lock, [this] {
@@ -223,9 +218,9 @@ namespace GameEngine
 		m_pImpl->Resume();
 	}
 
-	void SoundSystem::Stop(const sound_id id) 
+	void SoundSystem::Stop(const sound_id id)
 	{
-		m_pImpl->Stop(id); 
+		m_pImpl->Stop(id);
 	}
 
 	void SoundSystem::Load(const std::string& filePath, const sound_id id)
