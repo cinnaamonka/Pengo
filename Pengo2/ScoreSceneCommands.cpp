@@ -107,6 +107,8 @@ SwitchToNextLetter::SwitchToNextLetter(std::vector<GameEngine::GameObject*>& let
 
 void SwitchToNextLetter::Execute()
 {
+    if (m_CurrentLetterIndex == -1) return;
+
     auto currentLetter = m_pLetters[m_CurrentLetterIndex]->GetComponent<Letter>()->GetCurrentLetter(); 
     GameEngine::UpdateLevelFile("Letter" + std::to_string(m_CurrentLetterIndex), std::string(1, currentLetter), "Score.json"); 
 
@@ -121,9 +123,10 @@ void SwitchToNextLetter::Execute()
 
         GameEngine::AddScoreToFile("Score.json", m_Score, name);
 
-        m_Subject->CreateMessage(ScoreBoardData{ m_Position,name });
-
-    
+        if (m_Position != glm::vec3{0, 0, 0})
+        {
+            m_Subject->CreateMessage(ScoreBoardData{ m_Position,name });
+        }
 
          return;
     }
