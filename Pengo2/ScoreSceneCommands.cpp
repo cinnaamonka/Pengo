@@ -123,7 +123,7 @@ void SwitchToNextLetter::Execute()
 
         m_Subject->CreateMessage(ScoreBoardData{ m_Position,name });
 
-        m_pLetters[0]->GetComponent<Letter>()->DeleteInput();
+    
 
          return;
     }
